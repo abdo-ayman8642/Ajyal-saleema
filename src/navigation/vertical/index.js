@@ -1,0 +1,62 @@
+// ** Icon imports
+import HomeOutline from 'mdi-material-ui/HomeOutline'
+import ClassIcon from '@mui/icons-material/Class'
+import NoteAltIcon from '@mui/icons-material/NoteAlt'
+import SchoolIcon from '@mui/icons-material/School'
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
+import SummarizeIcon from '@mui/icons-material/Summarize'
+import QuizIcon from '@mui/icons-material/Quiz'
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
+import HowToRegIcon from '@mui/icons-material/HowToReg'
+
+const navigation = () => {
+  return [
+    {
+      title: 'الرئيسية',
+      icon: HomeOutline,
+      path: '/home'
+    },
+    {
+      title: 'الأعوام الدراسية',
+      icon: CalendarMonthIcon,
+      path: '/academicYear'
+    },
+    {
+      title: 'الأعضاء',
+      icon: PeopleAltIcon,
+      path: '/users'
+    },
+    // {
+    //   title: 'الطلاب',
+    //   icon: SchoolIcon,
+    //   path: '/students'
+    // },
+    {
+      title: 'المحاضرات',
+      icon: ClassIcon,
+      path: '/sessions'
+    },
+    // {
+    //   title: 'التقارير',
+    //   icon: SummarizeIcon,
+    //   path: '/reports'
+    // },
+    {
+      title: 'المدرسين',
+      icon: NoteAltIcon,
+      path: '/teachers'
+    },
+    {
+      title: 'الإختبارات',
+      icon: QuizIcon,
+      path: '/exams'
+    },
+    {
+      title: 'الحضور',
+      icon: HowToRegIcon,
+      path: '/attendance'
+    }
+  ]
+}
+
+export default navigation

@@ -1,0 +1,84 @@
+@import "./variables";
+
+body {
+    font-family: $font-family;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+h3 {
+    font-weight: 600;
+}
+
+p {
+    margin-bottom: 0;
+}
+
+// button:hover {
+//     color: #fff !important;
+// }
+
+textarea,
+input[type="text"],
+input[type="email"],
+input[type="file"],
+input[type="password"],
+select {
+    display: block;
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: $sidebar_background;
+    background-color: #fbf9f6;
+    background-clip: padding-box;
+    border: 1px solid #afa9b6;
+    appearance: none;
+    border-radius: 0.25rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+    &:focus {
+        background-color: $light-color;
+        outline: none;
+    }
+}
+
+input:focus {
+    border-color: $secondary-bg;
+}
+
+.form-check-input:checked[type="checkbox"] {
+    background-color: $secondary-bg;
+    border-color: $secondary-bg;
+}
+
+label {
+    margin-bottom: 0.5rem;
+    color: $label-color;
+}
+
+//Boxicons
+
+.bxs-trash-alt {
+    color: $danger-color;
+}
+
+.bx-x {
+    color: $danger-color;
+}
+
+.bxs-edit-alt {
+    color: $warning-color;
+}
+
+h4.group_name {
+    font-size: 18px;
+    margin-bottom: 0px;
+    color: #181c32;
+    font-weight: 600;
+
+}

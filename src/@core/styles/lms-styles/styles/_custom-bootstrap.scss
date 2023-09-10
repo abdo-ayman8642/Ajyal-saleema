@@ -1,0 +1,97 @@
+@import "./variables";
+@import "./mixins";
+
+//Bootstrap variables override:
+$theme-colors: (
+    "primary": $secondary-bg,
+);
+
+$body-color: #383737;
+
+$body-bg: #e9e6e2;
+
+// Primary button changes:
+.btn-primary {
+    color: $light-color !important;
+}
+
+.btn-primary:hover {
+    color: $secondary-bg !important;
+    background-color: $light-color !important;
+}
+
+// customize language dropdown:
+.dropdown.language {
+    button.dropdown-toggle {
+        border: none;
+        background-color: transparent;
+        box-shadow: none;
+    }
+
+    button.dropdown-toggle.show:focus {
+        box-shadow: none;
+    }
+    .dropdown-menu {
+        min-width: 7rem;
+    }
+    button.dropdown-item {
+        @include flex-between;
+        font-size: 0.9rem;
+    }
+}
+
+.dropdown-item:active {
+    background-color: $secondary-bg !important;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+    background-color: $secondary-bg !important;
+    color: $light-color !important;
+}
+
+// List
+.list-group-item {
+    border-radius: 5px !important;
+}
+
+// Card
+.card {
+    border: 0 !important;
+    padding: 2rem;
+}
+
+// Spinner
+.spinner-border {
+    width: 1rem !important;
+    height: 1rem !important;
+}
+
+// Accordion
+.accordion-button {
+    background-color: #fff !important;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: $secondary-bg !important;
+    color: #fff !important;
+}
+
+.accordion-button:focus {
+    border-color: $secondary-bg !important;
+    box-shadow: none !important;
+    outline: none !important;
+    .accordion-button::after {
+        color: $secondary-bg !important;
+    }
+}
+
+.accordion-body {
+    background-color: #fff !important
+}
+
+// Modal 
+
+.modal {
+    top: 100px !important;
+}
