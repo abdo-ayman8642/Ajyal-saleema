@@ -6,7 +6,7 @@ const baseUrl = 'https://edu.kyanlabs.com/edu/api/'
 export const fetchYears = createAsyncThunk('appAcademicData/fetchYears', async (page, { rejectWithValue }) => {
   try {
     const response = await axios.get(`${baseUrl}years?page=${page}`)
-
+    console.log(response)
     return response
   } catch (err) {
     if (!err.response) {
@@ -115,6 +115,7 @@ export const addYear = createAsyncThunk('appAcademicData/addYear', async ({ data
 })
 
 export const addGov = createAsyncThunk('appAcademicData/addGov', async ({ data }, { rejectWithValue, dispatch }) => {
+  console.log(data)
   try {
     const response = await axios.post(`${baseUrl}cities`, JSON.stringify(data), {
       headers: {
@@ -123,7 +124,7 @@ export const addGov = createAsyncThunk('appAcademicData/addGov', async ({ data }
     })
 
     dispatch(fetchGovs(1))
-
+    console.log(response)
     return response
   } catch (err) {
     if (!err.response.ok) {

@@ -351,7 +351,8 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
     dispatch(handleSelectedData(row))
   }
 
-  console.log(searchedData || data?.data)
+  console.log(searchedData)
+  console.log(data?.data)
 
   return (
     <Grid container spacing={6}>
@@ -359,15 +360,24 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
         <Card>
           <DataGrid
             autoHeight
-            page={searchedData?.current_page - 1 || data?.current_page - 1 || 0}
-            rows={searchedData?.data || data?.data}
+            page={
+              formType === 'students'
+                ? searchedData?.data.current_page - 1 || data?.data.current_page - 1 || 0
+                : searchedData?.current_page - 1 || data?.current_page - 1 || 0
+            }
+            rows={
+              formType === 'students' ? searchedData?.data.data || data?.data.data : searchedData?.data || data?.data
+            }
             checkboxSelection
             pageSize={searchedData?.per_page || data?.per_page || pageSize}
             columns={columns}
             pagination
             paginationMode={formType === 'years' ? 'client' : 'server'}
-            rowCount={searchedData?.total || data?.total || data?.data?.length}
-            // onSelectionModelChange={selected => handleDelete(selected)}
+            rowCount={
+              formType === 'students'
+                ? searchedData?.data.total || data?.data.total || data?.data?.data.length
+                : searchedData?.total || data?.total || data?.data?.length
+            }
             disableSelectionOnClick
             onCellClick={selected => dispatch(handleSelectedData(selected.row))}
             rowsPerPageOptions={[10, 25, 50]}

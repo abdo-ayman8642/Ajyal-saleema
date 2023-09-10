@@ -55,8 +55,6 @@ const AddForm = ({ onSubmit, onCancel, schema, formInputs }) => {
     }
   })
 
-  console.log(defaultValues)
-
   return (
     <Box sx={{ p: 5, maxWidth: { xs: 300, sm: 400 } }}>
       <form onSubmit={handleSubmit(onSubmit)}>

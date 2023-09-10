@@ -54,7 +54,6 @@ const SimpleAddDrawer = props => {
 
   // ** functions
   const onSubmit = data => {
-    console.log(data)
     let formData =
       formType === 'students'
         ? {
