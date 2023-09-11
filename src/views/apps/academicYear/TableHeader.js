@@ -21,8 +21,7 @@ function TableHeader({ title, formType, showDrawer, setDrawer, addData, placehol
   const formInputs = academicDataInputs(formType)
   const action = handleActions('add', formType)
   const [searchVal, setSearchVal] = useState('')
-
-  const { clase_id: classId } = addData
+  const { clase_id: classId } = (formType === 'students' && addData) || {}
 
   const handleDownload = async () => {
     const excelUrl = `https://edu.kyanlabs.com/edu/api/student/export?class_id=${classId}`
