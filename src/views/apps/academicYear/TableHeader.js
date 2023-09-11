@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import { InputAdornment, TextField, Typography } from '@mui/material'
+import { InputAdornment, TextField, Typography, Tooltip } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import SimpleAddDrawer from './SimpleAddDrawer'
 import { handleActions } from 'src/helperFunctions/academicDataActions'
@@ -12,12 +12,43 @@ import { useDebounce } from 'src/hooks/useDepounce'
 import { resetSearchedStudents } from 'src/store/apps/student'
 import { handleSearched, handleSearchedQuery, resetSearchedData } from 'src/store/apps/academicData'
 import { searchData } from 'src/store/apps/academicData/actions'
+import DescriptionIcon from '@mui/icons-material/Description'
+import FileDownloadIcon from '@mui/icons-material/FileDownload'
+import XLSX from 'xlsx'
 
 function TableHeader({ title, formType, showDrawer, setDrawer, addData, placeholder, fetchData, fetchParams }) {
   const dispatch = useDispatch()
   const formInputs = academicDataInputs(formType)
   const action = handleActions('add', formType)
   const [searchVal, setSearchVal] = useState('')
+
+  const { clase_id: classId } = addData
+
+  const handleDownload = async () => {
+    const excelUrl = `https://edu.kyanlabs.com/edu/api/student/export?class_id=${classId}`
+
+    try {
+      const response = await fetch(excelUrl)
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch Excel sheet. Status code: ${response.status}`)
+      }
+
+      const blob = await response.blob()
+
+      // Create a blob URL and use it to download the file
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = 'Students.xlsx'
+      a.click()
+
+      // Clean up the blob URL
+      window.URL.revokeObjectURL(url)
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   const toggle = () => {
     setDrawer(!showDrawer)
@@ -84,6 +115,18 @@ function TableHeader({ title, formType, showDrawer, setDrawer, addData, placehol
           <Button sx={{ mb: 2, fontSize: '1rem', fontWeight: 'bold' }} onClick={toggle} variant='contained'>
             إضافة
           </Button>
+          {formType === 'students' && (
+            <Tooltip title='تنزيل' placement='top'>
+              <Button
+                sx={{ fontSize: '0.6rem', fontWeight: 'normal', color: 'black' }}
+                variant='text'
+                hover
+                onClick={handleDownload}
+              >
+                <FileDownloadIcon />
+              </Button>
+            </Tooltip>
+          )}
         </Box>
       </Box>
       {showDrawer && (

@@ -359,6 +359,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
       <Grid item xs={12} sx={{ maxWidth: '500', minHeight: '400' }}>
         <Card>
           <DataGrid
+            sortable={false}
             autoHeight
             page={
               formType === 'students'
