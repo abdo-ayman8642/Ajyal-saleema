@@ -261,7 +261,7 @@ const handleDefaultColumns = (name, pathname, pastRoute, handleClick, formType, 
     defaultColumns.push(attendanceColumn)
     return defaultColumns
   }
-  if (formType === 'schools' || formType === 'govs') {
+  if (formType === 'schools' || formType === 'govs' || formType === 'camps') {
     defaultColumns.push(codeColumn)
     return defaultColumns
   }
@@ -292,6 +292,8 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
   const editAction = handleActions('edit', formType)
   const deleteAction = handleActions('delete', formType)
   const selected = useSelector(state => state.academicData?.selectedData)
+  console.log('searchedData ' + searchedData)
+  console.log('data ' + data?.data)
 
   // console.log(searchedData)
 
@@ -302,8 +304,6 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
     setShowAttendance(!showAttendance)
     dispatch(handleSelectedStudent(row))
   }
-
-  console.log(data)
 
   const columns = [
     ...handleDefaultColumns(dataName, pathname, pastRoute, handleClickStudent, formType, toggleAttendance),
@@ -351,9 +351,6 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
     dispatch(handleSelectedData(row))
   }
 
-  console.log(searchedData)
-  console.log(data?.data)
-
   return (
     <Grid container spacing={6}>
       <Grid item xs={12} sx={{ maxWidth: '500', minHeight: '400' }}>
@@ -373,7 +370,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
             pageSize={searchedData?.per_page || data?.per_page || pageSize}
             columns={columns}
             pagination
-            paginationMode={formType === 'years' ? 'client' : 'server'}
+            paginationMode={formType === 'server'}
             rowCount={
               formType === 'students'
                 ? searchedData?.data.total || data?.data.total || data?.data?.data.length

@@ -62,7 +62,7 @@ const SimpleAddDrawer = props => {
 
             ...addData
           }
-        : formType === 'schools' || formType === 'govs' || formType === 'administrations'
+        : formType === 'schools' || formType === 'govs' || formType === 'administrations' || formType === 'camps'
         ? {
             name: data.name,
             code: data.code,
