@@ -54,7 +54,7 @@ function Selectors() {
         break
 
       case 5: //classes => api/classes/school/{school_id}/grade/{grade_id}
-        path = `https://edu.kyanlabs.com/edu/api/${identifier[index]}/school/${val[0]}/grade/${data[3].currValue[0]}?type=school`
+        path = `https://edu.kyanlabs.com/edu/api/${identifier[index]}/school/${data[3].currValue[0]}/grade/${val[0]}?type=school`
 
       default:
         console.log('notfound')
