@@ -10,6 +10,8 @@ import LeftSide from './LeftSide'
 import { useRouter } from 'next/router'
 import HasNotExam from './HasNotExam'
 import RightSide from './RightSide'
+import { useDispatch } from 'react-redux'
+import { fetchBy, fetchById } from 'src/store/apps/student/actions'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   minHeight: 48,
@@ -29,24 +31,28 @@ const TabsFullWidth = () => {
   const exams = useSelector(state => state.exams?.data?.data)
   const router = useRouter()
   const routeId = router.query.id
+  const dispatch = useDispatch()
+
   const student =
     useSelector(state => state.student.singleStudent?.data) || useSelector(state => state.academicData?.selectedData)
 
+  // useEffect(() => {
+  //   if (exams && exams.length > 0) {
+  //     setValue(exams[0].id?.toString())
+  //   }
+  // }, [])
+
   useEffect(() => {
-    if (exams && exams.length > 0) {
-      setValue(exams[0].id?.toString())
-    }
-  }, [])
+    dispatch(fetchById(routeId))
+  }, [dispatch])
 
   const handleChange = (event, newValue) => {
-    console.log('changed')
     setValue(newValue)
   }
-  console.log('Tabs', exams)
-  console.log('routeId', routeId)
+  console.log(student, exams)
   const StudentExamView = () => {
     if (routeId) {
-      if (student?.has_exam) {
+      if (student?.has_exam && exams?.length) {
         return (
           <Grid item md={8}>
             <TabContext value={value?.toString()}>
@@ -75,8 +81,8 @@ const TabsFullWidth = () => {
 
   return (
     <Grid container spacing={10}>
-      <Grid item md={4}>
-        <LeftSide />
+      <Grid item md={4} style={{ zIndex: '999' }}>
+        <LeftSide data={student} />
       </Grid>
       <StudentExamView />
     </Grid>

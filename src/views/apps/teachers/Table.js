@@ -39,18 +39,12 @@ const AvatarWithoutImageLink = styled(Link)(({ theme }) => ({
 // ** renders client column
 const renderClient = row => {
   if (row.avatar?.length) {
-    return (
-      <AvatarWithImageLink href={`/apps/user/view/${row.id}`}>
-        <CustomAvatar src={row.avatar} sx={{ mr: 3, width: 34, height: 34 }} />
-      </AvatarWithImageLink>
-    )
+    return <CustomAvatar src={row.avatar} sx={{ mr: 3, width: 34, height: 34 }} />
   } else {
     return (
-      <AvatarWithoutImageLink href={`/apps/user/view/${row.id}`}>
-        <CustomAvatar skin='light' color={row.avatarColor} sx={{ mr: 3, width: 34, height: 34, fontSize: '1rem' }}>
-          <SchoolOutline />
-        </CustomAvatar>
-      </AvatarWithoutImageLink>
+      <CustomAvatar skin='light' color={row.avatarColor} sx={{ mr: 3, width: 34, height: 34, fontSize: '1rem' }}>
+        <SchoolOutline />
+      </CustomAvatar>
     )
   }
 }
@@ -68,16 +62,9 @@ const defaultColumns = [
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           {renderClient(row)}
           <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
-            <Link href={`/apps/user/view/${id}`} passHref>
-              <Typography
-                noWrap
-                component='a'
-                variant='subtitle2'
-                sx={{ color: 'text.primary', textDecoration: 'none' }}
-              >
-                {name}
-              </Typography>
-            </Link>
+            <Typography noWrap component='a' variant='subtitle2' sx={{ color: 'text.primary', textDecoration: 'none' }}>
+              {name}
+            </Typography>
           </Box>
         </Box>
       )

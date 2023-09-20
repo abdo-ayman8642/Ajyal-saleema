@@ -54,30 +54,29 @@ const is_trueColors = {
   inactive: 'secondary'
 }
 
-const LeftSide = () => {
+const LeftSide = ({ data: student }) => {
   // ** States
-  const student =
-    useSelector(state => state?.academicData?.selectedData) || useSelector(state => state.student?.singleStudent?.data)
+
   const school = useSelector(state => state.academicData.singleSchool?.data) || {}
   const administration = useSelector(state => state.academicData.singleAdministration?.data) || {}
   const [showAdd, setShowAdd] = useState(false)
   const [showEdit, setShowEdit] = useState(false)
   const [showDelete, setShowDelete] = useState(false)
 
-  console.log(student)
-  const dispatch = useDispatch()
+  // console.log(student)
+  // const dispatch = useDispatch()
 
-  // const handleEditSubmit = data => {
-  //   let formData = {
-  //     name: data.name,
-  //     date: data.date
-  //   }
-  //   dispatch(editstudent({ id: student.id, data: formData }))
-  // }
+  // // const handleEditSubmit = data => {
+  // //   let formData = {
+  // //     name: data.name,
+  // //     date: data.date
+  // //   }
+  // //   dispatch(editstudent({ id: student.id, data: formData }))
+  // // }
 
-  // const toggleShowAdd = () => {
-  //   setShowAdd(!showAdd)
-  // }
+  // // const toggleShowAdd = () => {
+  // //   setShowAdd(!showAdd)
+  // // }
 
   const schemaObj = showErrors => {
     return {
@@ -146,15 +145,20 @@ const LeftSide = () => {
                 </Box>
                 <Box sx={{ display: 'flex', mb: 2.7 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}> المحافظة :</Typography>
-                  <Typography variant='body2'>القاهرة</Typography>
+                  <Typography variant='body2'>{student.city}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 2.7 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>المدرسة: </Typography>
-                  <Typography variant='body2'>{school.name}</Typography>
+                  <Typography variant='body2'>{student.school}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 2.7 }}>
+                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>نوع التعلم: </Typography>
+                  <Typography variant='body2'>{student.type == 'school' ? 'مدارس' : 'معسكر'}</Typography>
+                </Box>
+                {student.type == ''}
+                <Box sx={{ display: 'flex', mb: 2.7 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>المرحلة الدراسية : </Typography>
-                  <Typography variant='body2'>{administration.name}</Typography>
+                  <Typography variant='body2'>{student.grade}</Typography>
                 </Box>
                 <Box sx={{ display: 'flex', mb: 2.7 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}> الفصل : </Typography>

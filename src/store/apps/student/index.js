@@ -29,7 +29,8 @@ export const studentSlice = createSlice({
     years: [],
     grades: [],
     govs: [],
-    attendanceLoading: null
+    attendanceLoading: null,
+    singleStudent: null
   },
   reducers: {
     handleSelectedStudent: (state, { payload }) => {
