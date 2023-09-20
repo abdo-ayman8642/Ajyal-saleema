@@ -219,16 +219,16 @@ const LeftSide = ({ exam }) => {
                 sx={{
                   width: '100%',
                   display: 'flex',
-                  justifyContent: 'space-between',
+                  justifyContent: 'space-around',
                   '& button': {
                     width: '120px',
                     height: '40px'
                   }
                 }}
               >
-                <Button variant='outlined' color='warning' startIcon={<EditIcon />} onClick={toggleShowEdit}>
+                {/* <Button variant='outlined' color='warning' startIcon={<EditIcon />} onClick={toggleShowEdit}>
                   تعديل
-                </Button>
+                </Button> */}
                 <Button variant='outlined' color='primary' startIcon={<AddIcon />} onClick={toggleShowAdd}>
                   إضافة
                 </Button>
@@ -240,7 +240,7 @@ const LeftSide = ({ exam }) => {
           </Card>
           <Grid item></Grid>
         </Grid>
-        {showAdd && <AddQuestionForm open={showAdd} setOpen = {setShowAdd} examId ={exam.id} />}
+        {showAdd && <AddQuestionForm open={showAdd} setOpen={setShowAdd} examId={exam.id} />}
         {showEdit && (
           <AddExam
             toggle={toggleShowEdit}

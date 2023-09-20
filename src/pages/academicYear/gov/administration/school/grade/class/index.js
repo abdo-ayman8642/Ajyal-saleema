@@ -23,7 +23,7 @@ function ClassesData() {
 
   useEffect(() => {
     dispatch(fetchClasses({ page: 1, schoolId: pastRoute, gradeId: id }))
-  }, [dispatch, id])
+  }, [dispatch, id, pastRoute])
 
   const handlePageChange = nextPage => {
     dispatch(fetchClasses({ page: nextPage, schoolId: pastRoute, gradeId: id }))
