@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 // ** MUI Imports
 import Drawer from '@mui/material/Drawer'
@@ -119,6 +119,10 @@ const SidebarAddTeacher = props => {
   const grades = useSelector(state => state.academicData?.grades?.data)
   const classes = useSelector(state => state.academicData?.classes?.data)
   const selectedClass = watch('class')
+  const nameref = useRef(null)
+  const genderref = useRef(0)
+  const typeref = useRef(0)
+  const [text, setText] = useState('')
 
   useEffect(() => {
     dispatch(fetchYears())
@@ -149,11 +153,12 @@ const SidebarAddTeacher = props => {
   //** Functions */
 
   const onSubmit = data => {
+    console.log(nameref, genderref.current, typeref.current, text)
     const schoolType = data.type === 'camp' ? 'school_id' : 'classes'
     let formData = {
-      name: data.name,
-      gender: data.gender,
-      [schoolType]: [{ id: data.class }]
+      name: text,
+      gender: genderref.current.value
+      // [schoolType]: [{ id: data.class }]
     }
     console.log(formData)
     dispatch(addTeacher({ data: formData }))
@@ -188,10 +193,13 @@ const SidebarAddTeacher = props => {
               rules={{ required: true }}
               render={({ field: { value, onChange } }) => (
                 <TextField
-                  value={value}
                   label='Full Name'
-                  onChange={onChange}
+                  onChange={e => {
+                    e.preventDefault()
+                    setText(e.target.value)
+                  }}
                   placeholder='Enter your name'
+                  value={text}
                   error={Boolean(errors.fullName)}
                 />
               )}
@@ -227,6 +235,7 @@ const SidebarAddTeacher = props => {
                     id='gender-select'
                     label='Gender'
                     labelId='gender-select-label'
+                    inputRef={genderref}
                     onChange={onChange}
                     inputProps={{ placeholder: 'Select Gender' }}
                   >
@@ -344,6 +353,7 @@ const SidebarAddTeacher = props => {
                       fullWidth
                       value={value}
                       id='type-select'
+                      inputRef={typeref}
                       label='إختيار النوع'
                       labelId='school-select-label'
                       onChange={onChange}
@@ -456,7 +466,7 @@ const SidebarAddTeacher = props => {
                       )}
                     </FormControl>
                   )}
-                  {selectedGrade && (
+                  {/* {selectedGrade && (
                     <FormControl fullWidth sx={{ mb: 6 }}>
                       <Controller
                         name='class'
@@ -487,14 +497,14 @@ const SidebarAddTeacher = props => {
                         <FormHelperText sx={{ color: 'error.main' }}>{errors.class.message}</FormHelperText>
                       )}
                     </FormControl>
-                  )}
+                  )} */}
                 </>
               )}
             </>
           )}
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Button size='large' type='submit' variant='contained' sx={{ mr: 3 }}>
+            <Button size='large' type='submit' variant='contained' sx={{ mr: 3 }} onClick={onSubmit}>
               Submit
             </Button>
             <Button size='large' variant='outlined' color='secondary' onClick={handleClose}>

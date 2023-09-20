@@ -19,6 +19,7 @@ function Events() {
   const [showAddForm, setShowAddForm] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
   const selectedEvents = useSelector(state => state.events?.selectedEvents)
+
   const formInputs = [
     {
       name: 'name',
@@ -55,8 +56,6 @@ function Events() {
       </Grid>
     )
   }
-
-  console.log(loading)
 
   return (
     <Grid container direction='column'>

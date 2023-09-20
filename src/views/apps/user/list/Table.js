@@ -44,24 +44,18 @@ const AvatarWithoutImageLink = styled(Link)(({ theme }) => ({
 // ** renders client column
 const renderClient = row => {
   if (row.avatar?.length) {
-    return (
-      <AvatarWithImageLink href={`/apps/user/view/${row.id}`}>
-        <CustomAvatar src={row.avatar} sx={{ mr: 3, width: 34, height: 34 }} />
-      </AvatarWithImageLink>
-    )
+    return <CustomAvatar src={row.avatar} sx={{ mr: 3, width: 34, height: 34 }} />
   } else {
     return (
-      <AvatarWithoutImageLink href={`/apps/user/view/${row.id}`}>
-        <CustomAvatar skin='light' color={row.avatarColor} sx={{ mr: 3, width: 34, height: 34, fontSize: '1rem' }}>
-          {row.role === 'volunteer' ? (
-            <VolunteerActivismIcon />
-          ) : row.role === 'superadmin' ? (
-            <AdminPanelSettingsIcon />
-          ) : (
-            <SupervisorAccountIcon />
-          )}
-        </CustomAvatar>
-      </AvatarWithoutImageLink>
+      <CustomAvatar skin='light' color={row.avatarColor} sx={{ mr: 3, width: 34, height: 34, fontSize: '1rem' }}>
+        {row.role === 'volunteer' ? (
+          <VolunteerActivismIcon />
+        ) : row.role === 'superadmin' ? (
+          <AdminPanelSettingsIcon />
+        ) : (
+          <SupervisorAccountIcon />
+        )}
+      </CustomAvatar>
     )
   }
 }
@@ -79,16 +73,9 @@ const defaultColumns = [
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           {renderClient(row)}
           <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
-            <Link href={`/apps/user/view/${id}`} passHref>
-              <Typography
-                noWrap
-                component='a'
-                variant='subtitle2'
-                sx={{ color: 'text.primary', textDecoration: 'none' }}
-              >
-                {name}
-              </Typography>
-            </Link>
+            <Typography noWrap component='a' variant='subtitle2' sx={{ color: 'text.primary', textDecoration: 'none' }}>
+              {name}
+            </Typography>
           </Box>
         </Box>
       )
@@ -115,7 +102,7 @@ const defaultColumns = [
     renderCell: ({ row }) => {
       return (
         <Typography noWrap variant='subtitle1' sx={{ textTransform: 'capitalize' }}>
-          <a href='tel: 01142678506'>01142678506</a>
+          <a href={`tel: ${row.phone}`}>{row.phone}</a>
         </Typography>
       )
     }
@@ -179,15 +166,6 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl })
           >
             <DeleteIcon />
           </IconButton>
-          <Tooltip title='Icon A'>
-            <IconButton
-              onClick={() => {
-                toggleAcl()
-              }}
-            >
-              <ManageAccountsIcon />
-            </IconButton>
-          </Tooltip>
         </Box>
       )
     }
@@ -213,13 +191,12 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl })
     dispatch(handleSelectedUser([...selected]))
   }
 
-  
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
         <Card>
           <DataGrid
-            page={currPage-1}
+            page={currPage - 1}
             autoHeight
             rows={searchedUsers || users}
             checkboxSelection
@@ -227,11 +204,10 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl })
             disableSelectionOnClick
             columns={columns}
             onSelectionModelChange={selected => handleDelete(selected)}
-            loading= {loading}
-
+            loading={loading}
             // rowsPerPageOptions={[10, 25, 50]}
 
-            onPageSizeChange={newPageSize => handlePageChange(newPageSize+1)}
+            onPageSizeChange={newPageSize => handlePageChange(newPageSize + 1)}
             sx={{ '& .MuiDataGrid-columnHeaders': { borderRadius: 0 } }}
           />
         </Card>

@@ -74,7 +74,6 @@ function Exams() {
     return <CreateExam />
   }
 
-  console.log(exams)
   return (
     <Grid container>
       <Grid item xs={12} md={12}>

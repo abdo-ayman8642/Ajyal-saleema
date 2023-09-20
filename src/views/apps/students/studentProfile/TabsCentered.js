@@ -52,7 +52,8 @@ const TabsFullWidth = () => {
   console.log(student, exams)
   const StudentExamView = () => {
     if (routeId) {
-      if (student?.has_exam && exams?.length) {
+      // ignore has_exam for now
+      if ((student?.has_exam || 1) && exams?.length) {
         return (
           <Grid item md={8}>
             <TabContext value={value?.toString()}>
