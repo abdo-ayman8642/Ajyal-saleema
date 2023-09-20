@@ -12,7 +12,7 @@ function RightSide({ id, studentId }) {
   const [answers, setAnswers] = useState({ exam_id: id, student_id: studentId, answers: [] })
   const dispatch = useDispatch()
 
-  console.log(answers)
+  console.log(answers.exam_id)
   //** Functions */
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1)
@@ -37,11 +37,12 @@ function RightSide({ id, studentId }) {
     return (
       <ExamPaper
         page={step + 1}
-        id={id}
+        id={answers.exam_id}
         setCounter={setCounter}
         setAnswers={setAnswers}
         counter={counter}
         answers={answers}
+        studView={true}
       />
     )
   }

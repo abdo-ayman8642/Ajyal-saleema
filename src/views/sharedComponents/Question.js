@@ -19,7 +19,7 @@ const StyledFormGroup = styled(FormGroup)`
   margin-top: 20px;
 `
 
-const Question = ({ question, exam, setAnswers, answers }) => {
+const Question = ({ question, exam, setAnswers, answers, studView, id }) => {
   //** stats & variables */
   const [value, setValue] = useState('')
   const [error, setError] = useState(false)
@@ -29,7 +29,7 @@ const Question = ({ question, exam, setAnswers, answers }) => {
   const dispatch = useDispatch()
   const router = useRouter()
   const routeId = router.query.id
-
+  console.log(exam)
   useEffect(() => {
     // const trueChoice = question.choices.find(c => c.is_true === 1)
     // if (trueChoice) {
@@ -54,7 +54,7 @@ const Question = ({ question, exam, setAnswers, answers }) => {
     } else if (question.type === 'multi') {
       handleCheckBoxChange(event)
     } else {
-      setValue(e.target.value)
+      setValue(event.target.value)
     }
 
     if (routeId) {
@@ -84,7 +84,7 @@ const Question = ({ question, exam, setAnswers, answers }) => {
 
   const handleDeleteQues = async () => {
     await dispatch(deleteQuestion(question.id))
-    dispatch(fetchQuestions({ id: exam.id, page: 1 }))
+    dispatch(fetchQuestions({ id: exam?.id || id, page: 1 }))
   }
 
   // if (routeId) {
@@ -160,14 +160,16 @@ const Question = ({ question, exam, setAnswers, answers }) => {
           </FormControl>
         )}
         <FormHelperText>{helperText}</FormHelperText>
-        <Button
-          type='submit'
-          variant='outlined'
-          sx={{ mt: 3, fontSize: '1rem', fontWeight: 'bold', width: '30%' }}
-          onClick={toggleDelete}
-        >
-          مسح السؤال
-        </Button>
+        {!studView && (
+          <Button
+            type='submit'
+            variant='outlined'
+            sx={{ mt: 3, fontSize: '1rem', fontWeight: 'bold', width: '30%' }}
+            onClick={toggleDelete}
+          >
+            مسح السؤال
+          </Button>
+        )}
       </FormControl>
 
       <ConfirmDialog

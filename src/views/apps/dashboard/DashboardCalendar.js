@@ -8,14 +8,6 @@ function DashboardCalendar({ data }) {
   const { skin } = useSettings
   const mdAbove = useMediaQuery(theme => theme.breakpoints.up('md'))
 
-
-  const store = {
-    events: [
-      { title: 'session1', date: '2023-07-01' },
-      { title: 'exam1', date: '2023-07-02' }
-    ]
-  }
-
   const calendarsColor = {
     Available: 'success',
     Unavailable: 'error'
@@ -26,9 +18,9 @@ function DashboardCalendar({ data }) {
       title: ev.name,
       date: ev.date,
       className: 'styles'
-      
     }
   })
+  console.log(events)
 
   return (
     <CalendarWrapper>
@@ -44,7 +36,7 @@ function DashboardCalendar({ data }) {
           ...(mdAbove ? { borderTopLeftRadius: 0, borderBottomLeftRadius: 0 } : {})
         }}
       >
-        <Calendar store={{events}} calendarsColor={calendarsColor} direction={'rtl'} />
+        <Calendar store={{ events }} calendarsColor={calendarsColor} direction={'rtl'} />
       </Box>
     </CalendarWrapper>
   )

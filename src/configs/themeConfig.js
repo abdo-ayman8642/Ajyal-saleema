@@ -9,7 +9,7 @@ import Circle from 'mdi-material-ui/Circle'
 
 const themeConfig = {
   // ** Layout Configs
-  templateName: 'اجيال سليمة' /* App Name */,
+  templateName: 'أجيال سليمة' /* App Name */,
   layout: 'vertical' /* vertical | horizontal */,
   mode: 'light' /* light | dark */,
   direction: 'rtl' /* ltr | rtl */,

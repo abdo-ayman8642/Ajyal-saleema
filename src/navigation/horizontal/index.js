@@ -8,6 +8,7 @@ import SummarizeIcon from '@mui/icons-material/Summarize'
 import QuizIcon from '@mui/icons-material/Quiz'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import HowToRegIcon from '@mui/icons-material/HowToReg'
+import EventIcon from '@mui/icons-material/Event'
 
 const navigation = () => [
   {
@@ -31,9 +32,14 @@ const navigation = () => [
   //   path: '/student'
   // },
   {
-    title: 'المحاضرات',
+    title: 'الحصص',
     icon: ClassIcon,
     path: '/sessions'
+  },
+  {
+    title: 'الأحداث',
+    icon: EventIcon,
+    path: '/events'
   },
   // {
   //   title: 'التقارير',

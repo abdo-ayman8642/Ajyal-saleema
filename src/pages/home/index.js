@@ -164,7 +164,7 @@ const Home = () => {
         <CardStatisticsSales data={dashboardStats?.grades} gradesStudents={dashboardStats?.grades_students} />
       </Grid>
       <Grid item xs={12} lg={12}>
-        <DashboardCalendar data={dashboardStats?.events} />
+        <DashboardCalendar data={dashboardStats?.event} />
       </Grid>
     </Grid>
   )

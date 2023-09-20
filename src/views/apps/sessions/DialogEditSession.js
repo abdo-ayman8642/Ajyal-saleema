@@ -52,10 +52,10 @@ const DialogEditSessionInfo = ({ toggle, formInputs, showEdit }) => {
   }
 
   const customizeSubmit = data => {
-    
     let formData = {
       name: data.name,
-      date: data.date
+      date: data.date,
+      type: data.type
     }
     console.log(formData)
     dispatch(editSession({ data: formData, id: selectedSession.id }))

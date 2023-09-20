@@ -54,12 +54,14 @@ const SimpleAddDrawer = props => {
 
   // ** functions
   const onSubmit = data => {
+    console.log('addData ' + JSON.stringify(addData))
+    console.log('data ' + JSON.stringify(data))
     let formData =
       formType === 'students'
         ? {
             name: data.name,
             gender: data.gender,
-
+            birthdate: data.date,
             ...addData
           }
         : formType === 'schools' || formType === 'govs' || formType === 'administrations' || formType === 'camps'

@@ -20,17 +20,16 @@ import { useRouter } from 'next/router'
 
 // Styled Box component
 
-const ExamPaper = ({ exam, page, setAnswers, answers }) => {
+const ExamPaper = ({ exam, page, setAnswers, answers, id, studView }) => {
   const dispatch = useDispatch()
   const selectedExam = useSelector(state => state?.exams?.questions?.data)
   const loading = useSelector(state => state?.exams?.questionsLoading)
   const router = useRouter()
   const routeId = router.query.id
 
-  console.log(selectedExam)
-
+  const examId = exam?.id || id
   useEffect(() => {
-    dispatch(fetchQuestions({ id: exam.id, page: page }))
+    dispatch(fetchQuestions({ id: examId, page: page }))
   }, [exam, page])
 
   if (loading) {
@@ -52,10 +51,12 @@ const ExamPaper = ({ exam, page, setAnswers, answers }) => {
               <Box sx={{ width: '100%', mt: 5 }}>
                 <Question
                   question={ques}
-                  id={selectedExam.id}
+                  exam={selectedExam}
+                  id={examId}
                   setAnswers={setAnswers}
                   answers={answers}
                   sx={{ width: '100%' }}
+                  studView={studView}
                 />
               </Box>
             </CardContent>

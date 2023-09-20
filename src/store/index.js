@@ -18,6 +18,7 @@ import teachers from './apps/teachers'
 import exams from './apps/exams'
 import academicData from './apps/academicData'
 import attendance from './apps/attendance'
+import events from './apps/events'
 
 export const store = configureStore({
   reducer: {
@@ -36,7 +37,8 @@ export const store = configureStore({
     teachers,
     exams,
     academicData,
-    attendance
+    attendance,
+    events
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

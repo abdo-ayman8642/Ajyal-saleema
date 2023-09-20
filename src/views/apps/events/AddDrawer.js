@@ -16,7 +16,7 @@ import Close from 'mdi-material-ui/Close'
 // ** redux imports
 import { useDispatch, useSelector } from 'react-redux'
 import AddForm from 'src/views/sharedComponents/AddForm'
-import { addSession } from 'src/store/apps/sessions/actions'
+import { addEvent } from 'src/store/apps/events/actions'
 
 const showErrors = (field, valueLen, min) => {
   if (valueLen === 0) {
@@ -46,7 +46,7 @@ const schema = yup.object().shape({
   date: yup.date().required()
 })
 
-const SidebarAddSession = props => {
+const SidebarAddEvent = props => {
   // ** Props
   const { open, toggle, formInputs } = props
 
@@ -57,11 +57,9 @@ const SidebarAddSession = props => {
   const onSubmit = data => {
     let formData = {
       name: data.name,
-      date: data.date,
-      type: data.type
+      date: data.date
     }
-    //console.log(formData)
-    dispatch(addSession({ data: formData }))
+    dispatch(addEvent({ data: formData }))
     handleClose()
   }
 
@@ -79,7 +77,7 @@ const SidebarAddSession = props => {
       sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
     >
       <Header>
-        <Typography variant='h6'>إضافة محاضرة</Typography>
+        <Typography variant='h6'>إضافة حدث</Typography>
         <Close fontSize='small' onClick={handleClose} sx={{ cursor: 'pointer' }} />
       </Header>
       <AddForm onSubmit={onSubmit} onCancel={handleClose} schema={schema} formInputs={formInputs} />
@@ -87,4 +85,4 @@ const SidebarAddSession = props => {
   )
 }
 
-export default SidebarAddSession
+export default SidebarAddEvent
