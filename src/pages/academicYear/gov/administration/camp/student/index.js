@@ -54,7 +54,7 @@ function CampsData() {
               dataName={'الطالب'}
               formType={'students'}
               storeData={'students'}
-              pathname={`camp/student`}
+              pathname={`student/view`}
               pastRoute={campId}
               editData={{ urlId: campId, query: 'school_camp' }}
             />

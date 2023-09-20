@@ -39,7 +39,7 @@ function TableHeader({ title, formType, showDrawer, setDrawer, addData, placehol
       const url = window.URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
-      a.download = 'Students.xlsx'
+      a.download = 'Students.xls'
       a.click()
 
       // Clean up the blob URL

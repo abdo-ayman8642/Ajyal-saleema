@@ -155,15 +155,18 @@ const LeftSide = ({ data: student }) => {
                   <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>نوع التعلم: </Typography>
                   <Typography variant='body2'>{student.type == 'school' ? 'مدارس' : 'معسكر'}</Typography>
                 </Box>
-                {student.type == ''}
-                <Box sx={{ display: 'flex', mb: 2.7 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>المرحلة الدراسية : </Typography>
-                  <Typography variant='body2'>{student.grade}</Typography>
-                </Box>
-                <Box sx={{ display: 'flex', mb: 2.7 }}>
-                  <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}> الفصل : </Typography>
-                  <Typography variant='body2'>{student.class}</Typography>
-                </Box>
+                {student.type === 'school' && (
+                  <>
+                    <Box sx={{ display: 'flex', mb: 2.7 }}>
+                      <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>المرحلة الدراسية : </Typography>
+                      <Typography variant='body2'>{student.grade}</Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex', mb: 2.7 }}>
+                      <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}> الفصل : </Typography>
+                      <Typography variant='body2'>{student.class}</Typography>
+                    </Box>
+                  </>
+                )}
               </Box>
             </CardContent>
 
