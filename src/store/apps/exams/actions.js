@@ -53,6 +53,7 @@ export const addQuestion = createAsyncThunk(
       const response = await axios.post(`${baseUrl}questions`, JSON.stringify(data), {
         headers: { 'Content-Type': 'application/json' }
       })
+      dispatch(fetchData())
       return response
     } catch (err) {
       if (!err.response) {
@@ -127,6 +128,7 @@ export const submitAnswers = createAsyncThunk(
   'appExam/submitAnswers',
   async ({ data }, { rejectWithValue, dispatch }) => {
     try {
+      console.log('submitAnswers ' + data)
       const response = await axios.post(`${baseUrl}exam/answers/submit`, JSON.stringify(data), {
         headers: { 'Content-Type': 'application/json' }
       })

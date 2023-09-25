@@ -121,7 +121,7 @@ const Home = () => {
     )
   }
 
-  console.log(dashboardStats)
+  console.log(dashboardStats?.event)
 
   return (
     <Grid container spacing={6}>

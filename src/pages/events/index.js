@@ -28,8 +28,13 @@ function Events() {
     },
 
     {
-      name: 'date',
-      label: 'Date',
+      name: 'date_from',
+      label: 'Date From',
+      type: 'date'
+    },
+    {
+      name: 'date_to',
+      label: 'Date To',
       type: 'date'
     }
   ]

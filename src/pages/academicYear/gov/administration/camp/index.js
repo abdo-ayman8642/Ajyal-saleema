@@ -22,6 +22,9 @@ function CampsData() {
     dispatch(getCampsByAdministration({ id: administrationId, type: 'camp' }))
   }, [dispatch, administrationId])
 
+  const handlePageChange = nextPage => {
+    dispatch(getCampsByAdministration({ id: administrationId, type: 'camp', page: nextPage }))
+  }
   if (loading) {
     return (
       <Grid container sx={{ justifyContent: 'center', alignItems: 'center', height: '100%' }}>
@@ -56,6 +59,7 @@ function CampsData() {
               pathname={`camp/student`}
               pastRoute={administrationId}
               editData={{ department_id: administrationId, type: 'camp' }}
+              handlePageChange={handlePageChange}
             />
           </Grid>
         </Grid>

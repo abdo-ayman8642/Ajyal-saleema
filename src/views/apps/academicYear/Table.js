@@ -292,10 +292,6 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
   const editAction = handleActions('edit', formType)
   const deleteAction = handleActions('delete', formType)
   const selected = useSelector(state => state.academicData?.selectedData)
-  console.log('searchedData ' + searchedData)
-  console.log('data ' + data?.data)
-
-  // console.log(searchedData)
 
   /****************** columns Actions *****************/
 

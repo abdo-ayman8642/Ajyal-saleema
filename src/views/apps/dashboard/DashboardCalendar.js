@@ -12,11 +12,11 @@ function DashboardCalendar({ data }) {
     Available: 'success',
     Unavailable: 'error'
   }
-
   const events = data?.map(ev => {
     return {
       title: ev.name,
-      date: ev.date,
+      start: ev.from,
+      end: ev.to,
       className: 'styles'
     }
   })

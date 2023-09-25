@@ -43,7 +43,8 @@ const schema = yup.object().shape({
     .string()
     .min(3, obj => showErrors('Name', obj.value.length, obj.min))
     .required('Name field is required'),
-  date: yup.date().required()
+  date_from: yup.date().required(),
+  date_to: yup.date().required()
 })
 
 const SidebarAddEvent = props => {
@@ -57,7 +58,8 @@ const SidebarAddEvent = props => {
   const onSubmit = data => {
     let formData = {
       name: data.name,
-      date: data.date
+      from: data.date_from,
+      to: data.date_to
     }
     dispatch(addEvent({ data: formData }))
     handleClose()

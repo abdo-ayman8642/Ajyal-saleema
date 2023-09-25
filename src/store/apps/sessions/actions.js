@@ -19,6 +19,7 @@ export const fetchData = createAsyncThunk('appSession/fetchData', async (page, {
 export const addSession = createAsyncThunk(
   'appSession/addSSession',
   async ({ data }, { rejectWithValue, dispatch }) => {
+    console.log(data)
     try {
       const response = await axios.post(`${baseUrl}sessions`, JSON.stringify(data), {
         headers: {

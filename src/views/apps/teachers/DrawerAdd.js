@@ -144,7 +144,11 @@ const SidebarAddTeacher = props => {
           dispatch(fetchGrades())
         }
         if (selectedGrade) {
+          console.log('selectedSchool  ' + selectedSchool)
+          console.log('selectedGrade  ' + selectedGrade)
+          console.log('classes: ' + classes)
           dispatch(fetchClasses({ gradeId: selectedGrade, schoolId: selectedSchool, page: 1 }))
+          console.log('classes: ' + classes)
         }
       }
     }
@@ -466,7 +470,7 @@ const SidebarAddTeacher = props => {
                       )}
                     </FormControl>
                   )}
-                  {/* {selectedGrade && (
+                  {selectedGrade && (
                     <FormControl fullWidth sx={{ mb: 6 }}>
                       <Controller
                         name='class'
@@ -484,7 +488,7 @@ const SidebarAddTeacher = props => {
                               onChange={onChange}
                               inputProps={{ placeholder: 'Select class' }}
                             >
-                              {classes?.data.map(c => (
+                              {classes?.map(c => (
                                 <MenuItem value={c.id} key={c.id}>
                                   {c.name}
                                 </MenuItem>
@@ -497,7 +501,7 @@ const SidebarAddTeacher = props => {
                         <FormHelperText sx={{ color: 'error.main' }}>{errors.class.message}</FormHelperText>
                       )}
                     </FormControl>
-                  )} */}
+                  )}
                 </>
               )}
             </>

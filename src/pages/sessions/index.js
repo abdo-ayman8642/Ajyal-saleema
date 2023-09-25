@@ -27,27 +27,28 @@ function Sessions() {
       name: 'name',
       label: 'إسم المحاضرة',
       type: 'text'
-    },
-    {
-      name: 'type',
-      label: 'النوع',
-      type: 'select',
-      options: [
-        {
-          value: 'camp',
-          label: 'كامب'
-        },
-        {
-          value: 'school',
-          label: 'مدرسة'
-        }
-      ]
-    },
-    {
-      name: 'date',
-      label: 'Date',
-      type: 'date'
     }
+
+    // {
+    //   name: 'type',
+    //   label: 'النوع',
+    //   type: 'select',
+    //   options: [
+    //     {
+    //       value: 'camp',
+    //       label: 'كامب'
+    //     },
+    //     {
+    //       value: 'school',
+    //       label: 'مدرسة'
+    //     }
+    //   ]
+    // },
+    // {
+    //   name: 'date',
+    //   label: 'Date',
+    //   type: 'date'
+    // }
   ]
 
   useEffect(() => {

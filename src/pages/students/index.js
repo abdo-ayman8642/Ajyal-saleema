@@ -79,6 +79,7 @@ function Students() {
         <PageHeader src={'/images/students2.jpg'} />
         <FilterCard />
         <TableHeader
+          impExp={true}
           toggleAdd={toggleForm}
           selected={selectedStudent}
           toggleConfirm={toggleDialog}

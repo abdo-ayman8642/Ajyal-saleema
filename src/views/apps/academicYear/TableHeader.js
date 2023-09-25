@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import { InputAdornment, TextField, Typography, Tooltip } from '@mui/material'
+import Modal from '@mui/material/Modal'
 import { useDispatch } from 'react-redux'
 import SimpleAddDrawer from './SimpleAddDrawer'
 import { handleActions } from 'src/helperFunctions/academicDataActions'
@@ -14,7 +15,26 @@ import { handleSearched, handleSearchedQuery, resetSearchedData } from 'src/stor
 import { searchData } from 'src/store/apps/academicData/actions'
 import DescriptionIcon from '@mui/icons-material/Description'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
+import UploadIcon from '@mui/icons-material/Upload'
 import XLSX from 'xlsx'
+import axios from 'axios'
+import ExcelUploaderRestrictions from './importExcel'
+import { filterBy } from 'src/store/apps/academicData/actions'
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+
+  bgcolor: 'background.paper',
+  border: 'none',
+  boxShadow: 24,
+  p: 4,
+  '&:hover': {
+    cursor: 'pointer'
+  }
+}
 
 function TableHeader({ title, formType, showDrawer, setDrawer, addData, placeholder, fetchData, fetchParams }) {
   const dispatch = useDispatch()
@@ -22,12 +42,50 @@ function TableHeader({ title, formType, showDrawer, setDrawer, addData, placehol
   const action = handleActions('add', formType)
   const [searchVal, setSearchVal] = useState('')
   const { clase_id: classId } = (formType === 'students' && addData) || {}
+  const { school_id } = addData || {}
+  const { query } = addData || {}
+  const [open, setOpen] = React.useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
+
+  console.log(classId, school_id, query)
+  console.log(addData)
+  const handleUpload = async file => {
+    if (file) {
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('class_id', classId)
+
+      try {
+        // Replace 'your-api-endpoint' with your actual API endpoint
+        const response = await axios.post('https://edu.kyanlabs.com/edu/api/student/import', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+
+        console.log('File uploaded successfully:', response.data)
+      } catch (error) {
+        console.error('Error uploading file:', error)
+      } finally {
+        handleClose()
+        dispatch(filterBy({ page: 1, query: 'class', value: classId }))
+      }
+    } else {
+      console.error('No file selected.')
+    }
+  }
 
   const handleDownload = async () => {
     const excelUrl = `https://edu.kyanlabs.com/edu/api/student/export?class_id=${classId}`
 
     try {
-      const response = await fetch(excelUrl)
+      const response = await fetch(excelUrl, {
+        headers: {
+          'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+          // 'Content-Type': 'application/x-www-form-urlencoded',
+        }
+      })
 
       if (!response.ok) {
         throw new Error(`Failed to fetch Excel sheet. Status code: ${response.status}`)
@@ -39,7 +97,7 @@ function TableHeader({ title, formType, showDrawer, setDrawer, addData, placehol
       const url = window.URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
-      a.download = 'Students.xls'
+      a.download = 'Students.xlsx'
       a.click()
 
       // Clean up the blob URL
@@ -91,6 +149,33 @@ function TableHeader({ title, formType, showDrawer, setDrawer, addData, placehol
         mb: 5
       }}
     >
+      <div>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby='modal-modal-title'
+          aria-describedby='modal-modal-description'
+        >
+          <Box sx={style}>
+            <Typography
+              id='modal-modal-title'
+              variant='h5'
+              component='h2'
+              sx={{
+                textAlign: 'center',
+                padding: '10px 10px 20px 10px',
+                '&:hover': {
+                  cursor: 'default'
+                }
+              }}
+            >
+              Import your students sheet
+            </Typography>
+
+            <ExcelUploaderRestrictions handleUpload={handleUpload} />
+          </Box>
+        </Modal>
+      </div>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
         <Typography variant='h4' sx={{ fontWeight: 'bold', color: '#3F51B5' }}>
           {title}
@@ -114,17 +199,30 @@ function TableHeader({ title, formType, showDrawer, setDrawer, addData, placehol
           <Button sx={{ mb: 2, fontSize: '1rem', fontWeight: 'bold' }} onClick={toggle} variant='contained'>
             إضافة
           </Button>
+
           {formType === 'students' && (
-            <Tooltip title='تنزيل' placement='top'>
-              <Button
-                sx={{ fontSize: '0.6rem', fontWeight: 'normal', color: 'black' }}
-                variant='text'
-                hover
-                onClick={handleDownload}
-              >
-                <FileDownloadIcon />
-              </Button>
-            </Tooltip>
+            <>
+              <Tooltip title='اضافة طلاب' placement='top'>
+                <Button
+                  sx={{ fontSize: '0.6rem', fontWeight: 'normal', color: '#757575' }}
+                  variant='text'
+                  hover
+                  onClick={handleOpen}
+                >
+                  <UploadIcon />
+                </Button>
+              </Tooltip>
+              <Tooltip title='تنزيل' placement='top'>
+                <Button
+                  sx={{ fontSize: '0.6rem', fontWeight: 'normal', color: '#388e3c' }}
+                  variant='text'
+                  hover
+                  onClick={handleDownload}
+                >
+                  <FileDownloadIcon />
+                </Button>
+              </Tooltip>
+            </>
           )}
         </Box>
       </Box>
