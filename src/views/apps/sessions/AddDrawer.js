@@ -57,7 +57,6 @@ const SidebarAddSession = props => {
     let formData = {
       name: data.name
     }
-    //console.log(formData)
     dispatch(addSession({ data: formData }))
     handleClose()
   }

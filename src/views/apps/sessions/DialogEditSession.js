@@ -35,8 +35,7 @@ const DialogEditSessionInfo = ({ toggle, formInputs, showEdit }) => {
     name: yup
       .string()
       .min(3, obj => showErrors('Session Name', obj.value.length, obj.min))
-      .required(),
-    date: yup.date().required()
+      .required()
   })
 
   /** Functions */
@@ -57,7 +56,6 @@ const DialogEditSessionInfo = ({ toggle, formInputs, showEdit }) => {
       date: data.date,
       type: data.type
     }
-    console.log(formData)
     dispatch(editSession({ data: formData, id: selectedSession.id }))
     handleClose()
   }

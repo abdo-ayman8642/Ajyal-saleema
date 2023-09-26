@@ -22,6 +22,9 @@ function TableHeader({
   impExp
 }) {
   const data = useSelector(state => state[dataType]?.data)
+  console.log(dataType)
+  const session_limit = data?.data?.length
+  console.log(session_limit)
   const dispatch = useDispatch()
   const [searchVal, setSearchVal] = useState('')
 
@@ -105,7 +108,12 @@ function TableHeader({
             )
           }}
         />
-        <Button sx={{ mb: 2, fontSize: '1rem', fontWeight: 'bold' }} onClick={toggleAdd} variant='contained'>
+        <Button
+          sx={{ mb: 2, fontSize: '1rem', fontWeight: 'bold' }}
+          onClick={toggleAdd}
+          variant='contained'
+          disabled={session_limit >= 12}
+        >
           إضافة
         </Button>
       </Box>

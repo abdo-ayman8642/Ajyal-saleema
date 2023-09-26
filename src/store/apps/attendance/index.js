@@ -88,7 +88,6 @@ export const attendanceDataSlice = createSlice({
       state.formData = payload
     },
     setField: (state, { payload }) => {
-      console.log('ok', payload)
       state.formData[payload.index][payload.field] = payload.value
     },
     setCurrentInput: (state, { payload }) => {

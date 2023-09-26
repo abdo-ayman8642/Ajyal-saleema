@@ -57,14 +57,12 @@ function Selectors() {
         path = `https://edu.kyanlabs.com/edu/api/${identifier[index]}/school/${data[3].currValue[0]}/grade/${val[0]}?type=school`
 
       default:
-        console.log('notfound')
+        console.error('notfound')
         break
     }
     try {
-      console.log('path: ' + path)
       const response = await fetch(path)
       const jsonData = await response.json()
-      console.log(jsonData)
       const itemArray = jsonData.data ? jsonData.data.map(data => [data.id, data.name]) : []
 
       dispatch(setField({ index: index, field: 'items', value: itemArray }))

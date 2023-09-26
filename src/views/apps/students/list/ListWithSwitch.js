@@ -23,7 +23,6 @@ const ListWithCheckBox = () => {
   }, [selectedStudent])
 
   useEffect(() => {
-    console.log(attendance)
     if (attendance) {
       attendance?.forEach(s => {
         if (s.attendance) {

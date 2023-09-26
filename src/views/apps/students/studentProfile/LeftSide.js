@@ -63,7 +63,6 @@ const LeftSide = ({ data: student }) => {
   const [showEdit, setShowEdit] = useState(false)
   const [showDelete, setShowDelete] = useState(false)
 
-  // console.log(student)
   // const dispatch = useDispatch()
 
   // // const handleEditSubmit = data => {

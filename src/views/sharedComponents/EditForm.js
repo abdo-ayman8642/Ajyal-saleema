@@ -27,14 +27,11 @@ import FormDate from './FormDate'
 
 const EditForm = ({ formInputs, schema, customizeSubmit, handleClose, selected }) => {
   /** stats & variables */
-  console.log(formInputs)
   const defaultValues = formInputs
     ? formInputs.reduce((acc, cur) => {
         return { ...acc, [cur.name]: '' }
       }, {})
     : {}
-
-  console.log(defaultValues)
 
   const {
     reset,
@@ -61,8 +58,6 @@ const EditForm = ({ formInputs, schema, customizeSubmit, handleClose, selected }
     handleClose()
     reset()
   }
-
-  console.log(selected)
 
   return (
     <form onSubmit={handleSubmit(customizeSubmit)}>

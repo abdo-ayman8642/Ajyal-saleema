@@ -29,7 +29,6 @@ const Question = ({ question, exam, setAnswers, answers, studView, id }) => {
   const dispatch = useDispatch()
   const router = useRouter()
   const routeId = router.query.id
-  console.log(exam)
   useEffect(() => {
     // const trueChoice = question.choices.find(c => c.is_true === 1)
     // if (trueChoice) {
@@ -43,7 +42,6 @@ const Question = ({ question, exam, setAnswers, answers, studView, id }) => {
 
   const avoidDuplicates = (ans, id) => {
     const uniqueAns = ans.filter(answer => answer.question_id !== id)
-    console.log(uniqueAns)
 
     return uniqueAns
   }

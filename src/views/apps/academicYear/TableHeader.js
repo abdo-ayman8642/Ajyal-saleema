@@ -48,28 +48,29 @@ function TableHeader({ title, formType, showDrawer, setDrawer, addData, placehol
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
-  console.log(classId, school_id, query)
-  console.log(addData)
   const handleUpload = async file => {
     if (file) {
+      const baseUrl = 'https://edu.kyanlabs.com/edu/api/'
+
       const formData = new FormData()
       formData.append('file', file)
-      formData.append('class_id', classId)
+      query === 'school_camp' ? formData.append('school_id', school_id) : formData.append('class_id', classId)
 
+      const pathUrl = query === 'school_camp' ? `${baseUrl}student/camp/import` : `${baseUrl}student/import`
       try {
         // Replace 'your-api-endpoint' with your actual API endpoint
-        const response = await axios.post('https://edu.kyanlabs.com/edu/api/student/import', formData, {
+        const response = await axios.post(pathUrl, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         })
-
-        console.log('File uploaded successfully:', response.data)
       } catch (error) {
         console.error('Error uploading file:', error)
       } finally {
         handleClose()
-        dispatch(filterBy({ page: 1, query: 'class', value: classId }))
+        query === 'school_camp'
+          ? dispatch(filterBy({ page: 1, query: 'school_camp', value: school_id }))
+          : dispatch(filterBy({ page: 1, query: 'class', value: classId }))
       }
     } else {
       console.error('No file selected.')
@@ -77,7 +78,12 @@ function TableHeader({ title, formType, showDrawer, setDrawer, addData, placehol
   }
 
   const handleDownload = async () => {
-    const excelUrl = `https://edu.kyanlabs.com/edu/api/student/export?class_id=${classId}`
+    const baseUrl = 'https://edu.kyanlabs.com/edu/api/'
+
+    const excelUrl =
+      query === 'school_camp'
+        ? `${baseUrl}student/camp/export?school_id=${school_id}`
+        : `${baseUrl}student/export?class_id=${classId}`
 
     try {
       const response = await fetch(excelUrl, {
@@ -130,7 +136,6 @@ function TableHeader({ title, formType, showDrawer, setDrawer, addData, placehol
 
   const handleInputChange = e => {
     const value = e.target.value
-    console.log(value)
     dispatch(handleSearchedQuery(value))
     setSearchVal(value)
     debouncedSearch(value)

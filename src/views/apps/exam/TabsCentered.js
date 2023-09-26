@@ -25,7 +25,6 @@ const TabsFullWidth = () => {
   // ** State
   const [value, setValue] = useState('')
   const exams = useSelector(state => state.exams?.data?.data)
-  console.log(exams)
 
   useEffect(() => {
     if (exams && exams.length > 0) {

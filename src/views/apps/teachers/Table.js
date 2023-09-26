@@ -92,8 +92,6 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm }) => {
   const selectedTeacher = useSelector(state => state.selectedTeacher)
   const teachers = useSelector(state => state.teachers?.data?.data)
 
-  console.log(teachers)
-
   // add actions column => edit / delete
   const columns = [
     ...defaultColumns,

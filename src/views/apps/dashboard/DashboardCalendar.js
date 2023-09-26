@@ -20,7 +20,6 @@ function DashboardCalendar({ data }) {
       className: 'styles'
     }
   })
-  console.log(events)
 
   return (
     <CalendarWrapper>

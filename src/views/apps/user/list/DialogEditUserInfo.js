@@ -68,8 +68,6 @@ const DialogEditUserInfo = ({ toggle, formInputs, showEditForm }) => {
     }
   }
 
-  console.log(selectedUser)
-
   const customizeSubmit = data => {
     let formData = {
       name: data.name,

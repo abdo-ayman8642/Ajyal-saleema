@@ -44,6 +44,7 @@ const AvatarWithoutImageLink = styled(Link)(({ theme }) => ({
 }))
 
 // ** renders client column
+
 const renderClient = row => {
   return (
     // <AvatarWithoutImageLink href={`/apps/user/view/${row.id}`}>
@@ -81,14 +82,19 @@ const defaultColumns = [
 
 const SessionsList = ({ formInputs, toggleConfirm }) => {
   // ********* States & variables *******************/
-  const [pageSize, setPageSize] = useState(10)
+  const [pageSize, setPageSize] = useState(12)
   const dispatch = useDispatch()
-  const sessions = useSelector(state => state.sessions?.data.data)
+  const sessions = useSelector(state => state.sessions?.data?.data)
   const selectedSession = useSelector(state => state.sessions?.selectedSession)
   const [showEdit, setShowEdit] = useState(false)
 
+  // console.log(
+  //   sessions.map((session, index) => {
+  //     return { ...session, name: `${index + 1}: ${session.name}` }
+  //   })
+  // )
+
   /****************** columns Actions *****************/
-  console.log(sessions)
   const columns = [
     ...defaultColumns,
     {
@@ -119,7 +125,6 @@ const SessionsList = ({ formInputs, toggleConfirm }) => {
 
   const onClickDelete = row => {
     dispatch(handleSelectedSession(row))
-    console.log(selectedSession)
     toggleConfirm()
   }
 
@@ -143,8 +148,7 @@ const SessionsList = ({ formInputs, toggleConfirm }) => {
             disableSelectionOnClick
             columns={columns}
             onSelectionModelChange={selected => handleDelete(selected)}
-            rowsPerPageOptions={[10, 25, 50]}
-            onPageSizeChange={newPageSize => setPageSize(newPageSize)}
+            hideFooterPagination={true}
             sx={{ '& .MuiDataGrid-columnHeaders': { borderRadius: 0 } }}
           />
         </Card>

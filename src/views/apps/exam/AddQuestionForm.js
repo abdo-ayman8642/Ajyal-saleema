@@ -133,7 +133,6 @@ const AddQuestionForm = ({ open, setOpen, examId }) => {
       }
     }
 
-    console.log(formData)
     dispatch(addQuestion({ data: formData }))
     reset()
     handleClose()

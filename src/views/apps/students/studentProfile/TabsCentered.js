@@ -49,7 +49,6 @@ const TabsFullWidth = () => {
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
-  console.log(student, exams)
   const StudentExamView = () => {
     if (routeId) {
       // ignore has_exam for now

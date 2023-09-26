@@ -128,8 +128,6 @@ const FilterCard = () => {
   }
 
   const onSubmit = data => {
-    console.log(searchBy)
-    console.log(watch(searchBy))
     dispatch(filterBy({ query: searchBy, value: watch(searchBy) }))
   }
 

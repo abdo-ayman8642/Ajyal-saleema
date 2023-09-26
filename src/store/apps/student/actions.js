@@ -382,7 +382,6 @@ export const filterBy = createAsyncThunk(
 export const handleImport = createAsyncThunk(
   'appStudent/studentImport',
   async (formData, { rejectWithValue, dispatch }) => {
-    console.log(formData)
     try {
       const response = await axios.post(`${baseUrl}student/import`, formData, {
         headers: {

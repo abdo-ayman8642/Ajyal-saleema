@@ -19,8 +19,6 @@ function GovData() {
   const searchedQuery = useSelector(state => state.academicData?.searchedQuery)
   const searchedData = useSelector(state => state.academicData?.searchedData)
 
-  console.log(searchedQuery)
-
   useEffect(() => {
     dispatch(fetchGovs(1))
     dispatch(handlePastRoute(yearId))

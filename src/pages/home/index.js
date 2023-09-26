@@ -29,8 +29,6 @@ const Home = () => {
     dispatch(dashboardData())
   }, [dispatch])
 
-  console.log(dashboardStats)
-
   const teacherData = {
     title: 'المدرسين',
     chipColor: 'primary',
@@ -120,8 +118,6 @@ const Home = () => {
       </Grid>
     )
   }
-
-  console.log(dashboardStats?.event)
 
   return (
     <Grid container spacing={6}>

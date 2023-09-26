@@ -12,7 +12,6 @@ function RightSide({ id, studentId }) {
   const [answers, setAnswers] = useState({ exam_id: id, student_id: studentId, answers: [] })
   const dispatch = useDispatch()
 
-  console.log(answers.exam_id)
   //** Functions */
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1)

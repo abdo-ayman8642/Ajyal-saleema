@@ -36,7 +36,6 @@ const AuthProvider = ({ children }) => {
     const initAuth = async () => {
       setIsInitialized(true)
       const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
-      console.log('storedToken', storedToken)
       if (storedToken) {
         setLoading(true)
         await axios
@@ -46,7 +45,6 @@ const AuthProvider = ({ children }) => {
             }
           })
           .then(async response => {
-            console.log(response.data?.data)
             setLoading(false)
             setUser(prev => ({ ...prev, ...response.data?.data }))
           })
@@ -62,14 +60,12 @@ const AuthProvider = ({ children }) => {
       }
     }
     initAuth()
-    console.log(defaultProvider)
   }, [])
 
   const handleLogin = (params, errorCallback) => {
     axios
       .post(authConfig.loginEndpoint, params)
       .then(async res => {
-        console.log(res)
         window.localStorage.setItem(authConfig.storageTokenKeyName, res.data.token)
       })
       .then(() => {

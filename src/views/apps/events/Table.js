@@ -85,7 +85,6 @@ const EventList = ({ formInputs, toggleConfirm }) => {
   const events = useSelector(state => state.events?.data.data)
   const selectedEvents = useSelector(state => state.events?.selectedEvents)
   const [showEdit, setShowEdit] = useState(false)
-  console.log(selectedEvents, events)
   /****************** columns Actions *****************/
   const columns = [
     ...defaultColumns,
@@ -117,7 +116,6 @@ const EventList = ({ formInputs, toggleConfirm }) => {
 
   const onClickDelete = row => {
     dispatch(handleSelectedEvents(row))
-    console.log(selectedEvents)
     toggleConfirm()
   }
 

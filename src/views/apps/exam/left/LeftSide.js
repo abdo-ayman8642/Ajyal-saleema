@@ -70,8 +70,6 @@ const LeftSide = ({ exam }) => {
   const dispatch = useDispatch()
   const [questionType, setQuestionType] = useState(null)
 
-  console.log(exam)
-
   //** Functions */
   const toggleShowDelete = () => {
     setShowDelete(!showDelete)
@@ -127,7 +125,6 @@ const LeftSide = ({ exam }) => {
   }
 
   const handleEditSubmit = data => {
-    console.log(data)
     let formData = {
       name: data.name,
       date: data.date

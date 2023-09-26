@@ -20,8 +20,6 @@ function ConfirmDelete({ open, toggle, loading, confirmationType, selected, dele
     toggle()
   }
 
-  console.log(selected)
-
   return (
     <Dialog
       open={open}

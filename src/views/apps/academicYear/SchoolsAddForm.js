@@ -53,13 +53,13 @@ const schema = yup.object().shape({
     .min(3, obj => showErrors('First Name', obj.value.length, obj.min))
     .required('Please enter a valid name'),
   year: yup.string().required(),
-  administration: yup.string().required(),
+  administration: yup.string().required()
 })
 
 const defaultValues = {
   name: '',
   year: '',
-  administration: '',
+  administration: ''
 }
 
 const SchoolAddForm = props => {
@@ -89,8 +89,6 @@ const SchoolAddForm = props => {
   const administrations = useSelector(state => state.academicData?.data.administrations?.data.data)
   const addAction = handleActions('add', 'schools')
 
-  console.log(administrations)
-
   useEffect(() => {
     dispatch(fetchYears())
   }, [selectedYear])
@@ -109,7 +107,7 @@ const SchoolAddForm = props => {
       department_id: selectedAdministration
     }
 
-    dispatch(addAction({ data: formData}))
+    dispatch(addAction({ data: formData }))
     handleClose()
   }
 

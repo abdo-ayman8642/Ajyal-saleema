@@ -15,8 +15,6 @@ function StudentProfile() {
 
   const loading = useSelector(state => state.student?.singleStudentLoading)
 
-  console.log(student)
-
   useEffect(() => {
     if (id) {
       dispatch(fetchById(id))

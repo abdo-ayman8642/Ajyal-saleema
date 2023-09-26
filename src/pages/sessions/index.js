@@ -55,8 +55,6 @@ function Sessions() {
     dispatch(fetchData())
   }, [dispatch])
 
-  console.log(selectedSession)
-
   /** Functions */
   const toggleAddForm = () => {
     setShowAddForm(!showAddForm)
@@ -75,8 +73,6 @@ function Sessions() {
       </Grid>
     )
   }
-
-  console.log(loading)
 
   return (
     <Grid container direction='column'>

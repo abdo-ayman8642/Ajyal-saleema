@@ -74,7 +74,6 @@ const DialogEditUserInfo = ({ toggle }) => {
       setValue('age', selectedStudent.age)
       setValue('class', selectedStudent?.class)
     }
-    console.log(selectedStudent.degree)
     dispatch(getClass(selectedStudent.degree))
   }, [selectedStudent])
 
@@ -82,8 +81,6 @@ const DialogEditUserInfo = ({ toggle }) => {
   const selectedStudent = useSelector(state => state.student.selectedStudent)
   const classes = useSelector(state => state.student.classes)
   const selectedClass = watch('class')
-
-  console.log(selectedStudent)
 
   /** Functions */
 
@@ -97,11 +94,7 @@ const DialogEditUserInfo = ({ toggle }) => {
     }
   }
 
-  console.log(selectedClass)
-
   const onSubmit = data => {
-    console.log(selectedClass)
-
     let formData = {
       name: data.name,
       gender: data.gender,

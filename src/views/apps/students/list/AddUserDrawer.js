@@ -178,19 +178,12 @@ const SidebarAddStudent = props => {
       const fileX = formData.get('file')
       const reader = new FileReader()
 
-      reader.onload = () => {
-        console.log(reader.result)
-      }
+      reader.onload = () => {}
       reader.readAsText(fileX)
-      console.log([...formData.entries()])
-      console.log(formDataObject)
-
       dispatch(handleImport(formData))
       handleClose()
     }
   }
-
-  console.log(classes)
 
   const handleClose = () => {
     dispatch(handleSelectedStudent(null))

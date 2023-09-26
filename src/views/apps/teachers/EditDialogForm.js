@@ -57,7 +57,6 @@ const DialogEditForm = ({ open, toggle, formInputs, showEdit }) => {
       name: data.name,
       gender: data.gender
     }
-    console.log(formData)
     dispatch(editTeacher({ data: formData, id: selectedTeacher.id }))
     handleClose()
   }

@@ -7,7 +7,6 @@ const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
 
 const ApexChart = () => {
   const [chartState, setChartState] = useState([0, 0])
-  console.log(chartState)
   const state = {
     series: chartState,
     options: {
@@ -59,7 +58,6 @@ const ApexChart = () => {
     const path = `https://edu.kyanlabs.com/edu/api/students/sessions/attendance?${currInput?.[1]}=${
       currInput?.[0] || 1
     }`
-    console.log(path)
     try {
       const response = await fetch(path, {
         headers: { 'content-type': 'application/json' },
@@ -67,7 +65,6 @@ const ApexChart = () => {
         body: JSON.stringify({ sessions_ids: checkBoxesState })
       })
       const jsonData = await response.json()
-      console.log(jsonData)
       const { totalPresent, totalAbsent } = jsonData
       setChartState([totalPresent || 0, totalAbsent || 0])
     } catch (error) {

@@ -51,7 +51,6 @@ const DialogEditForm = ({ toggle, showEdit, title, formType, editAction, editDat
     }
   }
 
-  console.log(editData)
   const customizeSubmit = data => {
     let formData =
       formType === 'students'

@@ -142,8 +142,6 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl })
   const searchedUsers = useSelector(state => state.user?.searchedUsers?.data?.data)
   const loading = useSelector(state => state.user?.searchedUsersLoading)
 
-  console.log(currPage)
-
   // ** add actions to default row
   const columns = [
     ...defaultColumns,

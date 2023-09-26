@@ -144,11 +144,7 @@ const SidebarAddTeacher = props => {
           dispatch(fetchGrades())
         }
         if (selectedGrade) {
-          console.log('selectedSchool  ' + selectedSchool)
-          console.log('selectedGrade  ' + selectedGrade)
-          console.log('classes: ' + classes)
           dispatch(fetchClasses({ gradeId: selectedGrade, schoolId: selectedSchool, page: 1 }))
-          console.log('classes: ' + classes)
         }
       }
     }
@@ -157,14 +153,12 @@ const SidebarAddTeacher = props => {
   //** Functions */
 
   const onSubmit = data => {
-    console.log(nameref, genderref.current, typeref.current, text)
     const schoolType = data.type === 'camp' ? 'school_id' : 'classes'
     let formData = {
       name: text,
       gender: genderref.current.value
       // [schoolType]: [{ id: data.class }]
     }
-    console.log(formData)
     dispatch(addTeacher({ data: formData }))
     handleClose()
   }

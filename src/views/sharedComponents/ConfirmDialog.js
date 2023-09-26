@@ -20,7 +20,6 @@ function ConfirmDialog({ open, toggle, loading, confirmationType, selected, dele
     if (selected?.length > 1) {
       dispatch(deleteMulti(selected))
     } else {
-      console.log(selected)
       dispatch(deleteSingle(selected))
     }
     toggle()

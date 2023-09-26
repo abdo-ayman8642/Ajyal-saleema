@@ -258,8 +258,6 @@ const StudentList = ({ handleSelectedStudent, toggleDialog, toggleEditForm, hand
     dispatch(handleSelectedStudent(row))
   }
 
-  console.log(students)
-
   return (
     <Grid container spacing={6}>
       <Grid item xs={12} sx={{ minWidth: '1000px' }}>

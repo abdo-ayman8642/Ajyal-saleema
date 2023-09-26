@@ -41,7 +41,6 @@ const Calendar = props => {
     handleAddEventSidebarToggle
   } = props
 
-  console.log(store)
   // ** Refs
   const calendarRef = useRef()
   useEffect(() => {
@@ -148,12 +147,11 @@ const Calendar = props => {
       ref: calendarRef,
 
       // Get direction from app state (store)
-      direction,
-       
+      direction
     }
 
     // @ts-ignore
-    return <FullCalendar {...calendarOptions}  />
+    return <FullCalendar {...calendarOptions} />
   } else {
     return null
   }
