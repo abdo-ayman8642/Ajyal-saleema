@@ -2,22 +2,12 @@ import { createSlice, configureStore } from '@reduxjs/toolkit'
 const getCheckedIds = obj => {
   const idList = []
   for (const key in obj) {
-    if (obj[key]) {
-      idList.push(Number(key))
+    if (obj[key][1]) {
+      idList.push(Number(obj[key][0]))
     }
   }
   return idList
 }
-
-const makeInitialBoxesState = number => {
-  const obj = {}
-  for (let i = 1; i <= number; i++) {
-    obj[i] = false
-  }
-  return obj
-}
-
-const CHECK_BOXES_NUMS = 12
 
 export const attendanceDataSlice = createSlice({
   name: 'attendanceData',
@@ -72,15 +62,14 @@ export const attendanceDataSlice = createSlice({
         disabledAtt: true
       }
     ],
-    checkBoxesNumber: CHECK_BOXES_NUMS,
     sessionsList: [],
-    checkBoxesState: makeInitialBoxesState(CHECK_BOXES_NUMS),
     currentInput: [0, '']
   },
 
   reducers: {
     handleCheckBoxes: (state, { payload }) => {
-      const currentState = { ...state.checkBoxesState, [payload.id]: payload.value }
+      console.log(payload)
+      const currentState = { ...state.checkBoxesState, [payload.id]: [payload.session_id, payload.value] }
       state.checkBoxesState = currentState
       state.sessionsList = getCheckedIds(currentState)
     },

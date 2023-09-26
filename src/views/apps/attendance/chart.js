@@ -2,13 +2,13 @@ import dynamic from 'next/dynamic'
 import styles from './ApexChartComponent.module.css' // Import your CSS module
 import { useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
-
-const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false })
+import ReactApexcharts from 'src/@core/components/react-apexcharts'
+import StatisticsCard from './StatisticsCard'
 
 const ApexChart = () => {
   const [chartState, setChartState] = useState([0, 0])
   const state = {
-    series: chartState,
+    series: chartState.slice(1),
     options: {
       title: {
         align: 'center'
@@ -48,11 +48,11 @@ const ApexChart = () => {
       ]
     }
   }
-  const checkBoxesState = useSelector(state => state.attendance.sessionsList)
+  const sessions_ids_list = useSelector(state => state.attendance.sessionsList)
   const currInput = useSelector(state => state.attendance.currentInput)
   useEffect(() => {
     fecthAttendance()
-  }, [checkBoxesState, currInput])
+  }, [sessions_ids_list, currInput])
 
   const fecthAttendance = async () => {
     const path = `https://edu.kyanlabs.com/edu/api/students/sessions/attendance?${currInput?.[1]}=${
@@ -62,19 +62,22 @@ const ApexChart = () => {
       const response = await fetch(path, {
         headers: { 'content-type': 'application/json' },
         method: 'POST',
-        body: JSON.stringify({ sessions_ids: checkBoxesState })
+        body: JSON.stringify({ sessions_ids: sessions_ids_list })
       })
       const jsonData = await response.json()
-      const { totalPresent, totalAbsent } = jsonData
-      setChartState([totalPresent || 0, totalAbsent || 0])
+      const { TotalStudents, totalPresent, totalAbsent } = jsonData
+      setChartState([TotalStudents || 0, totalPresent || 0, totalAbsent || 0])
     } catch (error) {
       console.error('Error fetching data', error)
     }
   }
   return (
-    <div id='chart' className={styles['chart-container']}>
-      <ReactApexChart options={state.options} series={state.series} type='pie' width={500} />
-    </div>
+    <>
+      <StatisticsCard StudentsData={{ chartState }} />
+      <div id='chart' className={styles['chart-container']}>
+        <ReactApexcharts options={state.options} series={state.series} type='pie' width={500} />
+      </div>
+    </>
   )
 }
 
