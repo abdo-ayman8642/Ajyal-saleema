@@ -149,6 +149,7 @@ function Users() {
       </Grid>
       <Grid item>
         <UserList
+          dataType={'user'}
           toggleAddForm={toggleAddForm}
           toggleDialog={toggleDialog}
           toggleEditForm={toggleEditForm}

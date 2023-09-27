@@ -28,20 +28,20 @@ const StatisticsCard = ({ StudentsData }) => {
     {
       stats: totalStudents || 0,
       color: 'primary',
-      title: 'Total Students',
+      title: 'إجمالي الطلاب',
       icon: <Groups2Icon />
     },
     {
       icon: <EmojiPeopleIcon />,
       stats: totalPresent || 0,
       color: 'success',
-      title: 'Attended Students'
+      title: 'الطلاب الحاضرون'
     },
     {
       color: 'error',
       stats: totalAbsent || 0,
       icon: <PersonOffIcon />,
-      title: 'Absent Students'
+      title: 'الطلاب الغائبون'
     }
   ]
   const renderStats = () => {
@@ -65,13 +65,8 @@ const StatisticsCard = ({ StudentsData }) => {
     <Card>
       <CardHeader
         sx={{ pb: 7.25, textAlign: 'center' }}
-        title='Attendance Overview'
+        title='نظرة عامة على الحضور'
         titleTypographyProps={{ variant: 'h6' }}
-        action={
-          <IconButton aria-label='settings' className='card-more-options'>
-            <DotsVertical />
-          </IconButton>
-        }
       />
       <CardContent>
         <Grid container spacing={6}>

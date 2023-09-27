@@ -70,6 +70,7 @@ function Events() {
         placeholder={'حدث'}
         dataType={'events'}
         selected={selectedEvents || events}
+        searchdata={{ page: 1, query: '', searched: 'events' }}
       />
       <EventList formInputs={formInputs} toggleConfirm={toggleConfirm} />
       {showAddForm && <SidebarAddEvent open={showAddForm} toggle={toggleAddForm} formInputs={formInputs} />}

@@ -98,9 +98,9 @@ const ExcelUploaderRestrictions = ({ handleUpload }) => {
         <input {...getInputProps()} />
         <Box sx={{ display: 'flex', flexDirection: ['column', 'column', 'row'], alignItems: 'center' }}>
           <Img width={300} alt='Upload img' src='/images/misc/upload.png' />
-          <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: ['center', 'center', 'inherit'] }}>
-            <HeadingTypography variant='h5'>Drop file here or click to upload.</HeadingTypography>
-            <Typography color='textSecondary'>Max 1 file and max size of 2 MB </Typography>
+          <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: 'end', paddingRight: '10px' }}>
+            <HeadingTypography variant='h5'>قم بإسقاط الملف هنا أو انقر للتحميل</HeadingTypography>
+            <Typography color='textSecondary'>ملف واحد بحد أقصى وحجم أقصى 2 ميجابايت </Typography>
           </Box>
         </Box>
       </div>
@@ -109,10 +109,10 @@ const ExcelUploaderRestrictions = ({ handleUpload }) => {
           <List>{fileList}</List>
           <div className='buttons'>
             <Button color='error' variant='outlined' onClick={handleRemoveAllFiles} sx={{ marginRight: '10px' }}>
-              Remove All
+              حذف الكل
             </Button>
             <Button variant='contained' onClick={() => handleUpload(files[0])}>
-              Upload Files
+              تحميل الملفات
             </Button>
           </div>
         </Fragment>

@@ -12,6 +12,7 @@ import Close from 'mdi-material-ui/Close'
 
 // ** Configs
 import themeConfig from 'src/configs/themeConfig'
+import logo from 'public/images/ajyal_logo.png'
 
 // ** Styled Components
 const MenuHeaderWrapper = styled(Box)(({ theme }) => ({
@@ -120,7 +121,9 @@ const VerticalNavHeader = props => {
       ) : (
         <Link href='/' passHref>
           <StyledLink>
-            <svg width={40} fill='none' height={22} viewBox='0 0 268 150' xmlns='http://www.w3.org/2000/svg'>
+            {/* <Logo /> */}
+            <img src={'/images/ajyal_logo.png'} alt='logo' style={{ maxWidth: '32px' }} />
+            {/* <svg width={40} fill='none' height={22} viewBox='0 0 268 150' xmlns='http://www.w3.org/2000/svg'>
               <rect
                 rx='25.1443'
                 width='50.2886'
@@ -189,7 +192,8 @@ const VerticalNavHeader = props => {
                   <stop offset='1' stopOpacity='0' />
                 </linearGradient>
               </defs>
-            </svg>
+            </svg> */}
+
             <HeaderTitle variant='h6' sx={{ ...menuCollapsedStyles, ...(navCollapsed && !navHover ? {} : { ml: 2 }) }}>
               {themeConfig.templateName}
             </HeaderTitle>

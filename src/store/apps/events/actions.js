@@ -68,7 +68,7 @@ export const deleteEvent = createAsyncThunk('appEvent/deleteEvent', async ({ id 
 })
 
 export const deleteMultiEvents = createAsyncThunk(
-  'appEvent/deleteEvent',
+  'appEvent/deleteEvents',
   async (ids, { rejectWithValue, dispatch }) => {
     try {
       const response = await axios.post(`${baseUrl}events/delete`, { ids })

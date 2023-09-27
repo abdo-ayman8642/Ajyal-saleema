@@ -68,7 +68,6 @@ export const attendanceDataSlice = createSlice({
 
   reducers: {
     handleCheckBoxes: (state, { payload }) => {
-      console.log(payload)
       const currentState = { ...state.checkBoxesState, [payload.id]: [payload.session_id, payload.value] }
       state.checkBoxesState = currentState
       state.sessionsList = getCheckedIds(currentState)

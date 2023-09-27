@@ -27,7 +27,6 @@ import { handleSelectedUser } from 'src/store/apps/user'
 
 // ** Custom Components Imports
 import CustomAvatar from 'src/@core/components/mui/avatar'
-import { CircularProgress, Tooltip } from '@mui/material'
 import Permissions from './Permissions'
 
 // ** Styled component for the link for the avatar with image
@@ -60,80 +59,7 @@ const renderClient = row => {
   }
 }
 
-const defaultColumns = [
-  {
-    flex: 0.25,
-    minWidth: 230,
-    field: 'fullName',
-    headerName: 'الإسم',
-    renderCell: ({ row }) => {
-      const { id, name } = row
-
-      return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {renderClient(row)}
-          <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
-            <Typography noWrap component='a' variant='subtitle2' sx={{ color: 'text.primary', textDecoration: 'none' }}>
-              {name}
-            </Typography>
-          </Box>
-        </Box>
-      )
-    }
-  },
-  {
-    flex: 0.25,
-    field: 'email',
-    minWidth: 250,
-    headerName: 'البريد الإلكتروني',
-    renderCell: ({ row }) => {
-      return (
-        <Typography variant='body2' noWrap>
-          {row.email}
-        </Typography>
-      )
-    }
-  },
-  {
-    flex: 0.3,
-    minWidth: 150,
-    headerName: 'رقم الهاتف',
-    field: 'phone',
-    renderCell: ({ row }) => {
-      return (
-        <Typography noWrap variant='subtitle1' sx={{ textTransform: 'capitalize' }}>
-          <a href={`tel: ${row.phone}`}>{row.phone}</a>
-        </Typography>
-      )
-    }
-  },
-  {
-    flex: 0,
-    field: 'role',
-    minWidth: 175,
-    headerName: 'الوظيفة',
-    renderCell: ({ row }) => {
-      return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
-            {row.role === '0' ? 'مسئول مميز' : row.role === '1' ? 'مسئول' : 'متطوع'}
-          </Typography>
-        </Box>
-      )
-    }
-  },
-  {
-    flex: 0,
-    minWidth: 140,
-    field: 'age',
-    headerName: 'السن',
-    renderCell: ({ row }) => {
-      return <Typography>{row.age}</Typography>
-    }
-  }
-]
-
-const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl }) => {
+const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, dataType }) => {
   // stats and variables
   const dispatch = useDispatch()
   const [pageSize, setPageSize] = useState(10)
@@ -141,6 +67,89 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl })
   const users = useSelector(state => state.user?.data?.data?.data)
   const searchedUsers = useSelector(state => state.user?.searchedUsers?.data?.data)
   const loading = useSelector(state => state.user?.searchedUsersLoading)
+
+  const renderAge = type => {
+    if (type !== 'user')
+      return {
+        flex: 0,
+        minWidth: 140,
+        field: 'age',
+        headerName: 'السن',
+        renderCell: ({ row }) => {
+          return <Typography>{row.age}</Typography>
+        }
+      }
+    return {}
+  }
+  const defaultColumns = [
+    {
+      flex: 0.25,
+      minWidth: 230,
+      field: 'fullName',
+      headerName: 'الإسم',
+      renderCell: ({ row }) => {
+        const { id, name } = row
+
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {renderClient(row)}
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+              <Typography
+                noWrap
+                component='a'
+                variant='subtitle2'
+                sx={{ color: 'text.primary', textDecoration: 'none' }}
+              >
+                {name}
+              </Typography>
+            </Box>
+          </Box>
+        )
+      }
+    },
+    {
+      flex: 0.25,
+      field: 'email',
+      minWidth: 250,
+      headerName: 'البريد الإلكتروني',
+      renderCell: ({ row }) => {
+        return (
+          <Typography variant='body2' noWrap>
+            {row.email}
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0.3,
+      minWidth: 150,
+      headerName: 'رقم الهاتف',
+      field: 'phone',
+      renderCell: ({ row }) => {
+        return (
+          <Typography noWrap variant='subtitle1' sx={{ textTransform: 'capitalize' }}>
+            <a href={`tel: ${row.phone}`}>{row.phone}</a>
+          </Typography>
+        )
+      }
+    },
+    {
+      flex: 0,
+      field: 'role',
+      minWidth: 175,
+      headerName: 'الوظيفة',
+      renderCell: ({ row }) => {
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
+              {row.role === '0' ? 'مسئول مميز' : row.role === '1' ? 'مسئول' : 'متطوع'}
+            </Typography>
+          </Box>
+        )
+      }
+    },
+    renderAge(dataType)
+  ]
 
   // ** add actions to default row
   const columns = [
@@ -197,7 +206,7 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl })
             page={currPage - 1}
             autoHeight
             rows={searchedUsers || users}
-            checkboxSelection
+            checkboxSelection={dataType !== 'user'}
             pageSize={pageSize}
             disableSelectionOnClick
             columns={columns}

@@ -58,21 +58,23 @@ const Question = ({ question, exam, setAnswers, answers, studView, id }) => {
     if (routeId) {
       setAnswers(prevState => ({
         ...prevState,
-        answers: [
-          ...avoidDuplicates(prevState.answers, question.id),
-          { question_id: question.id, choice_id: event.target.value }
-        ]
+        answers: [...avoidDuplicates(prevState.answers, question.id), { question_id: question.id, choice_id: value }]
       }))
+      console.log(answers)
     }
   }
 
   const handleRadioChange = event => {
     setError(false)
+    console.log(event.target.value)
+    console.log(answers)
     setValue(event.target.value)
   }
 
   const handleCheckBoxChange = event => {
+    console.log(event.target)
     const { id, checked } = event.target
+    console.log(id, checked)
     setValue(prevState => ({ ...prevState, [id]: checked }))
   }
 
@@ -84,39 +86,6 @@ const Question = ({ question, exam, setAnswers, answers, studView, id }) => {
     await dispatch(deleteQuestion(question.id))
     dispatch(fetchQuestions({ id: exam?.id || id, page: 1 }))
   }
-
-  // if (routeId) {
-  //   return (
-  //     <Box>
-  //       <Typography variant='h6' sx={{ mb: 2 }}>
-  //         {question.content}
-  //       </Typography>
-  //       <FormControl error={error}>
-  //         {question.type === 'single' && (
-  //           <RadioGroup aria-label='quiz' name='quiz' value={value} onChange={handleChange}>
-  //             {question.choices.map((ans, index) => (
-  //               <FormControlLabel key={index} value={ans.id} control={<Radio />} label={ans.content} />
-  //             ))}
-  //           </RadioGroup>
-  //         )}
-  //         {question.type === 'multi' && (
-  //           <StyledFormGroup column>
-  //             {question.choices?.map(q => (
-  //               <FormControlLabel
-  //                 sx={{ justifyContent: 'space-between', marginBottom: '10px' }}
-  //                 label={s.name}
-  //                 control={<Checkbox checked={checkboxValues[q.id] || false} onChange={handleChange} id={q.id} />}
-  //                 key={q.id}
-  //               />
-  //             ))}
-  //           </StyledFormGroup>
-  //         )}
-
-  //         <FormHelperText>{helperText}</FormHelperText>
-  //       </FormControl>
-  //     </Box>
-  //   )
-  // }
 
   return (
     <Box sx={{ width: '100%' }}>

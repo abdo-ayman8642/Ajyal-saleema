@@ -1,6 +1,5 @@
 // ** MUI Imports
-import {Grid, Card, Typography, styled, TextField, CardContent} from '@mui/material'
-
+import { Grid, Card, Typography, styled, TextField, CardContent } from '@mui/material'
 
 const PageHeader = props => {
   // ** Props
@@ -28,18 +27,18 @@ const PageHeader = props => {
     }
   }))
   return (
-      <CustomizedCard>
-        <CardContent sx = {{ minHeight:'200px', p: theme => `${theme.spacing(6.75,7)} !important`}}>
-          <Grid container sx= {{display: 'flex', flexDirection: 'column' }}>
-            <Typography variant='h4' sx={{ mb: 2 }}>
-              {title} {subtitle || null}
-            </Typography>
-            <Grid item> 
-              <CustomizedTextField />
-            </Grid>
-            </Grid>
-        </CardContent>
-      </CustomizedCard>
+    <CustomizedCard>
+      <CardContent sx={{ minHeight: '200px', p: theme => `${theme.spacing(6.75, 7)} !important` }}>
+        <Grid container sx={{ display: 'flex', flexDirection: 'column' }}>
+          <Typography variant='h4' sx={{ mb: 2 }}>
+            {title} {subtitle || null}
+          </Typography>
+          <Grid item>
+            <CustomizedTextField />
+          </Grid>
+        </Grid>
+      </CardContent>
+    </CustomizedCard>
   )
 }
 

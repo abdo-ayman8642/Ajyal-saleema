@@ -5,42 +5,25 @@ import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import { InputAdornment } from '@mui/material'
 import { ExportVariant, Magnify } from 'mdi-material-ui'
-import * as XLSX from 'xlsx'
 import { useDispatch } from 'react-redux'
 import { useDebounce } from 'src/hooks/useDepounce'
+import { searchData } from 'src/store/apps/academicData/actions'
+import { handleSearched, handleSearchedQuery, resetSearchedData } from 'src/store/apps/academicData'
+import { fetchData } from 'src/store/apps/events/actions'
 
-function TableHeader({
-  toggleAdd,
-  toggleConfirm,
-  placeholder,
-  dataType,
-  toggleImpExp,
-  selected,
-  searchData,
-  fetchData,
-  resetSearched,
-  impExp
-}) {
+function TableHeader({ toggleAdd, toggleConfirm, placeholder, dataType, toggleImpExp, selected, searchdata, impExp }) {
   const data = useSelector(state => state[dataType]?.data)
-  console.log(dataType)
   const session_limit = data?.data?.length
-  console.log(session_limit)
   const dispatch = useDispatch()
   const [searchVal, setSearchVal] = useState('')
-
-  const exportToExcel = data => {
-    const worksheet = XLSX.utils.json_to_sheet(data)
-    const workbook = XLSX.utils.book_new()
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Data')
-    XLSX.writeFile(workbook, 'data.xlsx')
-  }
+  const { page, query, searched } = searchdata || {}
 
   const handleSearch = value => {
     if (!value) {
-      dispatch(resetSearched())
+      dispatch(resetSearchedData())
       dispatch(fetchData(1))
     } else {
-      dispatch(searchData(value))
+      dispatch(searchData({ page, query: value, searched }))
     }
   }
 
@@ -48,6 +31,7 @@ function TableHeader({
 
   const handleInputChange = e => {
     const value = e.target.value
+    dispatch(handleSearchedQuery(value))
     setSearchVal(value)
     debouncedSearch(value)
   }
@@ -87,27 +71,30 @@ function TableHeader({
           </>
         )}
 
-        {selected?.length > 1 && (
+        {dataType !== 'user' && selected?.length > 1 && (
           <Button sx={{ mb: 2, fontSize: '1rem', fontWeight: 'bold' }} onClick={toggleConfirm} variant='contained'>
             مسح الكل
           </Button>
         )}
       </Box>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-        <TextField
-          size='small'
-          value={searchVal}
-          sx={{ mr: 6, mb: 2 }}
-          placeholder={`ابحث ${placeholder || ''}`}
-          onChange={handleInputChange}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position='start'>
-                <Magnify />
-              </InputAdornment>
-            )
-          }}
-        />
+        {dataType !== 'sessions' && dataType !== 'user' && (
+          <TextField
+            size='small'
+            value={searchVal}
+            sx={{ mr: 6, mb: 2 }}
+            placeholder={`ابحث ${placeholder || ''}`}
+            onChange={handleInputChange}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position='start'>
+                  <Magnify />
+                </InputAdornment>
+              )
+            }}
+          />
+        )}
+
         <Button
           sx={{ mb: 2, fontSize: '1rem', fontWeight: 'bold' }}
           onClick={toggleAdd}

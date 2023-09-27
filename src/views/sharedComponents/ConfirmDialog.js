@@ -22,6 +22,7 @@ function ConfirmDialog({ open, toggle, loading, confirmationType, selected, dele
     } else {
       dispatch(deleteSingle(selected))
     }
+    selected = null
     toggle()
   }
 

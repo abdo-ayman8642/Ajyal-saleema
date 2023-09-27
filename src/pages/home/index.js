@@ -85,10 +85,12 @@ const Home = () => {
   }
 
   const sessionsData = {
-    totalAttendance: dashboardStats?.Total_Present_Students,
-    totalAbsence: dashboardStats?.total_Missed_Students,
+    totalAttendance: dashboardStats?.Total_Attendance[0]?.Total_Present_Students,
+    totalAbsence: dashboardStats?.Total_Attendance[0]?.Total_Missed_Students,
     totalSessions: dashboardStats?.sessions_numbers,
-    totalParticipation: dashboardStats?.Total_Present_Students + dashboardStats?.total_Missed_Students
+    totalParticipation:
+      dashboardStats?.Total_Attendance[0]?.Total_Present_Students +
+      dashboardStats?.Total_Attendance[0]?.Total_Missed_Students
   }
 
   const classData = {
@@ -139,7 +141,7 @@ const Home = () => {
       <Grid item xs={12} lg={3}>
         <CardStatsCharacter data={studentsData} />
       </Grid>
-      {dashboardStats?.exams_results?.map(exam => (
+      {/* {dashboardStats?.exams_results?.map(exam => (
         <Grid item xs={12} lg={2} key={exam.id}>
           <CardStatsDonutChart
             title={exam.name}
@@ -148,7 +150,7 @@ const Home = () => {
             total={exam.failure_exam_students_numbers + exam.success_exam_students_numbers}
           />
         </Grid>
-      ))}
+      ))} */}
 
       <Grid item xs={12} lg={5}>
         <CardStatsOrdersImpressions data={sessionsData} />

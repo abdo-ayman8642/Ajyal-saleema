@@ -293,6 +293,8 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
   const deleteAction = handleActions('delete', formType)
   const selected = useSelector(state => state.academicData?.selectedData)
 
+  console.log(data)
+
   /****************** columns Actions *****************/
 
   const toggleAttendance = row => {
@@ -301,26 +303,31 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
     dispatch(handleSelectedStudent(row))
   }
 
+  const renderControls = type => {
+    console.log(type)
+    if (type !== 'govs' && type !== 'grades')
+      return {
+        flex: 0.12,
+        minWidth: 50,
+        sorDataTable: false,
+        field: 'actions',
+        headerName: 'التحكم',
+        renderCell: ({ row }) => (
+          <Box sx={{ display: 'flex' }}>
+            <IconButton onClick={() => onClickEdit(row)} sx={{ ml: '-10px' }}>
+              <ModeEditOutlineIcon sx={{ cursor: 'pointer', color: '#ddbb24' }} />
+            </IconButton>
+            <IconButton onClick={() => onClickDelete(row)}>
+              <DeleteIcon sx={{ cursor: 'pointer', color: 'red' }} />
+            </IconButton>
+          </Box>
+        )
+      }
+    return {}
+  }
   const columns = [
     ...handleDefaultColumns(dataName, pathname, pastRoute, handleClickStudent, formType, toggleAttendance),
-
-    {
-      flex: 0.12,
-      minWidth: 50,
-      sorDataTable: false,
-      field: 'actions',
-      headerName: 'التحكم',
-      renderCell: ({ row }) => (
-        <Box sx={{ display: 'flex' }}>
-          <IconButton onClick={() => onClickEdit(row)} sx={{ ml: '-10px' }}>
-            <ModeEditOutlineIcon sx={{ cursor: 'pointer', color: '#ddbb24' }} />
-          </IconButton>
-          <IconButton onClick={() => onClickDelete(row)}>
-            <DeleteIcon sx={{ cursor: 'pointer', color: 'red' }} />
-          </IconButton>
-        </Box>
-      )
-    }
+    renderControls(formType)
   ]
 
   /****************** Functions *****************/
@@ -360,9 +367,11 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
                 : searchedData?.current_page - 1 || data?.current_page - 1 || 0
             }
             rows={
-              formType === 'students' ? searchedData?.data.data || data?.data.data : searchedData?.data || data?.data
+              formType === 'students'
+                ? searchedData?.data.data || data?.data.data
+                : searchedData?.data || data?.data || data
             }
-            checkboxSelection
+            checkboxSelection={!(formType === 'govs' || formType === 'grades' || formType === 'administrations')}
             pageSize={searchedData?.per_page || data?.per_page || pageSize}
             columns={columns}
             pagination
@@ -377,6 +386,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
             rowsPerPageOptions={[10, 25, 50]}
             onPageChange={newPage => handlePageChange(newPage + 1)}
             sx={{ '& .MuiDataGrid-columnHeaders': { borderRadius: 0 } }}
+            hideFooterPagination={formType === 'govs' || formType === 'grades'}
           />
         </Card>
       </Grid>

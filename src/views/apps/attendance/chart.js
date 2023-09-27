@@ -32,7 +32,7 @@ const ApexChart = () => {
         width: 380,
         type: 'pie'
       },
-      labels: ['Attendance', 'Absence'],
+      labels: ['حضور', 'غياب'],
       responsive: [
         {
           breakpoint: 480,
@@ -50,8 +50,16 @@ const ApexChart = () => {
   }
   const sessions_ids_list = useSelector(state => state.attendance.sessionsList)
   const currInput = useSelector(state => state.attendance.currentInput)
+
   useEffect(() => {
     fecthAttendance()
+    const timerId = setTimeout(() => {
+      setChartState(prev => prev)
+    }, 300)
+    return () => {
+      // Clear the timer to prevent validation after unmounting
+      clearTimeout(timerId)
+    }
   }, [sessions_ids_list, currInput])
 
   const fecthAttendance = async () => {

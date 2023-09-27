@@ -10,13 +10,10 @@ import { handleActions } from 'src/helperFunctions/academicDataActions'
 import { academicDataInputs } from 'src/helperFunctions/AcademicDataInputs'
 import { Magnify } from 'mdi-material-ui'
 import { useDebounce } from 'src/hooks/useDepounce'
-import { resetSearchedStudents } from 'src/store/apps/student'
-import { handleSearched, handleSearchedQuery, resetSearchedData } from 'src/store/apps/academicData'
+import { handleSearchedQuery, resetSearchedData } from 'src/store/apps/academicData'
 import { searchData } from 'src/store/apps/academicData/actions'
-import DescriptionIcon from '@mui/icons-material/Description'
 import FileDownloadIcon from '@mui/icons-material/FileDownload'
 import UploadIcon from '@mui/icons-material/Upload'
-import XLSX from 'xlsx'
 import axios from 'axios'
 import ExcelUploaderRestrictions from './importExcel'
 import { filterBy } from 'src/store/apps/academicData/actions'
@@ -29,6 +26,7 @@ const style = {
 
   bgcolor: 'background.paper',
   border: 'none',
+  borderRadius: '15px',
   boxShadow: 24,
   p: 4,
   '&:hover': {
@@ -58,7 +56,6 @@ function TableHeader({ title, formType, showDrawer, setDrawer, addData, placehol
 
       const pathUrl = query === 'school_camp' ? `${baseUrl}student/camp/import` : `${baseUrl}student/import`
       try {
-        // Replace 'your-api-endpoint' with your actual API endpoint
         const response = await axios.post(pathUrl, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
@@ -174,7 +171,7 @@ function TableHeader({ title, formType, showDrawer, setDrawer, addData, placehol
                 }
               }}
             >
-              Import your students sheet
+              رفع ملف الطلاب
             </Typography>
 
             <ExcelUploaderRestrictions handleUpload={handleUpload} />
@@ -186,24 +183,27 @@ function TableHeader({ title, formType, showDrawer, setDrawer, addData, placehol
           {title}
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <TextField
-            size='small'
-            value={searchVal}
-            sx={{ mr: 6, mb: 2 }}
-            placeholder={`ابحث عن ${placeholder || ''}`}
-            onChange={handleInputChange}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position='start'>
-                  <Magnify />
-                </InputAdornment>
-              )
-            }}
-          />
-
-          <Button sx={{ mb: 2, fontSize: '1rem', fontWeight: 'bold' }} onClick={toggle} variant='contained'>
-            إضافة
-          </Button>
+          {formType !== 'govs' && formType !== 'grades' && (
+            <TextField
+              size='small'
+              value={searchVal}
+              sx={{ mr: 6, mb: 2 }}
+              placeholder={`ابحث عن ${placeholder || ''}`}
+              onChange={handleInputChange}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position='start'>
+                    <Magnify />
+                  </InputAdornment>
+                )
+              }}
+            />
+          )}
+          {formType !== 'govs' && formType !== 'grades' && (
+            <Button sx={{ mb: 2, fontSize: '1rem', fontWeight: 'bold' }} onClick={toggle} variant='contained'>
+              إضافة
+            </Button>
+          )}
 
           {formType === 'students' && (
             <>

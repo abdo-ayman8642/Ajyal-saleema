@@ -12,6 +12,27 @@ import FormHelperText from '@mui/material/FormHelperText'
 import { useSelector, useDispatch } from 'react-redux'
 import { resetFromIndexToLast, setField, setCurrentInput } from 'src/store/apps/attendance'
 
+const translatecorrespondingarabic = label => {
+  switch (label) {
+    case 'Year':
+      return 'سنة'
+    case 'Governorate':
+      return 'محافظة'
+    case 'Administration':
+      return 'إدارة'
+    case 'School':
+      return 'مدرسة'
+    case 'Grade':
+      return 'صف'
+    case 'Class':
+      return 'فصل'
+    case 'Camp':
+      return 'معسكر'
+    default:
+      return ''
+  }
+}
+
 function Selectors() {
   const dispatch = useDispatch()
   const data = useSelector(state => state.attendance.formData)
@@ -81,17 +102,17 @@ function Selectors() {
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       {data.map((item, index) => (
         <FormControl disabled={item.disabledAtt} sx={{ padding: '10px 0' }} key={tagKeys[index]}>
-          <InputLabel id='demo-simple-select-helper-label'>{item.fieldName}</InputLabel>
+          <InputLabel id='demo-simple-select-helper-label'>{translatecorrespondingarabic(item.fieldName)}</InputLabel>
           <Select
-            label={item.fieldName}
+            label={translatecorrespondingarabic(item.fieldName)}
             defaultValue=''
             id='demo-simple-select-helper'
             labelId='demo-simple-select-helper-label'
             onChange={e => handleSelected(e, index, item)}
           >
-            {/* <MenuItem value=''>
+            <MenuItem value=''>
               <em>None</em>
-            </MenuItem> */}
+            </MenuItem>
             {item.items.map(i => (
               <MenuItem key={uuidv4()} value={i} id={index}>
                 {i[1]}

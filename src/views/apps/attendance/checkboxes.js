@@ -20,9 +20,7 @@ function Checkboxes() {
   useEffect(() => {
     dispatch(fetchData())
   }, [dispatch])
-  console.log(sessions)
-  console.log(checkBoxesState)
-  console.log(list)
+
   return (
     <FormGroup row sx={{ display: 'flex', justifyContent: 'center' }}>
       {sessions?.map((session, index) => (
