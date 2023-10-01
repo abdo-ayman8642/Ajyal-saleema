@@ -22,14 +22,7 @@ const CardStatsOrdersImpressions = ({ data }) => {
       <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <Box>
           <Box>
-            <Typography sx={{ mb: 1.5, fontWeight: 600, whiteSpace: 'nowrap' }}>الحصص</Typography>
-            <CustomChip
-              skin='light'
-              size='small'
-              label='هذا العام - 2023'
-              color='primary'
-              sx={{ mb: 5.5, height: 20, fontWeight: 500, fontSize: '0.75rem' }}
-            />
+            <Typography sx={{ mb: 'auto', fontWeight: 600, whiteSpace: 'nowrap' }}>الحصص</Typography>
           </Box>
           <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 8 }}>
             <Box

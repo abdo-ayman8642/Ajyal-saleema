@@ -59,7 +59,6 @@ const SimpleAddDrawer = props => {
         ? {
             name: data.name,
             gender: data.gender,
-            birthdate: data.date,
             ...addData
           }
         : formType === 'schools' || formType === 'govs' || formType === 'administrations' || formType === 'camps'

@@ -44,7 +44,7 @@ function CampsData() {
         <Grid container>
           <Grid item xs={12}>
             <TableHeader
-              title={'الكامبات'}
+              title={'المعسكرات'}
               formType={'camps'}
               showDrawer={showDrawer}
               setDrawer={setDrawer}
@@ -53,7 +53,7 @@ function CampsData() {
           </Grid>
           <Grid item xs={12}>
             <DataTable
-              dataName={'الكامب'}
+              dataName={'المعسكر'}
               formType={'camps'}
               storeData={'camps'}
               pathname={`camp/student`}

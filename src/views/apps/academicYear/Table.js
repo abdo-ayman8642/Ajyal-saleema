@@ -61,28 +61,59 @@ const renderClient = row => {
 }
 
 const handleDefaultColumns = (name, pathname, pastRoute, handleClick, formType, toggle) => {
-  const attendanceColumn = {
-    flex: 0.7,
-    minWidth: 50,
-    field: 'attendance',
-    headerName: 'الحضور',
-    renderCell: ({ row }) => {
-      const { id, name } = row
+  const attendanceColumn = [
+    {
+      flex: 0.3,
+      minWidth: 50,
+      field: 'attendance',
+      headerName: 'الحضور',
+      renderCell: ({ row }) => {
+        const { id, name } = row
 
-      return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
-            <Typography noWrap component='a' variant='subtitle2' sx={{ color: 'text.primary', textDecoration: 'none' }}>
-              {row.total_attendance}
-            </Typography>
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+              <Typography
+                noWrap
+                component='a'
+                variant='subtitle2'
+                sx={{ color: 'text.primary', textDecoration: 'none' }}
+              >
+                {row.total_attendance}
+              </Typography>
+            </Box>
           </Box>
-        </Box>
-      )
+        )
+      }
+    },
+    {
+      flex: 0.3,
+      minWidth: 50,
+      sorDataTable: false,
+      field: 'teacher',
+      headerName: 'المعلم',
+      renderCell: ({ row }) => {
+        console.log(row)
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+              <Typography
+                noWrap
+                component='a'
+                variant='subtitle2'
+                sx={{ color: 'text.primary', textDecoration: 'none' }}
+              >
+                {row?.teacher}
+              </Typography>
+            </Box>
+          </Box>
+        )
+      }
     }
-  }
+  ]
 
   const codeColumn = {
-    flex: 0.7,
+    flex: 0.5,
     minWidth: 50,
     field: 'code',
     headerName: 'الكود',
@@ -146,7 +177,7 @@ const handleDefaultColumns = (name, pathname, pastRoute, handleClick, formType, 
       flex: 0.2,
       minWidth: 50,
       field: 'camp',
-      headerName: 'الكامب',
+      headerName: 'المعسكر',
       renderCell: ({ row }) => {
         const { id, name } = row
 
@@ -175,7 +206,7 @@ const handleDefaultColumns = (name, pathname, pastRoute, handleClick, formType, 
                 variant='subtitle2'
                 sx={{ color: 'text.primary', textDecoration: 'none' }}
               >
-                الكامب
+                المعسكر
               </Typography>
             </Link>
           </Box>
@@ -258,8 +289,8 @@ const handleDefaultColumns = (name, pathname, pastRoute, handleClick, formType, 
   ]
 
   if (formType === 'classes') {
-    defaultColumns.push(attendanceColumn)
-    return defaultColumns
+    const classCol = [...defaultColumns, ...attendanceColumn]
+    return classCol
   }
   if (formType === 'schools' || formType === 'govs' || formType === 'camps') {
     defaultColumns.push(codeColumn)
@@ -303,6 +334,32 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
     dispatch(handleSelectedStudent(row))
   }
 
+  const renderTeacher = type => {
+    if (type === 'camps')
+      return {
+        flex: 0.3,
+        minWidth: 50,
+        sorDataTable: false,
+        field: 'teacher',
+        headerName: 'المعلم',
+        renderCell: ({ row }) => (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+              <Typography
+                noWrap
+                component='a'
+                variant='subtitle2'
+                sx={{ color: 'text.primary', textDecoration: 'none' }}
+              >
+                {row?.teacher}
+              </Typography>
+            </Box>
+          </Box>
+        )
+      }
+    return {}
+  }
+
   const renderControls = type => {
     console.log(type)
     if (type !== 'govs' && type !== 'grades')
@@ -327,6 +384,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
   }
   const columns = [
     ...handleDefaultColumns(dataName, pathname, pastRoute, handleClickStudent, formType, toggleAttendance),
+    renderTeacher(formType),
     renderControls(formType)
   ]
 

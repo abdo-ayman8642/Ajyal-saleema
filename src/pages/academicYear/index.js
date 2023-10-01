@@ -40,7 +40,7 @@ function AcademicYear() {
         <Grid container>
           <Grid item xs={12}>
             <TableHeader
-              title={'الأعوام الدراسية'}
+              title={'السنة التنفيذية'}
               formType={'years'}
               showDrawer={showYearDrawer}
               setDrawer={setYearDrawer}

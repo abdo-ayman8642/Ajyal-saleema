@@ -176,7 +176,7 @@ const StudentList = ({ handleSelectedStudent, toggleDialog, toggleEditForm, hand
       minWidth: 100,
       sortable: false,
       field: 'camp',
-      headerName: 'الكامب',
+      headerName: 'المعسكر',
       renderCell: ({ row }) => (
         <Box sx={{ display: 'flex', ml: '-10px' }}>
           <StatusChip status={row.has_camp} />

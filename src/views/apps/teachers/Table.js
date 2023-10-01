@@ -16,7 +16,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline'
 
 // ** Icons Imports
-
+import AddBoxIcon from '@mui/icons-material/AddBox'
 // ** teachers Imports
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -24,6 +24,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import CustomAvatar from 'src/@core/components/mui/avatar'
 import { SchoolOutline } from 'mdi-material-ui'
 import { handleSelectedTeacher } from 'src/store/apps/teachers'
+import SidebarAddTeacher from './DrawerAdd'
 
 // ** Styled component for the link for the avatar with image
 const AvatarWithImageLink = styled(Link)(({ theme }) => ({
@@ -85,7 +86,7 @@ const defaultColumns = [
   }
 ]
 
-const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm }) => {
+const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssign }) => {
   // stats and variables
   const dispatch = useDispatch()
   const [pageSize, setPageSize] = useState(10)
@@ -114,6 +115,14 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm }) => {
           >
             <DeleteIcon />
           </IconButton>
+          <IconButton
+            sx={{ cursor: 'pointer', color: 'green' }}
+            onClick={() => {
+              onClickAdd(row)
+            }}
+          >
+            <AddBoxIcon />
+          </IconButton>
         </Box>
       )
     }
@@ -125,6 +134,11 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm }) => {
   const onClickEdit = row => {
     toggleEditForm()
     dispatch(handleSelectedTeacher(row))
+  }
+  const onClickAdd = row => {
+    console.log(row)
+    const { id, name } = row
+    toggleAssign(id, name)
   }
 
   // handle Delete user & multi delete

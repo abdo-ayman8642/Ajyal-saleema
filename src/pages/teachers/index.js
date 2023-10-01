@@ -24,6 +24,8 @@ import DialogEditForm from 'src/views/apps/teachers/EditDialogForm'
 function Teachers() {
   // main variables
   const [showForm, setShowForm] = useState(false)
+  const [currentTeacherData, setcurrentTeacherData] = useState(null)
+  const [ShowAssignForm, setShowAssignForm] = useState(false)
   const dispatch = useDispatch()
   const loading = useSelector(state => state.teachers?.dataLoading)
   const [showDialog, setShowDialog] = useState(false)
@@ -60,6 +62,12 @@ function Teachers() {
 
   // handle toggle Drawers
   const toggleAddForm = () => {
+    setcurrentTeacherData(null)
+    setShowForm(!showForm)
+  }
+
+  const toggleAssign = (id, name) => {
+    setcurrentTeacherData([id, name])
     setShowForm(!showForm)
   }
 
@@ -99,9 +107,14 @@ function Teachers() {
           selected={selectedTeacher}
         />
       </Grid>
-      <TeachersList toggleAddForm={toggleAddForm} toggleDialog={toggleDialog} toggleEditForm={toggleEditForm} />
+      <TeachersList
+        toggleAddForm={toggleAddForm}
+        toggleDialog={toggleDialog}
+        toggleEditForm={toggleEditForm}
+        toggleAssign={toggleAssign}
+      />
 
-      <SidebarAddTeachers open={showForm} toggle={setShowForm} formInputs={formInputs} />
+      <SidebarAddTeachers open={showForm} toggle={setShowForm} formInputs={formInputs} teacherId={currentTeacherData} />
 
       <ConfirmDialog
         toggle={toggleDialog}

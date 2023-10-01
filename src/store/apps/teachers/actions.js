@@ -18,9 +18,36 @@ export const fetchData = createAsyncThunk('appTeachers/fetchData', async (page, 
   }
 })
 
+// Assign teacher
+
+export const assignTeacher = createAsyncThunk(
+  'appTeacher/assignTeacher',
+  async ({ data }, { rejectWithValue, dispatch }) => {
+    console.log(data)
+
+    try {
+      const response = await axios.post(`${baseUrl}teachers/assign`, JSON.stringify(data), {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      dispatch(fetchData())
+
+      return response
+    } catch (err) {
+      if (!err.response.ok) {
+        throw err
+      }
+
+      return rejectWithValue(err.response.data)
+    }
+  }
+)
 // ** Add Teacher * /
 
 export const addTeacher = createAsyncThunk('appTeacher/addTeacher', async ({ data }, { rejectWithValue, dispatch }) => {
+  console.log(data)
+
   try {
     const response = await axios.post(`${baseUrl}teachers`, JSON.stringify(data), {
       headers: {

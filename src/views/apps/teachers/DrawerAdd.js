@@ -26,7 +26,7 @@ import Close from 'mdi-material-ui/Close'
 import { useDispatch, useSelector } from 'react-redux'
 import { handleSelectedTeacher } from 'src/store/apps/teachers'
 import FormDate from 'src/views/sharedComponents/FormDate'
-import { addTeacher } from 'src/store/apps/teachers/actions'
+import { addTeacher, assignTeacher } from 'src/store/apps/teachers/actions'
 import {
   fetchAdministrations,
   fetchClasses,
@@ -62,7 +62,6 @@ const schema = yup.object().shape({
     .string()
     .min(3, obj => showErrors('First Name', obj.value.length, obj.min))
     .required('Please enter a valid name'),
-  birthDate: yup.date(),
   year: yup.string().required(),
   gov: yup.string().required(),
   administr: yup.string().required(),
@@ -87,7 +86,8 @@ const defaultValues = {
 
 const SidebarAddTeacher = props => {
   // ** Props
-  const { open, toggle } = props
+  const { open, toggle, teacherId = null } = props
+  console.log(teacherId)
 
   // ** Hooks
   const dispatch = useDispatch()
@@ -119,10 +119,9 @@ const SidebarAddTeacher = props => {
   const grades = useSelector(state => state.academicData?.grades?.data)
   const classes = useSelector(state => state.academicData?.classes?.data)
   const selectedClass = watch('class')
-  const nameref = useRef(null)
   const genderref = useRef(0)
-  const typeref = useRef(0)
   const [text, setText] = useState('')
+  const [formData, setFormData] = useState({ type: '', classes: null, schools: null })
 
   useEffect(() => {
     dispatch(fetchYears())
@@ -151,15 +150,20 @@ const SidebarAddTeacher = props => {
   }, [selectedYear, selectedGov, selectedAdminstr, selectedGrade, selectedSchool, selectedType])
 
   //** Functions */
+  const onSubmit = e => {
+    console.log(formData)
 
-  const onSubmit = data => {
-    const schoolType = data.type === 'camp' ? 'school_id' : 'classes'
-    let formData = {
+    const schoolType = formData.type === 'camp' ? 'schools' : 'classes'
+    let formDataInputs = {
       name: text,
-      gender: genderref.current.value
+      teacher_id: teacherId?.[0],
+      gender: genderref?.current?.value,
+      [schoolType]: formData[schoolType]
+
       // [schoolType]: [{ id: data.class }]
     }
-    dispatch(addTeacher({ data: formData }))
+    console.log(formDataInputs)
+    teacherId ? dispatch(assignTeacher({ data: formDataInputs })) : dispatch(addTeacher({ data: formDataInputs }))
     handleClose()
   }
 
@@ -167,6 +171,33 @@ const SidebarAddTeacher = props => {
     dispatch(handleSelectedTeacher(null))
     toggle()
     reset()
+  }
+
+  const updateType = type => {
+    setFormData(prev => {
+      return {
+        ...prev,
+        type
+      }
+    })
+  }
+
+  const updateSchool = schools => {
+    setFormData(prev => {
+      return {
+        ...prev,
+        schools
+      }
+    })
+  }
+
+  const updateClasses = classes => {
+    setFormData(prev => {
+      return {
+        ...prev,
+        classes
+      }
+    })
   }
 
   return (
@@ -179,72 +210,83 @@ const SidebarAddTeacher = props => {
       sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
     >
       <Header>
-        <Typography variant='h6'>Add Teacher</Typography>
+        <Typography variant='h5'>{teacherId ? 'Assign New Class' : 'Add Teacher'}</Typography>
         <Close fontSize='small' onClick={handleClose} sx={{ cursor: 'pointer' }} />
       </Header>
+      {teacherId && (
+        <Typography variant='h7' sx={{ textAlign: 'center' }}>
+          {`Teacher:  `}
+          <span style={{ textDecoration: 'underline' }}>{teacherId && `${teacherId?.[1]}`}</span>
+        </Typography>
+      )}
+
       <Box sx={{ p: 5 }}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FormControl fullWidth sx={{ mb: 6 }}>
-            <Controller
-              name='name'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <TextField
-                  label='Full Name'
-                  onChange={e => {
-                    e.preventDefault()
-                    setText(e.target.value)
-                  }}
-                  placeholder='Enter your name'
-                  value={text}
-                  error={Boolean(errors.fullName)}
+          {!teacherId && (
+            <>
+              <FormControl fullWidth sx={{ mb: 6 }}>
+                <Controller
+                  name='name'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      label='Full Name'
+                      onChange={e => {
+                        e.preventDefault()
+                        setText(e.target.value)
+                      }}
+                      placeholder='Enter your name'
+                      value={text}
+                      error={Boolean(errors.fullName)}
+                    />
+                  )}
                 />
-              )}
-            />
-            {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
-          </FormControl>
+                {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
+              </FormControl>
 
-          <FormControl fullWidth sx={{ mb: 6 }}>
-            <Controller
-              name='birthDate'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <FormDate onChange={onChange} value={value} label={'Birth Date'} />
-              )}
-            />
+              <FormControl fullWidth sx={{ mb: 6 }}>
+                <Controller
+                  name='birthDate'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <FormDate onChange={onChange} value={value} label={'Birth Date'} />
+                  )}
+                />
 
-            {errors.birthDate && (
-              <FormHelperText sx={{ color: 'error.main' }}>{errors.birthDate.message}</FormHelperText>
-            )}
-          </FormControl>
-          <FormControl fullWidth sx={{ mb: 6 }}>
-            <Controller
-              name='gender'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <Box>
-                  <InputLabel id='gender-select-label'>Gender</InputLabel>
-                  <Select
-                    fullWidth
-                    value={value}
-                    id='gender-select'
-                    label='Gender'
-                    labelId='gender-select-label'
-                    inputRef={genderref}
-                    onChange={onChange}
-                    inputProps={{ placeholder: 'Select Gender' }}
-                  >
-                    <MenuItem value='male'>Male</MenuItem>
-                    <MenuItem value='female'>Female</MenuItem>
-                  </Select>
-                </Box>
-              )}
-            />
-            {errors.gender && <FormHelperText sx={{ color: 'error.main' }}>{errors.gender.message}</FormHelperText>}
-          </FormControl>
+                {errors.birthDate && (
+                  <FormHelperText sx={{ color: 'error.main' }}>{errors.birthDate.message}</FormHelperText>
+                )}
+              </FormControl>
+              <FormControl fullWidth sx={{ mb: 6 }}>
+                <Controller
+                  name='gender'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <Box>
+                      <InputLabel id='gender-select-label'>Gender</InputLabel>
+                      <Select
+                        fullWidth
+                        value={value}
+                        id='gender-select'
+                        label='Gender'
+                        labelId='gender-select-label'
+                        inputRef={genderref}
+                        onChange={onChange}
+                        inputProps={{ placeholder: 'Select Gender' }}
+                      >
+                        <MenuItem value='male'>Male</MenuItem>
+                        <MenuItem value='female'>Female</MenuItem>
+                      </Select>
+                    </Box>
+                  )}
+                />
+                {errors.gender && <FormHelperText sx={{ color: 'error.main' }}>{errors.gender.message}</FormHelperText>}
+              </FormControl>
+            </>
+          )}
           <FormControl fullWidth sx={{ mb: 6 }}>
             <Controller
               name='year'
@@ -351,14 +393,27 @@ const SidebarAddTeacher = props => {
                       fullWidth
                       value={value}
                       id='type-select'
-                      inputRef={typeref}
                       label='إختيار النوع'
                       labelId='school-select-label'
                       onChange={onChange}
                       inputProps={{ placeholder: 'إختيار النوع' }}
                     >
-                      <MenuItem value={'camp'}>كامب</MenuItem>
-                      <MenuItem value={'school'}>مدرسة</MenuItem>
+                      <MenuItem
+                        value={'camp'}
+                        onClick={() => {
+                          updateType('camp')
+                        }}
+                      >
+                        كامب
+                      </MenuItem>
+                      <MenuItem
+                        value={'school'}
+                        onClick={() => {
+                          updateType('school')
+                        }}
+                      >
+                        مدرسة
+                      </MenuItem>
                     </Select>
                   </Box>
                 )}
@@ -388,7 +443,7 @@ const SidebarAddTeacher = props => {
                           inputProps={{ placeholder: 'Select school' }}
                         >
                           {schools?.map(s => (
-                            <MenuItem value={s.id} key={s.id}>
+                            <MenuItem value={s.id} key={s.id} onClick={() => updateSchool(s.id)}>
                               {s.name}
                             </MenuItem>
                           ))}
@@ -420,7 +475,7 @@ const SidebarAddTeacher = props => {
                             inputProps={{ placeholder: 'Select school' }}
                           >
                             {schools?.map(s => (
-                              <MenuItem value={s.id} key={s.id}>
+                              <MenuItem value={s.id} key={s.id} onClick={() => updateSchool(s.id)}>
                                 {s.name}
                               </MenuItem>
                             ))}
@@ -483,7 +538,13 @@ const SidebarAddTeacher = props => {
                               inputProps={{ placeholder: 'Select class' }}
                             >
                               {classes?.map(c => (
-                                <MenuItem value={c.id} key={c.id}>
+                                <MenuItem
+                                  value={c.id}
+                                  key={c.id}
+                                  onClick={() => {
+                                    updateClasses(c.id)
+                                  }}
+                                >
                                   {c.name}
                                 </MenuItem>
                               ))}

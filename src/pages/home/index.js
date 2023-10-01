@@ -51,7 +51,7 @@ const Home = () => {
     title: 'الطلاب',
     chipColor: 'primary',
     chipText: 'هذا العام - 2023',
-    src: '/images/cards/card-stats-img-2.png',
+    src: '/images/cards/card-stats-img-3.png',
     stats: dashboardStats?.students_numbers,
     cardImg: '/images/avatars/4.png'
   }

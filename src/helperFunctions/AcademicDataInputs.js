@@ -78,7 +78,7 @@ export const academicDataInputs = formType => {
         formInputs: [
           {
             name: 'name',
-            label: 'الكامب'
+            label: 'المعسكر'
           },
           {
             name: 'code',
@@ -122,11 +122,6 @@ export const academicDataInputs = formType => {
                 label: 'انثي'
               }
             ]
-          },
-          {
-            name: 'date',
-            label: 'تاريخ',
-            type: 'date'
           }
         ],
         title: 'إضافة طالب'
