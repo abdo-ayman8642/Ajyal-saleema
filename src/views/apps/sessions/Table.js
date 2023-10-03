@@ -59,6 +59,25 @@ const renderClient = row => {
 
 const defaultColumns = [
   {
+    flex: 0.05,
+    minWidth: 50,
+    field: 'id',
+    headerName: 'رقم',
+    renderCell: ({ row }) => {
+      const { id } = row
+
+      return (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+            <Typography noWrap component='a' variant='subtitle2' sx={{ color: 'text.primary', textDecoration: 'none' }}>
+              {id}
+            </Typography>
+          </Box>
+        </Box>
+      )
+    }
+  },
+  {
     flex: 0.15,
     minWidth: 120,
     field: 'name',
@@ -108,9 +127,9 @@ const SessionsList = ({ formInputs, toggleConfirm }) => {
           <IconButton onClick={() => onClickEdit(row)} sx={{ ml: '-10px' }}>
             <ModeEditOutlineIcon sx={{ cursor: 'pointer', color: '#ddbb24' }} />
           </IconButton>
-          <IconButton onClick={() => onClickDelete(row)}>
+          {/* <IconButton onClick={() => onClickDelete(row)}>
             <DeleteIcon sx={{ cursor: 'pointer', color: 'red' }} />
-          </IconButton>
+          </IconButton> */}
         </Box>
       )
     }

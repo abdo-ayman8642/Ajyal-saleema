@@ -29,39 +29,39 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(defaultProvider.user)
   const [loading, setLoading] = useState(defaultProvider.loading)
   const [isInitialized, setIsInitialized] = useState(defaultProvider.isInitialized)
+  console.log('inside')
 
   // ** Hooks
   const router = useRouter()
   useEffect(() => {
-    const initAuth = async () => {
-      setIsInitialized(true)
-      const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
-      if (storedToken) {
-        setLoading(true)
-        await axios
-          .get(authConfig.meEndpoint, {
-            headers: {
-              Authorization: `Bearer ${storedToken}`
-            }
-          })
-          .then(async response => {
-            setLoading(false)
-            setUser(prev => ({ ...prev, ...response.data?.data }))
-          })
-          .catch(() => {
-            localStorage.removeItem('userData')
-            localStorage.removeItem('refreshToken')
-            localStorage.removeItem('accessToken')
-            setUser(null)
-            setLoading(false)
-          })
-      } else {
-        setLoading(false)
-      }
-    }
     initAuth()
   }, [])
-
+  const initAuth = async () => {
+    setIsInitialized(true)
+    const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
+    if (storedToken) {
+      setLoading(true)
+      await axios
+        .get(authConfig.meEndpoint, {
+          headers: {
+            Authorization: `Bearer ${storedToken}`
+          }
+        })
+        .then(async response => {
+          setLoading(false)
+          setUser(prev => ({ ...prev, ...response.data?.data }))
+        })
+        .catch(() => {
+          localStorage.removeItem('userData')
+          localStorage.removeItem('refreshToken')
+          localStorage.removeItem('accessToken')
+          setUser(null)
+          setLoading(false)
+        })
+    } else {
+      setLoading(false)
+    }
+  }
   const handleLogin = (params, errorCallback) => {
     axios
       .post(authConfig.loginEndpoint, params)
@@ -115,6 +115,7 @@ const AuthProvider = ({ children }) => {
     setUser,
     setLoading,
     isInitialized,
+    initAuth,
     setIsInitialized,
     login: handleLogin,
     logout: handleLogout,

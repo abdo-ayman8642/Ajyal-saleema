@@ -35,9 +35,12 @@ import { fetchData } from 'src/store/apps/sessions/actions'
 import { getAttendance } from 'src/store/apps/student/actions'
 import { handleSelectedStudent } from 'src/store/apps/student'
 import CheckAttendance from '../students/list/CheckAttendance'
+import attendance from 'src/store/apps/attendance'
+import { Tooltip } from '@mui/material'
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 
 // ** Utils Import
-
+import CardStatsCharacter from 'src/@core/components/card-statistics/card-stats-with-image'
 // ** Styled component for the link for the avatar with image
 const AvatarWithImageLink = styled(Link)(({ theme }) => ({
   marginRight: theme.spacing(3)
@@ -325,6 +328,12 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
   const selected = useSelector(state => state.academicData?.selectedData)
 
   console.log(data)
+  const schoolData = {
+    title: 'المدارس',
+    chipColor: 'primary',
+    src: '/images/pages/misc-under-maintenance.png',
+    cardImg: '/images/school.jpg'
+  }
 
   /****************** columns Actions *****************/
 
@@ -334,6 +343,41 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
     dispatch(handleSelectedStudent(row))
   }
 
+  const makeSessionsDots = attendance => {
+    return Array.from({ length: 12 }, (_, i) => attendance.includes(i + 1))
+  }
+
+  const renderSessionsAttendance = type => {
+    if (type === 'camps' || type === 'classes')
+      return {
+        flex: 0.3,
+        minWidth: 50,
+        sorDataTable: false,
+        field: 'sessionAttendance',
+        headerName: 'حضور الحصص',
+        renderCell: ({ row }) => (
+          <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(6,1fr)', gap: '7px', alignItems: 'center' }}>
+            {makeSessionsDots(row.session_ids).map((i, index) => {
+              const color = i ? 'green' : 'red'
+              return (
+                <Tooltip title={'Session: ' + (index + 1)}>
+                  <div
+                    key={index}
+                    style={{
+                      width: '8px',
+                      height: '8px',
+                      backgroundColor: `${color}`,
+                      borderRadius: '50%'
+                    }}
+                  ></div>
+                </Tooltip>
+              )
+            })}
+          </Box>
+        )
+      }
+    return {}
+  }
   const renderTeacher = type => {
     if (type === 'camps')
       return {
@@ -382,12 +426,16 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
       }
     return {}
   }
-  const columns = [
+  let columns = [
     ...handleDefaultColumns(dataName, pathname, pastRoute, handleClickStudent, formType, toggleAttendance),
+    renderSessionsAttendance(formType),
     renderTeacher(formType),
     renderControls(formType)
   ]
-
+  function isObjectEmpty(obj) {
+    return Object.keys(obj).length === 0
+  }
+  columns = columns.filter(obj => !isObjectEmpty(obj))
   /****************** Functions *****************/
 
   const onClickEdit = row => {
@@ -413,64 +461,77 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
   }
 
   return (
-    <Grid container spacing={6}>
-      <Grid item xs={12} sx={{ maxWidth: '500', minHeight: '400' }}>
-        <Card>
-          <DataGrid
-            sortable={false}
-            autoHeight
-            page={
-              formType === 'students'
-                ? searchedData?.data.current_page - 1 || data?.data.current_page - 1 || 0
-                : searchedData?.current_page - 1 || data?.current_page - 1 || 0
-            }
-            rows={
-              formType === 'students'
-                ? searchedData?.data.data || data?.data.data
-                : searchedData?.data || data?.data || data
-            }
-            checkboxSelection={!(formType === 'govs' || formType === 'grades' || formType === 'administrations')}
-            pageSize={searchedData?.per_page || data?.per_page || pageSize}
-            columns={columns}
-            pagination
-            paginationMode={formType === 'server'}
-            rowCount={
-              formType === 'students'
-                ? searchedData?.data.total || data?.data.total || data?.data?.data.length
-                : searchedData?.total || data?.total || data?.data?.length
-            }
-            disableSelectionOnClick
-            onCellClick={selected => dispatch(handleSelectedData(selected.row))}
-            rowsPerPageOptions={[10, 25, 50]}
-            onPageChange={newPage => handlePageChange(newPage + 1)}
-            sx={{ '& .MuiDataGrid-columnHeaders': { borderRadius: 0 } }}
-            hideFooterPagination={
-              formType === 'govs' || formType === 'grades' || formType === 'schools' || formType === 'camps'
-            }
+    <>
+      <Grid container spacing={6}>
+        <Grid item xs={12} sx={{ maxWidth: '500', minHeight: '400' }}>
+          <Card>
+            <DataGrid
+              sortable={false}
+              autoHeight
+              page={
+                formType === 'students'
+                  ? searchedData?.data.current_page - 1 || data?.data.current_page - 1 || 0
+                  : searchedData?.current_page - 1 || data?.current_page - 1 || 0
+              }
+              rows={
+                formType === 'students'
+                  ? searchedData?.data.data || data?.data.data
+                  : searchedData?.data || data?.data || data
+              }
+              checkboxSelection={
+                !(
+                  formType === 'govs' ||
+                  formType === 'grades' ||
+                  formType === 'administrations' ||
+                  formType === 'classes' ||
+                  formType === 'camps'
+                )
+              }
+              pageSize={searchedData?.per_page || data?.per_page || pageSize}
+              columns={columns}
+              pagination
+              paginationMode={formType === 'server'}
+              rowCount={
+                formType === 'students'
+                  ? searchedData?.data.total || data?.data.total || data?.data?.data.length
+                  : searchedData?.total || data?.total || data?.data?.length
+              }
+              disableSelectionOnClick
+              onCellClick={selected => dispatch(handleSelectedData(selected.row))}
+              rowsPerPageOptions={[10, 25, 50]}
+              onPageChange={newPage => handlePageChange(newPage + 1)}
+              sx={{ '& .MuiDataGrid-columnHeaders': { borderRadius: 0 } }}
+              hideFooterPagination={
+                formType === 'govs' || formType === 'grades' || formType === 'schools' || formType === 'camps'
+              }
+            />
+          </Card>
+        </Grid>
+        {showEdit && (
+          <DialogEditForm
+            formType={formType}
+            toggle={toggleShowEdit}
+            showEdit={showEdit}
+            editAction={editAction}
+            title={dataName}
+            editData={editData}
           />
-        </Card>
-      </Grid>
-      {showEdit && (
-        <DialogEditForm
-          formType={formType}
-          toggle={toggleShowEdit}
-          showEdit={showEdit}
-          editAction={editAction}
-          title={dataName}
-          editData={editData}
-        />
-      )}
+        )}
 
-      <ConfirmDelete
-        open={showConfirm}
-        toggle={toggleConfirm}
-        confirmationType={'مسح العام الدراسي'}
-        deleteAction={deleteAction}
-        selected={selected}
-        fetchData={editData}
-      />
-      <CheckAttendance toggle={toggleAttendance} open={showAttendance} />
-    </Grid>
+        <ConfirmDelete
+          open={showConfirm}
+          toggle={toggleConfirm}
+          confirmationType={'مسح العام الدراسي'}
+          deleteAction={deleteAction}
+          selected={selected}
+          fetchData={editData}
+        />
+        <CheckAttendance toggle={toggleAttendance} open={showAttendance} />
+      </Grid>
+      {/* <div style={{ display: 'flex' }}>
+        <CardStatsCharacter data={schoolData} />
+      </div> */}
+    </>
   )
 }
 

@@ -9,7 +9,7 @@ import { CircularProgress } from '@mui/material'
 
 // hooks
 import { useDispatch, useSelector } from 'react-redux'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 //redux imports
 
@@ -20,6 +20,8 @@ import SidebarAddTeachers from 'src/views/apps/teachers/DrawerAdd'
 import TeachersList from 'src/views/apps/teachers/Table'
 import { deleteMultiTeachers, deleteTeacher, fetchData } from 'src/store/apps/teachers/actions'
 import DialogEditForm from 'src/views/apps/teachers/EditDialogForm'
+import { useAuth } from 'src/hooks/useAuth'
+import { useHistory } from 'react-router-dom'
 
 function Teachers() {
   // main variables
@@ -33,6 +35,37 @@ function Teachers() {
   const selectedTeacher = useSelector(state => state.teachers?.selectedTeacher)
   const [showFileImpExp, setShowFileImpExp] = useState(false)
 
+  const user = useAuth()
+  user.initAuth()
+
+  const previousPermissionsRef = useRef(user?.user?.permissions)
+  useEffect(() => {
+    console.log('checking')
+    console.log(user?.user?.permissions, previousPermissionsRef.current)
+    console.log(JSON.stringify(user?.user?.permissions) !== JSON.stringify(previousPermissionsRef.current))
+    const checkForPermissionChanges = () => {
+      if (JSON.stringify(user?.user?.permissions) !== JSON.stringify(previousPermissionsRef.current)) {
+        // Permissions have changed, so reload the page
+        window.location.reload()
+      }
+    }
+
+    // Check for permission changes when the component mounts
+    checkForPermissionChanges()
+
+    // Listen for permission changes when the component updates
+    const intervalId = setInterval(checkForPermissionChanges, 1000) // Adjust the interval as needed
+
+    return () => {
+      clearInterval(intervalId) // Cleanup the interval when the component unmounts
+    }
+  })
+  const { teachers } = user?.user?.permissions
+
+  const { read, add, edit } = teachers
+  const deletee = teachers?.['delete']
+  console.log(teachers)
+  console.log(read, add, edit, deletee)
   const formInputs = [
     {
       name: 'name',
@@ -105,16 +138,29 @@ function Teachers() {
           toggleImpExp={toggleImpExp}
           placeholder={'الأعضاء'}
           selected={selectedTeacher}
+          permissions={teachers}
         />
       </Grid>
-      <TeachersList
-        toggleAddForm={toggleAddForm}
-        toggleDialog={toggleDialog}
-        toggleEditForm={toggleEditForm}
-        toggleAssign={toggleAssign}
-      />
+      {read ? (
+        <TeachersList
+          toggleAddForm={toggleAddForm}
+          toggleDialog={toggleDialog}
+          toggleEditForm={toggleEditForm}
+          toggleAssign={toggleAssign}
+          permissions={teachers}
+        />
+      ) : (
+        <h1>Don't Have A Permission</h1>
+      )}
 
-      <SidebarAddTeachers open={showForm} toggle={setShowForm} formInputs={formInputs} teacherId={currentTeacherData} />
+      {add && (
+        <SidebarAddTeachers
+          open={showForm}
+          toggle={setShowForm}
+          formInputs={formInputs}
+          teacherId={currentTeacherData}
+        />
+      )}
 
       <ConfirmDialog
         toggle={toggleDialog}

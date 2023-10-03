@@ -24,6 +24,14 @@ const AppBarContent = props => {
 
         <ModeToggler settings={settings} saveSettings={saveSettings} />
       </Box>
+      <div style={{ display: 'flex', gap: '5px' }}>
+        <img
+          src={'/logos/educate_me-multilingual_logo-left_aligned-original_colors-print_cmyk.png'}
+          alt='logo'
+          style={{ width: '150px', height: '45px' }}
+        />
+        <img src={'/logos/N4HK_ARABIC.png'} alt='logo' style={{ width: '150px', height: '45px' }} />
+      </div>
       <Box className='actions-right' sx={{ display: 'flex', alignItems: 'center' }}>
         <UserDropdown settings={settings} />
       </Box>

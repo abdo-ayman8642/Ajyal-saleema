@@ -1,5 +1,5 @@
 // ** React Imports
-import { useEffect, useCallback, useState } from 'react'
+import { useEffect, useCallback, useState, useRef } from 'react'
 
 // ** Next Images
 import Link from 'next/link'
@@ -29,6 +29,7 @@ import { SchoolOutline } from 'mdi-material-ui'
 import { handleSelectedTeacher } from 'src/store/apps/teachers'
 import SidebarAddTeacher from './DrawerAdd'
 import TeacherClasses from '../students/list/TeacherClasses'
+import { useAuth } from 'src/hooks/useAuth'
 
 // ** Styled component for the link for the avatar with image
 const AvatarWithImageLink = styled(Link)(({ theme }) => ({
@@ -90,7 +91,7 @@ const defaultColumns = [
   }
 ]
 
-const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssign }) => {
+const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssign, permissions }) => {
   // stats and variables
   const dispatch = useDispatch()
   const [pageSize, setPageSize] = useState(10)
@@ -98,7 +99,12 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
   const teachers = useSelector(state => state.teachers?.data?.data)
   const [showAttendance, setShowAttendance] = useState(false)
   const [teacherData, setTeacherData] = useState(null)
+  console.log(permissions)
+  const { add, edit } = permissions
+  const deletee = permissions?.['delete']
+  const user = useAuth()
 
+  console.log(add, edit, deletee)
   // add actions column => edit / delete
   const columns = [
     ...defaultColumns,
@@ -110,7 +116,7 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
       headerName: 'الفصول',
       renderCell: ({ row }) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <div style={{ paddingRight: '1rem', fontSize: '1rem', fontWeight: 500, cursor: 'default' }}>
+          <div style={{ padding: '0 1rem', fontSize: '1rem', fontWeight: 500, cursor: 'default' }}>
             {(row?.classes?.length || 0) + (row?.camps?.length || 0)}
           </div>
           <Button
@@ -132,25 +138,31 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
       headerName: 'التحكم',
       renderCell: ({ row }) => (
         <Box sx={{ display: 'flex', gap: '10px', ml: '-15px' }}>
-          <IconButton sx={{ cursor: 'pointer', color: '#ddbb24' }} onClick={() => onClickEdit(row)}>
-            <ModeEditOutlineIcon />
-          </IconButton>
-          <IconButton
-            sx={{ cursor: 'pointer', color: 'red' }}
-            onClick={() => {
-              onClickDelete(row)
-            }}
-          >
-            <DeleteIcon />
-          </IconButton>
-          <IconButton
-            sx={{ cursor: 'pointer', color: 'green' }}
-            onClick={() => {
-              onClickAdd(row)
-            }}
-          >
-            <AddBoxIcon />
-          </IconButton>
+          {edit && (
+            <IconButton sx={{ cursor: 'pointer', color: '#ddbb24' }} onClick={() => onClickEdit(row)}>
+              <ModeEditOutlineIcon />
+            </IconButton>
+          )}
+          {deletee && (
+            <IconButton
+              sx={{ cursor: 'pointer', color: 'red' }}
+              onClick={() => {
+                onClickDelete(row)
+              }}
+            >
+              <DeleteIcon />
+            </IconButton>
+          )}
+          {add && (
+            <IconButton
+              sx={{ cursor: 'pointer', color: 'green' }}
+              onClick={() => {
+                onClickAdd(row)
+              }}
+            >
+              <AddBoxIcon />
+            </IconButton>
+          )}
         </Box>
       )
     }

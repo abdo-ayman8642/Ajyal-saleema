@@ -34,14 +34,14 @@ function TeacherClasses({ toggle, open, data }) {
             <Typography variant='h5'>{name}</Typography>
             <Close fontSize='small' onClick={toggle} sx={{ cursor: 'pointer' }} />
           </Header>
-          {!!classes?.length && <h4 style={{ textAlign: 'center' }}>Classes</h4>}
+          {!!classes?.length && <h4 style={{ textAlign: 'center' }}>فصل</h4>}
 
           {classes?.map(clas => (
             <>
               <ListItem disablePadding key={clas?.id}>
                 <ListItemButton>
                   <ListItemIcon>{/* <Icon icon='mdi:email-outline' fontSize={20} /> */}</ListItemIcon>
-                  <ListItemText primary={`Name of class: ` + clas?.['class name']} />
+                  <ListItemText primary={`اسم الفصل: ` + clas?.['class name']} />
                 </ListItemButton>
               </ListItem>
               <Divider sx={{ m: '0 !important' }} />
@@ -49,7 +49,7 @@ function TeacherClasses({ toggle, open, data }) {
           ))}
           {!!camps?.length && (
             <h4 h4 style={{ textAlign: 'center' }}>
-              Camps
+              معسكر
             </h4>
           )}
 
@@ -58,7 +58,7 @@ function TeacherClasses({ toggle, open, data }) {
               <ListItem disablePadding key={clas?.id}>
                 <ListItemButton>
                   <ListItemIcon>{/* <Icon icon='mdi:email-outline' fontSize={20} /> */}</ListItemIcon>
-                  <ListItemText primary={`Name of camp: ` + clas?.['camp name']} />
+                  <ListItemText primary={`اسم المعسكر: ` + clas?.['camp name']} />
                 </ListItemButton>
               </ListItem>
               <Divider sx={{ m: '0 !important' }} />

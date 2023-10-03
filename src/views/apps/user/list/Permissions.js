@@ -14,11 +14,13 @@ function Permissions({ open, toggle }) {
     backgroundColor: theme.palette.background.default
   }))
 
-   
   /** states & variables */
   const userAuth = useAuth()
+  console.log(userAuth)
+  console.log(userAuth?.user)
+  console.log(userAuth?.user?.permissions)
   const permissionsList = userAuth.user.permissions
-  const permissionsKeys = Object.keys(permissionsList)
+  //const permissionsKeys = Object.keys(permissionsList)
   const permissionsTypes = ['read', 'add', 'delete', 'edit']
 
   return (
@@ -32,7 +34,7 @@ function Permissions({ open, toggle }) {
         '& .MuiDrawer-paper': {
           width: '100%',
           borderTop: 'none',
-          boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+          boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)'
         }
       }}
     >
@@ -43,7 +45,7 @@ function Permissions({ open, toggle }) {
         <Close fontSize='small' onClick={toggle} sx={{ cursor: 'pointer' }} />
       </Header>
       <Grid container spacing={3} sx={{ mt: 5, mb: 5, pl: 5 }}>
-        {permissionsKeys.map((pk, index) => (
+        {permissionsKeys?.map((pk, index) => (
           <AclSwitch key={index} permissionsTypes={permissionsTypes} permissionModule={pk} />
         ))}
       </Grid>

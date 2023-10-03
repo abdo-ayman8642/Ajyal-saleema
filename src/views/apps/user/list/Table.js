@@ -27,6 +27,7 @@ import { handleSelectedUser } from 'src/store/apps/user'
 
 // ** Custom Components Imports
 import CustomAvatar from 'src/@core/components/mui/avatar'
+import { CircularProgress, Tooltip } from '@mui/material'
 import Permissions from './Permissions'
 
 // ** Styled component for the link for the avatar with image
@@ -173,6 +174,15 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, d
           >
             <DeleteIcon />
           </IconButton>
+          <Tooltip title='Icon A'>
+            <IconButton
+              onClick={() => {
+                toggleAcl()
+              }}
+            >
+              <ManageAccountsIcon />
+            </IconButton>
+          </Tooltip>
         </Box>
       )
     }

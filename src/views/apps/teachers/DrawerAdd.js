@@ -247,20 +247,6 @@ const SidebarAddTeacher = props => {
 
               <FormControl fullWidth sx={{ mb: 6 }}>
                 <Controller
-                  name='birthDate'
-                  control={control}
-                  rules={{ required: true }}
-                  render={({ field: { value, onChange } }) => (
-                    <FormDate onChange={onChange} value={value} label={'Birth Date'} />
-                  )}
-                />
-
-                {errors.birthDate && (
-                  <FormHelperText sx={{ color: 'error.main' }}>{errors.birthDate.message}</FormHelperText>
-                )}
-              </FormControl>
-              <FormControl fullWidth sx={{ mb: 6 }}>
-                <Controller
                   name='gender'
                   control={control}
                   rules={{ required: true }}
