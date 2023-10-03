@@ -6,6 +6,7 @@ import Link from 'next/link'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import Grid from '@mui/material/Grid'
 import { DataGrid } from '@mui/x-data-grid'
@@ -17,6 +18,8 @@ import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline'
 
 // ** Icons Imports
 import AddBoxIcon from '@mui/icons-material/AddBox'
+import ChecklistRtlIcon from '@mui/icons-material/ChecklistRtl'
+
 // ** teachers Imports
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -25,6 +28,7 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 import { SchoolOutline } from 'mdi-material-ui'
 import { handleSelectedTeacher } from 'src/store/apps/teachers'
 import SidebarAddTeacher from './DrawerAdd'
+import TeacherClasses from '../students/list/TeacherClasses'
 
 // ** Styled component for the link for the avatar with image
 const AvatarWithImageLink = styled(Link)(({ theme }) => ({
@@ -92,10 +96,34 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
   const [pageSize, setPageSize] = useState(10)
   const selectedTeacher = useSelector(state => state.selectedTeacher)
   const teachers = useSelector(state => state.teachers?.data?.data)
+  const [showAttendance, setShowAttendance] = useState(false)
+  const [teacherData, setTeacherData] = useState(null)
 
   // add actions column => edit / delete
   const columns = [
     ...defaultColumns,
+    {
+      flex: 0.15,
+      minWidth: 120,
+      sortable: false,
+      field: 'teachers',
+      headerName: 'الفصول',
+      renderCell: ({ row }) => (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <div style={{ paddingRight: '1rem', fontSize: '1rem', fontWeight: 500, cursor: 'default' }}>
+            {(row?.classes?.length || 0) + (row?.camps?.length || 0)}
+          </div>
+          <Button
+            variant='contained'
+            color='secondary'
+            startIcon={<ChecklistRtlIcon />}
+            onClick={() => toggleAttendance(row)}
+          >
+            الفصول
+          </Button>
+        </Box>
+      )
+    },
     {
       flex: 0.15,
       minWidth: 120,
@@ -154,6 +182,12 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
   const handleDelete = selected => {
     dispatch(handleSelectedTeacher([...selected]))
   }
+  const toggleAttendance = row => {
+    //dispatch(getAttendance(row.id))
+    setTeacherData(row)
+    setShowAttendance(!showAttendance)
+    //dispatch(handleSelectedStudent(row))
+  }
 
   return (
     <Grid container spacing={6}>
@@ -172,6 +206,7 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
           />
         </Card>
       </Grid>
+      <TeacherClasses toggle={toggleAttendance} open={showAttendance} data={teacherData} />
     </Grid>
   )
 }

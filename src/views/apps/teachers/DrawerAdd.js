@@ -115,7 +115,7 @@ const SidebarAddTeacher = props => {
   const years = useSelector(state => state.academicData?.years?.data)
   const govs = useSelector(state => state.academicData?.govs?.data)
   const administration = useSelector(state => state.academicData?.administrations?.data)
-  const schools = useSelector(state => state.academicData?.schools?.data)
+  const schools = useSelector(state => state.academicData?.schools)
   const grades = useSelector(state => state.academicData?.grades?.data)
   const classes = useSelector(state => state.academicData?.classes?.data)
   const selectedClass = watch('class')

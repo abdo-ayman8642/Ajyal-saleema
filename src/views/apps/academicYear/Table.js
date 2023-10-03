@@ -444,7 +444,9 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
             rowsPerPageOptions={[10, 25, 50]}
             onPageChange={newPage => handlePageChange(newPage + 1)}
             sx={{ '& .MuiDataGrid-columnHeaders': { borderRadius: 0 } }}
-            hideFooterPagination={formType === 'govs' || formType === 'grades'}
+            hideFooterPagination={
+              formType === 'govs' || formType === 'grades' || formType === 'schools' || formType === 'camps'
+            }
           />
         </Card>
       </Grid>
