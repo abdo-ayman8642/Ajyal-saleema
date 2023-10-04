@@ -10,57 +10,76 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import HowToRegIcon from '@mui/icons-material/HowToReg'
 import EventIcon from '@mui/icons-material/Event'
 
-const navigation = () => [
-  {
-    title: 'الرئيسية',
-    icon: HomeOutline,
-    path: '/home'
-  },
-  {
-    title: 'الأعوام الدراسية',
-    icon: CalendarMonthIcon,
-    path: '/academicYear'
-  },
-  {
-    title: 'الأعضاء',
-    icon: PeopleAltIcon,
-    path: '/users'
-  },
-  // {
-  //   title: 'الطلاب',
-  //   icon: SchoolIcon,
-  //   path: '/student'
-  // },
-  {
-    title: 'الحصص',
-    icon: ClassIcon,
-    path: '/sessions'
-  },
-  {
-    title: 'الأحداث',
-    icon: EventIcon,
-    path: '/events'
-  },
-  // {
-  //   title: 'التقارير',
-  //   icon: SummarizeIcon,
-  //   path: '/reports'
-  // },
-  {
-    title: 'المدرسين',
-    icon: NoteAltIcon,
-    path: '/teachers'
-  },
-  {
-    title: 'الإختبارات',
-    icon: QuizIcon,
-    path: '/exams'
-  },
-  {
-    title: 'الحضور',
-    icon: HowToRegIcon,
-    path: '/attendance'
-  }
-]
+const navigation = () => {
+  const user = useAuth()
+  const role = user?.user?.role
+  const volNav = [
+    {
+      title: 'الرئيسية',
+      icon: HomeOutline,
+      path: '/home'
+    },
+    {
+      title: 'الأعوام الدراسية',
+      icon: CalendarMonthIcon,
+      path: '/academicYear'
+    }
+  ]
+  const normalNav = [
+    {
+      title: 'الرئيسية',
+      icon: HomeOutline,
+      path: '/home'
+    },
+    {
+      title: 'الأعوام الدراسية',
+      icon: CalendarMonthIcon,
+      path: '/academicYear'
+    },
+
+    {
+      title: 'الأعضاء',
+      icon: PeopleAltIcon,
+      path: '/users'
+    },
+    // {
+    //   title: 'الطلاب',
+    //   icon: SchoolIcon,
+    //   path: '/student'
+    // },
+    {
+      title: 'الحصص',
+      icon: ClassIcon,
+      path: '/sessions'
+    },
+    {
+      title: 'الأحداث',
+      icon: EventIcon,
+      path: '/events'
+    },
+    // {
+    //   title: 'التقارير',
+    //   icon: SummarizeIcon,
+    //   path: '/reports'
+    // },
+    {
+      title: 'المدرسين',
+      icon: NoteAltIcon,
+      path: '/teachers'
+    },
+    {
+      title: 'الإختبارات',
+      icon: QuizIcon,
+      path: '/exams'
+    },
+    {
+      title: 'الحضور',
+      icon: HowToRegIcon,
+      path: '/attendance'
+    }
+  ]
+  const usedNav = role != 2 ? normalNav : volNav
+  return [...usedNav]
+}
 
 export default navigation

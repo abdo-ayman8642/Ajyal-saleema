@@ -8,6 +8,7 @@ import CreateExam from 'src/views/apps/exam/CreateExam'
 import PageHeader from 'src/views/apps/exam/PageHeader'
 import TabsCentered from 'src/views/apps/exam/TabsCentered'
 import * as yup from 'yup'
+import { useAuth } from 'src/hooks/useAuth'
 
 function Exams() {
   //** stats && variables */
@@ -15,7 +16,8 @@ function Exams() {
   const loading = useSelector(state => state.exams?.dataLoading)
   const exams = useSelector(state => state?.exams?.data?.data)
   const [showAdd, setShowAdd] = useState(false)
-
+  const user = useAuth()
+  const role = user?.user?.role
   useEffect(() => {
     dispatch(fetchData())
   }, [dispatch])
@@ -75,25 +77,31 @@ function Exams() {
   }
 
   return (
-    <Grid container>
-      <Grid item xs={12} md={12}>
-        <PageHeader toggleAdd={toggleAdd} />
-      </Grid>
-      <Grid item xs={12} md={12}>
-        <TabsCentered exams={exams} />
-      </Grid>
-      {showAdd && (
-        <AddExam
-          toggle={toggleAdd}
-          open={showAdd}
-          formInputs={formInputs}
-          handleClose={handleClose}
-          customizeSubmit={customizeSubmit}
-          schemaObj={schemaObj}
-          title={'إضافة امتحان'}
-        />
+    <>
+      {role != 2 ? (
+        <Grid container>
+          <Grid item xs={12} md={12}>
+            <PageHeader toggleAdd={toggleAdd} />
+          </Grid>
+          <Grid item xs={12} md={12}>
+            <TabsCentered exams={exams} />
+          </Grid>
+          {showAdd && (
+            <AddExam
+              toggle={toggleAdd}
+              open={showAdd}
+              formInputs={formInputs}
+              handleClose={handleClose}
+              customizeSubmit={customizeSubmit}
+              schemaObj={schemaObj}
+              title={'إضافة امتحان'}
+            />
+          )}
+        </Grid>
+      ) : (
+        <h1 style={{ textAlign: 'center' }}>Don't Have Permission</h1>
       )}
-    </Grid>
+    </>
   )
 }
 

@@ -151,7 +151,7 @@ function Teachers() {
           permissions={teachers}
         />
       ) : (
-        <h1>Don't Have A Permission</h1>
+        <h1 style={{ textAlign: 'center' }}>Don't Have A Permission</h1>
       )}
 
       {

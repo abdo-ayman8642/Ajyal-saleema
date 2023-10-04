@@ -22,6 +22,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 
 // ** redux Imports
 import { useDispatch, useSelector } from 'react-redux'
+import { useAuth } from 'src/hooks/useAuth'
 
 // ** Custom Components Imports
 
@@ -334,8 +335,8 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
   const deleteAction = handleActions('delete', formType)
   const selected = useSelector(state => state.academicData?.selectedData)
 
-  console.log(data)
-  console.log(permissions)
+  const user = useAuth()
+  const role = user?.user?.role
 
   const schoolData = {
     title: 'المدارس',
@@ -428,12 +429,16 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
         headerName: 'التحكم',
         renderCell: ({ row }) => (
           <Box sx={{ display: 'flex' }}>
-            <IconButton onClick={() => onClickEdit(row)} sx={{ ml: '-10px' }}>
-              <ModeEditOutlineIcon sx={{ cursor: 'pointer', color: '#ddbb24' }} />
-            </IconButton>
-            <IconButton onClick={() => onClickDelete(row)}>
-              <DeleteIcon sx={{ cursor: 'pointer', color: 'red' }} />
-            </IconButton>
+            {role != 2 && (
+              <>
+                <IconButton onClick={() => onClickEdit(row)} sx={{ ml: '-10px' }}>
+                  <ModeEditOutlineIcon sx={{ cursor: 'pointer', color: '#ddbb24' }} />
+                </IconButton>
+                <IconButton onClick={() => onClickDelete(row)}>
+                  <DeleteIcon sx={{ cursor: 'pointer', color: 'red' }} />
+                </IconButton>
+              </>
+            )}
           </Box>
         )
       }

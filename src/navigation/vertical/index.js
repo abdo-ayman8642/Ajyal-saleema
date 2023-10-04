@@ -9,9 +9,24 @@ import QuizIcon from '@mui/icons-material/Quiz'
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 import HowToRegIcon from '@mui/icons-material/HowToReg'
 import EventIcon from '@mui/icons-material/Event'
+import { useAuth } from 'src/hooks/useAuth'
 
 const navigation = () => {
-  return [
+  const user = useAuth()
+  const role = user?.user?.role
+  const volNav = [
+    {
+      title: 'الرئيسية',
+      icon: HomeOutline,
+      path: '/home'
+    },
+    {
+      title: 'الأعوام الدراسية',
+      icon: CalendarMonthIcon,
+      path: '/academicYear'
+    }
+  ]
+  const normalNav = [
     {
       title: 'الرئيسية',
       icon: HomeOutline,
@@ -22,6 +37,7 @@ const navigation = () => {
       icon: CalendarMonthIcon,
       path: '/academicYear'
     },
+
     {
       title: 'الأعضاء',
       icon: PeopleAltIcon,
@@ -30,7 +46,7 @@ const navigation = () => {
     // {
     //   title: 'الطلاب',
     //   icon: SchoolIcon,
-    //   path: '/students'
+    //   path: '/student'
     // },
     {
       title: 'الحصص',
@@ -63,6 +79,8 @@ const navigation = () => {
       path: '/attendance'
     }
   ]
+  const usedNav = role != 2 ? normalNav : volNav
+  return [...usedNav]
 }
 
 export default navigation

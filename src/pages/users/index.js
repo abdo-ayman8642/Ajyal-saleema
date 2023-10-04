@@ -135,47 +135,53 @@ function Users() {
 
   return (
     <Grid container direction='column'>
-      <PageHeader src={'/images/users.jpg'} />
-      <Grid item>
-        <TableHeader
-          toggleAdd={toggleAddForm}
-          toggleConfirm={toggleDialog}
-          handleFilter={handleSearch}
-          dataType={'user'}
-          toggleImpExp={toggleImpExp}
-          placeholder={'الأعضاء'}
-          selected={selectedUser}
-          searchData={searchData}
-          fetchData={fetchData}
-          resetSearched={resetSearchedUsers}
-        />
-      </Grid>
-      <Grid item>
-        <UserList
-          dataType={'user'}
-          toggleAddForm={toggleAddForm}
-          toggleDialog={toggleDialog}
-          toggleEditForm={toggleEditForm}
-          toggleAcl={toggleAcl}
-          handlePageChange={handlePageChange}
-          role={role}
-        />
-      </Grid>
-      <SidebarAddUser open={showForm} toggle={setShowForm} formInputs={formInputs} />
+      {role != 2 ? (
+        <>
+          <PageHeader src={'/images/users.jpg'} />
+          <Grid item>
+            <TableHeader
+              toggleAdd={toggleAddForm}
+              toggleConfirm={toggleDialog}
+              handleFilter={handleSearch}
+              dataType={'user'}
+              toggleImpExp={toggleImpExp}
+              placeholder={'الأعضاء'}
+              selected={selectedUser}
+              searchData={searchData}
+              fetchData={fetchData}
+              resetSearched={resetSearchedUsers}
+            />
+          </Grid>
+          <Grid item>
+            <UserList
+              dataType={'user'}
+              toggleAddForm={toggleAddForm}
+              toggleDialog={toggleDialog}
+              toggleEditForm={toggleEditForm}
+              toggleAcl={toggleAcl}
+              handlePageChange={handlePageChange}
+              role={role}
+            />
+          </Grid>
+          <SidebarAddUser open={showForm} toggle={setShowForm} formInputs={formInputs} />
 
-      <ConfirmDialog
-        toggle={toggleDialog}
-        open={showDialog}
-        confirmationType='الإزالة'
-        selected={selectedUser}
-        deleteSingle={deleteUser}
-        deleteMulti={deleteMultiUsers}
-      />
+          <ConfirmDialog
+            toggle={toggleDialog}
+            open={showDialog}
+            confirmationType='الإزالة'
+            selected={selectedUser}
+            deleteSingle={deleteUser}
+            deleteMulti={deleteMultiUsers}
+          />
 
-      {showEditForm && (
-        <DialogEditUserInfo toggle={toggleEditForm} showEditForm={showEditForm} formInputs={formInputs} />
+          {showEditForm && (
+            <DialogEditUserInfo toggle={toggleEditForm} showEditForm={showEditForm} formInputs={formInputs} />
+          )}
+          {showAcl && <Permissions open={showAcl} toggle={toggleAcl} />}
+        </>
+      ) : (
+        <h1 style={{ textAlign: 'center' }}>Don't Have Permission</h1>
       )}
-      {showAcl && <Permissions open={showAcl} toggle={toggleAcl} />}
     </Grid>
   )
 }

@@ -12,6 +12,7 @@ import TableHeader from 'src/views/sharedComponents/TableHeader'
 import ConfirmDialog from 'src/views/sharedComponents/ConfirmDialog'
 import SidebarAddUSession from 'src/views/apps/sessions/AddDrawer'
 import { CircularProgress } from '@mui/material'
+import { useAuth } from 'src/hooks/useAuth'
 
 function Sessions() {
   /** states and variables */
@@ -23,9 +24,11 @@ function Sessions() {
   const selectedSession = useSelector(state => state.sessions?.selectedSession)
 
   const user = useAuth()
+  const role = user?.user?.role
   const { sessions: sessionsPer } = user?.user?.permissions
   const { read, add, edit } = sessionsPer
   const deletee = sessionsPer?.['delete']
+  console.log(read)
 
   const formInputs = [
     {
@@ -81,26 +84,33 @@ function Sessions() {
 
   return (
     <Grid container direction='column'>
-      <TableHeader
-        toggleAdd={toggleAddForm}
-        toggleConfirm={toggleConfirm}
-        placeholder={'الحصص'}
-        dataType={'sessions'}
-        selected={selectedSession}
-      />
-      {read ?? <SessionsList formInputs={formInputs} toggleConfirm={toggleConfirm} />}
+      {role != 2 ? (
+        <>
+          <TableHeader
+            toggleAdd={toggleAddForm}
+            toggleConfirm={toggleConfirm}
+            placeholder={'الحصص'}
+            dataType={'sessions'}
+            selected={selectedSession}
+          />
+          {read ?? <SessionsList formInputs={formInputs} toggleConfirm={toggleConfirm} />}
+          {!read && <h1 style={{ textAlign: 'center' }}>Don't Have Permission</h1>}
 
-      {showAddForm && <SidebarAddUSession open={showAddForm} toggle={toggleAddForm} formInputs={formInputs} />}
-      {showConfirm && (
-        <ConfirmDialog
-          open={showConfirm}
-          toggle={toggleConfirm}
-          loading={loading}
-          confirmationType={'المحاضرة'}
-          selected={selectedSession}
-          deleteMulti={deleteMultiSessions}
-          deleteSingle={deleteSession}
-        />
+          {showAddForm && <SidebarAddUSession open={showAddForm} toggle={toggleAddForm} formInputs={formInputs} />}
+          {showConfirm && (
+            <ConfirmDialog
+              open={showConfirm}
+              toggle={toggleConfirm}
+              loading={loading}
+              confirmationType={'المحاضرة'}
+              selected={selectedSession}
+              deleteMulti={deleteMultiSessions}
+              deleteSingle={deleteSession}
+            />
+          )}
+        </>
+      ) : (
+        <h1 style={{ textAlign: 'center' }}>Don't Have Permission</h1>
       )}
     </Grid>
   )

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import PageHeader from 'src/views/apps/academicYear/PageHeader'
 import TableHeader from 'src/views/apps/academicYear/TableHeader'
-
+import { useAuth } from 'src/hooks/useAuth'
 import { fetchYears } from 'src/store/apps/academicData/actions'
 import DataTable from 'src/views/apps/academicYear/Table'
 
