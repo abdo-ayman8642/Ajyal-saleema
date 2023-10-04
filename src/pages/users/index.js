@@ -24,6 +24,7 @@ import SidebarAddUser from 'src/views/apps/user/list/AddUserDrawer'
 import UserList from 'src/views/apps/user/list/Table'
 import { resetSearchedUsers } from 'src/store/apps/user'
 import PageHeader from 'src/views/apps/academicYear/PageHeader'
+import { useAuth } from 'src/hooks/useAuth'
 
 function Users() {
   // main variables
@@ -35,6 +36,8 @@ function Users() {
   const selectedUser = useSelector(state => state.user?.selectedUser)
   const [showFileImpExp, setShowFileImpExp] = useState(false)
   const [showAcl, setShowAcl] = useState(false)
+  const user = useAuth()
+  const role = user?.user?.role
 
   const formInputs = [
     {
@@ -155,6 +158,7 @@ function Users() {
           toggleEditForm={toggleEditForm}
           toggleAcl={toggleAcl}
           handlePageChange={handlePageChange}
+          role={role}
         />
       </Grid>
       <SidebarAddUser open={showForm} toggle={setShowForm} formInputs={formInputs} />

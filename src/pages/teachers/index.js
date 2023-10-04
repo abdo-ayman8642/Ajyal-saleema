@@ -36,13 +36,13 @@ function Teachers() {
   const [showFileImpExp, setShowFileImpExp] = useState(false)
 
   const user = useAuth()
-  user.initAuth()
 
   const previousPermissionsRef = useRef(user?.user?.permissions)
   useEffect(() => {
     console.log('checking')
     console.log(user?.user?.permissions, previousPermissionsRef.current)
     console.log(JSON.stringify(user?.user?.permissions) !== JSON.stringify(previousPermissionsRef.current))
+
     const checkForPermissionChanges = () => {
       if (JSON.stringify(user?.user?.permissions) !== JSON.stringify(previousPermissionsRef.current)) {
         // Permissions have changed, so reload the page
@@ -66,6 +66,7 @@ function Teachers() {
   const deletee = teachers?.['delete']
   console.log(teachers)
   console.log(read, add, edit, deletee)
+
   const formInputs = [
     {
       name: 'name',
@@ -153,14 +154,14 @@ function Teachers() {
         <h1>Don't Have A Permission</h1>
       )}
 
-      {add && (
+      {
         <SidebarAddTeachers
           open={showForm}
           toggle={setShowForm}
           formInputs={formInputs}
           teacherId={currentTeacherData}
         />
-      )}
+      }
 
       <ConfirmDialog
         toggle={toggleDialog}

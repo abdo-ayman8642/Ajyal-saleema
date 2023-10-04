@@ -41,7 +41,9 @@ import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 
 // ** Utils Import
 import CardStatsCharacter from 'src/@core/components/card-statistics/card-stats-with-image'
+
 // ** Styled component for the link for the avatar with image
+
 const AvatarWithImageLink = styled(Link)(({ theme }) => ({
   marginRight: theme.spacing(3)
 }))
@@ -97,6 +99,7 @@ const handleDefaultColumns = (name, pathname, pastRoute, handleClick, formType, 
       headerName: 'المعلم',
       renderCell: ({ row }) => {
         console.log(row)
+
         return (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
@@ -293,28 +296,32 @@ const handleDefaultColumns = (name, pathname, pastRoute, handleClick, formType, 
 
   if (formType === 'classes') {
     const classCol = [...defaultColumns, ...attendanceColumn]
+
     return classCol
   }
   if (formType === 'schools' || formType === 'govs' || formType === 'camps') {
     defaultColumns.push(codeColumn)
+
     return defaultColumns
   }
 
   if (formType === 'administrations') {
     const administrColumns = [...defaultColumns, ...administrationColumns]
     administrColumns.push(codeColumn)
+
     return administrColumns
   }
 
   if (formType === 'students') {
     const studColumns = [...defaultColumns, ...studentsColumns]
+
     return studColumns
   }
 
   return defaultColumns
 }
 
-const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editData, handlePageChange }) => {
+const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editData, handlePageChange, permissions }) => {
   // ********* States & variables *******************/
   const [pageSize, setPageSize] = useState(10)
   const [showAttendance, setShowAttendance] = useState(false)
@@ -328,6 +335,8 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
   const selected = useSelector(state => state.academicData?.selectedData)
 
   console.log(data)
+  console.log(permissions)
+
   const schoolData = {
     title: 'المدارس',
     chipColor: 'primary',
@@ -359,6 +368,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
           <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(6,1fr)', gap: '7px', alignItems: 'center' }}>
             {makeSessionsDots(row.session_ids).map((i, index) => {
               const color = i ? 'green' : 'red'
+
               return (
                 <Tooltip title={'Session: ' + (index + 1)}>
                   <div
@@ -376,8 +386,10 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
           </Box>
         )
       }
+
     return {}
   }
+
   const renderTeacher = type => {
     if (type === 'camps')
       return {
@@ -401,6 +413,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
           </Box>
         )
       }
+
     return {}
   }
 
@@ -424,8 +437,10 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
           </Box>
         )
       }
+
     return {}
   }
+
   let columns = [
     ...handleDefaultColumns(dataName, pathname, pastRoute, handleClickStudent, formType, toggleAttendance),
     renderSessionsAttendance(formType),
@@ -435,7 +450,9 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
   function isObjectEmpty(obj) {
     return Object.keys(obj).length === 0
   }
+
   columns = columns.filter(obj => !isObjectEmpty(obj))
+
   /****************** Functions *****************/
 
   const onClickEdit = row => {

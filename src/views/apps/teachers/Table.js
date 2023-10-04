@@ -105,7 +105,9 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
   const user = useAuth()
 
   console.log(add, edit, deletee)
+
   // add actions column => edit / delete
+
   const columns = [
     ...defaultColumns,
     {
@@ -175,6 +177,7 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
     toggleEditForm()
     dispatch(handleSelectedTeacher(row))
   }
+
   const onClickAdd = row => {
     console.log(row)
     const { id, name } = row
@@ -194,10 +197,12 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
   const handleDelete = selected => {
     dispatch(handleSelectedTeacher([...selected]))
   }
+
   const toggleAttendance = row => {
     //dispatch(getAttendance(row.id))
     setTeacherData(row)
     setShowAttendance(!showAttendance)
+
     //dispatch(handleSelectedStudent(row))
   }
 

@@ -10,6 +10,8 @@ import DataTable from 'src/views/apps/academicYear/Table'
 import { useRouter } from 'next/router'
 import { handlePastRoute } from 'src/store/apps/academicData'
 import { fetchData } from 'src/store/apps/student/actions'
+import { useAuth } from 'src/hooks/useAuth'
+import student from 'src/store/apps/student'
 
 function CampsData() {
   const dispatch = useDispatch()
@@ -18,6 +20,12 @@ function CampsData() {
   const [showDrawer, setDrawer] = useState(false)
   const router = useRouter()
   const campId = router.query.id
+  const user = useAuth()
+  const { students } = user?.user?.permissions
+  console.log(user)
+  console.log(students, user?.user?.permissions)
+  const { read, add, edit } = students
+  const deletee = students?.['delete']
 
   useEffect(() => {
     dispatch(filterBy({ page: 1, query: 'school_camp', value: campId }))
@@ -50,14 +58,19 @@ function CampsData() {
             />
           </Grid>
           <Grid item xs={12}>
-            <DataTable
-              dataName={'الطالب'}
-              formType={'students'}
-              storeData={'students'}
-              pathname={`student/view`}
-              pastRoute={campId}
-              editData={{ urlId: campId, query: 'school_camp' }}
-            />
+            {read ? (
+              <DataTable
+                dataName={'الطالب'}
+                formType={'students'}
+                storeData={'students'}
+                pathname={`student/view`}
+                pastRoute={campId}
+                editData={{ urlId: campId, query: 'school_camp' }}
+                permissions={students}
+              />
+            ) : (
+              <h1>Don't Have A Permission</h1>
+            )}
           </Grid>
         </Grid>
       </Grid>

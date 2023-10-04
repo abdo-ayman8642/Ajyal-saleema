@@ -29,6 +29,7 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 import EditForm from 'src/views/sharedComponents/EditForm'
 import { handleSelectedSession } from 'src/store/apps/sessions'
 import DialogEditSessionInfo from './DialogEditSession'
+import { useAuth } from 'src/hooks/useAuth'
 
 // ** Utils Import
 
@@ -107,6 +108,11 @@ const SessionsList = ({ formInputs, toggleConfirm }) => {
   const selectedSession = useSelector(state => state.sessions?.selectedSession)
   const [showEdit, setShowEdit] = useState(false)
 
+  const user = useAuth()
+  const { sessions: sessionsPer } = user?.user?.permissions
+  const { read, add, edit } = sessionsPer
+  const deletee = sessionsPer?.['delete']
+
   // console.log(
   //   sessions.map((session, index) => {
   //     return { ...session, name: `${index + 1}: ${session.name}` }
@@ -124,9 +130,12 @@ const SessionsList = ({ formInputs, toggleConfirm }) => {
       headerName: 'التحكم',
       renderCell: ({ row }) => (
         <Box sx={{ display: 'flex' }}>
-          <IconButton onClick={() => onClickEdit(row)} sx={{ ml: '-10px' }}>
-            <ModeEditOutlineIcon sx={{ cursor: 'pointer', color: '#ddbb24' }} />
-          </IconButton>
+          {edit ?? (
+            <IconButton onClick={() => onClickEdit(row)} sx={{ ml: '-10px' }}>
+              <ModeEditOutlineIcon sx={{ cursor: 'pointer', color: '#ddbb24' }} />
+            </IconButton>
+          )}
+
           {/* <IconButton onClick={() => onClickDelete(row)}>
             <DeleteIcon sx={{ cursor: 'pointer', color: 'red' }} />
           </IconButton> */}

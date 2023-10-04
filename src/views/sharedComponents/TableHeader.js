@@ -11,12 +11,23 @@ import { searchData } from 'src/store/apps/academicData/actions'
 import { handleSearched, handleSearchedQuery, resetSearchedData } from 'src/store/apps/academicData'
 import { fetchData } from 'src/store/apps/events/actions'
 
-function TableHeader({ toggleAdd, toggleConfirm, placeholder, dataType, toggleImpExp, selected, searchdata, impExp }) {
+function TableHeader({
+  toggleAdd,
+  toggleConfirm,
+  placeholder,
+  dataType,
+  toggleImpExp,
+  selected,
+  searchdata,
+  impExp,
+  permissions
+}) {
   const data = useSelector(state => state[dataType]?.data)
   const session_limit = data?.data?.length
   const dispatch = useDispatch()
   const [searchVal, setSearchVal] = useState('')
   const { page, query, searched } = searchdata || {}
+  const { add } = permissions || {}
 
   const handleSearch = value => {
     if (!value) {
@@ -94,15 +105,16 @@ function TableHeader({ toggleAdd, toggleConfirm, placeholder, dataType, toggleIm
             }}
           />
         )}
-
-        <Button
-          sx={{ mb: 2, fontSize: '1rem', fontWeight: 'bold' }}
-          onClick={toggleAdd}
-          variant='contained'
-          disabled={session_limit >= 12}
-        >
-          إضافة
-        </Button>
+        {add ?? (
+          <Button
+            sx={{ mb: 2, fontSize: '1rem', fontWeight: 'bold' }}
+            onClick={toggleAdd}
+            variant='contained'
+            disabled={session_limit >= 12}
+          >
+            إضافة
+          </Button>
+        )}
       </Box>
     </Box>
   )

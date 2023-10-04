@@ -60,7 +60,7 @@ const renderClient = row => {
   }
 }
 
-const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, dataType }) => {
+const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, dataType, role }) => {
   // stats and variables
   const dispatch = useDispatch()
   const [pageSize, setPageSize] = useState(10)
@@ -80,8 +80,10 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, d
           return <Typography>{row.age}</Typography>
         }
       }
+
     return {}
   }
+
   const defaultColumns = [
     {
       flex: 0.25,
@@ -174,15 +176,17 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, d
           >
             <DeleteIcon />
           </IconButton>
-          <Tooltip title='Icon A'>
-            <IconButton
-              onClick={() => {
-                toggleAcl()
-              }}
-            >
-              <ManageAccountsIcon />
-            </IconButton>
-          </Tooltip>
+          {!role && (
+            <Tooltip title='Icon A'>
+              <IconButton
+                onClick={() => {
+                  toggleAcl()
+                }}
+              >
+                <ManageAccountsIcon />
+              </IconButton>
+            </Tooltip>
+          )}
         </Box>
       )
     }

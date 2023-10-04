@@ -22,6 +22,11 @@ function Sessions() {
   const [showConfirm, setShowConfirm] = useState(false)
   const selectedSession = useSelector(state => state.sessions?.selectedSession)
 
+  const user = useAuth()
+  const { sessions: sessionsPer } = user?.user?.permissions
+  const { read, add, edit } = sessionsPer
+  const deletee = sessionsPer?.['delete']
+
   const formInputs = [
     {
       name: 'name',
@@ -83,7 +88,8 @@ function Sessions() {
         dataType={'sessions'}
         selected={selectedSession}
       />
-      <SessionsList formInputs={formInputs} toggleConfirm={toggleConfirm} />
+      {read ?? <SessionsList formInputs={formInputs} toggleConfirm={toggleConfirm} />}
+
       {showAddForm && <SidebarAddUSession open={showAddForm} toggle={toggleAddForm} formInputs={formInputs} />}
       {showConfirm && (
         <ConfirmDialog
