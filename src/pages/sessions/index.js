@@ -26,9 +26,9 @@ function Sessions() {
   const user = useAuth()
   const role = user?.user?.role
   const { sessions: sessionsPer } = user?.user?.permissions || {}
-  const { read, add, edit } = sessionsPer
-  const deletee = sessionsPer?.['delete']
-  console.log(read)
+  const { read, add, edit, delete: deletee } = sessionsPer
+  console.log(read, add, edit, deletee)
+  console.log(sessionsPer)
 
   const formInputs = [
     {
@@ -84,7 +84,34 @@ function Sessions() {
 
   return (
     <Grid container direction='column'>
-      {role != 2 ? (
+      {add && (
+        <TableHeader
+          toggleAdd={toggleAddForm}
+          toggleConfirm={toggleConfirm}
+          placeholder={'الحصص'}
+          dataType={'sessions'}
+          selected={selectedSession}
+        />
+      )}
+      {read ? (
+        <SessionsList formInputs={formInputs} toggleConfirm={toggleConfirm} />
+      ) : (
+        <h1 style={{ textAlign: 'center', marginTop: '5rem' }}>Don't Have Permission</h1>
+      )}
+
+      {showAddForm && <SidebarAddUSession open={showAddForm} toggle={toggleAddForm} formInputs={formInputs} />}
+      {showConfirm && (
+        <ConfirmDialog
+          open={showConfirm}
+          toggle={toggleConfirm}
+          loading={loading}
+          confirmationType={'المحاضرة'}
+          selected={selectedSession}
+          deleteMulti={deleteMultiSessions}
+          deleteSingle={deleteSession}
+        />
+      )}
+      {/* {role != 2 ? (
         <>
           <TableHeader
             toggleAdd={toggleAddForm}
@@ -111,7 +138,7 @@ function Sessions() {
         </>
       ) : (
         <h1 style={{ textAlign: 'center' }}>Don't Have Permission</h1>
-      )}
+      )} */}
     </Grid>
   )
 }

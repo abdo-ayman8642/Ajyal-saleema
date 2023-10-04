@@ -1,5 +1,5 @@
 // ** React Imports
-import { useEffect, useCallback, useState } from 'react'
+import React, { useEffect, useCallback, useState } from 'react'
 
 // ** Next Images
 import Link from 'next/link'
@@ -16,10 +16,11 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline'
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
-
+import { useAuth } from 'src/hooks/useAuth'
 // ** Icons Imports
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
+import Modal from '@mui/material/Modal'
 
 // ** Store Imports
 import { useDispatch, useSelector } from 'react-redux'
@@ -29,6 +30,7 @@ import { handleSelectedUser } from 'src/store/apps/user'
 import CustomAvatar from 'src/@core/components/mui/avatar'
 import { CircularProgress, Tooltip } from '@mui/material'
 import Permissions from './Permissions'
+import PermissionsV2 from './permissions-v2'
 
 // ** Styled component for the link for the avatar with image
 const AvatarWithImageLink = styled(Link)(({ theme }) => ({
@@ -40,6 +42,22 @@ const AvatarWithoutImageLink = styled(Link)(({ theme }) => ({
   textDecoration: 'none',
   marginRight: theme.spacing(3)
 }))
+
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  minWidth: '50%',
+  bgcolor: 'background.paper',
+  border: 'none',
+  borderRadius: '15px',
+  boxShadow: 24,
+  p: 4,
+  '&:hover': {
+    cursor: 'pointer'
+  }
+}
 
 // ** renders client column
 const renderClient = row => {
@@ -60,7 +78,7 @@ const renderClient = row => {
   }
 }
 
-const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, dataType, role }) => {
+const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, dataType }) => {
   // stats and variables
   const dispatch = useDispatch()
   const [pageSize, setPageSize] = useState(10)
@@ -68,6 +86,13 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, d
   const users = useSelector(state => state.user?.data?.data?.data)
   const searchedUsers = useSelector(state => state.user?.searchedUsers?.data?.data)
   const loading = useSelector(state => state.user?.searchedUsersLoading)
+  const [open, setOpen] = React.useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
+  const [currentUser, setCurrentUser] = useState(null)
+
+  const user = useAuth()
+  const role = user?.user?.role
 
   const renderAge = type => {
     if (type !== 'user')
@@ -165,28 +190,37 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, d
       headerName: 'التحكم',
       renderCell: ({ row }) => (
         <Box sx={{ display: 'flex', gap: '10px', ml: '-15px' }}>
-          <IconButton sx={{ cursor: 'pointer', color: '#ddbb24' }} onClick={() => onClickEdit(row)}>
-            <ModeEditOutlineIcon />
-          </IconButton>
-          <IconButton
-            sx={{ cursor: 'pointer', color: 'red' }}
-            onClick={() => {
-              onClickDelete(row)
-            }}
-          >
-            <DeleteIcon />
-          </IconButton>
-          {!role && (
-            <Tooltip title='Icon A'>
-              <IconButton
-                onClick={() => {
-                  toggleAcl()
-                }}
-              >
-                <ManageAccountsIcon />
-              </IconButton>
-            </Tooltip>
-          )}
+          {role === '1' ||
+            (role === '0' && (
+              <>
+                <IconButton sx={{ cursor: 'pointer', color: '#ddbb24' }} onClick={() => onClickEdit(row)}>
+                  <ModeEditOutlineIcon />
+                </IconButton>
+                {role === '0' && (
+                  <>
+                    <IconButton
+                      sx={{ cursor: 'pointer', color: 'red' }}
+                      onClick={() => {
+                        onClickDelete(row)
+                      }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+
+                    <Tooltip title='Modify Permissions'>
+                      <IconButton
+                        onClick={() => {
+                          handleOpen()
+                          setCurrentUser(row?.permissions)
+                        }}
+                      >
+                        <ManageAccountsIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </>
+                )}
+              </>
+            ))}
         </Box>
       )
     }
@@ -214,6 +248,18 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, d
 
   return (
     <Grid container spacing={6}>
+      <div>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby='modal-modal-title'
+          aria-describedby='modal-modal-description'
+        >
+          <Box sx={style}>
+            <PermissionsV2 user={currentUser} />
+          </Box>
+        </Modal>
+      </div>
       <Grid item xs={12}>
         <Card>
           <DataGrid

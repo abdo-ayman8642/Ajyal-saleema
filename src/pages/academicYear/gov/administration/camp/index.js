@@ -9,6 +9,7 @@ import { fetchGovs, getCampsByAdministration } from 'src/store/apps/academicData
 import DataTable from 'src/views/apps/academicYear/Table'
 import { useRouter } from 'next/router'
 import { handlePastRoute } from 'src/store/apps/academicData'
+import { useAuth } from 'src/hooks/useAuth'
 
 function CampsData() {
   const dispatch = useDispatch()
@@ -17,6 +18,13 @@ function CampsData() {
   const [showDrawer, setDrawer] = useState(false)
   const router = useRouter()
   const administrationId = router.query.id
+
+  const user = useAuth()
+
+  const { year } = user?.user?.permissions
+  const { add, edit, delete: deletee, read } = year
+  console.log(add, edit, deletee, read)
+  console.log(user)
 
   useEffect(() => {
     dispatch(getCampsByAdministration({ id: administrationId, type: 'camp' }))
@@ -42,26 +50,32 @@ function CampsData() {
       </Grid>
       <Grid item xs={12} md={12}>
         <Grid container>
-          <Grid item xs={12}>
-            <TableHeader
-              title={'المعسكرات'}
-              formType={'camps'}
-              showDrawer={showDrawer}
-              setDrawer={setDrawer}
-              addData={{ department_id: administrationId, type: 'camp' }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <DataTable
-              dataName={'المعسكر'}
-              formType={'camps'}
-              storeData={'camps'}
-              pathname={`camp/student`}
-              pastRoute={administrationId}
-              editData={{ department_id: administrationId, type: 'camp' }}
-              handlePageChange={handlePageChange}
-            />
-          </Grid>
+          {add && (
+            <Grid item xs={12}>
+              <TableHeader
+                title={'المعسكرات'}
+                formType={'camps'}
+                showDrawer={showDrawer}
+                setDrawer={setDrawer}
+                addData={{ department_id: administrationId, type: 'camp' }}
+              />
+            </Grid>
+          )}
+          {read ? (
+            <Grid item xs={12}>
+              <DataTable
+                dataName={'المعسكر'}
+                formType={'camps'}
+                storeData={'camps'}
+                pathname={`camp/student`}
+                pastRoute={administrationId}
+                editData={{ department_id: administrationId, type: 'camp' }}
+                handlePageChange={handlePageChange}
+              />
+            </Grid>
+          ) : (
+            <h1 style={{ display: 'block', margin: '5% auto' }}>Don't Have permission</h1>
+          )}
         </Grid>
       </Grid>
     </Grid>

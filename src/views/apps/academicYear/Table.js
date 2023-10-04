@@ -322,7 +322,7 @@ const handleDefaultColumns = (name, pathname, pastRoute, handleClick, formType, 
   return defaultColumns
 }
 
-const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editData, handlePageChange, permissions }) => {
+const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editData, handlePageChange }) => {
   // ********* States & variables *******************/
   const [pageSize, setPageSize] = useState(10)
   const [showAttendance, setShowAttendance] = useState(false)
@@ -337,7 +337,9 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
 
   const user = useAuth()
   const role = user?.user?.role
-
+  const { year } = user?.user?.permissions
+  const { add, edit, delete: deletee, read } = year
+  console.log(edit, deletee)
   const schoolData = {
     title: 'المدارس',
     chipColor: 'primary',
@@ -419,29 +421,29 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
   }
 
   const renderControls = type => {
-    console.log(type)
-    if (type !== 'govs' && type !== 'grades')
-      return {
-        flex: 0.12,
-        minWidth: 50,
-        sorDataTable: false,
-        field: 'actions',
-        headerName: 'التحكم',
-        renderCell: ({ row }) => (
-          <Box sx={{ display: 'flex' }}>
-            {role != 2 && (
-              <>
-                <IconButton onClick={() => onClickEdit(row)} sx={{ ml: '-10px' }}>
-                  <ModeEditOutlineIcon sx={{ cursor: 'pointer', color: '#ddbb24' }} />
-                </IconButton>
-                <IconButton onClick={() => onClickDelete(row)}>
-                  <DeleteIcon sx={{ cursor: 'pointer', color: 'red' }} />
-                </IconButton>
-              </>
+    return {
+      flex: 0.12,
+      minWidth: 50,
+      sorDataTable: false,
+      field: 'actions',
+      headerName: 'التحكم',
+      renderCell: ({ row }) => (
+        <Box sx={{ display: 'flex' }}>
+          <>
+            {edit && (
+              <IconButton onClick={() => onClickEdit(row)} sx={{ ml: '-10px' }}>
+                <ModeEditOutlineIcon sx={{ cursor: 'pointer', color: '#ddbb24' }} />
+              </IconButton>
             )}
-          </Box>
-        )
-      }
+            {deletee && (
+              <IconButton onClick={() => onClickDelete(row)}>
+                <DeleteIcon sx={{ cursor: 'pointer', color: 'red' }} />
+              </IconButton>
+            )}
+          </>
+        </Box>
+      )
+    }
 
     return {}
   }
@@ -500,15 +502,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
                   ? searchedData?.data.data || data?.data.data
                   : searchedData?.data || data?.data || data
               }
-              checkboxSelection={
-                !(
-                  formType === 'govs' ||
-                  formType === 'grades' ||
-                  formType === 'administrations' ||
-                  formType === 'classes' ||
-                  formType === 'camps'
-                )
-              }
+              checkboxSelection={false}
               pageSize={searchedData?.per_page || data?.per_page || pageSize}
               columns={columns}
               pagination

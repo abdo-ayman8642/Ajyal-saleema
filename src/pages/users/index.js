@@ -180,7 +180,7 @@ function Users() {
           {showAcl && <Permissions open={showAcl} toggle={toggleAcl} />}
         </>
       ) : (
-        <h1 style={{ textAlign: 'center' }}>Don't Have Permission</h1>
+        <h1 style={{ textAlign: 'center', marginTop: '5rem' }}>Don't Have Permission</h1>
       )}
     </Grid>
   )

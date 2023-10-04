@@ -12,6 +12,12 @@ import Close from 'mdi-material-ui/Close'
 import { styled } from '@mui/material/styles'
 import Box from '@mui/material/Box'
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh'
+import Button from '@mui/material/Button'
+import DeleteIcon from '@mui/icons-material/Delete'
+import { useDispatch } from 'react-redux'
+import { unAssignTeacher } from 'src/store/apps/teachers/actions'
+import { useAuth } from 'src/hooks/useAuth'
+import { deleteDepartment } from 'src/store/lms/admin/subjects-classes/departments/actions'
 
 const Header = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -26,6 +32,20 @@ function TeacherClasses({ toggle, open, data }) {
   const classes = data?.classes
   const name = data?.name
   const camps = data?.camps
+  const user = useAuth()
+  const { teachers } = user?.user?.permissions
+
+  const deletee = teachers?.['delete']
+  console.log(deletee)
+
+  const dispatch = useDispatch()
+
+  const handleUnassign = type => {
+    // const ret = type == 'classes' ? {}
+
+    dispatch(unAssignTeacher({ data: type }))
+  }
+
   return (
     <Dialog fullWidth open={open} maxWidth='xs' onClose={toggle}>
       <DialogContent>
@@ -42,6 +62,16 @@ function TeacherClasses({ toggle, open, data }) {
                 <ListItemButton>
                   <ListItemIcon>{/* <Icon icon='mdi:email-outline' fontSize={20} /> */}</ListItemIcon>
                   <ListItemText primary={`اسم الفصل: ` + clas?.['class name']} />
+                  {deletee && (
+                    <Button
+                      variant='text'
+                      startIcon={<DeleteIcon />}
+                      sx={{ color: 'red' }}
+                      onClick={() => handleUnassign({ classes: clas?.['class id'] })}
+                    >
+                      Unassign
+                    </Button>
+                  )}
                 </ListItemButton>
               </ListItem>
               <Divider sx={{ m: '0 !important' }} />
@@ -59,6 +89,16 @@ function TeacherClasses({ toggle, open, data }) {
                 <ListItemButton>
                   <ListItemIcon>{/* <Icon icon='mdi:email-outline' fontSize={20} /> */}</ListItemIcon>
                   <ListItemText primary={`اسم المعسكر: ` + clas?.['camp name']} />
+                  {deletee && (
+                    <Button
+                      variant='text'
+                      startIcon={<DeleteIcon />}
+                      sx={{ color: 'red' }}
+                      onClick={() => handleUnassign({ schools: clas?.['camp id'] })}
+                    >
+                      Unassign
+                    </Button>
+                  )}
                 </ListItemButton>
               </ListItem>
               <Divider sx={{ m: '0 !important' }} />

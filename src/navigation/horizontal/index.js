@@ -13,78 +13,66 @@ import EventIcon from '@mui/icons-material/Event'
 const navigation = () => {
   const user = useAuth()
   const role = user?.user?.role
-  console.log(role)
-  const volNav = [
-    {
-      title: 'الرئيسية',
-      icon: HomeOutline,
-      path: '/home'
-    },
-    {
-      title: 'الأعوام الدراسية',
-      icon: CalendarMonthIcon,
-      path: '/academicYear'
-    },
-    {
-      title: 'الإختبارات',
-      icon: QuizIcon,
-      path: '/exams'
-    }
-  ]
-  const normalNav = [
-    {
-      title: 'الرئيسية',
-      icon: HomeOutline,
-      path: '/home'
-    },
-    {
-      title: 'الأعوام الدراسية',
-      icon: CalendarMonthIcon,
-      path: '/academicYear'
-    },
+  const permissions = user?.user?.permissions?.nav
+  console.log(permissions)
 
-    {
-      title: 'الأعضاء',
-      icon: PeopleAltIcon,
-      path: '/users'
-    },
-    // {
-    //   title: 'الطلاب',
-    //   icon: SchoolIcon,
-    //   path: '/student'
-    // },
-    {
+  const usedNav = []
+
+  usedNav.push({
+    title: 'الرئيسية',
+    icon: HomeOutline,
+    path: '/home'
+  })
+
+  permissions?.['academic'] &&
+    usedNav.push({
+      title: 'الأعوام الدراسية',
+      icon: CalendarMonthIcon,
+      path: '/academicYear'
+    })
+
+  usedNav.push({
+    title: 'الأعضاء',
+    icon: PeopleAltIcon,
+    path: '/users'
+  })
+
+  permissions?.['sessions'] &&
+    usedNav.push({
       title: 'الحصص',
       icon: ClassIcon,
       path: '/sessions'
-    },
-    {
+    })
+
+  permissions?.['events'] &&
+    usedNav.push({
       title: 'الأحداث',
       icon: EventIcon,
       path: '/events'
-    },
-    // {
-    //   title: 'التقارير',
-    //   icon: SummarizeIcon,
-    //   path: '/reports'
-    // },
-    {
+    })
+
+  permissions?.['teachers'] &&
+    usedNav.push({
       title: 'المدرسين',
       icon: NoteAltIcon,
       path: '/teachers'
-    },
-    {
+    })
+
+  permissions?.['exams'] &&
+    usedNav.push({
       title: 'الإختبارات',
       icon: QuizIcon,
       path: '/exams'
-    },
-    {
+    })
+
+  permissions?.['attendance'] &&
+    usedNav.push({
       title: 'الحضور',
       icon: HowToRegIcon,
       path: '/attendance'
-    }
-  ]
-  const usedNav = role != 2 ? normalNav : volNav
+    })
+
+  //const usedNav = role != 2 ? normalNav : volNav
   return [...usedNav]
 }
 

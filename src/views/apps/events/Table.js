@@ -28,6 +28,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import CustomAvatar from 'src/@core/components/mui/avatar'
 import EditForm from 'src/views/sharedComponents/EditForm'
 import { handleSelectedEvents } from 'src/store/apps/events'
+import { useAuth } from 'src/hooks/useAuth'
 
 // ** Utils Import
 
@@ -85,6 +86,12 @@ const EventList = ({ formInputs, toggleConfirm }) => {
   const events = useSelector(state => state.events?.data.data)
   const selectedEvents = useSelector(state => state.events?.selectedEvents)
   const [showEdit, setShowEdit] = useState(false)
+  const user = useAuth()
+
+  const { year } = user?.user?.permissions
+  const { add, edit, delete: deletee, read } = year
+  console.log(add, edit, deletee, read)
+  console.log(user)
   /****************** columns Actions *****************/
   const columns = [
     ...defaultColumns,
@@ -96,12 +103,16 @@ const EventList = ({ formInputs, toggleConfirm }) => {
       headerName: 'التحكم',
       renderCell: ({ row }) => (
         <Box sx={{ display: 'flex' }}>
-          <IconButton onClick={() => onClickEdit(row)} sx={{ ml: '-10px' }}>
-            <ModeEditOutlineIcon sx={{ cursor: 'pointer', color: '#ddbb24' }} />
-          </IconButton>
-          <IconButton onClick={() => onClickDelete(row)}>
-            <DeleteIcon sx={{ cursor: 'pointer', color: 'red' }} />
-          </IconButton>
+          {edit && (
+            <IconButton onClick={() => onClickEdit(row)} sx={{ ml: '-10px' }}>
+              <ModeEditOutlineIcon sx={{ cursor: 'pointer', color: '#ddbb24' }} />
+            </IconButton>
+          )}
+          {deletee && (
+            <IconButton onClick={() => onClickDelete(row)}>
+              <DeleteIcon sx={{ cursor: 'pointer', color: 'red' }} />
+            </IconButton>
+          )}
         </Box>
       )
     }
@@ -134,7 +145,7 @@ const EventList = ({ formInputs, toggleConfirm }) => {
           <DataGrid
             autoHeight
             rows={events?.data || selectedEvents?.data || []}
-            checkboxSelection
+            checkboxSelection={false}
             pageSize={pageSize}
             disableSelectionOnClick
             columns={columns}

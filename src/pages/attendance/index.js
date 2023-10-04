@@ -71,30 +71,24 @@ function Attendance() {
 
   return (
     <>
-      {role != 2 ? (
-        <>
-          <HeaderCard banner='/path/to/banner.jpg' sx={{ mb: 10, width: '100%', px: { xs: 3, sm: 5 } }}>
-            <HeaderContent>
-              <StyledTypography variant='h2' color='textPrimary' sx={{ py: 5 }}>
-                الحضور
-              </StyledTypography>
-            </HeaderContent>
-          </HeaderCard>
-          <Grid container rowSpacing={1} columnSpacing={{ xs: 3, sm: 5, md: 8 }}>
-            <Grid item xs={3}>
-              <Selectors />
-            </Grid>
-            <Grid item xs={9}>
-              <Item sx={{ marginBottom: '20px' }}>
-                <Checkboxes />
-              </Item>
-              <ApexChart />
-            </Grid>
-          </Grid>
-        </>
-      ) : (
-        <h1 style={{ textAlign: 'center' }}>Don't Have Permission</h1>
-      )}
+      <HeaderCard banner='/path/to/banner.jpg' sx={{ mb: 10, width: '100%', px: { xs: 3, sm: 5 } }}>
+        <HeaderContent>
+          <StyledTypography variant='h2' color='textPrimary' sx={{ py: 5 }}>
+            الحضور
+          </StyledTypography>
+        </HeaderContent>
+      </HeaderCard>
+      <Grid container rowSpacing={1} columnSpacing={{ xs: 3, sm: 5, md: 8 }}>
+        <Grid item xs={3}>
+          <Selectors />
+        </Grid>
+        <Grid item xs={9}>
+          <Item sx={{ marginBottom: '20px' }}>
+            <Checkboxes />
+          </Item>
+          <ApexChart />
+        </Grid>
+      </Grid>
     </>
   )
 }

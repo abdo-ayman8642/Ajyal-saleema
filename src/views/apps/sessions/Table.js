@@ -111,7 +111,6 @@ const SessionsList = ({ formInputs, toggleConfirm }) => {
   const user = useAuth()
   const { sessions: sessionsPer } = user?.user?.permissions
   const { read, add, edit } = sessionsPer
-  const deletee = sessionsPer?.['delete']
 
   // console.log(
   //   sessions.map((session, index) => {
@@ -130,7 +129,7 @@ const SessionsList = ({ formInputs, toggleConfirm }) => {
       headerName: 'التحكم',
       renderCell: ({ row }) => (
         <Box sx={{ display: 'flex' }}>
-          {edit ?? (
+          {edit && (
             <IconButton onClick={() => onClickEdit(row)} sx={{ ml: '-10px' }}>
               <ModeEditOutlineIcon sx={{ cursor: 'pointer', color: '#ddbb24' }} />
             </IconButton>
@@ -174,6 +173,7 @@ const SessionsList = ({ formInputs, toggleConfirm }) => {
             checkboxSelection
             pageSize={pageSize}
             disableSelectionOnClick
+            checkboxSelection={false}
             columns={columns}
             onSelectionModelChange={selected => handleDelete(selected)}
             hideFooterPagination={true}

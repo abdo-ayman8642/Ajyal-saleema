@@ -19,14 +19,19 @@ import CardStatisticsWeeklySalesBg from 'src/views/ui/cards/statistics/CardStati
 import CardStatsOrdersImpressions from 'src/views/ui/cards/statistics/CardStatsOrdersImpressions'
 import CardProjectStatistics from 'src/views/ui/cards/advanced/CardProjectStatistics'
 import CardStatisticsSales from 'src/views/ui/cards/statistics/CardStatisticsSales'
+import PageHeader from 'src/views/apps/academicYear/PageHeader'
 import { useAuth } from 'src/hooks/useAuth'
+
 const _ = require('lodash')
+
 const Home = () => {
   const dispatch = useDispatch()
   const dashboardStats = useSelector(state => state.user?.dashboard?.data)
   const loading = useSelector(state => state.user?.dashboardLoading)
   console.log('home')
   const user = useAuth()
+  const permission = user?.user?.permissions?.nav?.home
+  console.log(permission)
   useEffect(() => {
     _.isEmpty(user?.user) && window.location.reload()
     dispatch(dashboardData())
@@ -126,25 +131,27 @@ const Home = () => {
 
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12} lg={3}>
-        <CardStatsCharacter data={schoolData} />
-      </Grid>
-      <Grid item xs={12} lg={3}>
-        <CardStatsCharacter data={gradeData} />
-      </Grid>
-      <Grid item xs={12} lg={3}>
-        <CardStatsCharacter data={classData} />
-      </Grid>
-      <Grid item xs={12} lg={3} sx={{ breakInside: 'avoid' }}>
-        <CardStatsCharacter data={teacherData} />
-      </Grid>
-      {/* <Grid item xs={12} lg={3}>
+      {permission ? (
+        <>
+          <Grid item xs={12} lg={3}>
+            <CardStatsCharacter data={schoolData} />
+          </Grid>
+          <Grid item xs={12} lg={3}>
+            <CardStatsCharacter data={gradeData} />
+          </Grid>
+          <Grid item xs={12} lg={3}>
+            <CardStatsCharacter data={classData} />
+          </Grid>
+          <Grid item xs={12} lg={3} sx={{ breakInside: 'avoid' }}>
+            <CardStatsCharacter data={teacherData} />
+          </Grid>
+          {/* <Grid item xs={12} lg={3}>
         <CardStatsCharacter data={userData} />
       </Grid> */}
-      <Grid item xs={12} lg={3}>
-        <CardStatsCharacter data={studentsData} />
-      </Grid>
-      {/* {dashboardStats?.exams_results?.map(exam => (
+          <Grid item xs={12} lg={3}>
+            <CardStatsCharacter data={studentsData} />
+          </Grid>
+          {/* {dashboardStats?.exams_results?.map(exam => (
         <Grid item xs={12} lg={2} key={exam.id}>
           <CardStatsDonutChart
             title={exam.name}
@@ -155,18 +162,22 @@ const Home = () => {
         </Grid>
       ))} */}
 
-      <Grid item xs={12} lg={5}>
-        <CardStatsOrdersImpressions data={sessionsData} />
-      </Grid>
-      <Grid item xs={12} lg={6}>
-        <GenderStats data={genderData} />
-      </Grid>
-      <Grid item xs={12} lg={6}>
-        <CardStatisticsSales data={dashboardStats?.grades} gradesStudents={dashboardStats?.grades_students} />
-      </Grid>
-      <Grid item xs={12} lg={12}>
-        <DashboardCalendar data={dashboardStats?.event} />
-      </Grid>
+          <Grid item xs={12} lg={5}>
+            <CardStatsOrdersImpressions data={sessionsData} />
+          </Grid>
+          <Grid item xs={12} lg={6}>
+            <GenderStats data={genderData} />
+          </Grid>
+          <Grid item xs={12} lg={6}>
+            <CardStatisticsSales data={dashboardStats?.grades} gradesStudents={dashboardStats?.grades_students} />
+          </Grid>
+          <Grid item xs={12} lg={12}>
+            <DashboardCalendar data={dashboardStats?.event} />
+          </Grid>
+        </>
+      ) : (
+        <h1 style={{ margin: '5rem auto' }}>Welcome</h1>
+      )}
     </Grid>
   )
 }

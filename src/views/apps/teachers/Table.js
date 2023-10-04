@@ -213,7 +213,7 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
           <DataGrid
             autoHeight
             rows={teachers || []}
-            checkboxSelection
+            checkboxSelection={false}
             pageSize={pageSize}
             disableSelectionOnClick
             columns={columns}

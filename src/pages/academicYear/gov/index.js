@@ -9,6 +9,7 @@ import { fetchGovs, searchData } from 'src/store/apps/academicData/actions'
 import DataTable from 'src/views/apps/academicYear/Table'
 import { useRouter } from 'next/router'
 import { handlePastRoute } from 'src/store/apps/academicData'
+import { useAuth } from 'src/hooks/useAuth'
 
 function GovData() {
   const dispatch = useDispatch()
@@ -18,6 +19,12 @@ function GovData() {
   const yearId = router.query.id
   const searchedQuery = useSelector(state => state.academicData?.searchedQuery)
   const searchedData = useSelector(state => state.academicData?.searchedData)
+  const user = useAuth()
+
+  const { year } = user?.user?.permissions
+  const { add, edit, delete: deletee, read } = year
+  console.log(add, edit, deletee, read)
+  console.log(user)
 
   useEffect(() => {
     dispatch(fetchGovs(1))
@@ -49,27 +56,31 @@ function GovData() {
       </Grid>
       <Grid item xs={12} md={12}>
         <Grid container>
-          <Grid item xs={12}>
-            <TableHeader
-              fetchData={fetchGovs}
-              title={'المحافظات'}
-              formType={'govs'}
-              showDrawer={showDrawer}
-              setDrawer={setDrawer}
-              fetchParams={1}
-              placeholder={'المحافظة'}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <DataTable
-              dataName={'المحافظة'}
-              formType={'govs'}
-              storeData={'govs'}
-              pathname={`gov/administration`}
-              pastRoute={yearId}
-              handlePageChange={handlePageChange}
-            />
-          </Grid>
+          {add && (
+            <Grid item xs={12}>
+              <TableHeader
+                fetchData={fetchGovs}
+                title={'المحافظات'}
+                formType={'govs'}
+                showDrawer={showDrawer}
+                setDrawer={setDrawer}
+                fetchParams={1}
+                placeholder={'المحافظة'}
+              />
+            </Grid>
+          )}
+          {read && (
+            <Grid item xs={12}>
+              <DataTable
+                dataName={'المحافظة'}
+                formType={'govs'}
+                storeData={'govs'}
+                pathname={`gov/administration`}
+                pastRoute={yearId}
+                handlePageChange={handlePageChange}
+              />
+            </Grid>
+          )}
         </Grid>
       </Grid>
     </Grid>

@@ -8,6 +8,7 @@ import TableHeader from 'src/views/apps/academicYear/TableHeader'
 import { fetchAdministrations, fetchGovs, searchData } from 'src/store/apps/academicData/actions'
 import DataTable from 'src/views/apps/academicYear/Table'
 import { useRouter } from 'next/router'
+import { useAuth } from 'src/hooks/useAuth'
 
 function AdministrationData() {
   const dispatch = useDispatch()
@@ -23,6 +24,12 @@ function AdministrationData() {
     city_id: id
   }
 
+  const user = useAuth()
+
+  const { year } = user?.user?.permissions
+  const { add, edit, delete: deletee, read } = year
+  console.log(add, edit, deletee, read)
+  console.log(user)
   useEffect(() => {
     dispatch(fetchAdministrations({ page: 1, cityId: id, yearId: pastRoute }))
   }, [pastRoute, dispatch, id])
@@ -52,27 +59,33 @@ function AdministrationData() {
       </Grid>
       <Grid item xs={12} md={12}>
         <Grid container>
-          <Grid item xs={12}>
-            <TableHeader
-              title={'الإدارات التعليمية'}
-              formType={'administrations'}
-              showDrawer={showDrawer}
-              setDrawer={setDrawer}
-              addData={formActionData}
-              fetchData={fetchAdministrations}
-              fetchParams={{ page: 1, cityId: id, yearId: pastRoute }}
-              placeholder={'الإدارة التعليمية'}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <DataTable
-              dataName={'الإدارة '}
-              formType={'administrations'}
-              storeData={'administrations'}
-              editData={formActionData}
-              handlePageChange={handlePageChange}
-            />
-          </Grid>
+          {add && (
+            <Grid item xs={12}>
+              <TableHeader
+                title={'الإدارات التعليمية'}
+                formType={'administrations'}
+                showDrawer={showDrawer}
+                setDrawer={setDrawer}
+                addData={formActionData}
+                fetchData={fetchAdministrations}
+                fetchParams={{ page: 1, cityId: id, yearId: pastRoute }}
+                placeholder={'الإدارة التعليمية'}
+              />
+            </Grid>
+          )}
+          {read ? (
+            <Grid item xs={12}>
+              <DataTable
+                dataName={'الإدارة '}
+                formType={'administrations'}
+                storeData={'administrations'}
+                editData={formActionData}
+                handlePageChange={handlePageChange}
+              />
+            </Grid>
+          ) : (
+            <h1 style={{ display: 'block', margin: '5% auto' }}>Don't Have permission</h1>
+          )}
         </Grid>
       </Grid>
     </Grid>

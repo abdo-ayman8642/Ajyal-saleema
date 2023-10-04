@@ -49,13 +49,15 @@ function CampsData() {
       <Grid item xs={12} md={12}>
         <Grid container>
           <Grid item xs={12}>
-            <TableHeader
-              title={'الطلاب'}
-              formType={'students'}
-              showDrawer={showDrawer}
-              setDrawer={setDrawer}
-              addData={{ urlId: campId, query: 'school_camp', school_id: campId }}
-            />
+            {add ?? (
+              <TableHeader
+                title={'الطلاب'}
+                formType={'students'}
+                showDrawer={showDrawer}
+                setDrawer={setDrawer}
+                addData={{ urlId: campId, query: 'school_camp', school_id: campId }}
+              />
+            )}
           </Grid>
           <Grid item xs={12}>
             {read ? (
@@ -69,7 +71,7 @@ function CampsData() {
                 permissions={students}
               />
             ) : (
-              <h1>Don't Have A Permission</h1>
+              <h1 style={{ display: 'block', margin: '5% auto' }}>Don't Have A Permission</h1>
             )}
           </Grid>
         </Grid>

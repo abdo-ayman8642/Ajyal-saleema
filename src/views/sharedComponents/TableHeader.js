@@ -10,6 +10,7 @@ import { useDebounce } from 'src/hooks/useDepounce'
 import { searchData } from 'src/store/apps/academicData/actions'
 import { handleSearched, handleSearchedQuery, resetSearchedData } from 'src/store/apps/academicData'
 import { fetchData } from 'src/store/apps/events/actions'
+import { useAuth } from 'src/hooks/useAuth'
 
 function TableHeader({
   toggleAdd,
@@ -28,6 +29,10 @@ function TableHeader({
   const [searchVal, setSearchVal] = useState('')
   const { page, query, searched } = searchdata || {}
   const { add } = permissions || {}
+  const user = useAuth()
+  const role = user?.user?.role
+  console.log(role)
+  console.log(add)
 
   const handleSearch = value => {
     if (!value) {
@@ -82,14 +87,14 @@ function TableHeader({
           </>
         )}
 
-        {dataType !== 'user' && selected?.length > 1 && (
+        {/* {dataType !== 'user' && selected?.length > 1 && (
           <Button sx={{ mb: 2, fontSize: '1rem', fontWeight: 'bold' }} onClick={toggleConfirm} variant='contained'>
             مسح الكل
           </Button>
-        )}
+        )} */}
       </Box>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-        {dataType !== 'sessions' && dataType !== 'user' && (
+        {/* {dataType !== 'sessions' && dataType !== 'user' && (
           <TextField
             size='small'
             value={searchVal}
@@ -104,8 +109,9 @@ function TableHeader({
               )
             }}
           />
-        )}
-        {add ?? (
+        )} */}
+
+        {!!add && (
           <Button
             sx={{ mb: 2, fontSize: '1rem', fontWeight: 'bold' }}
             onClick={toggleAdd}

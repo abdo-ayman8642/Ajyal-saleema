@@ -11,6 +11,7 @@ import ConfirmDialog from 'src/views/sharedComponents/ConfirmDialog'
 import SidebarAddEvent from 'src/views/apps/events/AddDrawer'
 import { CircularProgress } from '@mui/material'
 import { useAuth } from 'src/hooks/useAuth'
+import PageHeader from 'src/views/apps/academicYear/PageHeader'
 
 function Events() {
   /** states and variables */
@@ -22,7 +23,11 @@ function Events() {
   const selectedEvents = useSelector(state => state.events?.selectedEvents)
 
   const user = useAuth()
-  const role = user?.user?.role
+
+  const { year } = user?.user?.permissions
+  const { add, edit, delete: deletee, read } = year
+  console.log(add, edit, deletee, read)
+  console.log(user)
 
   const formInputs = [
     {
@@ -68,16 +73,21 @@ function Events() {
 
   return (
     <Grid container direction='column'>
-      {role != 2 ? (
+      <Grid item xs={12} md={12}>
+        <PageHeader src={'/images/govs.jpg'} />
+      </Grid>
+      {add ?? (
+        <TableHeader
+          toggleAdd={toggleAddForm}
+          toggleConfirm={toggleConfirm}
+          placeholder={'حدث'}
+          dataType={'events'}
+          selected={selectedEvents || events}
+          searchdata={{ page: 1, query: '', searched: 'events' }}
+        />
+      )}
+      {read ? (
         <>
-          <TableHeader
-            toggleAdd={toggleAddForm}
-            toggleConfirm={toggleConfirm}
-            placeholder={'حدث'}
-            dataType={'events'}
-            selected={selectedEvents || events}
-            searchdata={{ page: 1, query: '', searched: 'events' }}
-          />
           <EventList formInputs={formInputs} toggleConfirm={toggleConfirm} />
           {showAddForm && <SidebarAddEvent open={showAddForm} toggle={toggleAddForm} formInputs={formInputs} />}
           {showConfirm && (

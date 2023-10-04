@@ -12,6 +12,12 @@ function AcademicYear() {
   const dispatch = useDispatch()
   const loading = useSelector(state => state.academicData?.yearsLoading)
   const [showYearDrawer, setYearDrawer] = useState(false)
+  const user = useAuth()
+
+  const { year } = user?.user?.permissions
+  const { add, edit, delete: deletee, read } = year
+  console.log(add, edit, deletee, read)
+  console.log(user)
 
   const handlePageChange = nextPage => {
     dispatch(fetchYears(nextPage))
@@ -32,32 +38,66 @@ function AcademicYear() {
   }
 
   return (
-    <Grid container spacing={10}>
-      <Grid item xs={12} md={12}>
-        <PageHeader src={'/images/academics2.jpg'} />
-      </Grid>
-      <Grid item xs={12} md={12}>
-        <Grid container>
-          <Grid item xs={12}>
-            <TableHeader
-              title={'السنة التنفيذية'}
-              formType={'years'}
-              showDrawer={showYearDrawer}
-              setDrawer={setYearDrawer}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <DataTable
-              dataName={'العام الدراسي'}
-              formType={'years'}
-              storeData={'years'}
-              pathname={`academicYear/gov`}
-              handlePageChange={handlePageChange}
-            />
+    <>
+      <Grid container spacing={10}>
+        <Grid item xs={12} md={12}>
+          <PageHeader src={'/images/academics2.jpg'} />
+        </Grid>
+
+        <Grid item xs={12} md={12}>
+          <Grid container>
+            {add && (
+              <Grid item xs={12}>
+                <TableHeader
+                  title={'السنة التنفيذية'}
+                  formType={'years'}
+                  showDrawer={showYearDrawer}
+                  setDrawer={setYearDrawer}
+                />
+              </Grid>
+            )}
+            {read ? (
+              <Grid item xs={12}>
+                <DataTable
+                  dataName={'العام الدراسي'}
+                  formType={'years'}
+                  storeData={'years'}
+                  pathname={`academicYear/gov`}
+                  handlePageChange={handlePageChange}
+                />
+              </Grid>
+            ) : (
+              <h1 style={{ display: 'block', margin: '5% auto' }}>Don't Have permission</h1>
+            )}
           </Grid>
         </Grid>
+        {/* {read ? (
+          <Grid item xs={12} md={12}>
+            <Grid container>
+              <Grid item xs={12}>
+                <TableHeader
+                  title={'السنة التنفيذية'}
+                  formType={'years'}
+                  showDrawer={showYearDrawer}
+                  setDrawer={setYearDrawer}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <DataTable
+                  dataName={'العام الدراسي'}
+                  formType={'years'}
+                  storeData={'years'}
+                  pathname={`academicYear/gov`}
+                  handlePageChange={handlePageChange}
+                />
+              </Grid>
+            </Grid>
+          </Grid>
+        ) : (
+          <h1 style={{ display: 'block', margin: '5% auto' }}>Don't Have permission</h1>
+        )} */}
       </Grid>
-    </Grid>
+    </>
   )
 }
 
