@@ -25,7 +25,7 @@ function Sessions() {
 
   const user = useAuth()
   const role = user?.user?.role
-  const { sessions: sessionsPer } = user?.user?.permissions
+  const { sessions: sessionsPer } = user?.user?.permissions || {}
   const { read, add, edit } = sessionsPer
   const deletee = sessionsPer?.['delete']
   console.log(read)

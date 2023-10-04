@@ -58,7 +58,7 @@ function CampsData() {
             />
           </Grid>
           <Grid item xs={12}>
-            {true ? (
+            {read ? (
               <DataTable
                 dataName={'الطالب'}
                 formType={'students'}

@@ -24,6 +24,11 @@ const navigation = () => {
       title: 'الأعوام الدراسية',
       icon: CalendarMonthIcon,
       path: '/academicYear'
+    },
+    {
+      title: 'الإختبارات',
+      icon: QuizIcon,
+      path: '/exams'
     }
   ]
   const normalNav = [

@@ -68,6 +68,7 @@ const HeaderButton = styled(Button)(({ theme }) => ({
 function Attendance() {
   const user = useAuth()
   const role = user?.user?.role
+
   return (
     <>
       {role != 2 ? (

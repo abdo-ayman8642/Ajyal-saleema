@@ -29,7 +29,6 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(defaultProvider.user)
   const [loading, setLoading] = useState(defaultProvider.loading)
   const [isInitialized, setIsInitialized] = useState(defaultProvider.isInitialized)
-  console.log('inside')
 
   // ** Hooks
   const router = useRouter()

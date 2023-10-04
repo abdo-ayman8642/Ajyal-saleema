@@ -19,13 +19,16 @@ import CardStatisticsWeeklySalesBg from 'src/views/ui/cards/statistics/CardStati
 import CardStatsOrdersImpressions from 'src/views/ui/cards/statistics/CardStatsOrdersImpressions'
 import CardProjectStatistics from 'src/views/ui/cards/advanced/CardProjectStatistics'
 import CardStatisticsSales from 'src/views/ui/cards/statistics/CardStatisticsSales'
-
+import { useAuth } from 'src/hooks/useAuth'
+const _ = require('lodash')
 const Home = () => {
   const dispatch = useDispatch()
   const dashboardStats = useSelector(state => state.user?.dashboard?.data)
   const loading = useSelector(state => state.user?.dashboardLoading)
-
+  console.log('home')
+  const user = useAuth()
   useEffect(() => {
+    _.isEmpty(user?.user) && window.location.reload()
     dispatch(dashboardData())
   }, [dispatch])
 

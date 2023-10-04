@@ -183,7 +183,7 @@ function TableHeader({ title, formType, showDrawer, setDrawer, addData, placehol
           {title}
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          {formType !== 'govs' && formType !== 'grades' && (
+          {/* {formType !== 'govs' && formType !== 'grades' && (
             <TextField
               size='small'
               value={searchVal}
@@ -198,7 +198,7 @@ function TableHeader({ title, formType, showDrawer, setDrawer, addData, placehol
                 )
               }}
             />
-          )}
+          )} */}
           {formType !== 'govs' && formType !== 'grades' && (
             <Button sx={{ mb: 2, fontSize: '1rem', fontWeight: 'bold' }} onClick={toggle} variant='contained'>
               إضافة

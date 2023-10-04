@@ -18,6 +18,10 @@ function Exams() {
   const [showAdd, setShowAdd] = useState(false)
   const user = useAuth()
   const role = user?.user?.role
+  const { exams: sessionsPer } = user?.user?.permissions || {}
+  const { read, add, edit } = sessionsPer
+  const deletee = sessionsPer?.['delete']
+
   useEffect(() => {
     dispatch(fetchData())
   }, [dispatch])
@@ -78,7 +82,7 @@ function Exams() {
 
   return (
     <>
-      {role != 2 ? (
+      {read ? (
         <Grid container>
           <Grid item xs={12} md={12}>
             <PageHeader toggleAdd={toggleAdd} />

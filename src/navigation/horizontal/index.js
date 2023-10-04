@@ -13,6 +13,7 @@ import EventIcon from '@mui/icons-material/Event'
 const navigation = () => {
   const user = useAuth()
   const role = user?.user?.role
+  console.log(role)
   const volNav = [
     {
       title: 'الرئيسية',
@@ -23,6 +24,11 @@ const navigation = () => {
       title: 'الأعوام الدراسية',
       icon: CalendarMonthIcon,
       path: '/academicYear'
+    },
+    {
+      title: 'الإختبارات',
+      icon: QuizIcon,
+      path: '/exams'
     }
   ]
   const normalNav = [
