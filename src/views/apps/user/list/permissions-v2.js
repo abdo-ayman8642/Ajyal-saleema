@@ -10,10 +10,16 @@ import Checkbox from '@mui/material/Checkbox'
 import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Button from '@mui/material/Button'
+import { useDispatch } from 'react-redux'
+import { updateUser } from 'src/store/apps/user/actions'
 
-function PermissionsV2({ user: selectedUser }) {
+function PermissionsV2({ user }) {
+  const dispatch = useDispatch()
+  const { permissions: selectedUser, id, name } = user
   console.log(selectedUser)
+
   // State to track permissions
+
   const [permissions, setPermissions] = useState({
     academic: {
       read: selectedUser.year.read,
@@ -61,6 +67,7 @@ function PermissionsV2({ user: selectedUser }) {
       students: selectedUser.nav.students,
       teachers: selectedUser.nav.teachers
     }
+
     // Add more permissions here as needed...
   })
 
@@ -71,7 +78,9 @@ function PermissionsV2({ user: selectedUser }) {
     event: false,
     exams: false,
     teachers: false,
-    students: false
+    students: false,
+    nav: false
+
     // Add more permissions here as needed...
   })
 
@@ -100,21 +109,31 @@ function PermissionsV2({ user: selectedUser }) {
     sessions: false,
     students: false,
     teachers: false
+
     // Add more 'nav' permissions here as needed...
   })
 
   // Function to handle 'nav' permission checkbox changes
   const handleNavPermissionChange = permissionType => event => {
-    setNavPermissions(prevNavPermissions => ({
-      ...prevNavPermissions,
-      [permissionType]: event.target.checked
+    console.log(permissionType)
+    console.log(permissions)
+    setPermissions(prev => ({
+      ...prev,
+      nav: {
+        ...prev.nav,
+        [permissionType]: event.target.checked
+      }
     }))
   }
 
+  const handleUpdatePermissions = body => {
+    dispatch(updateUser({ data: body }))
+  }
   console.log(permissions)
+
   return (
     <Fragment>
-      <h3 style={{ textAlign: 'center' }}>Permissions</h3>
+      <h3 style={{ textAlign: 'center' }}>{'Permissions for:    ' + name}</h3>
       <List component='nav' aria-label='main mailbox'>
         {['academic', 'session', 'event', 'exams', 'teachers', 'students'].map(section => (
           <>
@@ -171,7 +190,37 @@ function PermissionsV2({ user: selectedUser }) {
           </>
         ))}
       </List>
-      <Button variant='contained' sx={{ width: '100%' }}>
+      <List component='nav' aria-label='secondary mailbox'>
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => handleAccordionToggle('nav')}>
+            <ListItemText primary={'Show Tabs'} />
+          </ListItemButton>
+        </ListItem>
+        <Collapse in={open['nav']} timeout='auto' unmountOnExit>
+          <div style={{ display: 'flex', flexWrap: 'nowrap', margin: '0 2rem', gap: '1rem' }}>
+            {Object.keys(navPermissions).map(section => (
+              <FormControlLabel
+                key={section}
+                label={section}
+                control={
+                  <Checkbox
+                    checked={permissions['nav'][section]}
+                    onChange={handleNavPermissionChange(section)}
+                    name={`${section}-permission`}
+                  />
+                }
+              />
+            ))}
+          </div>
+        </Collapse>
+      </List>
+      <Button
+        variant='contained'
+        sx={{ width: '100%' }}
+        onClick={() => {
+          handleUpdatePermissions({ user_id: id, permissions })
+        }}
+      >
         Submit
       </Button>
     </Fragment>

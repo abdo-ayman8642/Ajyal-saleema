@@ -7,7 +7,6 @@ import { baseUrl } from 'src/configs/baseUrl'
 export const fetchData = createAsyncThunk('appUsers/fetchData', async (page, { rejectWithValue }) => {
   try {
     const response = await axios.get(`${baseUrl}users?page=${page}`)
-   
 
     return response
   } catch (err) {
@@ -40,9 +39,30 @@ export const addUser = createAsyncThunk('appUsers/addUser', async ({ data }, { r
   }
 })
 
+//update permissions
+export const updateUser = createAsyncThunk('appUsers/updateUser', async ({ data }, { rejectWithValue, dispatch }) => {
+  try {
+    console.log(data)
+
+    const response = await axios.post(`${baseUrl}users/permissions`, JSON.stringify(data), {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    dispatch(fetchData())
+
+    return response
+  } catch (err) {
+    if (!err.response.ok) {
+      throw err
+    }
+
+    return rejectWithValue(err.response.data)
+  }
+})
+
 // ** Delete single User
 export const deleteUser = createAsyncThunk('appUsers/deleteUser', async (id, { rejectWithValue, dispatch }) => {
-  
   try {
     const response = await axios.delete(`${baseUrl}users/${id}`)
     dispatch(fetchData())
@@ -103,9 +123,7 @@ export const dashboardData = createAsyncThunk('appUser/dashboard', async (params
 
     return rejectWithValue(err.response.data)
   }
-  
 })
-
 
 export const searchData = createAsyncThunk('appUser/search', async (name, { rejectWithValue, dispatch }) => {
   try {
@@ -119,5 +137,4 @@ export const searchData = createAsyncThunk('appUser/search', async (name, { reje
 
     return rejectWithValue(err.response.data)
   }
-  
 })

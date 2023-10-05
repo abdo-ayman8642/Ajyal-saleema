@@ -211,7 +211,7 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, d
                       <IconButton
                         onClick={() => {
                           handleOpen()
-                          setCurrentUser(row?.permissions)
+                          setCurrentUser(row)
                         }}
                       >
                         <ManageAccountsIcon />
