@@ -28,11 +28,11 @@ function TableHeader({
   const dispatch = useDispatch()
   const [searchVal, setSearchVal] = useState('')
   const { page, query, searched } = searchdata || {}
-  const { add } = permissions || {}
+  const { add } = permissions || { add: true }
   const user = useAuth()
   const role = user?.user?.role
   console.log(role)
-  console.log(add)
+  console.log('add:' + add)
 
   const handleSearch = value => {
     if (!value) {

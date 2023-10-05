@@ -7,16 +7,22 @@ import TableHeader from 'src/views/apps/academicYear/TableHeader'
 import { useAuth } from 'src/hooks/useAuth'
 import { fetchYears } from 'src/store/apps/academicData/actions'
 import DataTable from 'src/views/apps/academicYear/Table'
+import { academicDataInputs } from 'src/helperFunctions/AcademicDataInputs'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
+import CardMedia from '@mui/material/CardMedia'
+import Typography from '@mui/material/Typography'
+import { CardActionArea } from '@mui/material'
 
 function AcademicYear() {
   const dispatch = useDispatch()
   const loading = useSelector(state => state.academicData?.yearsLoading)
   const [showYearDrawer, setYearDrawer] = useState(false)
+
   const user = useAuth()
 
   const { year } = user?.user?.permissions
   const { add, edit, delete: deletee, read } = year
-  console.log(add, edit, deletee, read)
   console.log(user)
 
   const handlePageChange = nextPage => {
@@ -27,6 +33,14 @@ function AcademicYear() {
     dispatch(fetchYears(1))
   }, [dispatch])
 
+  const years = useSelector(state => state.academicData['years'])
+  const {
+    total_classes = null,
+    total_departs = null,
+    total_schools = null,
+    total_students = null
+  } = years?.data?.[0]?.totals || {}
+  console.log(total_classes, total_departs, total_schools, total_students)
   if (loading) {
     return (
       <Grid container sx={{ justifyContent: 'center', alignItems: 'center', height: '100%' }}>
@@ -65,6 +79,96 @@ function AcademicYear() {
                   pathname={`academicYear/gov`}
                   handlePageChange={handlePageChange}
                 />
+                <div style={{ display: 'flex', gap: '1rem', marginTop: '5rem', justifyContent: 'space-evenly' }}>
+                  <Card>
+                    <CardActionArea>
+                      <CardContent>
+                        <Typography gutterBottom variant='h5' component='div'>
+                          Total Departments
+                        </Typography>
+                        <Typography
+                          variant='body2'
+                          color='text.secondary'
+                          sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            marginTop: '2rem',
+                            fontSize: '8rem'
+                          }}
+                        >
+                          {total_departs}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                  <Card>
+                    <CardActionArea>
+                      <CardContent>
+                        <Typography gutterBottom variant='h5' component='div'>
+                          Total Schools
+                        </Typography>
+                        <Typography
+                          variant='body2'
+                          color='text.secondary'
+                          sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            marginTop: '2rem',
+                            fontSize: '8rem'
+                          }}
+                        >
+                          {total_schools}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                  <Card>
+                    <CardActionArea>
+                      <CardContent>
+                        <Typography gutterBottom variant='h5' component='div'>
+                          Total Classes
+                        </Typography>
+                        <Typography
+                          variant='body2'
+                          color='text.secondary'
+                          sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            marginTop: '2rem',
+                            fontSize: '8rem'
+                          }}
+                        >
+                          {total_classes}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                  <Card>
+                    <CardActionArea>
+                      <CardContent>
+                        <Typography gutterBottom variant='h5' component='div'>
+                          Total Students
+                        </Typography>
+                        <Typography
+                          variant='body2'
+                          color='text.secondary'
+                          sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            marginTop: '2rem',
+                            fontSize: '8rem'
+                          }}
+                        >
+                          {total_students}
+                        </Typography>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                </div>
               </Grid>
             ) : (
               <h1 style={{ display: 'block', margin: '5% auto' }}>Don't Have permission</h1>

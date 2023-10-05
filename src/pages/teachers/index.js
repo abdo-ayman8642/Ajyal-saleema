@@ -39,10 +39,6 @@ function Teachers() {
 
   const previousPermissionsRef = useRef(user?.user?.permissions)
   useEffect(() => {
-    console.log('checking')
-    console.log(user?.user?.permissions, previousPermissionsRef.current)
-    console.log(JSON.stringify(user?.user?.permissions) !== JSON.stringify(previousPermissionsRef.current))
-
     const checkForPermissionChanges = () => {
       if (JSON.stringify(user?.user?.permissions) !== JSON.stringify(previousPermissionsRef.current)) {
         // Permissions have changed, so reload the page
@@ -64,8 +60,6 @@ function Teachers() {
 
   const { read, add, edit } = teachers
   const deletee = teachers?.['delete']
-  console.log(teachers)
-  console.log(read, add, edit, deletee)
 
   const formInputs = [
     {

@@ -42,8 +42,6 @@ export const addUser = createAsyncThunk('appUsers/addUser', async ({ data }, { r
 //update permissions
 export const updateUser = createAsyncThunk('appUsers/updateUser', async ({ data }, { rejectWithValue, dispatch }) => {
   try {
-    console.log(data)
-
     const response = await axios.post(`${baseUrl}users/permissions`, JSON.stringify(data), {
       headers: {
         'Content-Type': 'application/json'

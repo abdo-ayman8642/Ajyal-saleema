@@ -23,8 +23,6 @@ export const fetchData = createAsyncThunk('appTeachers/fetchData', async (page, 
 export const assignTeacher = createAsyncThunk(
   'appTeacher/assignTeacher',
   async ({ data }, { rejectWithValue, dispatch }) => {
-    console.log(data)
-
     try {
       const response = await axios.post(`${baseUrl}teachers/assign`, JSON.stringify(data), {
         headers: {
@@ -47,8 +45,6 @@ export const assignTeacher = createAsyncThunk(
 export const unAssignTeacher = createAsyncThunk(
   'appTeacher/unassignTeacher',
   async ({ data }, { rejectWithValue, dispatch }) => {
-    console.log(data)
-
     try {
       const response = await axios.post(`${baseUrl}teachers/unsign`, JSON.stringify(data), {
         headers: {
@@ -70,8 +66,6 @@ export const unAssignTeacher = createAsyncThunk(
 // ** Add Teacher * /
 
 export const addTeacher = createAsyncThunk('appTeacher/addTeacher', async ({ data }, { rejectWithValue, dispatch }) => {
-  console.log(data)
-
   try {
     const response = await axios.post(`${baseUrl}teachers`, JSON.stringify(data), {
       headers: {

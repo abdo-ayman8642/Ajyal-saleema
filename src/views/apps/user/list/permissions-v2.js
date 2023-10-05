@@ -16,56 +16,56 @@ import { updateUser } from 'src/store/apps/user/actions'
 function PermissionsV2({ user }) {
   const dispatch = useDispatch()
   const { permissions: selectedUser, id, name } = user
-  console.log(selectedUser)
+  console.log(user)
 
   // State to track permissions
 
   const [permissions, setPermissions] = useState({
-    academic: {
-      read: selectedUser.year.read,
-      add: selectedUser.year.add,
-      edit: selectedUser.year.edit,
-      delete: selectedUser.year.delete
+    year: {
+      read: selectedUser?.year?.read || false,
+      add: selectedUser?.year?.add || false,
+      edit: selectedUser?.year?.edit || false,
+      delete: selectedUser?.year?.delete || false
     },
     session: {
-      read: selectedUser.sessions.read,
-      add: selectedUser.sessions.add,
-      edit: selectedUser.sessions.edit,
-      delete: selectedUser.sessions.delete
+      read: selectedUser?.sessions?.read || false,
+      add: selectedUser?.sessions?.add || false,
+      edit: selectedUser?.sessions?.edit || false,
+      delete: selectedUser?.sessions?.delete || false
     },
     event: {
-      read: selectedUser.events.read,
-      add: selectedUser.events.add,
-      edit: selectedUser.events.edit,
-      delete: selectedUser.events.delete
+      read: selectedUser?.events?.read || false,
+      add: selectedUser?.events?.add || false,
+      edit: selectedUser?.events?.edit || false,
+      delete: selectedUser?.events?.delete || false
     },
     exams: {
-      read: selectedUser.exams.read,
-      add: selectedUser.exams.add,
-      edit: selectedUser.exams.edit,
-      delete: selectedUser.exams.delete
+      read: selectedUser?.exams?.read || false,
+      add: selectedUser?.exams?.add || false,
+      edit: selectedUser?.exams?.edit || false,
+      delete: selectedUser?.exams?.delete || false
     },
     teachers: {
-      read: selectedUser.teachers.read,
-      add: selectedUser.teachers.add,
-      edit: selectedUser.teachers.edit,
-      delete: selectedUser.teachers.delete
+      read: selectedUser?.teachers?.read || false,
+      add: selectedUser?.teachers.add || false,
+      edit: selectedUser?.teachers?.edit || false,
+      delete: selectedUser?.teachers?.delete || false
     },
     students: {
-      read: selectedUser.students.read,
-      add: selectedUser.students.add,
-      edit: selectedUser.students.edit,
-      delete: selectedUser.students.delete
+      read: selectedUser?.students?.read || false,
+      add: selectedUser?.students?.add || false,
+      edit: selectedUser?.students?.edit || false,
+      delete: selectedUser?.students?.delete || false
     },
     nav: {
-      academic: selectedUser.nav.academic,
-      attendance: selectedUser.nav.attendance,
-      events: selectedUser.nav.events,
-      exams: selectedUser.nav.exams,
-      home: selectedUser.nav.home,
-      sessions: selectedUser.nav.sessions,
-      students: selectedUser.nav.students,
-      teachers: selectedUser.nav.teachers
+      academic: selectedUser?.nav?.academic || false,
+      attendance: selectedUser?.nav?.attendance || false,
+      events: selectedUser?.nav?.events || false,
+      exams: selectedUser?.nav?.exams || false,
+      home: selectedUser?.nav?.home || false,
+      sessions: selectedUser?.nav?.sessions || false,
+      students: selectedUser?.nav?.students || false,
+      teachers: selectedUser?.nav?.teachers || false
     }
 
     // Add more permissions here as needed...
@@ -73,7 +73,7 @@ function PermissionsV2({ user }) {
 
   // State to track open/close state of the accordions
   const [open, setOpen] = useState({
-    academic: false,
+    year: false,
     session: false,
     event: false,
     exams: false,
@@ -135,7 +135,7 @@ function PermissionsV2({ user }) {
     <Fragment>
       <h3 style={{ textAlign: 'center' }}>{'Permissions for:    ' + name}</h3>
       <List component='nav' aria-label='main mailbox'>
-        {['academic', 'session', 'event', 'exams', 'teachers', 'students'].map(section => (
+        {['year', 'session', 'event', 'exams', 'teachers', 'students'].map(section => (
           <>
             <ListItem key={section} disablePadding>
               <ListItemButton onClick={() => handleAccordionToggle(section)}>

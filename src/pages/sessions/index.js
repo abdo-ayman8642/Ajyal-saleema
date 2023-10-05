@@ -27,8 +27,6 @@ function Sessions() {
   const role = user?.user?.role
   const { sessions: sessionsPer } = user?.user?.permissions || {}
   const { read, add, edit, delete: deletee } = sessionsPer
-  console.log(read, add, edit, deletee)
-  console.log(sessionsPer)
 
   const formInputs = [
     {

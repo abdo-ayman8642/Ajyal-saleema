@@ -26,8 +26,6 @@ function Events() {
 
   const { year } = user?.user?.permissions
   const { add, edit, delete: deletee, read } = year
-  console.log(add, edit, deletee, read)
-  console.log(user)
 
   const formInputs = [
     {

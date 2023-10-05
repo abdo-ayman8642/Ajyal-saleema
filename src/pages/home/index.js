@@ -28,10 +28,10 @@ const Home = () => {
   const dispatch = useDispatch()
   const dashboardStats = useSelector(state => state.user?.dashboard?.data)
   const loading = useSelector(state => state.user?.dashboardLoading)
-  console.log('home')
   const user = useAuth()
   const permission = user?.user?.permissions?.nav?.home
-  console.log(permission)
+  console.log(user)
+
   useEffect(() => {
     _.isEmpty(user?.user) && window.location.reload()
     dispatch(dashboardData())

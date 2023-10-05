@@ -28,8 +28,6 @@ function AdministrationData() {
 
   const { year } = user?.user?.permissions
   const { add, edit, delete: deletee, read } = year
-  console.log(add, edit, deletee, read)
-  console.log(user)
   useEffect(() => {
     dispatch(fetchAdministrations({ page: 1, cityId: id, yearId: pastRoute }))
   }, [pastRoute, dispatch, id])

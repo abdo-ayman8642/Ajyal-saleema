@@ -15,7 +15,6 @@ const navigation = () => {
   const user = useAuth()
   const role = user?.user?.role
   const permissions = user?.user?.permissions?.nav
-  console.log(permissions)
 
   const usedNav = []
 

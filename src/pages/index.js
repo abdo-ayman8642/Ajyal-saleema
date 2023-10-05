@@ -19,7 +19,6 @@ const Home = () => {
   // ** Hooks
   const auth = useAuth()
   auth.initAuth()
-  console.log(auth)
   const router = useRouter()
 
   useEffect(() => {

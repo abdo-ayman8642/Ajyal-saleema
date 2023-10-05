@@ -22,8 +22,6 @@ function CampsData() {
   const campId = router.query.id
   const user = useAuth()
   const { students } = user?.user?.permissions
-  console.log(user)
-  console.log(students, user?.user?.permissions)
   const { read, add, edit } = students
   const deletee = students?.['delete']
 
