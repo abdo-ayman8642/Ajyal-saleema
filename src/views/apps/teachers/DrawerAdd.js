@@ -87,7 +87,6 @@ const defaultValues = {
 const SidebarAddTeacher = props => {
   // ** Props
   const { open, toggle, teacherId = null } = props
-  console.log(teacherId)
 
   // ** Hooks
   const dispatch = useDispatch()
@@ -140,7 +139,7 @@ const SidebarAddTeacher = props => {
       } else if (selectedType === 'school') {
         dispatch(fetchSchools({ id: selectedAdminstr, type: selectedType }))
         if (selectedSchool) {
-          dispatch(fetchGrades())
+          dispatch(fetchGrades({}))
         }
         if (selectedGrade) {
           dispatch(fetchClasses({ gradeId: selectedGrade, schoolId: selectedSchool, page: 1 }))
@@ -151,8 +150,6 @@ const SidebarAddTeacher = props => {
 
   //** Functions */
   const onSubmit = e => {
-    console.log(formData)
-
     const schoolType = formData.type === 'camp' ? 'schools' : 'classes'
     let formDataInputs = {
       name: text,
@@ -162,7 +159,6 @@ const SidebarAddTeacher = props => {
 
       // [schoolType]: [{ id: data.class }]
     }
-    console.log(formDataInputs)
     teacherId ? dispatch(assignTeacher({ data: formDataInputs })) : dispatch(addTeacher({ data: formDataInputs }))
     handleClose()
   }

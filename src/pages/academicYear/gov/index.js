@@ -10,6 +10,21 @@ import DataTable from 'src/views/apps/academicYear/Table'
 import { useRouter } from 'next/router'
 import { handlePastRoute } from 'src/store/apps/academicData'
 import { useAuth } from 'src/hooks/useAuth'
+import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
+import { fetchYears } from 'src/store/apps/academicData/actions'
+function getObjectById(objects, id) {
+  if (!objects) return null
+
+  for (let i = 0; i < objects.length; i++) {
+    if (objects[i].id === id) {
+      return objects[i]
+    }
+  }
+
+  // If no matching object is found, return null or handle it as needed
+
+  return null
+}
 
 function GovData() {
   const dispatch = useDispatch()
@@ -17,9 +32,25 @@ function GovData() {
   const [showDrawer, setDrawer] = useState(false)
   const router = useRouter()
   const yearId = router.query.id
+  const data = useSelector(state => state.academicData['years'])
   const searchedQuery = useSelector(state => state.academicData?.searchedQuery)
   const searchedData = useSelector(state => state.academicData?.searchedData)
   const user = useAuth()
+
+  const {
+    total_classes = null,
+    total_departs = null,
+    total_schools = null,
+    total_students = null
+  } = getObjectById(data?.data, Number(yearId)) || {}
+
+  const cardData = [
+    { header: 'Total Departments', number: total_departs },
+    { header: 'Total Schools', number: total_schools },
+    { header: 'Total Classes', number: total_classes },
+    { header: 'Total Students', number: total_students }
+  ]
+  console.log(cardData)
 
   const { year } = user?.user?.permissions
   const { add, edit, delete: deletee, read } = year
@@ -27,6 +58,7 @@ function GovData() {
   useEffect(() => {
     dispatch(fetchGovs(1))
     dispatch(handlePastRoute(yearId))
+    dispatch(fetchYears(1))
   }, [dispatch, yearId])
 
   if (loading) {
@@ -77,6 +109,7 @@ function GovData() {
                 pastRoute={yearId}
                 handlePageChange={handlePageChange}
               />
+              <ResponsiveCardGrid cardData={cardData} />
             </Grid>
           )}
         </Grid>

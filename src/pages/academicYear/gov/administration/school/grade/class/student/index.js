@@ -7,13 +7,31 @@ import TableHeader from 'src/views/apps/academicYear/TableHeader'
 import { filterBy } from 'src/store/apps/academicData/actions'
 import DataTable from 'src/views/apps/academicYear/Table'
 import { useRouter } from 'next/router'
+import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
+
+function getObjectById(objects, id) {
+  if (!objects) return null
+
+  for (let i = 0; i < objects.length; i++) {
+    if (objects[i].id === id) {
+      return objects[i]
+    }
+  }
+
+  // If no matching object is found, return null or handle it as needed
+
+  return null
+}
 
 function StudentsData() {
   const dispatch = useDispatch()
   const loading = useSelector(state => state.academicData?.studentsLoading)
   const [showDrawer, setDrawer] = useState(false)
+  const data = useSelector(state => state.academicData['students'])
   const router = useRouter()
   const id = router.query.id
+
+  const cardData = [{ header: 'Total Students', number: data?.data?.total }]
 
   useEffect(() => {
     dispatch(filterBy({ page: 1, query: 'class', value: id }))
@@ -58,6 +76,7 @@ function StudentsData() {
               pathname={'student/view'}
               handlePageChange={handlePageChange}
             />
+            <ResponsiveCardGrid cardData={cardData} />
           </Grid>
         </Grid>
       </Grid>

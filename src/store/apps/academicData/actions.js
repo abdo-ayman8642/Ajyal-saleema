@@ -6,6 +6,7 @@ const baseUrl = 'https://edu.kyanlabs.com/edu/api/'
 export const fetchYears = createAsyncThunk('appAcademicData/fetchYears', async (page, { rejectWithValue }) => {
   try {
     const response = await axios.get(`${baseUrl}years?page=${page}`)
+
     return response
   } catch (err) {
     if (!err.response) {
@@ -64,19 +65,22 @@ export const fetchSchools = createAsyncThunk(
   }
 )
 
-export const fetchGrades = createAsyncThunk('appAcademicData/fetchGrades', async (page, { rejectWithValue }) => {
-  try {
-    const response = await axios.get(`${baseUrl}grades?page=${page}`)
+export const fetchGrades = createAsyncThunk(
+  'appAcademicData/fetchGrades',
+  async ({ id, page }, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(`${baseUrl}grades?page=${page}&school_id=${id}`)
 
-    return response
-  } catch (err) {
-    if (!err.response) {
-      throw err
+      return response
+    } catch (err) {
+      if (!err.response) {
+        throw err
+      }
+
+      return rejectWithValue(err.response.data)
     }
-
-    return rejectWithValue(err.response.data)
   }
-})
+)
 
 export const fetchClasses = createAsyncThunk(
   'appAcademicData/fetchClasses',

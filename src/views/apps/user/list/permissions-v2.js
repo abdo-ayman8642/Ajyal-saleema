@@ -12,11 +12,48 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Button from '@mui/material/Button'
 import { useDispatch } from 'react-redux'
 import { updateUser } from 'src/store/apps/user/actions'
+import { useRouter } from 'next/router'
+
+function deepEqual(obj1, obj2) {
+  const keys1 = Object.keys(obj1).sort()
+  const keys2 = Object.keys(obj2).sort()
+
+  if (!arraysEqual(keys1, keys2)) {
+    return false
+  }
+
+  for (const key of keys1) {
+    if (typeof obj1[key] === 'object' && typeof obj2[key] === 'object') {
+      if (!deepEqual(obj1[key], obj2[key])) {
+        return false
+      }
+    } else if (obj1[key] !== obj2[key]) {
+      return false
+    }
+  }
+
+  return true
+}
+
+function arraysEqual(arr1, arr2) {
+  if (arr1.length !== arr2.length) {
+    return false
+  }
+
+  for (let i = 0; i < arr1.length; i++) {
+    if (arr1[i] !== arr2[i]) {
+      return false
+    }
+  }
+
+  return true
+}
 
 function PermissionsV2({ user }) {
   const dispatch = useDispatch()
   const { permissions: selectedUser, id, name } = user
-  console.log(user)
+  const [view, setView] = useState(false)
+  const router = useRouter()
 
   // State to track permissions
 
@@ -97,6 +134,7 @@ function PermissionsV2({ user }) {
     const updatedPermissions = { ...permissions }
     updatedPermissions[permissionType][action] = event.target.checked
     setPermissions(updatedPermissions)
+    setView(true)
   }
 
   // State to track 'nav' permissions
@@ -115,8 +153,6 @@ function PermissionsV2({ user }) {
 
   // Function to handle 'nav' permission checkbox changes
   const handleNavPermissionChange = permissionType => event => {
-    console.log(permissionType)
-    console.log(permissions)
     setPermissions(prev => ({
       ...prev,
       nav: {
@@ -124,12 +160,13 @@ function PermissionsV2({ user }) {
         [permissionType]: event.target.checked
       }
     }))
+    setView(true)
   }
 
   const handleUpdatePermissions = body => {
     dispatch(updateUser({ data: body }))
+    router.push('/') // Navigates to the root path '/'
   }
-  console.log(permissions)
 
   return (
     <Fragment>
@@ -214,15 +251,17 @@ function PermissionsV2({ user }) {
           </div>
         </Collapse>
       </List>
-      <Button
-        variant='contained'
-        sx={{ width: '100%' }}
-        onClick={() => {
-          handleUpdatePermissions({ user_id: id, permissions })
-        }}
-      >
-        Submit
-      </Button>
+      {view && (
+        <Button
+          variant='contained'
+          sx={{ width: '100%' }}
+          onClick={() => {
+            handleUpdatePermissions({ user_id: id, permissions })
+          }}
+        >
+          Submit
+        </Button>
+      )}
     </Fragment>
   )
 }

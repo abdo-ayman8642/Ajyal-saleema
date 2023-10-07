@@ -15,6 +15,8 @@ import Typography from '@mui/material/Typography'
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline'
 import { Button, CircularProgress } from '@mui/material'
 import ChecklistRtlIcon from '@mui/icons-material/ChecklistRtl'
+import SidebarAddTeachers from 'src/views/apps/teachers/DrawerAdd'
+import AssignTeacher from '../teachers/AssignDataTable'
 
 // ** Icons Imports
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -23,6 +25,7 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth'
 // ** redux Imports
 import { useDispatch, useSelector } from 'react-redux'
 import { useAuth } from 'src/hooks/useAuth'
+import { unAssignTeacher } from 'src/store/apps/teachers/actions'
 
 // ** Custom Components Imports
 
@@ -32,13 +35,13 @@ import { handleActions } from 'src/helperFunctions/academicDataActions'
 import DialogEditForm from './DialogEditForm'
 import ConfirmDialog from 'src/views/sharedComponents/ConfirmDialog'
 import ConfirmDelete from './ConfirmDelete'
-import { fetchData } from 'src/store/apps/sessions/actions'
 import { getAttendance } from 'src/store/apps/student/actions'
 import { handleSelectedStudent } from 'src/store/apps/student'
 import CheckAttendance from '../students/list/CheckAttendance'
 import attendance from 'src/store/apps/attendance'
-import { Tooltip } from '@mui/material'
+import Tooltip from '@mui/material/Tooltip'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
+import AddBoxIcon from '@mui/icons-material/AddBox'
 
 // ** Utils Import
 import CardStatsCharacter from 'src/@core/components/card-statistics/card-stats-with-image'
@@ -66,265 +69,10 @@ const renderClient = row => {
   )
 }
 
-const handleDefaultColumns = (name, pathname, pastRoute, handleClick, formType, toggle) => {
-  const attendanceColumn = [
-    {
-      flex: 0.3,
-      minWidth: 50,
-      field: 'attendance',
-      headerName: 'الحضور',
-      renderCell: ({ row }) => {
-        const { id, name } = row
-
-        return (
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography
-                noWrap
-                component='a'
-                variant='subtitle2'
-                sx={{ color: 'text.primary', textDecoration: 'none' }}
-              >
-                {row.total_attendance}
-              </Typography>
-            </Box>
-          </Box>
-        )
-      }
-    },
-    {
-      flex: 0.3,
-      minWidth: 50,
-      sorDataTable: false,
-      field: 'teacher',
-      headerName: 'المعلم',
-      renderCell: ({ row }) => {
-        console.log(row)
-
-        return (
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography
-                noWrap
-                component='a'
-                variant='subtitle2'
-                sx={{ color: 'text.primary', textDecoration: 'none' }}
-              >
-                {row?.teacher}
-              </Typography>
-            </Box>
-          </Box>
-        )
-      }
-    }
-  ]
-
-  const codeColumn = {
-    flex: 0.5,
-    minWidth: 50,
-    field: 'code',
-    headerName: 'الكود',
-    renderCell: ({ row }) => {
-      const { code } = row
-
-      return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
-            <Typography noWrap component='a' variant='subtitle2' sx={{ color: 'text.primary', textDecoration: 'none' }}>
-              {code || '__'}
-            </Typography>
-          </Box>
-        </Box>
-      )
-    }
-  }
-
-  const administrationColumns = [
-    {
-      flex: 0.2,
-      minWidth: 50,
-      field: 'schools',
-      headerName: 'المدارس',
-      renderCell: ({ row }) => {
-        const { id, name } = row
-
-        return (
-          <Box
-            sx={{
-              marginLeft: -3,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: '#f2f2f2',
-              padding: '6px 12px',
-              borderRadius: '24px',
-              cursor: 'pointer',
-              boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
-              transition: 'background-color 0.3s ease',
-              '&:hover': {
-                backgroundColor: '#dcdcdc'
-              }
-            }}
-          >
-            <Link href={{ pathname: 'administration/school', query: { pastRoute: pastRoute, id: id } }} passHref>
-              <Typography
-                noWrap
-                component='a'
-                variant='subtitle2'
-                sx={{ color: 'text.primary', textDecoration: 'none' }}
-              >
-                المدارس التابعة للإدارة
-              </Typography>
-            </Link>
-          </Box>
-        )
-      }
-    },
-    {
-      flex: 0.2,
-      minWidth: 50,
-      field: 'camp',
-      headerName: 'المعسكر',
-      renderCell: ({ row }) => {
-        const { id, name } = row
-
-        return (
-          <Box
-            sx={{
-              marginLeft: -3,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: '#f2f2f2',
-              padding: '6px 12px',
-              borderRadius: '24px',
-              cursor: 'pointer',
-              boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
-              transition: 'background-color 0.3s ease',
-              '&:hover': {
-                backgroundColor: '#dcdcdc'
-              }
-            }}
-          >
-            <Link href={{ pathname: 'administration/camp', query: { pastRoute: pastRoute, id: id } }} passHref>
-              <Typography
-                noWrap
-                component='a'
-                variant='subtitle2'
-                sx={{ color: 'text.primary', textDecoration: 'none' }}
-              >
-                المعسكر
-              </Typography>
-            </Link>
-          </Box>
-        )
-      }
-    }
-  ]
-
-  const studentsColumns = [
-    {
-      flex: 0.1,
-      field: 'gender',
-      minWidth: 100,
-      headerName: 'الجنس',
-      renderCell: ({ row }) => {
-        return (
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography noWrap variant='subtitle1'>
-              {row.gender}
-            </Typography>
-          </Box>
-        )
-      }
-    },
-    {
-      flex: 0.15,
-      minWidth: 100,
-      sortable: false,
-      field: 'attendance',
-      headerName: 'الحضور',
-      renderCell: ({ row }) => (
-        <Box sx={{ display: 'flex' }}>
-          <Button variant='contained' color='secondary' startIcon={<ChecklistRtlIcon />} onClick={() => toggle(row)}>
-            تسجيل الحضور
-          </Button>
-        </Box>
-      )
-    }
-  ]
-
-  const defaultColumns = [
-    {
-      flex: 0.5,
-      minWidth: 50,
-      field: 'name',
-      headerName: name,
-      renderCell: ({ row }) => {
-        const { id, name } = row
-
-        return (
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {renderClient(row)}
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }} onClick={handleClick}>
-              {formType === 'administrations' ? (
-                <Typography
-                  noWrap
-                  component='a'
-                  variant='subtitle2'
-                  sx={{ color: 'text.primary', textDecoration: 'none' }}
-                >
-                  {name}
-                </Typography>
-              ) : (
-                <Link href={{ pathname: pathname, query: { pastRoute: pastRoute, id: id } }} passHref>
-                  <Typography
-                    noWrap
-                    component='a'
-                    variant='subtitle2'
-                    sx={{ color: 'text.primary', textDecoration: 'none' }}
-                  >
-                    {name}
-                  </Typography>
-                </Link>
-              )}
-            </Box>
-          </Box>
-        )
-      }
-    }
-  ]
-
-  if (formType === 'classes') {
-    const classCol = [...defaultColumns, ...attendanceColumn]
-
-    return classCol
-  }
-  if (formType === 'schools' || formType === 'govs' || formType === 'camps') {
-    defaultColumns.push(codeColumn)
-
-    return defaultColumns
-  }
-
-  if (formType === 'administrations') {
-    const administrColumns = [...defaultColumns, ...administrationColumns]
-    administrColumns.push(codeColumn)
-
-    return administrColumns
-  }
-
-  if (formType === 'students') {
-    const studColumns = [...defaultColumns, ...studentsColumns]
-
-    return studColumns
-  }
-
-  return defaultColumns
-}
-
-const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editData, handlePageChange }) => {
+const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editData, handlePageChange, renderAgain }) => {
   // ********* States & variables *******************/
   const [pageSize, setPageSize] = useState(10)
+  const [showForm, setShowForm] = useState(false)
   const [showAttendance, setShowAttendance] = useState(false)
   const dispatch = useDispatch()
   const [showEdit, setShowEdit] = useState(false)
@@ -334,17 +82,306 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
   const editAction = handleActions('edit', formType)
   const deleteAction = handleActions('delete', formType)
   const selected = useSelector(state => state.academicData?.selectedData)
-
+  const [currClass, setCurrClass] = useState(null)
   const user = useAuth()
   const role = user?.user?.role
   const { year } = user?.user?.permissions
   const { add, edit, delete: deletee, read } = year
-  console.log(edit, deletee)
+
   const schoolData = {
     title: 'المدارس',
     chipColor: 'primary',
     src: '/images/pages/misc-under-maintenance.png',
     cardImg: '/images/school.jpg'
+  }
+
+  const handleDefaultColumns = (name, pathname, pastRoute, handleClick, formType, toggle) => {
+    const attendanceColumn = [
+      {
+        flex: 0.3,
+        minWidth: 50,
+        field: 'attendance',
+        headerName: 'الحضور',
+        renderCell: ({ row }) => {
+          const { id, name } = row
+
+          return (
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+                <Typography
+                  noWrap
+                  component='a'
+                  variant='subtitle2'
+                  sx={{ color: 'text.primary', textDecoration: 'none' }}
+                >
+                  {row.total_attendance}
+                </Typography>
+              </Box>
+            </Box>
+          )
+        }
+      },
+      {
+        flex: 0.3,
+        minWidth: 50,
+        sorDataTable: false,
+        field: 'teacher',
+        headerName: 'المعلم',
+        renderCell: ({ row }) => {
+          return (
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+                <Typography
+                  noWrap
+                  component='a'
+                  variant='subtitle2'
+                  sx={{ color: 'text.primary', textDecoration: 'none' }}
+                >
+                  {row?.teacher ? (
+                    <>
+                      {row?.teacher}
+                      {deletee && (
+                        <Tooltip title='Unassign'>
+                          <Button
+                            variant='text'
+                            startIcon={<DeleteIcon />}
+                            sx={{ color: 'red' }}
+                            onClick={async () => {
+                              await dispatch(unAssignTeacher({ data: { classes: row?.id } }))
+                              renderAgain()
+                            }}
+                          />
+                        </Tooltip>
+                      )}
+                    </>
+                  ) : (
+                    <Tooltip title='Assign' placement='left'>
+                      {add && (
+                        <IconButton
+                          sx={{ cursor: 'pointer', color: 'green' }}
+                          onClick={() => {
+                            onClickAdd(row)
+                          }}
+                        >
+                          <AddBoxIcon />
+                        </IconButton>
+                      )}
+                    </Tooltip>
+                  )}
+                </Typography>
+              </Box>
+            </Box>
+          )
+        }
+      }
+    ]
+
+    const codeColumn = {
+      flex: 0.5,
+      minWidth: 50,
+      field: 'code',
+      headerName: 'الكود',
+      renderCell: ({ row }) => {
+        const { code } = row
+
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+              <Typography
+                noWrap
+                component='a'
+                variant='subtitle2'
+                sx={{ color: 'text.primary', textDecoration: 'none' }}
+              >
+                {code || '__'}
+              </Typography>
+            </Box>
+          </Box>
+        )
+      }
+    }
+
+    const administrationColumns = [
+      {
+        flex: 0.2,
+        minWidth: 50,
+        field: 'schools',
+        headerName: 'المدارس',
+        renderCell: ({ row }) => {
+          const { id, name } = row
+
+          return (
+            <Box
+              sx={{
+                marginLeft: -3,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: '#f2f2f2',
+                padding: '6px 12px',
+                borderRadius: '24px',
+                cursor: 'pointer',
+                boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+                transition: 'background-color 0.3s ease',
+                '&:hover': {
+                  backgroundColor: '#dcdcdc'
+                }
+              }}
+            >
+              <Link href={{ pathname: 'administration/school', query: { pastRoute: pastRoute, id: id } }} passHref>
+                <Typography
+                  noWrap
+                  component='a'
+                  variant='subtitle2'
+                  sx={{ color: 'text.primary', textDecoration: 'none' }}
+                >
+                  المدارس التابعة للإدارة
+                </Typography>
+              </Link>
+            </Box>
+          )
+        }
+      },
+      {
+        flex: 0.2,
+        minWidth: 50,
+        field: 'camp',
+        headerName: 'المعسكر',
+        renderCell: ({ row }) => {
+          const { id, name } = row
+
+          return (
+            <Box
+              sx={{
+                marginLeft: -3,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: '#f2f2f2',
+                padding: '6px 12px',
+                borderRadius: '24px',
+                cursor: 'pointer',
+                boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+                transition: 'background-color 0.3s ease',
+                '&:hover': {
+                  backgroundColor: '#dcdcdc'
+                }
+              }}
+            >
+              <Link href={{ pathname: 'administration/camp', query: { pastRoute: pastRoute, id: id } }} passHref>
+                <Typography
+                  noWrap
+                  component='a'
+                  variant='subtitle2'
+                  sx={{ color: 'text.primary', textDecoration: 'none' }}
+                >
+                  المعسكر
+                </Typography>
+              </Link>
+            </Box>
+          )
+        }
+      }
+    ]
+
+    const studentsColumns = [
+      {
+        flex: 0.1,
+        field: 'gender',
+        minWidth: 100,
+        headerName: 'الجنس',
+        renderCell: ({ row }) => {
+          return (
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography noWrap variant='subtitle1'>
+                {row.gender}
+              </Typography>
+            </Box>
+          )
+        }
+      },
+      {
+        flex: 0.15,
+        minWidth: 100,
+        sortable: false,
+        field: 'attendance',
+        headerName: 'الحضور',
+        renderCell: ({ row }) => (
+          <Box sx={{ display: 'flex' }}>
+            <Button variant='contained' color='secondary' startIcon={<ChecklistRtlIcon />} onClick={() => toggle(row)}>
+              تسجيل الحضور
+            </Button>
+          </Box>
+        )
+      }
+    ]
+
+    const defaultColumns = [
+      {
+        flex: 0.5,
+        minWidth: 50,
+        field: 'name',
+        headerName: name,
+        renderCell: ({ row }) => {
+          const { id, name } = row
+
+          return (
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              {renderClient(row)}
+              <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }} onClick={handleClick}>
+                {formType === 'administrations' ? (
+                  <Typography
+                    noWrap
+                    component='a'
+                    variant='subtitle2'
+                    sx={{ color: 'text.primary', textDecoration: 'none' }}
+                  >
+                    {name}
+                  </Typography>
+                ) : (
+                  <Link href={{ pathname: pathname, query: { pastRoute: pastRoute, id: id } }} passHref>
+                    <Typography
+                      noWrap
+                      component='a'
+                      variant='subtitle2'
+                      sx={{ color: 'text.primary', textDecoration: 'none' }}
+                    >
+                      {name}
+                    </Typography>
+                  </Link>
+                )}
+              </Box>
+            </Box>
+          )
+        }
+      }
+    ]
+
+    if (formType === 'classes') {
+      const classCol = [...defaultColumns, ...attendanceColumn]
+
+      return classCol
+    }
+    if (formType === 'schools' || formType === 'govs' || formType === 'camps') {
+      defaultColumns.push(codeColumn)
+
+      return defaultColumns
+    }
+
+    if (formType === 'administrations') {
+      const administrColumns = [...defaultColumns, ...administrationColumns]
+      administrColumns.push(codeColumn)
+
+      return administrColumns
+    }
+
+    if (formType === 'students') {
+      const studColumns = [...defaultColumns, ...studentsColumns]
+
+      return studColumns
+    }
+
+    return defaultColumns
   }
 
   /****************** columns Actions *****************/
@@ -484,10 +521,16 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
     dispatch(handleSelectedData(row))
   }
 
+  const onClickAdd = row => {
+    const { id, name } = row
+    setCurrClass(id)
+    setShowForm(!showForm)
+  }
+
   return (
     <>
       <Grid container spacing={6}>
-        <Grid item xs={12} sx={{ maxWidth: '500', minHeight: '400' }}>
+        <Grid item xs={12} sx={{ maxWidth: '500', minHeight: '400', marginBottom: '3rem' }}>
           <Card>
             <DataGrid
               sortable={false}
@@ -533,6 +576,8 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
             editData={editData}
           />
         )}
+
+        <AssignTeacher open={showForm} toggle={setShowForm} class_id={currClass} renderAgain={renderAgain} />
 
         <ConfirmDelete
           open={showConfirm}

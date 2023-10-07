@@ -8,10 +8,13 @@ import TableHeader from 'src/views/apps/academicYear/TableHeader'
 import { fetchClasses } from 'src/store/apps/academicData/actions'
 import DataTable from 'src/views/apps/academicYear/Table'
 import { useRouter } from 'next/router'
+import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
 
 function ClassesData() {
   const dispatch = useDispatch()
   const loading = useSelector(state => state.academicData?.classesLoading)
+  const data = useSelector(state => state.academicData['classes'])
+
   const [showDrawer, setDrawer] = useState(false)
   const router = useRouter()
   const { pastRoute, id } = router.query
@@ -20,7 +23,6 @@ function ClassesData() {
     school_id: pastRoute,
     level_id: id
   }
-
   useEffect(() => {
     dispatch(fetchClasses({ page: 1, schoolId: pastRoute, gradeId: id }))
   }, [dispatch, id, pastRoute])
@@ -28,6 +30,20 @@ function ClassesData() {
   const handlePageChange = nextPage => {
     dispatch(fetchClasses({ page: nextPage, schoolId: pastRoute, gradeId: id }))
   }
+
+  const sums = data?.data?.reduce(
+    (acc, obj) => {
+      acc.total_classes += obj.total_classes
+      acc.total_schools += obj.total_schools
+      acc.total_students += obj.total_students
+      return acc
+    },
+    { total_classes: 0, total_schools: 0, total_students: 0 }
+  )
+
+  const { total_classes = null, total_departs = null, total_schools = null, total_students = null } = sums || {}
+
+  const cardData = [{ header: 'Total Students', number: total_students }]
 
   if (loading) {
     return (
@@ -63,7 +79,12 @@ function ClassesData() {
               editData={requestData}
               pathname={'class/student'}
               handlePageChange={handlePageChange}
+              renderAgain={() => {
+                console.log('done')
+                dispatch(fetchClasses({ page: 1, schoolId: pastRoute, gradeId: id }))
+              }}
             />
+            <ResponsiveCardGrid cardData={cardData} />
           </Grid>
         </Grid>
       </Grid>
