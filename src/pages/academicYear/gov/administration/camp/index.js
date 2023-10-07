@@ -10,6 +10,7 @@ import DataTable from 'src/views/apps/academicYear/Table'
 import { useRouter } from 'next/router'
 import { handlePastRoute } from 'src/store/apps/academicData'
 import { useAuth } from 'src/hooks/useAuth'
+import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
 
 function CampsData() {
   const dispatch = useDispatch()
@@ -31,6 +32,23 @@ function CampsData() {
   const handlePageChange = nextPage => {
     dispatch(getCampsByAdministration({ id: administrationId, type: 'camp', page: nextPage }))
   }
+
+  const sums = camps.reduce(
+    (acc, obj) => {
+      acc.total_students += obj.total_students
+
+      return acc
+    },
+    { total_students: 0 }
+  )
+
+  const { total_students = null } = sums || {}
+
+  const cardData = [
+    { header: 'Total Camps', number: camps.length },
+    { header: 'Total Students', number: total_students }
+  ]
+
   if (loading) {
     return (
       <Grid container sx={{ justifyContent: 'center', alignItems: 'center', height: '100%' }}>
@@ -73,6 +91,7 @@ function CampsData() {
                   dispatch(getCampsByAdministration({ id: administrationId, type: 'camp' }))
                 }}
               />
+              <ResponsiveCardGrid cardData={cardData} />
             </Grid>
           ) : (
             <h1 style={{ display: 'block', margin: '5% auto' }}>Don't Have permission</h1>

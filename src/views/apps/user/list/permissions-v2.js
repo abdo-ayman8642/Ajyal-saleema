@@ -13,6 +13,7 @@ import Button from '@mui/material/Button'
 import { useDispatch } from 'react-redux'
 import { updateUser } from 'src/store/apps/user/actions'
 import { useRouter } from 'next/router'
+import { useAuth } from 'src/hooks/useAuth'
 
 function deepEqual(obj1, obj2) {
   const keys1 = Object.keys(obj1).sort()
@@ -50,6 +51,8 @@ function arraysEqual(arr1, arr2) {
 }
 
 function PermissionsV2({ user }) {
+  const currUser = useAuth()
+  const currUserId = currUser?.user?.id
   const dispatch = useDispatch()
   const { permissions: selectedUser, id, name } = user
   const [view, setView] = useState(false)
@@ -165,7 +168,7 @@ function PermissionsV2({ user }) {
 
   const handleUpdatePermissions = body => {
     dispatch(updateUser({ data: body }))
-    router.push('/') // Navigates to the root path '/'
+    body?.user_id === currUserId && router.push('/') // Navigates to the root path '/' if its same user
   }
 
   return (

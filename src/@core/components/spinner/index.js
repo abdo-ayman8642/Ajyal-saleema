@@ -2,6 +2,7 @@
 import Box from '@mui/material/Box'
 import { useTheme } from '@mui/material/styles'
 import CircularProgress from '@mui/material/CircularProgress'
+
 const FallbackSpinner = () => {
   // ** Hook
   const theme = useTheme()
@@ -16,7 +17,9 @@ const FallbackSpinner = () => {
         justifyContent: 'center'
       }}
     >
-      <img src='/images/educate_me.png' style={{ maxWidth: '50%' }} />
+      <img src='/images/educate_me.png' style={{ maxWidth: '50%', marginBottom: '4rem' }} alt='Logo of educate me' />
+      <img src='/logos/N4HK_ARABIC.png' style={{ maxWidth: '50%' }} alt='Another Logo of educate me' />
+
       {/* <svg width={80} fill='none' height={44} viewBox='0 0 268 150' xmlns='http://www.w3.org/2000/svg'>
         <rect
           rx='25.1443'

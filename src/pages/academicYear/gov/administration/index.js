@@ -17,7 +17,6 @@ function AdministrationData() {
   const searchedData = useSelector(state => state.academicData?.searchedData)
   const searchedQuery = useSelector(state => state.academicData?.searchedQuery)
   const data = useSelector(state => state.academicData['administrations'])
-  console.log(data?.data)
 
   const [showDrawer, setDrawer] = useState(false)
   const router = useRouter()
@@ -52,6 +51,7 @@ function AdministrationData() {
   const { total_classes = null, total_departs = null, total_schools = null, total_students = null } = sums || {}
 
   const cardData = [
+    { header: 'Total Departments', number: data?.total },
     { header: 'Total Schools', number: total_schools },
     { header: 'Total Classes', number: total_classes },
     { header: 'Total Students', number: total_students }

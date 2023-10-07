@@ -136,9 +136,7 @@ const Home = () => {
           <Grid item xs={12} lg={3}>
             <CardStatsCharacter data={schoolData} />
           </Grid>
-          <Grid item xs={12} lg={3}>
-            <CardStatsCharacter data={gradeData} />
-          </Grid>
+
           <Grid item xs={12} lg={3}>
             <CardStatsCharacter data={classData} />
           </Grid>
@@ -168,9 +166,7 @@ const Home = () => {
           <Grid item xs={12} lg={6}>
             <GenderStats data={genderData} />
           </Grid>
-          <Grid item xs={12} lg={6}>
-            <CardStatisticsSales data={dashboardStats?.grades} gradesStudents={dashboardStats?.grades_students} />
-          </Grid>
+
           <Grid item xs={12} lg={12}>
             <DashboardCalendar data={dashboardStats?.event} />
           </Grid>

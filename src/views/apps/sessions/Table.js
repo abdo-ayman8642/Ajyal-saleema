@@ -44,23 +44,9 @@ const AvatarWithoutImageLink = styled(Link)(({ theme }) => ({
   marginRight: theme.spacing(3)
 }))
 
-// ** renders client column
-
-const renderClient = row => {
-  return (
-    // <AvatarWithoutImageLink href={`/apps/user/view/${row.id}`}>
-
-    <CustomAvatar skin='light' color={row.avatarColor} sx={{ mr: 3, width: 34, height: 34, fontSize: '1rem' }}>
-      <ChecklistRtlIcon />
-    </CustomAvatar>
-
-    // </AvatarWithoutImageLink>
-  )
-}
-
 const defaultColumns = [
   {
-    flex: 0.05,
+    flex: 0.3,
     minWidth: 50,
     field: 'id',
     headerName: 'رقم',
@@ -79,8 +65,8 @@ const defaultColumns = [
     }
   },
   {
-    flex: 0.15,
-    minWidth: 120,
+    flex: 1,
+    minWidth: 100,
     field: 'name',
     headerName: 'المحاضرة',
     renderCell: ({ row }) => {
@@ -88,7 +74,6 @@ const defaultColumns = [
 
       return (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {renderClient(row)}
           <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
             <Typography noWrap component='a' variant='subtitle2' sx={{ color: 'text.primary', textDecoration: 'none' }}>
               {name}
@@ -109,7 +94,7 @@ const SessionsList = ({ formInputs, toggleConfirm }) => {
   const [showEdit, setShowEdit] = useState(false)
 
   const user = useAuth()
-  const { sessions: sessionsPer } = user?.user?.permissions
+  const { session: sessionsPer } = user?.user?.permissions
   const { read, add, edit } = sessionsPer
 
   // console.log(
@@ -122,8 +107,8 @@ const SessionsList = ({ formInputs, toggleConfirm }) => {
   const columns = [
     ...defaultColumns,
     {
-      flex: 0.1,
-      minWidth: 120,
+      flex: 0.3,
+      minWidth: 100,
       sortable: false,
       field: 'actions',
       headerName: 'التحكم',
@@ -165,7 +150,7 @@ const SessionsList = ({ formInputs, toggleConfirm }) => {
 
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12} sx={{ minWidth: '1000px' }}>
+      <Grid item xs={12}>
         <Card>
           <DataGrid
             autoHeight

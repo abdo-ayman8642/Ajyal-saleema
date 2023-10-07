@@ -12,18 +12,21 @@ import { handlePastRoute } from 'src/store/apps/academicData'
 import { fetchData } from 'src/store/apps/student/actions'
 import { useAuth } from 'src/hooks/useAuth'
 import student from 'src/store/apps/student'
+import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
 
 function CampsData() {
   const dispatch = useDispatch()
   const loading = useSelector(state => state.academicData?.studentsLoading)
-  const camps = useSelector(state => state.academicData?.camps)
   const [showDrawer, setDrawer] = useState(false)
+  const data = useSelector(state => state.academicData['students'])
   const router = useRouter()
   const campId = router.query.id
   const user = useAuth()
   const { students } = user?.user?.permissions
   const { read, add, edit } = students
   const deletee = students?.['delete']
+
+  const cardData = [{ header: 'Total Students', number: data?.data?.total }]
 
   useEffect(() => {
     dispatch(filterBy({ page: 1, query: 'school_camp', value: campId }))
@@ -59,15 +62,19 @@ function CampsData() {
           </Grid>
           <Grid item xs={12}>
             {read ? (
-              <DataTable
-                dataName={'الطالب'}
-                formType={'students'}
-                storeData={'students'}
-                pathname={`student/view`}
-                pastRoute={campId}
-                editData={{ urlId: campId, query: 'school_camp' }}
-                permissions={students}
-              />
+              <>
+                <DataTable
+                  dataName={'الطالب'}
+                  formType={'students'}
+                  storeData={'students'}
+                  pathname={`student/view`}
+                  pastRoute={campId}
+                  editData={{ urlId: campId, query: 'school_camp' }}
+                  permissions={students}
+                />
+
+                <ResponsiveCardGrid cardData={cardData} />
+              </>
             ) : (
               <h1 style={{ display: 'block', margin: '5% auto' }}>Don't Have A Permission</h1>
             )}
