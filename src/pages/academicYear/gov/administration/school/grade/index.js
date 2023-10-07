@@ -23,6 +23,7 @@ function GradesData() {
     (acc, obj) => {
       acc.total_classes += obj.total_classes || 0
       acc.total_students += obj.total_students || 0
+
       return acc
     },
     { total_classes: 0, total_schools: 0, total_students: 0 }

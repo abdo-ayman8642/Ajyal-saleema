@@ -95,11 +95,33 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
     cardImg: '/images/school.jpg'
   }
 
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    function handleResize() {
+      // Check if the window width is less than a certain threshold (e.g., 768 pixels for mobile)
+      const isMobile = window.innerWidth < 768
+      setIsMobile(isMobile)
+    }
+
+    // Attach the event listener when the component mounts
+    window.addEventListener('resize', handleResize)
+
+    // Call it initially to set the initial value
+    handleResize()
+
+    // Remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+  console.log('Is mobile ? ', isMobile)
+
   const handleDefaultColumns = (name, pathname, pastRoute, handleClick, formType, toggle) => {
     const attendanceColumn = [
       {
-        flex: 0.3,
-        minWidth: 50,
+        flex: 1,
+        minWidth: 100,
         field: 'attendance',
         headerName: 'الحضور',
         renderCell: ({ row }) => {
@@ -122,8 +144,8 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
         }
       },
       {
-        flex: 0.3,
-        minWidth: 50,
+        flex: 1,
+        minWidth: 100,
         sorDataTable: false,
         field: 'teacher',
         headerName: 'المعلم',
@@ -176,35 +198,37 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
       }
     ]
 
-    const codeColumn = {
-      flex: 0.5,
-      minWidth: 50,
-      field: 'code',
-      headerName: 'الكود',
-      renderCell: ({ row }) => {
-        const { code } = row
+    const codeColumn = !isMobile
+      ? {
+          flex: 'auto',
+          minWidth: 100,
+          field: 'code',
+          headerName: 'الكود',
+          renderCell: ({ row }) => {
+            const { code } = row
 
-        return (
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography
-                noWrap
-                component='a'
-                variant='subtitle2'
-                sx={{ color: 'text.primary', textDecoration: 'none' }}
-              >
-                {code || '__'}
-              </Typography>
-            </Box>
-          </Box>
-        )
-      }
-    }
+            return (
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+                  <Typography
+                    noWrap
+                    component='a'
+                    variant='subtitle2'
+                    sx={{ color: 'text.primary', textDecoration: 'none' }}
+                  >
+                    {code || '__'}
+                  </Typography>
+                </Box>
+              </Box>
+            )
+          }
+        }
+      : {}
 
     const administrationColumns = [
       {
-        flex: 0.2,
-        minWidth: 50,
+        flex: 1,
+        minWidth: 100,
         field: 'schools',
         headerName: 'المدارس',
         renderCell: ({ row }) => {
@@ -235,7 +259,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
                   variant='subtitle2'
                   sx={{ color: 'text.primary', textDecoration: 'none' }}
                 >
-                  المدارس التابعة للإدارة
+                  {isMobile ? 'المدارس' : 'المدارس التابعة للإدارة'}
                 </Typography>
               </Link>
             </Box>
@@ -243,8 +267,8 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
         }
       },
       {
-        flex: 0.2,
-        minWidth: 50,
+        flex: 1,
+        minWidth: 100,
         field: 'camp',
         headerName: 'المعسكر',
         renderCell: ({ row }) => {
@@ -286,7 +310,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
 
     const studentsColumns = [
       {
-        flex: 0.1,
+        flex: 1,
         field: 'gender',
         minWidth: 100,
         headerName: 'الجنس',
@@ -318,8 +342,8 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
 
     const defaultColumns = [
       {
-        flex: 0.5,
-        minWidth: 50,
+        flex: 1,
+        minWidth: 100,
         field: 'name',
         headerName: name,
         renderCell: ({ row }) => {
@@ -399,8 +423,8 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
   const renderSessionsAttendance = type => {
     if (type === 'camps' || type === 'classes')
       return {
-        flex: 0.3,
-        minWidth: 50,
+        flex: 1,
+        minWidth: 100,
         sorDataTable: false,
         field: 'sessionAttendance',
         headerName: 'حضور الحصص',
@@ -433,8 +457,8 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
   const renderTeacher = type => {
     if (type === 'camps')
       return {
-        flex: 0.3,
-        minWidth: 50,
+        flex: 1,
+        minWidth: 100,
         sorDataTable: false,
         field: 'teacher',
         headerName: 'المعلم',
@@ -459,8 +483,8 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
 
   const renderControls = type => {
     return {
-      flex: 0.12,
-      minWidth: 50,
+      flex: 1,
+      minWidth: 100,
       sorDataTable: false,
       field: 'actions',
       headerName: 'التحكم',

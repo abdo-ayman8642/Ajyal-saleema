@@ -57,8 +57,8 @@ const renderClient = row => {
 
 const defaultColumns = [
   {
-    flex: 0.25,
-    minWidth: 230,
+    flex: 1,
+    minWidth: 100,
     field: 'fullName',
     headerName: 'الإسم',
     renderCell: ({ row }) => {
@@ -73,19 +73,6 @@ const defaultColumns = [
             </Typography>
           </Box>
         </Box>
-      )
-    }
-  },
-  {
-    flex: 0.25,
-    field: 'gender',
-    minWidth: 250,
-    headerName: 'الجنس',
-    renderCell: ({ row }) => {
-      return (
-        <Typography variant='body2' noWrap>
-          {row.gender}
-        </Typography>
       )
     }
   }
@@ -108,11 +95,54 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
 
   // add actions column => edit / delete
 
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    function handleResize() {
+      // Check if the window width is less than a certain threshold (e.g., 768 pixels for mobile)
+      const isMobile = window.innerWidth < 768
+      setIsMobile(isMobile)
+    }
+
+    // Attach the event listener when the component mounts
+    window.addEventListener('resize', handleResize)
+
+    // Call it initially to set the initial value
+    handleResize()
+
+    // Remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+  console.log('Is mobile ? ', isMobile)
+
+  const renderGender = () => {
+    if (!isMobile) {
+      return {
+        flex: 1,
+        field: 'gender',
+        minWidth: 100,
+        headerName: 'الجنس',
+        renderCell: ({ row }) => {
+          return (
+            <Typography variant='body2' noWrap>
+              {row.gender}
+            </Typography>
+          )
+        }
+      }
+    }
+
+    return {}
+  }
+
   const columns = [
     ...defaultColumns,
+    renderGender(),
     {
-      flex: 0.15,
-      minWidth: 120,
+      flex: 1,
+      minWidth: 100,
       sortable: false,
       field: 'teachers',
       headerName: 'الفصول',
@@ -127,14 +157,14 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
             startIcon={<ChecklistRtlIcon />}
             onClick={() => toggleAttendance(row)}
           >
-            الفصول
+            {isMobile ? null : 'الفصول'}
           </Button>
         </Box>
       )
     },
     {
-      flex: 0.15,
-      minWidth: 120,
+      flex: 1,
+      minWidth: 100,
       sortable: false,
       field: 'actions',
       headerName: 'التحكم',
@@ -205,6 +235,12 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
 
     //dispatch(handleSelectedStudent(row))
   }
+
+  function isObjectEmpty(obj) {
+    return Object.keys(obj).length === 0
+  }
+
+  columns = columns.filter(obj => !isObjectEmpty(obj))
 
   return (
     <Grid container spacing={6}>

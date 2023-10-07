@@ -86,6 +86,7 @@ function TableHeader({ title, formType, showDrawer, setDrawer, addData, placehol
       const response = await fetch(excelUrl, {
         headers: {
           'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+
           // 'Content-Type': 'application/x-www-form-urlencoded',
         }
       })
@@ -137,6 +138,7 @@ function TableHeader({ title, formType, showDrawer, setDrawer, addData, placehol
     setSearchVal(value)
     debouncedSearch(value)
   }
+
   return (
     <Box
       sx={{

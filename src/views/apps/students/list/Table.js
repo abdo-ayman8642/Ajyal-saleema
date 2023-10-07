@@ -66,8 +66,8 @@ const renderClient = row => {
 const handleDefaultColumns = () => {
   const defaultColumns = [
     {
-      flex: 0.15,
-      minWidth: 120,
+      flex: 1,
+      minWidth: 100,
       field: 'fullName',
       headerName: 'الإسم',
       renderCell: ({ row }) => {
@@ -93,7 +93,7 @@ const handleDefaultColumns = () => {
       }
     },
     {
-      flex: 0.01,
+      flex: 1,
       minWidth: 100,
       field: 'age',
       headerName: 'السن',
@@ -102,7 +102,7 @@ const handleDefaultColumns = () => {
       }
     },
     {
-      flex: 0.1,
+      flex: 1,
       field: 'gender',
       minWidth: 100,
       headerName: 'الجنس',
@@ -115,7 +115,7 @@ const handleDefaultColumns = () => {
       }
     },
     {
-      flex: 0.1,
+      flex: 1,
       minWidth: 100,
       headerName: 'السنة الدراسية',
       field: 'phone',
@@ -128,7 +128,7 @@ const handleDefaultColumns = () => {
       }
     },
     {
-      flex: 0.1,
+      flex: 1,
       field: 'gov',
       minWidth: 100,
       headerName: 'المحافظة',
@@ -156,11 +156,33 @@ const StudentList = ({ handleSelectedStudent, toggleDialog, toggleEditForm, hand
   const searchedStudents = useSelector(state => state.student?.searchedStudents?.data?.data)
   const loading = useSelector(state => state.student?.searchedUsersLoading)
 
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    function handleResize() {
+      // Check if the window width is less than a certain threshold (e.g., 768 pixels for mobile)
+      const isMobile = window.innerWidth < 768
+      setIsMobile(isMobile)
+    }
+
+    // Attach the event listener when the component mounts
+    window.addEventListener('resize', handleResize)
+
+    // Call it initially to set the initial value
+    handleResize()
+
+    // Remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+  console.log('Is mobile ? ', isMobile)
+
   /****************** columns Actions *****************/
   const columns = [
     ...handleDefaultColumns(),
     {
-      flex: 0.1,
+      flex: 1,
       minWidth: 100,
       sortable: false,
       field: 'exam',
@@ -172,7 +194,7 @@ const StudentList = ({ handleSelectedStudent, toggleDialog, toggleEditForm, hand
       )
     },
     {
-      flex: 0.1,
+      flex: 1,
       minWidth: 100,
       sortable: false,
       field: 'camp',
@@ -184,7 +206,7 @@ const StudentList = ({ handleSelectedStudent, toggleDialog, toggleEditForm, hand
       )
     },
     {
-      flex: 0.15,
+      flex: 1,
       minWidth: 100,
       sortable: false,
       field: 'attendance',
@@ -203,8 +225,8 @@ const StudentList = ({ handleSelectedStudent, toggleDialog, toggleEditForm, hand
       )
     },
     {
-      flex: 0.1,
-      minWidth: 120,
+      flex: 1,
+      minWidth: 100,
       sortable: false,
       field: 'actions',
       headerName: 'التحكم',

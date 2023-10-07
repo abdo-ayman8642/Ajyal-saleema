@@ -12,6 +12,7 @@ import { handlePastRoute } from 'src/store/apps/academicData'
 import { useAuth } from 'src/hooks/useAuth'
 import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
 import { fetchYears } from 'src/store/apps/academicData/actions'
+
 function getObjectById(objects, id) {
   if (!objects) return null
 

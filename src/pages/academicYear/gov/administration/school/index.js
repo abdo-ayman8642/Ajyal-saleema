@@ -33,6 +33,7 @@ function SchoolsData() {
       acc.total_classes += obj.total_classes
       acc.total_schools += obj.total_schools
       acc.total_students += obj.total_students
+
       return acc
     },
     { total_classes: 0, total_schools: 0, total_students: 0 }

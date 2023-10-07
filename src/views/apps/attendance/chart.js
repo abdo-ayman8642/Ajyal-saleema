@@ -7,6 +7,7 @@ import StatisticsCard from './StatisticsCard'
 
 const ApexChart = () => {
   const [chartState, setChartState] = useState([0, 0])
+
   const state = {
     series: chartState.slice(1),
     options: {
@@ -14,6 +15,7 @@ const ApexChart = () => {
         align: 'center'
       },
       legend: {
+        position: 'bottom',
         horizontalAlign: 'center',
         markers: {
           width: 12,

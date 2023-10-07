@@ -94,11 +94,33 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, d
   const user = useAuth()
   const role = user?.user?.role
 
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    function handleResize() {
+      // Check if the window width is less than a certain threshold (e.g., 768 pixels for mobile)
+      const isMobile = window.innerWidth < 768
+      setIsMobile(isMobile)
+    }
+
+    // Attach the event listener when the component mounts
+    window.addEventListener('resize', handleResize)
+
+    // Call it initially to set the initial value
+    handleResize()
+
+    // Remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+  console.log('Is mobile ? ', isMobile)
+
   const renderAge = type => {
     if (type !== 'user')
       return {
-        flex: 0,
-        minWidth: 140,
+        flex: 1,
+        minWidth: 100,
         field: 'age',
         headerName: 'السن',
         renderCell: ({ row }) => {
@@ -109,10 +131,50 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, d
     return {}
   }
 
+  const renderEmail = () => {
+    if (!isMobile) {
+      return {
+        flex: 1,
+        field: 'email',
+        minWidth: 100,
+        headerName: 'البريد الإلكتروني',
+        renderCell: ({ row }) => {
+          return (
+            <Typography variant='body2' noWrap>
+              {row.email}
+            </Typography>
+          )
+        }
+      }
+    }
+
+    return {}
+  }
+
+  const renderPhone = () => {
+    if (!isMobile) {
+      return {
+        flex: 1,
+        minWidth: 100,
+        headerName: 'رقم الهاتف',
+        field: 'phone',
+        renderCell: ({ row }) => {
+          return (
+            <Typography noWrap variant='subtitle1' sx={{ textTransform: 'capitalize' }}>
+              <a href={`tel: ${row.phone}`}>{row.phone}</a>
+            </Typography>
+          )
+        }
+      }
+    }
+
+    return {}
+  }
+
   const defaultColumns = [
     {
-      flex: 0.25,
-      minWidth: 230,
+      flex: 1,
+      minWidth: 100,
       field: 'fullName',
       headerName: 'الإسم',
       renderCell: ({ row }) => {
@@ -135,36 +197,13 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, d
         )
       }
     },
+
+    renderEmail(),
+    renderPhone(),
     {
-      flex: 0.25,
-      field: 'email',
-      minWidth: 250,
-      headerName: 'البريد الإلكتروني',
-      renderCell: ({ row }) => {
-        return (
-          <Typography variant='body2' noWrap>
-            {row.email}
-          </Typography>
-        )
-      }
-    },
-    {
-      flex: 0.3,
-      minWidth: 150,
-      headerName: 'رقم الهاتف',
-      field: 'phone',
-      renderCell: ({ row }) => {
-        return (
-          <Typography noWrap variant='subtitle1' sx={{ textTransform: 'capitalize' }}>
-            <a href={`tel: ${row.phone}`}>{row.phone}</a>
-          </Typography>
-        )
-      }
-    },
-    {
-      flex: 0,
+      flex: 1,
       field: 'role',
-      minWidth: 175,
+      minWidth: 100,
       headerName: 'الوظيفة',
       renderCell: ({ row }) => {
         return (
@@ -183,8 +222,8 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, d
   const columns = [
     ...defaultColumns,
     {
-      flex: 0.15,
-      minWidth: 120,
+      flex: 1,
+      minWidth: 100,
       sortable: false,
       field: 'actions',
       headerName: 'التحكم',
@@ -225,6 +264,12 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, d
       )
     }
   ]
+
+  function isObjectEmpty(obj) {
+    return Object.keys(obj).length === 0
+  }
+
+  columns = columns.filter(obj => !isObjectEmpty(obj))
 
   // ** Functions
 
