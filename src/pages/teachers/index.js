@@ -148,14 +148,7 @@ function Teachers() {
         <h1 style={{ textAlign: 'center' }}>Don't Have A Permission</h1>
       )}
 
-      {
-        <SidebarAddTeachers
-          open={showForm}
-          toggle={setShowForm}
-          formInputs={formInputs}
-          teacherId={currentTeacherData}
-        />
-      }
+      <SidebarAddTeachers open={showForm} toggle={setShowForm} formInputs={formInputs} teacherId={currentTeacherData} />
 
       <ConfirmDialog
         toggle={toggleDialog}

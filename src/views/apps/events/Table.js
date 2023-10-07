@@ -58,8 +58,8 @@ const renderClient = row => {
 
 const defaultColumns = [
   {
-    flex: 0.15,
-    minWidth: 120,
+    flex: 1,
+    minWidth: 100,
     field: 'name',
     headerName: 'الأحداث',
     renderCell: ({ row }) => {
@@ -92,12 +92,14 @@ const EventList = ({ formInputs, toggleConfirm }) => {
   const { add, edit, delete: deletee, read } = year
   console.log(add, edit, deletee, read)
   console.log(user)
+
   /****************** columns Actions *****************/
+
   const columns = [
     ...defaultColumns,
     {
-      flex: 0.1,
-      minWidth: 120,
+      flex: 0.8,
+      minWidth: 100,
       sortable: false,
       field: 'actions',
       headerName: 'التحكم',
@@ -140,7 +142,7 @@ const EventList = ({ formInputs, toggleConfirm }) => {
 
   return (
     <Grid container spacing={6}>
-      <Grid item xs={12} sx={{ minWidth: '1000px' }}>
+      <Grid item xs={12}>
         <Card>
           <DataGrid
             autoHeight

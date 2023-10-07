@@ -42,6 +42,7 @@ import attendance from 'src/store/apps/attendance'
 import Tooltip from '@mui/material/Tooltip'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 import AddBoxIcon from '@mui/icons-material/AddBox'
+import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 
 // ** Utils Import
 import CardStatsCharacter from 'src/@core/components/card-statistics/card-stats-with-image'
@@ -82,7 +83,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
   const editAction = handleActions('edit', formType)
   const deleteAction = handleActions('delete', formType)
   const selected = useSelector(state => state.academicData?.selectedData)
-  const [currClass, setCurrClass] = useState(null)
+  const [Current_ID, setCurrent_ID] = useState(null)
   const user = useAuth()
   const role = user?.user?.role
   const { year } = user?.user?.permissions
@@ -120,7 +121,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
   const handleDefaultColumns = (name, pathname, pastRoute, handleClick, formType, toggle) => {
     const attendanceColumn = [
       {
-        flex: 1,
+        flex: 0.7,
         minWidth: 100,
         field: 'attendance',
         headerName: 'الحضور',
@@ -137,59 +138,6 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
                   sx={{ color: 'text.primary', textDecoration: 'none' }}
                 >
                   {row.total_attendance}
-                </Typography>
-              </Box>
-            </Box>
-          )
-        }
-      },
-      {
-        flex: 1,
-        minWidth: 100,
-        sorDataTable: false,
-        field: 'teacher',
-        headerName: 'المعلم',
-        renderCell: ({ row }) => {
-          return (
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
-                <Typography
-                  noWrap
-                  component='a'
-                  variant='subtitle2'
-                  sx={{ color: 'text.primary', textDecoration: 'none' }}
-                >
-                  {row?.teacher ? (
-                    <>
-                      {row?.teacher}
-                      {deletee && (
-                        <Tooltip title='Unassign'>
-                          <Button
-                            variant='text'
-                            startIcon={<DeleteIcon />}
-                            sx={{ color: 'red' }}
-                            onClick={async () => {
-                              await dispatch(unAssignTeacher({ data: { classes: row?.id } }))
-                              renderAgain()
-                            }}
-                          />
-                        </Tooltip>
-                      )}
-                    </>
-                  ) : (
-                    <Tooltip title='Assign' placement='left'>
-                      {add && (
-                        <IconButton
-                          sx={{ cursor: 'pointer', color: 'green' }}
-                          onClick={() => {
-                            onClickAdd(row)
-                          }}
-                        >
-                          <AddBoxIcon />
-                        </IconButton>
-                      )}
-                    </Tooltip>
-                  )}
                 </Typography>
               </Box>
             </Box>
@@ -325,7 +273,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
         }
       },
       {
-        flex: 0.15,
+        flex: 1,
         minWidth: 100,
         sortable: false,
         field: 'attendance',
@@ -333,7 +281,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
         renderCell: ({ row }) => (
           <Box sx={{ display: 'flex' }}>
             <Button variant='contained' color='secondary' startIcon={<ChecklistRtlIcon />} onClick={() => toggle(row)}>
-              تسجيل الحضور
+              {!isMobile && 'تسجيل الحضور'}
             </Button>
           </Box>
         )
@@ -342,7 +290,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
 
     const defaultColumns = [
       {
-        flex: 1,
+        flex: 1.5,
         minWidth: 100,
         field: 'name',
         headerName: name,
@@ -351,7 +299,6 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
 
           return (
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              {renderClient(row)}
               <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }} onClick={handleClick}>
                 {formType === 'administrations' ? (
                   <Typography
@@ -421,7 +368,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
   }
 
   const renderSessionsAttendance = type => {
-    if (type === 'camps' || type === 'classes')
+    if ((type === 'camps' || type === 'classes') && !isMobile)
       return {
         flex: 1,
         minWidth: 100,
@@ -434,9 +381,8 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
               const color = i ? 'green' : 'red'
 
               return (
-                <Tooltip title={'Session: ' + (index + 1)}>
+                <Tooltip key={index} title={'Session: ' + (index + 1)}>
                   <div
-                    key={index}
                     style={{
                       width: '8px',
                       height: '8px',
@@ -455,7 +401,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
   }
 
   const renderTeacher = type => {
-    if (type === 'camps')
+    if (type === 'camps' || type === 'classes')
       return {
         flex: 1,
         minWidth: 100,
@@ -471,7 +417,38 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
                 variant='subtitle2'
                 sx={{ color: 'text.primary', textDecoration: 'none' }}
               >
-                {row?.teacher}
+                {row?.teacher ? (
+                  <>
+                    {row?.teacher}
+                    {deletee && (
+                      <Tooltip title='Unassign'>
+                        <Button
+                          variant='text'
+                          startIcon={<ExitToAppIcon />}
+                          sx={{ color: 'red' }}
+                          onClick={async () => {
+                            const place = row?.type ? 'schools' : 'classes'
+                            await dispatch(unAssignTeacher({ data: { [place]: row?.id } }))
+                            renderAgain()
+                          }}
+                        />
+                      </Tooltip>
+                    )}
+                  </>
+                ) : (
+                  <Tooltip title='Assign' placement='left'>
+                    {add && (
+                      <IconButton
+                        sx={{ cursor: 'pointer', color: 'green' }}
+                        onClick={() => {
+                          onClickAdd(row)
+                        }}
+                      >
+                        <AddBoxIcon />
+                      </IconButton>
+                    )}
+                  </Tooltip>
+                )}
               </Typography>
             </Box>
           </Box>
@@ -546,8 +523,10 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
   }
 
   const onClickAdd = row => {
+    console.log('type: ' + row?.type)
     const { id, name } = row
-    setCurrClass(id)
+    console.log({ id, type: row?.type })
+    setCurrent_ID({ id, type: row?.type })
     setShowForm(!showForm)
   }
 
@@ -601,7 +580,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
           />
         )}
 
-        <AssignTeacher open={showForm} toggle={setShowForm} class_id={currClass} renderAgain={renderAgain} />
+        <AssignTeacher open={showForm} toggle={setShowForm} data={Current_ID} renderAgain={renderAgain} />
 
         <ConfirmDelete
           open={showConfirm}

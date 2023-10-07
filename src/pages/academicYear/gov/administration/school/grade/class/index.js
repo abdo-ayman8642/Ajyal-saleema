@@ -81,7 +81,6 @@ function ClassesData() {
               pathname={'class/student'}
               handlePageChange={handlePageChange}
               renderAgain={() => {
-                console.log('done')
                 dispatch(fetchClasses({ page: 1, schoolId: pastRoute, gradeId: id }))
               }}
             />

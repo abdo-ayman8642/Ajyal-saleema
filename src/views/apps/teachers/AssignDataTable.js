@@ -57,9 +57,14 @@ const defaultValues = {
 
 const AssignTeacher = props => {
   // ** Props
-  const { open, toggle, class_id, renderAgain } = props
+  const { open, toggle, data, renderAgain } = props
+
   // ** Hooks
   const dispatch = useDispatch()
+  console.log(data)
+  const { id = null, type = null } = data || {}
+  const place_id = type ? { schools: id } : { classes: id }
+  console.log(place_id)
 
   const {
     reset,
@@ -76,7 +81,7 @@ const AssignTeacher = props => {
 
   // ** State & variables
 
-  const [teacherId, setTeacherId] = useState({ classes: class_id, teacher_id: null })
+  const [teacherId, setTeacherId] = useState(null)
   const [selected, setSelected] = useState(false)
 
   const teachers = useSelector(state => state.teachers?.data?.data)
@@ -87,14 +92,15 @@ const AssignTeacher = props => {
 
   //** Functions */
   const onSubmit = async e => {
-    await dispatch(assignTeacher({ data: { classes: class_id, teacher_id: teacherId } }))
+    console.log({ ...place_id, teacher_id: teacherId })
+    await dispatch(assignTeacher({ data: { ...place_id, teacher_id: teacherId } }))
     renderAgain()
     handleClose()
     renderAgain()
   }
 
   const handleClose = () => {
-    dispatch(handleSelectedTeacher(null))
+    setTeacherId(null)
     toggle()
     reset()
   }
@@ -103,6 +109,8 @@ const AssignTeacher = props => {
     setTeacherId(teacher?.target?.value)
     setSelected(true)
   }
+
+  console.log('teacher id: ' + teacherId)
 
   return (
     <Drawer
@@ -172,9 +180,12 @@ const AssignTeacher = props => {
           </FormControl>
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Button size='large' type='submit' variant='contained' sx={{ mr: 3 }} onClick={onSubmit}>
-              Submit
-            </Button>
+            {teacherId && (
+              <Button size='large' type='submit' variant='contained' sx={{ mr: 3 }} onClick={onSubmit}>
+                Submit
+              </Button>
+            )}
+
             <Button size='large' variant='outlined' color='secondary' onClick={handleClose}>
               Cancel
             </Button>

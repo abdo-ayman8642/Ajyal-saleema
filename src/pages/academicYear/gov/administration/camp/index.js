@@ -69,6 +69,9 @@ function CampsData() {
                 pastRoute={administrationId}
                 editData={{ department_id: administrationId, type: 'camp' }}
                 handlePageChange={handlePageChange}
+                renderAgain={() => {
+                  dispatch(getCampsByAdministration({ id: administrationId, type: 'camp' }))
+                }}
               />
             </Grid>
           ) : (

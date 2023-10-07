@@ -84,24 +84,23 @@ function Events() {
           searchdata={{ page: 1, query: '', searched: 'events' }}
         />
       )}
+
       {read ? (
-        <>
-          <EventList formInputs={formInputs} toggleConfirm={toggleConfirm} />
-          {showAddForm && <SidebarAddEvent open={showAddForm} toggle={toggleAddForm} formInputs={formInputs} />}
-          {showConfirm && (
-            <ConfirmDialog
-              open={showConfirm}
-              toggle={toggleConfirm}
-              loading={loading}
-              confirmationType={'المحاضرة'}
-              selected={selectedEvents || events}
-              deleteMulti={deleteMultiEvents}
-              deleteSingle={deleteEvent}
-            />
-          )}
-        </>
+        <EventList formInputs={formInputs} toggleConfirm={toggleConfirm} />
       ) : (
         <h1 style={{ textAlign: 'center' }}>Don't Have Permission</h1>
+      )}
+      {showAddForm && <SidebarAddEvent open={showAddForm} toggle={toggleAddForm} formInputs={formInputs} />}
+      {showConfirm && (
+        <ConfirmDialog
+          open={showConfirm}
+          toggle={toggleConfirm}
+          loading={loading}
+          confirmationType={'المحاضرة'}
+          selected={selectedEvents || events}
+          deleteMulti={deleteMultiEvents}
+          deleteSingle={deleteEvent}
+        />
       )}
     </Grid>
   )

@@ -201,11 +201,11 @@ function TableHeader({ title, formType, showDrawer, setDrawer, addData, placehol
               }}
             />
           )} */}
-          {formType !== 'govs' && formType !== 'grades' && (
+          {
             <Button sx={{ mb: 2, fontSize: '1rem', fontWeight: 'bold' }} onClick={toggle} variant='contained'>
               إضافة
             </Button>
-          )}
+          }
 
           {formType === 'students' && (
             <>
