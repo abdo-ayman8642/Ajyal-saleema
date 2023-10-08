@@ -90,9 +90,6 @@ const EventList = ({ formInputs, toggleConfirm }) => {
 
   const { year } = user?.user?.permissions
   const { add, edit, delete: deletee, read } = year
-  console.log(add, edit, deletee, read)
-  console.log(user)
-
   /****************** columns Actions *****************/
 
   const columns = [

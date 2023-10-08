@@ -28,7 +28,6 @@ const Header = styled(Box)(({ theme }) => ({
 }))
 
 function TeacherClasses({ toggle, open, data }) {
-  console.log(data)
   const classes = data?.classes
   const name = data?.name
   const camps = data?.camps
@@ -36,7 +35,6 @@ function TeacherClasses({ toggle, open, data }) {
   const { teachers } = user?.user?.permissions
 
   const deletee = teachers?.['delete']
-  console.log(deletee)
 
   const dispatch = useDispatch()
 

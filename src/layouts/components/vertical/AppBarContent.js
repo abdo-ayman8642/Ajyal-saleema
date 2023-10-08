@@ -33,7 +33,6 @@ const AppBarContent = props => {
       window.removeEventListener('resize', handleResize)
     }
   }, [])
-  console.log('Is mobile ? ', isMobile)
 
   return (
     <Box

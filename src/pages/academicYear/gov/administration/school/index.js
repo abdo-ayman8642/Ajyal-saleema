@@ -19,7 +19,6 @@ function SchoolsData() {
   const router = useRouter()
   const { id } = router.query
   const user = useAuth()
-  console.log(id)
 
   const { year } = user?.user?.permissions
   const { add, edit, delete: deletee, read } = year
@@ -46,7 +45,6 @@ function SchoolsData() {
     { header: 'Total Classes', number: total_classes },
     { header: 'Total Students', number: total_students }
   ]
-  console.log(cardData)
 
   if (loading) {
     return (

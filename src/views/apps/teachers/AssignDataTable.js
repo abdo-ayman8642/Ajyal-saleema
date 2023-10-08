@@ -61,10 +61,8 @@ const AssignTeacher = props => {
 
   // ** Hooks
   const dispatch = useDispatch()
-  console.log(data)
   const { id = null, type = null } = data || {}
   const place_id = type ? { schools: id } : { classes: id }
-  console.log(place_id)
 
   const {
     reset,
@@ -92,7 +90,6 @@ const AssignTeacher = props => {
 
   //** Functions */
   const onSubmit = async e => {
-    console.log({ ...place_id, teacher_id: teacherId })
     await dispatch(assignTeacher({ data: { ...place_id, teacher_id: teacherId } }))
     renderAgain()
     handleClose()
@@ -109,8 +106,6 @@ const AssignTeacher = props => {
     setTeacherId(teacher?.target?.value)
     setSelected(true)
   }
-
-  console.log('teacher id: ' + teacherId)
 
   return (
     <Drawer

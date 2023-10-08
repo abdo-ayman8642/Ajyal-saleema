@@ -31,8 +31,6 @@ function TableHeader({
   const { add } = permissions || { add: true }
   const user = useAuth()
   const role = user?.user?.role
-  console.log(role)
-  console.log('add:' + add)
 
   const handleSearch = value => {
     if (!value) {

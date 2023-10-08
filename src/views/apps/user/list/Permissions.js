@@ -17,8 +17,6 @@ function Permissions({ open, toggle }) {
   /** states & variables */
   const userAuth = useAuth()
   console.log(userAuth)
-  console.log(userAuth?.user)
-  console.log(userAuth?.user?.permissions)
   const permissionsList = userAuth.user.permissions
   //const permissionsKeys = Object.keys(permissionsList)
   const permissionsTypes = ['read', 'add', 'delete', 'edit']

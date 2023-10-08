@@ -33,7 +33,7 @@ function CampsData() {
     dispatch(getCampsByAdministration({ id: administrationId, type: 'camp', page: nextPage }))
   }
 
-  const sums = camps.reduce(
+  const sums = camps?.reduce(
     (acc, obj) => {
       acc.total_students += obj.total_students
 
@@ -45,7 +45,7 @@ function CampsData() {
   const { total_students = null } = sums || {}
 
   const cardData = [
-    { header: 'Total Camps', number: camps.length },
+    { header: 'Total Camps', number: camps?.length },
     { header: 'Total Students', number: total_students }
   ]
 

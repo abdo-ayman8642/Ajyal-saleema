@@ -116,7 +116,6 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
       window.removeEventListener('resize', handleResize)
     }
   }, [])
-  console.log('Is mobile ? ', isMobile)
 
   const handleDefaultColumns = (name, pathname, pastRoute, handleClick, formType, toggle) => {
     const attendanceColumn = [
@@ -523,9 +522,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
   }
 
   const onClickAdd = row => {
-    console.log('type: ' + row?.type)
     const { id, name } = row
-    console.log({ id, type: row?.type })
     setCurrent_ID({ id, type: row?.type })
     setShowForm(!showForm)
   }

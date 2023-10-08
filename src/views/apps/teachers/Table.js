@@ -86,12 +86,9 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
   const teachers = useSelector(state => state.teachers?.data?.data)
   const [showAttendance, setShowAttendance] = useState(false)
   const [teacherData, setTeacherData] = useState(null)
-  console.log(permissions)
   const { add, edit } = permissions
   const deletee = permissions?.['delete']
   const user = useAuth()
-
-  console.log(add, edit, deletee)
 
   // add actions column => edit / delete
 
@@ -115,7 +112,6 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
       window.removeEventListener('resize', handleResize)
     }
   }, [])
-  console.log('Is mobile ? ', isMobile)
 
   const renderGender = () => {
     if (!isMobile) {
@@ -209,7 +205,6 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
   }
 
   const onClickAdd = row => {
-    console.log(row)
     const { id, name } = row
     toggleAssign(id, name)
   }

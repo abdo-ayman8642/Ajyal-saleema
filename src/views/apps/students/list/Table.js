@@ -176,7 +176,6 @@ const StudentList = ({ handleSelectedStudent, toggleDialog, toggleEditForm, hand
       window.removeEventListener('resize', handleResize)
     }
   }, [])
-  console.log('Is mobile ? ', isMobile)
 
   /****************** columns Actions *****************/
   const columns = [

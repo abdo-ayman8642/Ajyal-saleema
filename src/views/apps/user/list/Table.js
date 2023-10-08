@@ -114,7 +114,6 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, d
       window.removeEventListener('resize', handleResize)
     }
   }, [])
-  console.log('Is mobile ? ', isMobile)
 
   const renderAge = type => {
     if (type !== 'user')
@@ -227,41 +226,47 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, d
       sortable: false,
       field: 'actions',
       headerName: 'التحكم',
-      renderCell: ({ row }) => (
-        <Box sx={{ display: 'flex', gap: '10px', ml: '-15px' }}>
-          {role === '1' ||
-            (role === '0' && (
+      renderCell: ({ row }) => {
+        const row_role = row?.role
+        return (
+          <Box sx={{ display: 'flex', gap: '10px', ml: '-15px' }}>
+            {(role === '1' || role === '0') && (
               <>
-                <IconButton sx={{ cursor: 'pointer', color: '#ddbb24' }} onClick={() => onClickEdit(row)}>
-                  <ModeEditOutlineIcon />
-                </IconButton>
-                {role === '0' && (
+                {row_role !== '0' && (
                   <>
-                    <IconButton
-                      sx={{ cursor: 'pointer', color: 'red' }}
-                      onClick={() => {
-                        onClickDelete(row)
-                      }}
-                    >
-                      <DeleteIcon />
+                    <IconButton sx={{ cursor: 'pointer', color: '#ddbb24' }} onClick={() => onClickEdit(row)}>
+                      <ModeEditOutlineIcon />
                     </IconButton>
+                    {role === '0' && (
+                      <>
+                        <IconButton
+                          sx={{ cursor: 'pointer', color: 'red' }}
+                          onClick={() => {
+                            onClickDelete(row)
+                          }}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
 
-                    <Tooltip title='Modify Permissions'>
-                      <IconButton
-                        onClick={() => {
-                          handleOpen()
-                          setCurrentUser(row)
-                        }}
-                      >
-                        <ManageAccountsIcon />
-                      </IconButton>
-                    </Tooltip>
+                        <Tooltip title='Modify Permissions'>
+                          <IconButton
+                            onClick={() => {
+                              handleOpen()
+                              setCurrentUser(row)
+                            }}
+                          >
+                            <ManageAccountsIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </>
+                    )}
                   </>
                 )}
               </>
-            ))}
-        </Box>
-      )
+            )}
+          </Box>
+        )
+      }
     }
   ]
 

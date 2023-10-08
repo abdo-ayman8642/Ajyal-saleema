@@ -46,8 +46,6 @@ function AdministrationData() {
     { total_classes: 0, total_schools: 0, total_students: 0 }
   )
 
-  console.log(sums)
-
   const { total_classes = null, total_departs = null, total_schools = null, total_students = null } = sums || {}
 
   const cardData = [
@@ -56,7 +54,7 @@ function AdministrationData() {
     { header: 'Total Classes', number: total_classes },
     { header: 'Total Students', number: total_students }
   ]
-  console.log(cardData)
+
   if (loading) {
     return (
       <Grid container sx={{ justifyContent: 'center', alignItems: 'center', height: '100%' }}>

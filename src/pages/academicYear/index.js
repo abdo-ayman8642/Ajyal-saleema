@@ -18,7 +18,6 @@ function AcademicYear() {
 
   const { year } = user?.user?.permissions
   const { add, edit, delete: deletee, read } = year
-  console.log(user)
 
   const handlePageChange = nextPage => {
     dispatch(fetchYears(nextPage))

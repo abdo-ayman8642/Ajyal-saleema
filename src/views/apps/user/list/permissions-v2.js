@@ -67,13 +67,13 @@ function PermissionsV2({ user }) {
       edit: selectedUser?.year?.edit || false,
       delete: selectedUser?.year?.delete || false
     },
-    session: {
+    sessions: {
       read: selectedUser?.sessions?.read || false,
       add: selectedUser?.sessions?.add || false,
       edit: selectedUser?.sessions?.edit || false,
       delete: selectedUser?.sessions?.delete || false
     },
-    event: {
+    events: {
       read: selectedUser?.events?.read || false,
       add: selectedUser?.events?.add || false,
       edit: selectedUser?.events?.edit || false,
@@ -99,19 +99,16 @@ function PermissionsV2({ user }) {
     },
     nav: {
       academic: selectedUser?.nav?.academic || false,
-      attendance: selectedUser?.nav?.attendance || false,
-      events: selectedUser?.nav?.events || false,
       exams: selectedUser?.nav?.exams || false,
-      home: selectedUser?.nav?.home || false,
       sessions: selectedUser?.nav?.sessions || false,
       students: selectedUser?.nav?.students || false,
-      teachers: selectedUser?.nav?.teachers || false
+      teachers: selectedUser?.nav?.teachers || false,
+      events: selectedUser?.nav?.events || false,
+      attendance: selectedUser?.nav?.attendance || false,
+      home: selectedUser?.nav?.home || false
     }
-
-    // Add more permissions here as needed...
   })
 
-  // State to track open/close state of the accordions
   const [open, setOpen] = useState({
     year: false,
     session: false,
@@ -120,8 +117,6 @@ function PermissionsV2({ user }) {
     teachers: false,
     students: false,
     nav: false
-
-    // Add more permissions here as needed...
   })
 
   // Function to handle accordion open/close
@@ -175,7 +170,7 @@ function PermissionsV2({ user }) {
     <Fragment>
       <h3 style={{ textAlign: 'center' }}>{'Permissions for:    ' + name}</h3>
       <List component='nav' aria-label='main mailbox'>
-        {['year', 'session', 'event', 'exams', 'teachers', 'students'].map(section => (
+        {['year', 'sessions', 'events', 'exams', 'teachers', 'students'].map(section => (
           <>
             <ListItem key={section} disablePadding>
               <ListItemButton onClick={() => handleAccordionToggle(section)}>
@@ -254,7 +249,7 @@ function PermissionsV2({ user }) {
           </div>
         </Collapse>
       </List>
-      {view && (
+      {JSON.stringify(permissions) !== JSON.stringify(selectedUser) && (
         <Button
           variant='contained'
           sx={{ width: '100%' }}

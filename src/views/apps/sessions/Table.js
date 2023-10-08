@@ -94,7 +94,7 @@ const SessionsList = ({ formInputs, toggleConfirm }) => {
   const [showEdit, setShowEdit] = useState(false)
 
   const user = useAuth()
-  const { session: sessionsPer } = user?.user?.permissions
+  const { sessions: sessionsPer } = user?.user?.permissions
   const { read, add, edit } = sessionsPer
 
   // console.log(

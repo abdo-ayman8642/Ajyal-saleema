@@ -30,7 +30,6 @@ const Home = () => {
   const loading = useSelector(state => state.user?.dashboardLoading)
   const user = useAuth()
   const permission = user?.user?.permissions?.nav?.home
-  console.log(user)
 
   useEffect(() => {
     _.isEmpty(user?.user) && window.location.reload()
