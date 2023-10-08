@@ -67,33 +67,28 @@ function SchoolsData() {
       </Grid>
       <Grid item xs={12} md={12}>
         <Grid container>
-          {add && (
-            <Grid item xs={12}>
-              <TableHeader
-                title={'المدارس المشاركة'}
-                formType={'schools'}
-                showDrawer={showDrawer}
-                setDrawer={setDrawer}
-                addData={{ department_id: id, type: 'school' }}
-                enableSearch={true}
-              />
-            </Grid>
-          )}
-          {read ? (
-            <Grid item xs={12}>
-              <DataTable
-                editData={{ department_id: id, type: 'school' }}
-                dataName={'المدرسة '}
-                formType={'schools'}
-                storeData={'schools'}
-                pathname={'school/grade'}
-                handlePageChange={handlePageChange}
-              />
-              <ResponsiveCardGrid cardData={cardData} />
-            </Grid>
-          ) : (
-            <h1 style={{ display: 'block', margin: '5% auto' }}>Don't Have A Permission</h1>
-          )}
+          <Grid item xs={12}>
+            <TableHeader
+              title={'المدارس المشاركة'}
+              formType={'schools'}
+              showDrawer={showDrawer}
+              setDrawer={setDrawer}
+              addData={{ department_id: id, type: 'school' }}
+              enableSearch={true}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <DataTable
+              editData={{ department_id: id, type: 'school' }}
+              dataName={'المدرسة '}
+              formType={'schools'}
+              storeData={'schools'}
+              pathname={'school/grade'}
+              handlePageChange={handlePageChange}
+            />
+            <ResponsiveCardGrid cardData={cardData} />
+          </Grid>
         </Grid>
       </Grid>
     </Grid>

@@ -91,17 +91,10 @@ function PermissionsV2({ user }) {
       edit: selectedUser?.teachers?.edit || false,
       delete: selectedUser?.teachers?.delete || false
     },
-    students: {
-      read: selectedUser?.students?.read || false,
-      add: selectedUser?.students?.add || false,
-      edit: selectedUser?.students?.edit || false,
-      delete: selectedUser?.students?.delete || false
-    },
     nav: {
       academic: selectedUser?.nav?.academic || false,
       exams: selectedUser?.nav?.exams || false,
       sessions: selectedUser?.nav?.sessions || false,
-      students: selectedUser?.nav?.students || false,
       teachers: selectedUser?.nav?.teachers || false,
       events: selectedUser?.nav?.events || false,
       attendance: selectedUser?.nav?.attendance || false,
@@ -143,7 +136,6 @@ function PermissionsV2({ user }) {
     exams: false,
     home: false,
     sessions: false,
-    students: false,
     teachers: false
 
     // Add more 'nav' permissions here as needed...
@@ -170,7 +162,7 @@ function PermissionsV2({ user }) {
     <Fragment>
       <h3 style={{ textAlign: 'center' }}>{'Permissions for:    ' + name}</h3>
       <List component='nav' aria-label='main mailbox'>
-        {['year', 'sessions', 'events', 'exams', 'teachers', 'students'].map(section => (
+        {['year', 'sessions', 'events', 'exams', 'teachers'].map(section => (
           <>
             <ListItem key={section} disablePadding>
               <ListItemButton onClick={() => handleAccordionToggle(section)}>

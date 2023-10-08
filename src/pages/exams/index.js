@@ -9,6 +9,7 @@ import PageHeader from 'src/views/apps/exam/PageHeader'
 import TabsCentered from 'src/views/apps/exam/TabsCentered'
 import * as yup from 'yup'
 import { useAuth } from 'src/hooks/useAuth'
+import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 
 function Exams() {
   //** stats && variables */
@@ -103,7 +104,7 @@ function Exams() {
           )}
         </Grid>
       ) : (
-        <h1 style={{ textAlign: 'center', marginTop: '5rem' }}>Don't Have Permission</h1>
+        <NoPermissionComponent featureName='Events' />
       )}
     </>
   )

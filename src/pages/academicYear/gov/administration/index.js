@@ -10,6 +10,7 @@ import DataTable from 'src/views/apps/academicYear/Table'
 import { useRouter } from 'next/router'
 import { useAuth } from 'src/hooks/useAuth'
 import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
+import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 
 function AdministrationData() {
   const dispatch = useDispatch()
@@ -40,17 +41,25 @@ function AdministrationData() {
       acc.total_classes += obj.total_classes
       acc.total_schools += obj.total_schools
       acc.total_students += obj.total_students
+      acc.total_camps += obj.total_camps
 
       return acc
     },
-    { total_classes: 0, total_schools: 0, total_students: 0 }
+    { total_classes: 0, total_schools: 0, total_students: 0, total_camps: 0 }
   )
 
-  const { total_classes = null, total_departs = null, total_schools = null, total_students = null } = sums || {}
+  const {
+    total_classes = null,
+    total_departs = null,
+    total_schools = null,
+    total_students = null,
+    total_camps = null
+  } = sums || {}
 
   const cardData = [
     { header: 'Total Departments', number: data?.total },
     { header: 'Total Schools', number: total_schools },
+    { header: 'Total Camps', number: total_camps },
     { header: 'Total Classes', number: total_classes },
     { header: 'Total Students', number: total_students }
   ]
@@ -80,34 +89,29 @@ function AdministrationData() {
       </Grid>
       <Grid item xs={12} md={12}>
         <Grid container>
-          {add && (
-            <Grid item xs={12}>
-              <TableHeader
-                title={'الإدارات التعليمية'}
-                formType={'administrations'}
-                showDrawer={showDrawer}
-                setDrawer={setDrawer}
-                addData={formActionData}
-                fetchData={fetchAdministrations}
-                fetchParams={{ page: 1, cityId: id, yearId: pastRoute }}
-                placeholder={'الإدارة التعليمية'}
-              />
-            </Grid>
-          )}
-          {read ? (
-            <Grid item xs={12}>
-              <DataTable
-                dataName={'الإدارة '}
-                formType={'administrations'}
-                storeData={'administrations'}
-                editData={formActionData}
-                handlePageChange={handlePageChange}
-              />
-              <ResponsiveCardGrid cardData={cardData} />
-            </Grid>
-          ) : (
-            <h1 style={{ display: 'block', margin: '5% auto' }}>Don't Have permission</h1>
-          )}
+          <Grid item xs={12}>
+            <TableHeader
+              title={'الإدارات التعليمية'}
+              formType={'administrations'}
+              showDrawer={showDrawer}
+              setDrawer={setDrawer}
+              addData={formActionData}
+              fetchData={fetchAdministrations}
+              fetchParams={{ page: 1, cityId: id, yearId: pastRoute }}
+              placeholder={'الإدارة التعليمية'}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <DataTable
+              dataName={'الإدارة '}
+              formType={'administrations'}
+              storeData={'administrations'}
+              editData={formActionData}
+              handlePageChange={handlePageChange}
+            />
+            <ResponsiveCardGrid cardData={cardData} />
+          </Grid>
         </Grid>
       </Grid>
     </Grid>

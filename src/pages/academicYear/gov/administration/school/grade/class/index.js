@@ -9,11 +9,15 @@ import { fetchClasses } from 'src/store/apps/academicData/actions'
 import DataTable from 'src/views/apps/academicYear/Table'
 import { useRouter } from 'next/router'
 import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
+import { useAuth } from 'src/hooks/useAuth'
 
 function ClassesData() {
   const dispatch = useDispatch()
   const loading = useSelector(state => state.academicData?.classesLoading)
   const data = useSelector(state => state.academicData['classes'])
+  const user = useAuth()
+  const { year } = user?.user?.permissions
+  const { add } = year
 
   const [showDrawer, setDrawer] = useState(false)
   const router = useRouter()
@@ -72,6 +76,7 @@ function ClassesData() {
               addData={requestData}
             />
           </Grid>
+
           <Grid item xs={12}>
             <DataTable
               dataName={'الفصل'}

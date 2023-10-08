@@ -9,6 +9,7 @@ import { fetchGrades, fetchSchools } from 'src/store/apps/academicData/actions'
 import DataTable from 'src/views/apps/academicYear/Table'
 import { useRouter } from 'next/router'
 import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
+import { useAuth } from 'src/hooks/useAuth'
 
 function GradesData() {
   const dispatch = useDispatch()
@@ -18,23 +19,22 @@ function GradesData() {
   const router = useRouter()
   const pastRoute = router.query.id
   const data = useSelector(state => state.academicData['grades'])
+  const user = useAuth()
+  const { add } = user?.user?.permissions?.year
 
-  const sums = data?.data?.reduce(
-    (acc, obj) => {
-      acc.total_classes += obj.total_classes || 0
-      acc.total_students += obj.total_students || 0
-
-      return acc
-    },
-    { total_classes: 0, total_schools: 0, total_students: 0 }
-  )
-
-  const { total_classes = null, total_departs = null, total_schools = null, total_students = null } = sums || {}
+  const {
+    total_classes = null,
+    total_departs = null,
+    total_schools = null,
+    total_students = null
+  } = data?.data?.[0] || {}
 
   const cardData = [
     { header: 'Total Classes', number: total_classes },
     { header: 'Total Students', number: total_students }
   ]
+
+  console.log(pastRoute)
 
   useEffect(() => {
     dispatch(fetchGrades({ page: 1, id: pastRoute }))
@@ -62,8 +62,15 @@ function GradesData() {
       <Grid item xs={12} md={12}>
         <Grid container>
           <Grid item xs={12}>
-            <TableHeader title={'الصفوف'} formType={'grades'} showDrawer={showDrawer} setDrawer={setDrawer} />
+            <TableHeader
+              title={'الصفوف'}
+              formType={'grades'}
+              showDrawer={showDrawer}
+              setDrawer={setDrawer}
+              addData={{ school_id: pastRoute }}
+            />
           </Grid>
+
           <Grid item xs={12}>
             <DataTable
               dataName={'الصف '}

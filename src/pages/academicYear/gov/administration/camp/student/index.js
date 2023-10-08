@@ -21,10 +21,6 @@ function CampsData() {
   const data = useSelector(state => state.academicData['students'])
   const router = useRouter()
   const campId = router.query.id
-  const user = useAuth()
-  const { students } = user?.user?.permissions
-  const { read, add, edit } = students
-  const deletee = students?.['delete']
 
   const cardData = [{ header: 'Total Students', number: data?.data?.total }]
 
@@ -50,34 +46,32 @@ function CampsData() {
       <Grid item xs={12} md={12}>
         <Grid container>
           <Grid item xs={12}>
-            {add ?? (
-              <TableHeader
-                title={'الطلاب'}
-                formType={'students'}
-                showDrawer={showDrawer}
-                setDrawer={setDrawer}
-                addData={{ urlId: campId, query: 'school_camp', school_id: campId }}
-              />
-            )}
+            <TableHeader
+              title={'الطلاب'}
+              formType={'students'}
+              showDrawer={showDrawer}
+              setDrawer={setDrawer}
+              addData={{ urlId: campId, query: 'school_camp', school_id: campId }}
+            />
           </Grid>
           <Grid item xs={12}>
-            {read ? (
-              <>
-                <DataTable
-                  dataName={'الطالب'}
-                  formType={'students'}
-                  storeData={'students'}
-                  pathname={`student/view`}
-                  pastRoute={campId}
-                  editData={{ urlId: campId, query: 'school_camp' }}
-                  permissions={students}
-                />
+            {/* {read ? (
+              <> */}
+            <DataTable
+              dataName={'الطالب'}
+              formType={'students'}
+              storeData={'students'}
+              pathname={`student/view`}
+              pastRoute={campId}
+              editData={{ urlId: campId, query: 'school_camp' }}
+              permissions={students}
+            />
 
-                <ResponsiveCardGrid cardData={cardData} />
-              </>
+            <ResponsiveCardGrid cardData={cardData} />
+            {/* </>
             ) : (
               <h1 style={{ display: 'block', margin: '5% auto' }}>Don't Have A Permission</h1>
-            )}
+            )} */}
           </Grid>
         </Grid>
       </Grid>

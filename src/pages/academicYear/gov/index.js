@@ -42,11 +42,13 @@ function GovData() {
     total_classes = null,
     total_departs = null,
     total_schools = null,
-    total_students = null
+    total_students = null,
+    total_camps = null
   } = getObjectById(data?.data, Number(yearId)) || {}
 
   const cardData = [
     { header: 'Total Departments', number: total_departs },
+    { header: 'Total Camps', number: total_camps },
     { header: 'Total Schools', number: total_schools },
     { header: 'Total Classes', number: total_classes },
     { header: 'Total Students', number: total_students }
@@ -86,32 +88,29 @@ function GovData() {
       </Grid>
       <Grid item xs={12} md={12}>
         <Grid container>
-          {add && (
-            <Grid item xs={12}>
-              <TableHeader
-                fetchData={fetchGovs}
-                title={'المحافظات'}
-                formType={'govs'}
-                showDrawer={showDrawer}
-                setDrawer={setDrawer}
-                fetchParams={1}
-                placeholder={'المحافظة'}
-              />
-            </Grid>
-          )}
-          {read && (
-            <Grid item xs={12}>
-              <DataTable
-                dataName={'المحافظة'}
-                formType={'govs'}
-                storeData={'govs'}
-                pathname={`gov/administration`}
-                pastRoute={yearId}
-                handlePageChange={handlePageChange}
-              />
-              <ResponsiveCardGrid cardData={cardData} />
-            </Grid>
-          )}
+          <Grid item xs={12}>
+            <TableHeader
+              fetchData={fetchGovs}
+              title={'المحافظات'}
+              formType={'govs'}
+              showDrawer={showDrawer}
+              setDrawer={setDrawer}
+              fetchParams={1}
+              placeholder={'المحافظة'}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <DataTable
+              dataName={'المحافظة'}
+              formType={'govs'}
+              storeData={'govs'}
+              pathname={`gov/administration`}
+              pastRoute={yearId}
+              handlePageChange={handlePageChange}
+            />
+            <ResponsiveCardGrid cardData={cardData} />
+          </Grid>
         </Grid>
       </Grid>
     </Grid>

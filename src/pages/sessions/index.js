@@ -13,6 +13,7 @@ import ConfirmDialog from 'src/views/sharedComponents/ConfirmDialog'
 import SidebarAddUSession from 'src/views/apps/sessions/AddDrawer'
 import { CircularProgress } from '@mui/material'
 import { useAuth } from 'src/hooks/useAuth'
+import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 
 function Sessions() {
   /** states and variables */
@@ -94,7 +95,7 @@ function Sessions() {
       {read ? (
         <SessionsList formInputs={formInputs} toggleConfirm={toggleConfirm} />
       ) : (
-        <h1 style={{ textAlign: 'center', marginTop: '5rem' }}>Don't Have Permission</h1>
+        <NoPermissionComponent featureName='Sessions' />
       )}
 
       {showAddForm && <SidebarAddUSession open={showAddForm} toggle={toggleAddForm} formInputs={formInputs} />}

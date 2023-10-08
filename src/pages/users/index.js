@@ -25,6 +25,7 @@ import UserList from 'src/views/apps/user/list/Table'
 import { resetSearchedUsers } from 'src/store/apps/user'
 import PageHeader from 'src/views/apps/academicYear/PageHeader'
 import { useAuth } from 'src/hooks/useAuth'
+import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 
 function Users() {
   // main variables
@@ -180,7 +181,7 @@ function Users() {
           {showAcl && <Permissions open={showAcl} toggle={toggleAcl} />}
         </>
       ) : (
-        <h1 style={{ textAlign: 'center', marginTop: '5rem' }}>Don't Have Permission</h1>
+        <NoPermissionComponent featureName='Users' />
       )}
     </Grid>
   )

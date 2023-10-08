@@ -435,18 +435,20 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
                     )}
                   </>
                 ) : (
-                  <Tooltip title='Assign' placement='left'>
+                  <>
                     {add && (
-                      <IconButton
-                        sx={{ cursor: 'pointer', color: 'green' }}
-                        onClick={() => {
-                          onClickAdd(row)
-                        }}
-                      >
-                        <AddBoxIcon />
-                      </IconButton>
+                      <Tooltip title='Assign' placement='left'>
+                        <IconButton
+                          sx={{ cursor: 'pointer', color: 'green' }}
+                          onClick={() => {
+                            onClickAdd(row)
+                          }}
+                        >
+                          <AddBoxIcon />
+                        </IconButton>
+                      </Tooltip>
                     )}
-                  </Tooltip>
+                  </>
                 )}
               </Typography>
             </Box>

@@ -19,10 +19,12 @@ import Groups2Icon from '@mui/icons-material/Groups2'
 import CustomAvatar from 'src/@core/components/mui/avatar'
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople'
 import PersonOffIcon from '@mui/icons-material/PersonOff'
+import PercentIcon from '@mui/icons-material/Percent'
 
 //{ totalStudents, attend, absent }
 const StatisticsCard = ({ StudentsData }) => {
-  const [totalStudents, totalPresent, totalAbsent] = StudentsData?.chartState
+  const [totalStudents, average, totalPresent, totalAbsent] = StudentsData?.chartState
+  console.log(StudentsData?.chartState)
 
   const salesData = [
     {
@@ -42,11 +44,17 @@ const StatisticsCard = ({ StudentsData }) => {
       stats: totalAbsent || 0,
       icon: <PersonOffIcon />,
       title: 'الطلاب الغائبون'
+    },
+    {
+      color: 'info',
+      stats: average || 0,
+      icon: <PercentIcon />,
+      title: 'متوسط ​​الحضور'
     }
   ]
   const renderStats = () => {
     return salesData.map((sale, index) => (
-      <Grid item xs={12} sm={4} key={index}>
+      <Grid item xs={12} sm={6} md={3} key={index}>
         <Box key={index} sx={{ display: 'flex', alignItems: 'center' }}>
           <CustomAvatar skin='light' variant='rounded' color={sale.color} sx={{ mr: 4 }}>
             {sale.icon}

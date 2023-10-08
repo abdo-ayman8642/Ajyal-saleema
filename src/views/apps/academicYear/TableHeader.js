@@ -17,6 +17,7 @@ import UploadIcon from '@mui/icons-material/Upload'
 import axios from 'axios'
 import ExcelUploaderRestrictions from './importExcel'
 import { filterBy } from 'src/store/apps/academicData/actions'
+import { useAuth } from 'src/hooks/useAuth'
 
 const style = {
   position: 'absolute',
@@ -45,6 +46,9 @@ function TableHeader({ title, formType, showDrawer, setDrawer, addData, placehol
   const [open, setOpen] = React.useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
+  const user = useAuth()
+  const { year } = user?.user?.permissions
+  const { add, edit, delete: deletee, read } = year
 
   const handleUpload = async file => {
     if (file) {
@@ -201,34 +205,38 @@ function TableHeader({ title, formType, showDrawer, setDrawer, addData, placehol
               }}
             />
           )} */}
-          {
+          {add && (
             <Button sx={{ mb: 2, fontSize: '1rem', fontWeight: 'bold' }} onClick={toggle} variant='contained'>
               إضافة
             </Button>
-          }
+          )}
 
           {formType === 'students' && (
             <>
-              <Tooltip title='اضافة طلاب' placement='top'>
-                <Button
-                  sx={{ fontSize: '0.6rem', fontWeight: 'normal', color: '#757575' }}
-                  variant='text'
-                  hover
-                  onClick={handleOpen}
-                >
-                  <UploadIcon />
-                </Button>
-              </Tooltip>
-              <Tooltip title='تنزيل' placement='top'>
-                <Button
-                  sx={{ fontSize: '0.6rem', fontWeight: 'normal', color: '#388e3c' }}
-                  variant='text'
-                  hover
-                  onClick={handleDownload}
-                >
-                  <FileDownloadIcon />
-                </Button>
-              </Tooltip>
+              {add && (
+                <Tooltip title='اضافة طلاب' placement='top'>
+                  <Button
+                    sx={{ fontSize: '0.6rem', fontWeight: 'normal', color: '#757575' }}
+                    variant='text'
+                    hover
+                    onClick={handleOpen}
+                  >
+                    <UploadIcon />
+                  </Button>
+                </Tooltip>
+              )}
+              {read && (
+                <Tooltip title='تنزيل' placement='top'>
+                  <Button
+                    sx={{ fontSize: '0.6rem', fontWeight: 'normal', color: '#388e3c' }}
+                    variant='text'
+                    hover
+                    onClick={handleDownload}
+                  >
+                    <FileDownloadIcon />
+                  </Button>
+                </Tooltip>
+              )}
             </>
           )}
         </Box>

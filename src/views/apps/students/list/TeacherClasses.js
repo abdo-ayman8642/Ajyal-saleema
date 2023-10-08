@@ -28,9 +28,16 @@ const Header = styled(Box)(({ theme }) => ({
 }))
 
 function TeacherClasses({ toggle, open, data }) {
-  const classes = data?.classes
-  const name = data?.name
-  const camps = data?.camps
+  const {
+    classes = null,
+    name = null,
+    camps = null,
+    total_camp_students = null,
+    total_class_students = null,
+    total_departs = null
+  } = data || {}
+  const total_classes = classes?.length
+  const total_camps = camps?.length
   const user = useAuth()
   const { teachers } = user?.user?.permissions
 
@@ -52,6 +59,12 @@ function TeacherClasses({ toggle, open, data }) {
             <Typography variant='h5'>{name}</Typography>
             <Close fontSize='small' onClick={toggle} sx={{ cursor: 'pointer' }} />
           </Header>
+          {!!total_class_students && <div>Total Students in Classes: {total_class_students}</div>}
+          {!!total_camp_students && <div>Total Students in Camps: {total_camp_students}</div>}
+          {!!total_departs && <div>Total Students in Departs: {total_departs}</div>}
+          {!!total_classes && <div>Total Classes: {total_classes}</div>}
+          {!!total_camps && <div>Total Camps: {total_camps}</div>}
+
           {!!classes?.length && <h4 style={{ textAlign: 'center' }}>فصل</h4>}
 
           {classes?.map(clas => (

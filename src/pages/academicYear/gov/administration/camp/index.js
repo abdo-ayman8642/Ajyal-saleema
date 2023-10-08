@@ -66,36 +66,31 @@ function CampsData() {
       </Grid>
       <Grid item xs={12} md={12}>
         <Grid container>
-          {add && (
-            <Grid item xs={12}>
-              <TableHeader
-                title={'المعسكرات'}
-                formType={'camps'}
-                showDrawer={showDrawer}
-                setDrawer={setDrawer}
-                addData={{ department_id: administrationId, type: 'camp' }}
-              />
-            </Grid>
-          )}
-          {read ? (
-            <Grid item xs={12}>
-              <DataTable
-                dataName={'المعسكر'}
-                formType={'camps'}
-                storeData={'camps'}
-                pathname={`camp/student`}
-                pastRoute={administrationId}
-                editData={{ department_id: administrationId, type: 'camp' }}
-                handlePageChange={handlePageChange}
-                renderAgain={() => {
-                  dispatch(getCampsByAdministration({ id: administrationId, type: 'camp' }))
-                }}
-              />
-              <ResponsiveCardGrid cardData={cardData} />
-            </Grid>
-          ) : (
-            <h1 style={{ display: 'block', margin: '5% auto' }}>Don't Have permission</h1>
-          )}
+          <Grid item xs={12}>
+            <TableHeader
+              title={'المعسكرات'}
+              formType={'camps'}
+              showDrawer={showDrawer}
+              setDrawer={setDrawer}
+              addData={{ department_id: administrationId, type: 'camp' }}
+            />
+          </Grid>
+
+          <Grid item xs={12}>
+            <DataTable
+              dataName={'المعسكر'}
+              formType={'camps'}
+              storeData={'camps'}
+              pathname={`camp/student`}
+              pastRoute={administrationId}
+              editData={{ department_id: administrationId, type: 'camp' }}
+              handlePageChange={handlePageChange}
+              renderAgain={() => {
+                dispatch(getCampsByAdministration({ id: administrationId, type: 'camp' }))
+              }}
+            />
+            <ResponsiveCardGrid cardData={cardData} />
+          </Grid>
         </Grid>
       </Grid>
     </Grid>

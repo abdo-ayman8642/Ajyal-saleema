@@ -21,6 +21,7 @@ import CardProjectStatistics from 'src/views/ui/cards/advanced/CardProjectStatis
 import CardStatisticsSales from 'src/views/ui/cards/statistics/CardStatisticsSales'
 import PageHeader from 'src/views/apps/academicYear/PageHeader'
 import { useAuth } from 'src/hooks/useAuth'
+import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 
 const _ = require('lodash')
 
@@ -171,7 +172,7 @@ const Home = () => {
           </Grid>
         </>
       ) : (
-        <h1 style={{ margin: '5rem auto' }}>Welcome</h1>
+        <NoPermissionComponent featureName='Dashboard' />
       )}
     </Grid>
   )

@@ -12,6 +12,7 @@ import SidebarAddEvent from 'src/views/apps/events/AddDrawer'
 import { CircularProgress } from '@mui/material'
 import { useAuth } from 'src/hooks/useAuth'
 import PageHeader from 'src/views/apps/academicYear/PageHeader'
+import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 
 function Events() {
   /** states and variables */
@@ -71,9 +72,12 @@ function Events() {
 
   return (
     <Grid container direction='column'>
-      <Grid item xs={12} md={12}>
-        <PageHeader src={'/images/govs.jpg'} />
-      </Grid>
+      {read && (
+        <Grid item xs={12} md={12}>
+          <PageHeader src={'/images/govs.jpg'} />
+        </Grid>
+      )}
+
       {add ?? (
         <TableHeader
           toggleAdd={toggleAddForm}
@@ -88,7 +92,7 @@ function Events() {
       {read ? (
         <EventList formInputs={formInputs} toggleConfirm={toggleConfirm} />
       ) : (
-        <h1 style={{ textAlign: 'center' }}>Don't Have Permission</h1>
+        <NoPermissionComponent featureName='Events' />
       )}
       {showAddForm && <SidebarAddEvent open={showAddForm} toggle={toggleAddForm} formInputs={formInputs} />}
       {showConfirm && (

@@ -9,7 +9,7 @@ const ApexChart = () => {
   const [chartState, setChartState] = useState([0, 0])
 
   const state = {
-    series: chartState.slice(1),
+    series: chartState.slice(2),
     options: {
       title: {
         align: 'center'
@@ -75,8 +75,9 @@ const ApexChart = () => {
         body: JSON.stringify({ sessions_ids: sessions_ids_list })
       })
       const jsonData = await response.json()
-      const { TotalStudents, totalPresent, totalAbsent } = jsonData
-      setChartState([TotalStudents || 0, totalPresent || 0, totalAbsent || 0])
+      console.log(jsonData)
+      const { TotalStudents, totalPresent, totalAbsent, average } = jsonData
+      setChartState([TotalStudents || 0, average || 0, totalPresent || 0, totalAbsent || 0])
     } catch (error) {
       console.error('Error fetching data', error)
     }

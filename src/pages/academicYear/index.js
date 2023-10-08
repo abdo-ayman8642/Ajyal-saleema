@@ -8,6 +8,7 @@ import { useAuth } from 'src/hooks/useAuth'
 import { fetchYears } from 'src/store/apps/academicData/actions'
 import DataTable from 'src/views/apps/academicYear/Table'
 import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
+import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 
 function AcademicYear() {
   const dispatch = useDispatch()
@@ -29,16 +30,30 @@ function AcademicYear() {
 
   const years = useSelector(state => state.academicData['years'])
 
+  const sums = years?.data?.reduce(
+    (acc, obj) => {
+      acc.total_classes += obj.total_classes
+      acc.total_schools += obj.total_schools
+      acc.total_students += obj.total_students
+      acc.total_camps += obj.total_camps
+
+      return acc
+    },
+    { total_classes: 0, total_schools: 0, total_students: 0, total_camps: 0 }
+  )
+
   const {
     total_classes = null,
     total_departs = null,
     total_schools = null,
-    total_students = null
-  } = years?.data?.[0]?.totals || {}
+    total_students = null,
+    total_camps = null
+  } = sums || {}
 
   const cardData = [
-    { header: 'Total Departments', number: total_departs },
+    { header: 'Total Departments', number: years?.total },
     { header: 'Total Schools', number: total_schools },
+    { header: 'Total Camps', number: total_camps },
     { header: 'Total Classes', number: total_classes },
     { header: 'Total Students', number: total_students }
   ]
@@ -54,15 +69,15 @@ function AcademicYear() {
   }
 
   return (
-    <>
-      <Grid container spacing={10}>
-        <Grid item xs={12} md={12}>
-          <PageHeader src={'/images/academics2.jpg'} />
-        </Grid>
+    <Grid container spacing={10}>
+      {read ? (
+        <>
+          <Grid item xs={12} md={12}>
+            <PageHeader src={'/images/academics2.jpg'} />
+          </Grid>
 
-        <Grid item xs={12} md={12}>
-          <Grid container>
-            {add && (
+          <Grid item xs={12} md={12}>
+            <Grid container>
               <Grid item xs={12}>
                 <TableHeader
                   title={'السنة التنفيذية'}
@@ -71,8 +86,6 @@ function AcademicYear() {
                   setDrawer={setYearDrawer}
                 />
               </Grid>
-            )}
-            {read ? (
               <Grid item xs={12}>
                 <DataTable
                   dataName={'العام الدراسي'}
@@ -83,13 +96,13 @@ function AcademicYear() {
                 />
                 <ResponsiveCardGrid cardData={cardData} />
               </Grid>
-            ) : (
-              <h1 style={{ display: 'block', margin: '5% auto' }}>Don't Have permission</h1>
-            )}
+            </Grid>
           </Grid>
-        </Grid>
-      </Grid>
-    </>
+        </>
+      ) : (
+        <NoPermissionComponent featureName='Academic Years Data' />
+      )}
+    </Grid>
   )
 }
 

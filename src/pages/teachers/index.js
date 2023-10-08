@@ -22,6 +22,7 @@ import { deleteMultiTeachers, deleteTeacher, fetchData } from 'src/store/apps/te
 import DialogEditForm from 'src/views/apps/teachers/EditDialogForm'
 import { useAuth } from 'src/hooks/useAuth'
 import { useHistory } from 'react-router-dom'
+import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 
 function Teachers() {
   // main variables
@@ -125,27 +126,29 @@ function Teachers() {
 
   return (
     <Grid container direction='column'>
-      <Grid item>
-        <TableHeader
-          toggleAdd={toggleAddForm}
-          toggleConfirm={toggleDialog}
-          dataType={'user'}
-          toggleImpExp={toggleImpExp}
-          placeholder={'الأعضاء'}
-          selected={selectedTeacher}
-          permissions={teachers}
-        />
-      </Grid>
       {read ? (
-        <TeachersList
-          toggleAddForm={toggleAddForm}
-          toggleDialog={toggleDialog}
-          toggleEditForm={toggleEditForm}
-          toggleAssign={toggleAssign}
-          permissions={teachers}
-        />
+        <>
+          <Grid item>
+            <TableHeader
+              toggleAdd={toggleAddForm}
+              toggleConfirm={toggleDialog}
+              dataType={'user'}
+              toggleImpExp={toggleImpExp}
+              placeholder={'الأعضاء'}
+              selected={selectedTeacher}
+              permissions={teachers}
+            />
+          </Grid>
+          <TeachersList
+            toggleAddForm={toggleAddForm}
+            toggleDialog={toggleDialog}
+            toggleEditForm={toggleEditForm}
+            toggleAssign={toggleAssign}
+            permissions={teachers}
+          />
+        </>
       ) : (
-        <h1 style={{ textAlign: 'center' }}>Don't Have A Permission</h1>
+        <NoPermissionComponent featureName='Teachers' />
       )}
 
       <SidebarAddTeachers open={showForm} toggle={setShowForm} formInputs={formInputs} teacherId={currentTeacherData} />
