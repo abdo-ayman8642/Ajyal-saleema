@@ -36,7 +36,14 @@ const AppBarContent = props => {
   console.log('Is mobile ? ', isMobile)
 
   return (
-    <Box sx={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+    <Box
+      sx={{
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+      }}
+    >
       <Box className='actions-left' sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>
         {hidden ? (
           <IconButton color='inherit' sx={{ ml: -2.75 }} onClick={toggleNavVisibility}>
@@ -52,12 +59,12 @@ const AppBarContent = props => {
         <img
           src={'/logos/educate_me-multilingual_logo-left_aligned-original_colors-print_cmyk.png'}
           alt='logo'
-          style={{ maxWidth: `${isMobile ? '120px' : '150px'}`, height: 'auto' }}
+          style={{ maxWidth: `${isMobile ? '85px' : '150px'}`, height: 'auto' }}
         />
         <img
           src={'/logos/N4HK_ARABIC.png'}
           alt='logo'
-          style={{ maxWidth: `${isMobile ? '120px' : '150px'}`, height: 'auto' }}
+          style={{ maxWidth: `${isMobile ? '85px' : '150px'}`, height: 'auto' }}
         />
       </div>
       <Box className='actions-right' sx={{ display: 'flex', alignItems: 'center' }}>
