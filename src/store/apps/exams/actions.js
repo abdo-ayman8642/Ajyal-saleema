@@ -7,12 +7,14 @@ import { baseUrl } from 'src/configs/baseUrl'
 export const fetchData = createAsyncThunk('appExams/fetchData', async (params, { rejectWithValue }) => {
   try {
     const response = await axios.get(`${baseUrl}exams`)
+
     return response
   } catch (err) {
     if (!err.response) {
       throw err
     }
   }
+
   return rejectWithValue(err.response.data)
 })
 
@@ -21,12 +23,14 @@ export const fetchQuestions = createAsyncThunk(
   async ({ id, page }, { rejectWithValue, dispatch }) => {
     try {
       const response = await axios.get(`${baseUrl}exams/view/${id}?page=${page}`)
+
       return response
     } catch (err) {
       if (!err.response) {
         throw err
       }
     }
+
     return rejectWithValue(err.response.data)
   }
 )
@@ -36,12 +40,14 @@ export const fetchExamAnalysis = createAsyncThunk(
   async ({ examId, questionId }, { rejectWithValue }) => {
     try {
       const response = await axios.get(`${baseUrl}exams/analysis/${examId}/${questionId}`)
+
       return response
     } catch (err) {
       if (!err.response) {
         throw err
       }
     }
+
     return rejectWithValue(err.response.data)
   }
 )
@@ -54,6 +60,7 @@ export const addQuestion = createAsyncThunk(
         headers: { 'Content-Type': 'application/json' }
       })
       dispatch(fetchData())
+
       return response
     } catch (err) {
       if (!err.response) {
@@ -71,6 +78,7 @@ export const addExam = createAsyncThunk('appExams/addExam', async ({ data }, { r
       headers: { 'Content-Type': 'application/json' }
     })
     dispatch(fetchData())
+
     return response
   } catch (err) {
     if (!err.response) {
@@ -84,6 +92,7 @@ export const addExam = createAsyncThunk('appExams/addExam', async ({ data }, { r
 export const deleteQuestion = createAsyncThunk('appExam/deleteQuestion', async (id, { rejectWithValue }) => {
   try {
     const response = await axios.delete(`${baseUrl}questions/${id}`)
+
     return response
   } catch (err) {
     if (err.response) {
@@ -98,6 +107,7 @@ export const deleteExam = createAsyncThunk('appExam/deleteExam', async (id, { re
   try {
     const response = await axios.delete(`${baseUrl}exams/${id}`)
     dispatch(fetchData())
+
     return response
   } catch (err) {
     if (err.response) {
@@ -114,6 +124,7 @@ export const editExam = createAsyncThunk('appExam/editExam', async ({ id, data }
       headers: { 'Content-Type': 'application/json' }
     })
     dispatch(fetchData())
+
     return response
   } catch (err) {
     if (err.response) {
@@ -132,6 +143,7 @@ export const submitAnswers = createAsyncThunk(
         headers: { 'Content-Type': 'application/json' }
       })
       dispatch(fetchData())
+
       return response
     } catch (err) {
       if (err.response) {

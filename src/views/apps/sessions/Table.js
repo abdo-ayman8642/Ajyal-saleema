@@ -120,13 +120,9 @@ const SessionsList = ({ formInputs, toggleConfirm }) => {
         )
       }
     }
+
     return {}
   }
-  // console.log(
-  //   sessions.map((session, index) => {
-  //     return { ...session, name: `${index + 1}: ${session.name}` }
-  //   })
-  // )
 
   /****************** columns Actions *****************/
   const columns = [...defaultColumns, renderColumns()]
@@ -155,6 +151,7 @@ const SessionsList = ({ formInputs, toggleConfirm }) => {
   }
 
   columns = columns.filter(obj => !isObjectEmpty(obj))
+
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>

@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import PageHeader from 'src/views/apps/academicYear/PageHeader'
 import TableHeader from 'src/views/apps/academicYear/TableHeader'
 
-import { fetchGrades, fetchSchools } from 'src/store/apps/academicData/actions'
+import { fetchGrades } from 'src/store/apps/academicData/actions'
 import DataTable from 'src/views/apps/academicYear/Table'
 import { useRouter } from 'next/router'
 import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
@@ -15,7 +15,6 @@ import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 function GradesData() {
   const dispatch = useDispatch()
   const loading = useSelector(state => state.academicData?.gradesLoading)
-  const [depId, setDepId] = useState(null)
   const [showDrawer, setDrawer] = useState(false)
   const router = useRouter()
   const pastRoute = router.query.id
@@ -23,23 +22,16 @@ function GradesData() {
   const user = useAuth()
   const { read } = user?.user?.permissions?.year
 
-  const {
-    total_classes = null,
-    total_departs = null,
-    total_schools = null,
-    total_students = null
-  } = data?.data?.[0] || {}
+  const { total_classes = null, total_students = null } = data?.data?.[0] || {}
 
   const cardData = [
     { header: 'Total Classes', number: total_classes },
     { header: 'Total Students', number: total_students }
   ]
 
-  console.log(pastRoute)
-
   useEffect(() => {
     dispatch(fetchGrades({ page: 1, id: pastRoute }))
-  }, [dispatch])
+  }, [dispatch, pastRoute])
 
   if (loading) {
     return (

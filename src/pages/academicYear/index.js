@@ -8,17 +8,12 @@ import { useAuth } from 'src/hooks/useAuth'
 import { fetchYears } from 'src/store/apps/academicData/actions'
 import DataTable from 'src/views/apps/academicYear/Table'
 import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
-import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 
 function AcademicYear() {
   const dispatch = useDispatch()
   const loading = useSelector(state => state.academicData?.yearsLoading)
   const [showYearDrawer, setYearDrawer] = useState(false)
-
-  const user = useAuth()
-
-  const { year } = user?.user?.permissions
-  const { add, edit, delete: deletee, read } = year
+  const years = useSelector(state => state.academicData['years'])
 
   const handlePageChange = nextPage => {
     dispatch(fetchYears(nextPage))
@@ -27,8 +22,6 @@ function AcademicYear() {
   useEffect(() => {
     dispatch(fetchYears(1))
   }, [dispatch])
-
-  const years = useSelector(state => state.academicData['years'])
 
   const sums = years?.data?.reduce(
     (acc, obj) => {

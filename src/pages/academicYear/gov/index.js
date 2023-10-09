@@ -9,7 +9,6 @@ import { fetchGovs, searchData } from 'src/store/apps/academicData/actions'
 import DataTable from 'src/views/apps/academicYear/Table'
 import { useRouter } from 'next/router'
 import { handlePastRoute } from 'src/store/apps/academicData'
-import { useAuth } from 'src/hooks/useAuth'
 import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
 import { fetchYears } from 'src/store/apps/academicData/actions'
 
@@ -21,8 +20,6 @@ function getObjectById(objects, id) {
       return objects[i]
     }
   }
-
-  // If no matching object is found, return null or handle it as needed
 
   return null
 }
@@ -36,7 +33,6 @@ function GovData() {
   const data = useSelector(state => state.academicData['years'])
   const searchedQuery = useSelector(state => state.academicData?.searchedQuery)
   const searchedData = useSelector(state => state.academicData?.searchedData)
-  const user = useAuth()
 
   const {
     total_classes = null,
@@ -53,9 +49,6 @@ function GovData() {
     { header: 'Total Classes', number: total_classes },
     { header: 'Total Students', number: total_students }
   ]
-
-  const { year } = user?.user?.permissions
-  const { add, edit, delete: deletee, read } = year
 
   useEffect(() => {
     dispatch(fetchGovs(1))

@@ -1,7 +1,4 @@
 import React, { useEffect, useState } from 'react'
-
-/** Mui imports  */
-
 import Grid from '@mui/material/Grid'
 import EventList from 'src/views/apps/events/Table'
 import { useDispatch, useSelector } from 'react-redux'
@@ -15,7 +12,6 @@ import PageHeader from 'src/views/apps/academicYear/PageHeader'
 import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 
 function Events() {
-  /** states and variables */
   const dispatch = useDispatch()
   const events = useSelector(state => state.events?.data.data)
   const loading = useSelector(state => state.events?.dataLoading)
@@ -24,9 +20,7 @@ function Events() {
   const selectedEvents = useSelector(state => state.events?.selectedEvents)
 
   const user = useAuth()
-  console.log(user?.user?.permissions)
-  const { events: event } = user?.user?.permissions
-  const { add, edit, delete: deletee, read } = event
+  const { read } = user?.user?.permissions?.events
 
   const formInputs = [
     {

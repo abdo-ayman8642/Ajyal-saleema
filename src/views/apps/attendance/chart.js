@@ -55,9 +55,11 @@ const ApexChart = () => {
 
   useEffect(() => {
     fecthAttendance()
+
     const timerId = setTimeout(() => {
       setChartState(prev => prev)
     }, 300)
+
     return () => {
       // Clear the timer to prevent validation after unmounting
       clearTimeout(timerId)
@@ -75,13 +77,13 @@ const ApexChart = () => {
         body: JSON.stringify({ sessions_ids: sessions_ids_list })
       })
       const jsonData = await response.json()
-      console.log(jsonData)
       const { TotalStudents, totalPresent, totalAbsent, average } = jsonData
       setChartState([TotalStudents || 0, average || 0, totalPresent || 0, totalAbsent || 0])
     } catch (error) {
       console.error('Error fetching data', error)
     }
   }
+
   return (
     <>
       <StatisticsCard StudentsData={{ chartState }} />

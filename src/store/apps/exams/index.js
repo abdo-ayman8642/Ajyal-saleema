@@ -1,13 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import {
-  fetchData,
-  addExam,
-  addQuestion,
-  deleteExam,
-  deleteQuestion,
-  fetchExamAnalysis,
-  fetchQuestions
-} from './actions'
+import { fetchData, fetchExamAnalysis, fetchQuestions } from './actions'
 import { createLoadingReducer } from 'src/helperFunctions/createLoadingReducer'
 
 export const examSlice = createSlice({

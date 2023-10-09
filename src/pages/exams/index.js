@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux'
 import { addExam, fetchData } from 'src/store/apps/exams/actions'
 import AddExam from 'src/views/apps/exam/AddExam'
 import CreateExam from 'src/views/apps/exam/CreateExam'
-import PageHeader from 'src/views/apps/exam/PageHeader'
 import TabsCentered from 'src/views/apps/exam/TabsCentered'
 import * as yup from 'yup'
 import { useAuth } from 'src/hooks/useAuth'
@@ -18,9 +17,7 @@ function Exams() {
   const exams = useSelector(state => state?.exams?.data?.data)
   const [showAdd, setShowAdd] = useState(false)
   const user = useAuth()
-  const role = user?.user?.role
-  const { exams: exam } = user?.user?.permissions || {}
-  const { read, add, edit, delete: deletee } = exam
+  const { read } = user?.user?.permissions?.exams || {}
 
   useEffect(() => {
     dispatch(fetchData())
@@ -84,12 +81,6 @@ function Exams() {
     <>
       {read ? (
         <Grid container>
-          {/* {add && (
-            <Grid item xs={12} md={12}>
-              <PageHeader toggleAdd={toggleAdd} />
-            </Grid>
-          )} */}
-
           <Grid item xs={12} md={12}>
             <TabsCentered exams={exams} />
           </Grid>

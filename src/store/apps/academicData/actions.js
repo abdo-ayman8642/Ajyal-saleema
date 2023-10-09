@@ -70,7 +70,7 @@ export const fetchGrades = createAsyncThunk(
   async ({ id, page }, { rejectWithValue }) => {
     try {
       const response = await axios.get(`${baseUrl}grades?page=${page || 1}${id && '&school_id=' + id}`)
-      console.log(response)
+
       return response
     } catch (err) {
       if (!err.response) {
@@ -87,6 +87,7 @@ export const fetchClasses = createAsyncThunk(
   async ({ schoolId, gradeId, page }, { rejectWithValue }) => {
     try {
       const response = await axios.get(`${baseUrl}classes/school/${schoolId}/grade/${gradeId}?page=${page}`)
+
       return response
     } catch (err) {
       if (!err.response) {
@@ -126,6 +127,7 @@ export const addGov = createAsyncThunk('appAcademicData/addGov', async ({ data }
     })
 
     dispatch(fetchGovs(1))
+
     return response
   } catch (err) {
     if (!err.response.ok) {
@@ -172,6 +174,7 @@ export const addSchool = createAsyncThunk(
       } else if (data.type === 'camp') {
         dispatch(getCampsByAdministration({ id: data.department_id, type: 'camp' }))
       }
+
       return response
     } catch (err) {
       if (!err.response.ok) {
@@ -215,6 +218,7 @@ export const addClass = createAsyncThunk(
         }
       })
       dispatch(fetchClasses({ page: 1, gradeId: data.level_id, schoolId: data.school_id }))
+
       return response
     } catch (err) {
       if (!err.response.ok) {
@@ -321,7 +325,6 @@ export const editSchool = createAsyncThunk(
 export const editGrade = createAsyncThunk(
   'appAcademicData/editGrade',
   async ({ data, id }, { rejectWithValue, dispatch }) => {
-    console.log(data)
     try {
       const response = await axios.patch(`${baseUrl}grades/${id}`, JSON.stringify(data), {
         headers: {
@@ -405,11 +408,13 @@ export const deleteAdministration = createAsyncThunk(
     try {
       const response = await axios.delete(`${baseUrl}departs/${id}`)
       dispatch(fetchAdministrations({ page: 1, cityId: data.city_id, yearId: data.year_id }))
+
       return response
     } catch (err) {
       if (!response.ok) {
         throw err
       }
+
       return rejectWithValue(err)
     }
   }
@@ -425,6 +430,7 @@ export const deleteSchool = createAsyncThunk(
       } else if (data.type === 'camp') {
         dispatch(getCampsByAdministration({ id: data.department_id, type: 'camp' }))
       }
+
       return response
     } catch (err) {
       if (!response.ok) {
@@ -439,11 +445,11 @@ export const deleteSchool = createAsyncThunk(
 export const deleteGrade = createAsyncThunk(
   'appAcademicData/deleteGrade',
   async ({ id, data }, { rejectWithValue, dispatch }) => {
-    console.log(data)
     try {
       const response = await axios.delete(`${baseUrl}grades/${id}`)
 
       dispatch(fetchGrades({}))
+
       return response
     } catch (err) {
       if (!response.ok) {
@@ -461,6 +467,7 @@ export const deleteClass = createAsyncThunk(
     try {
       const response = await axios.delete(`${baseUrl}classes/${id}`)
       dispatch(fetchClasses({ page: 1, gradeId: data.level_id, schoolId: data.school_id }))
+
       return response
     } catch (err) {
       if (!response.ok) {

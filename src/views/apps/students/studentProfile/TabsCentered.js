@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { styled } from '@mui/material/styles'
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
@@ -10,8 +10,6 @@ import LeftSide from './LeftSide'
 import { useRouter } from 'next/router'
 import HasNotExam from './HasNotExam'
 import RightSide from './RightSide'
-import { useDispatch } from 'react-redux'
-import { fetchBy, fetchById } from 'src/store/apps/student/actions'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   minHeight: 48,
@@ -25,34 +23,19 @@ const Tab = styled(MuiTab)(({ theme }) => ({
   fontWeight: 'bold'
 }))
 
-const TabsFullWidth = () => {
+const TabsFullWidth = ({ exams, student }) => {
   // ** State
   const [value, setValue] = useState('')
-  const exams = useSelector(state => state.exams?.data?.data)
   const router = useRouter()
   const routeId = router.query.id
-  const dispatch = useDispatch()
-
-  const student =
-    useSelector(state => state.student?.singleStudent?.data) || useSelector(state => state.academicData?.selectedData)
-
-  // useEffect(() => {
-  //   if (exams && exams.length > 0) {
-  //     setValue(exams[0].id?.toString())
-  //   }
-  // }, [])
-
-  useEffect(() => {
-    dispatch(fetchById(routeId))
-  }, [dispatch])
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
+
   const StudentExamView = () => {
     if (routeId) {
-      // ignore has_exam for now
-      if ((student?.has_exam || 1) && exams?.length) {
+      if (exams?.length) {
         return (
           <Grid item md={8}>
             <TabContext value={value?.toString()}>
@@ -82,7 +65,7 @@ const TabsFullWidth = () => {
   return (
     <Grid container spacing={10}>
       <Grid item md={4} style={{ zIndex: '999' }}>
-        <LeftSide data={student} />
+        <LeftSide student={student} />
       </Grid>
       <StudentExamView />
     </Grid>

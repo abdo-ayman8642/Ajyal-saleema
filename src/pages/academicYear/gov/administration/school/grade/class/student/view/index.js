@@ -5,8 +5,7 @@ import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 
 function StudentProfile() {
   const user = useAuth()
-  const { year } = user?.user?.permissions
-  const { read } = year
+  const { read } = user?.user?.permissions?.year
 
   return read ? <StudentLayout /> : <NoPermissionComponent featureName='Student View' />
 }

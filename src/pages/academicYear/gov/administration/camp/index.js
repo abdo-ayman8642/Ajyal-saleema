@@ -5,10 +5,9 @@ import { useDispatch } from 'react-redux'
 import PageHeader from 'src/views/apps/academicYear/PageHeader'
 import TableHeader from 'src/views/apps/academicYear/TableHeader'
 
-import { fetchGovs, getCampsByAdministration } from 'src/store/apps/academicData/actions'
+import { getCampsByAdministration } from 'src/store/apps/academicData/actions'
 import DataTable from 'src/views/apps/academicYear/Table'
 import { useRouter } from 'next/router'
-import { handlePastRoute } from 'src/store/apps/academicData'
 import { useAuth } from 'src/hooks/useAuth'
 import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
 import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
@@ -23,8 +22,7 @@ function CampsData() {
 
   const user = useAuth()
 
-  const { year } = user?.user?.permissions
-  const { add, edit, delete: deletee, read } = year
+  const { read } = user?.user?.permissions?.year
 
   useEffect(() => {
     dispatch(getCampsByAdministration({ id: administrationId, type: 'camp' }))

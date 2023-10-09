@@ -11,20 +11,6 @@ import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
 import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 import { useAuth } from 'src/hooks/useAuth'
 
-function getObjectById(objects, id) {
-  if (!objects) return null
-
-  for (let i = 0; i < objects.length; i++) {
-    if (objects[i].id === id) {
-      return objects[i]
-    }
-  }
-
-  // If no matching object is found, return null or handle it as needed
-
-  return null
-}
-
 function StudentsData() {
   const dispatch = useDispatch()
   const loading = useSelector(state => state.academicData?.studentsLoading)
@@ -33,8 +19,7 @@ function StudentsData() {
   const router = useRouter()
   const id = router.query.id
   const user = useAuth()
-  const { year } = user?.user?.permissions
-  const { read } = year
+  const { read } = user?.user?.permissions?.year
 
   const cardData = [{ header: 'Total Students', number: data?.data?.total }]
 

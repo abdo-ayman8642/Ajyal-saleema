@@ -5,12 +5,10 @@ import { useDispatch } from 'react-redux'
 import PageHeader from 'src/views/apps/academicYear/PageHeader'
 import TableHeader from 'src/views/apps/academicYear/TableHeader'
 
-import { fetchAdministrations, fetchGovs, searchData } from 'src/store/apps/academicData/actions'
+import { fetchAdministrations, searchData } from 'src/store/apps/academicData/actions'
 import DataTable from 'src/views/apps/academicYear/Table'
 import { useRouter } from 'next/router'
-import { useAuth } from 'src/hooks/useAuth'
 import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
-import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 
 function AdministrationData() {
   const dispatch = useDispatch()
@@ -28,10 +26,6 @@ function AdministrationData() {
     city_id: id
   }
 
-  const user = useAuth()
-
-  const { year } = user?.user?.permissions
-  const { add, edit, delete: deletee, read } = year
   useEffect(() => {
     dispatch(fetchAdministrations({ page: 1, cityId: id, yearId: pastRoute }))
   }, [pastRoute, dispatch, id])
@@ -48,13 +42,7 @@ function AdministrationData() {
     { total_classes: 0, total_schools: 0, total_students: 0, total_camps: 0 }
   )
 
-  const {
-    total_classes = null,
-    total_departs = null,
-    total_schools = null,
-    total_students = null,
-    total_camps = null
-  } = sums || {}
+  const { total_classes = null, total_schools = null, total_students = null, total_camps = null } = sums || {}
 
   const cardData = [
     { header: 'Total Departments', number: data?.total },

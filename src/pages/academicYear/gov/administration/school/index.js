@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import PageHeader from 'src/views/apps/academicYear/PageHeader'
 import TableHeader from 'src/views/apps/academicYear/TableHeader'
 
-import { fetchAdministrations, fetchGovs, fetchSchools } from 'src/store/apps/academicData/actions'
+import { fetchSchools } from 'src/store/apps/academicData/actions'
 import DataTable from 'src/views/apps/academicYear/Table'
 import { useRouter } from 'next/router'
 import { useAuth } from 'src/hooks/useAuth'
@@ -21,8 +21,7 @@ function SchoolsData() {
   const { id } = router.query
   const user = useAuth()
 
-  const { year } = user?.user?.permissions
-  const { add, edit, delete: deletee, read } = year
+  const { read } = user?.user?.permissions?.year
 
   useEffect(() => {
     dispatch(fetchSchools({ page: 1, id: id, type: 'school' }))
@@ -31,7 +30,6 @@ function SchoolsData() {
   const sums = data?.reduce(
     (acc, obj) => {
       acc.total_classes += obj.total_classes
-      acc.total_schools += obj.total_schools
       acc.total_students += obj.total_students
 
       return acc
@@ -39,7 +37,7 @@ function SchoolsData() {
     { total_classes: 0, total_schools: 0, total_students: 0 }
   )
 
-  const { total_classes = null, total_departs = null, total_schools = null, total_students = null } = sums || {}
+  const { total_classes = null, total_students = null } = sums || {}
 
   const cardData = [
     { header: 'Total Schools', number: data?.length },
