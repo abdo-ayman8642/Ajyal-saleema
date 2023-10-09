@@ -8,6 +8,8 @@ import { filterBy } from 'src/store/apps/academicData/actions'
 import DataTable from 'src/views/apps/academicYear/Table'
 import { useRouter } from 'next/router'
 import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
+import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
+import { useAuth } from 'src/hooks/useAuth'
 
 function getObjectById(objects, id) {
   if (!objects) return null
@@ -30,6 +32,9 @@ function StudentsData() {
   const data = useSelector(state => state.academicData['students'])
   const router = useRouter()
   const id = router.query.id
+  const user = useAuth()
+  const { year } = user?.user?.permissions
+  const { read } = year
 
   const cardData = [{ header: 'Total Students', number: data?.data?.total }]
 
@@ -53,33 +58,39 @@ function StudentsData() {
 
   return (
     <Grid container spacing={10}>
-      <Grid item xs={12} md={12}>
-        <PageHeader src={'/images/students2.jpg'} />
-      </Grid>
-      <Grid item xs={12} md={12}>
-        <Grid container>
-          <Grid item xs={12}>
-            <TableHeader
-              title={'الطلاب'}
-              formType={'students'}
-              showDrawer={showDrawer}
-              setDrawer={setDrawer}
-              addData={{ urlId: id, query: 'class', clase_id: id }}
-            />
+      {read ? (
+        <>
+          <Grid item xs={12} md={12}>
+            <PageHeader src={'/images/students2.jpg'} />
           </Grid>
-          <Grid item xs={12}>
-            <DataTable
-              dataName={'الطالب'}
-              formType={'students'}
-              storeData={'students'}
-              editData={{ urlId: id, query: 'class' }}
-              pathname={'student/view'}
-              handlePageChange={handlePageChange}
-            />
-            <ResponsiveCardGrid cardData={cardData} />
+          <Grid item xs={12} md={12}>
+            <Grid container>
+              <Grid item xs={12}>
+                <TableHeader
+                  title={'الطلاب'}
+                  formType={'students'}
+                  showDrawer={showDrawer}
+                  setDrawer={setDrawer}
+                  addData={{ urlId: id, query: 'class', clase_id: id }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <DataTable
+                  dataName={'الطالب'}
+                  formType={'students'}
+                  storeData={'students'}
+                  editData={{ urlId: id, query: 'class' }}
+                  pathname={'student/view'}
+                  handlePageChange={handlePageChange}
+                />
+                <ResponsiveCardGrid cardData={cardData} />
+              </Grid>
+            </Grid>
           </Grid>
-        </Grid>
-      </Grid>
+        </>
+      ) : (
+        <NoPermissionComponent featureName='Students' />
+      )}
     </Grid>
   )
 }

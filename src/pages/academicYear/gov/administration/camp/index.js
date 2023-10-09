@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import { handlePastRoute } from 'src/store/apps/academicData'
 import { useAuth } from 'src/hooks/useAuth'
 import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
+import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 
 function CampsData() {
   const dispatch = useDispatch()
@@ -61,38 +62,44 @@ function CampsData() {
 
   return (
     <Grid container spacing={10}>
-      <Grid item xs={12} md={12}>
-        <PageHeader src={'/images/govs.jpg'} />
-      </Grid>
-      <Grid item xs={12} md={12}>
-        <Grid container>
-          <Grid item xs={12}>
-            <TableHeader
-              title={'المعسكرات'}
-              formType={'camps'}
-              showDrawer={showDrawer}
-              setDrawer={setDrawer}
-              addData={{ department_id: administrationId, type: 'camp' }}
-            />
+      {read ? (
+        <>
+          <Grid item xs={12} md={12}>
+            <PageHeader src={'/images/govs.jpg'} />
           </Grid>
+          <Grid item xs={12} md={12}>
+            <Grid container>
+              <Grid item xs={12}>
+                <TableHeader
+                  title={'المعسكرات'}
+                  formType={'camps'}
+                  showDrawer={showDrawer}
+                  setDrawer={setDrawer}
+                  addData={{ department_id: administrationId, type: 'camp' }}
+                />
+              </Grid>
 
-          <Grid item xs={12}>
-            <DataTable
-              dataName={'المعسكر'}
-              formType={'camps'}
-              storeData={'camps'}
-              pathname={`camp/student`}
-              pastRoute={administrationId}
-              editData={{ department_id: administrationId, type: 'camp' }}
-              handlePageChange={handlePageChange}
-              renderAgain={() => {
-                dispatch(getCampsByAdministration({ id: administrationId, type: 'camp' }))
-              }}
-            />
-            <ResponsiveCardGrid cardData={cardData} />
+              <Grid item xs={12}>
+                <DataTable
+                  dataName={'المعسكر'}
+                  formType={'camps'}
+                  storeData={'camps'}
+                  pathname={`camp/student`}
+                  pastRoute={administrationId}
+                  editData={{ department_id: administrationId, type: 'camp' }}
+                  handlePageChange={handlePageChange}
+                  renderAgain={() => {
+                    dispatch(getCampsByAdministration({ id: administrationId, type: 'camp' }))
+                  }}
+                />
+                <ResponsiveCardGrid cardData={cardData} />
+              </Grid>
+            </Grid>
           </Grid>
-        </Grid>
-      </Grid>
+        </>
+      ) : (
+        <NoPermissionComponent featureName='camps' />
+      )}
     </Grid>
   )
 }

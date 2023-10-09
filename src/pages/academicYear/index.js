@@ -70,38 +70,32 @@ function AcademicYear() {
 
   return (
     <Grid container spacing={10}>
-      {read ? (
-        <>
-          <Grid item xs={12} md={12}>
-            <PageHeader src={'/images/academics2.jpg'} />
-          </Grid>
+      <Grid item xs={12} md={12}>
+        <PageHeader src={'/images/academics2.jpg'} />
+      </Grid>
 
-          <Grid item xs={12} md={12}>
-            <Grid container>
-              <Grid item xs={12}>
-                <TableHeader
-                  title={'السنة التنفيذية'}
-                  formType={'years'}
-                  showDrawer={showYearDrawer}
-                  setDrawer={setYearDrawer}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <DataTable
-                  dataName={'العام الدراسي'}
-                  formType={'years'}
-                  storeData={'years'}
-                  pathname={`academicYear/gov`}
-                  handlePageChange={handlePageChange}
-                />
-                <ResponsiveCardGrid cardData={cardData} />
-              </Grid>
-            </Grid>
+      <Grid item xs={12} md={12}>
+        <Grid container>
+          <Grid item xs={12}>
+            <TableHeader
+              title={'السنة التنفيذية'}
+              formType={'years'}
+              showDrawer={showYearDrawer}
+              setDrawer={setYearDrawer}
+            />
           </Grid>
-        </>
-      ) : (
-        <NoPermissionComponent featureName='Academic Years Data' />
-      )}
+          <Grid item xs={12}>
+            <DataTable
+              dataName={'العام الدراسي'}
+              formType={'years'}
+              storeData={'years'}
+              pathname={`academicYear/gov`}
+              handlePageChange={handlePageChange}
+            />
+            <ResponsiveCardGrid cardData={cardData} />
+          </Grid>
+        </Grid>
+      </Grid>
     </Grid>
   )
 }

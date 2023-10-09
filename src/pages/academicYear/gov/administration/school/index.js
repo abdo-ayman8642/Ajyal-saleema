@@ -10,6 +10,7 @@ import DataTable from 'src/views/apps/academicYear/Table'
 import { useRouter } from 'next/router'
 import { useAuth } from 'src/hooks/useAuth'
 import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
+import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 
 function SchoolsData() {
   const dispatch = useDispatch()
@@ -62,35 +63,42 @@ function SchoolsData() {
 
   return (
     <Grid container spacing={10}>
-      <Grid item xs={12} md={12}>
-        <PageHeader src={'/images/academics.jpg'} />
-      </Grid>
-      <Grid item xs={12} md={12}>
-        <Grid container>
-          <Grid item xs={12}>
-            <TableHeader
-              title={'المدارس المشاركة'}
-              formType={'schools'}
-              showDrawer={showDrawer}
-              setDrawer={setDrawer}
-              addData={{ department_id: id, type: 'school' }}
-              enableSearch={true}
-            />
+      {read ? (
+        <>
+          {' '}
+          <Grid item xs={12} md={12}>
+            <PageHeader src={'/images/academics.jpg'} />
           </Grid>
+          <Grid item xs={12} md={12}>
+            <Grid container>
+              <Grid item xs={12}>
+                <TableHeader
+                  title={'المدارس المشاركة'}
+                  formType={'schools'}
+                  showDrawer={showDrawer}
+                  setDrawer={setDrawer}
+                  addData={{ department_id: id, type: 'school' }}
+                  enableSearch={true}
+                />
+              </Grid>
 
-          <Grid item xs={12}>
-            <DataTable
-              editData={{ department_id: id, type: 'school' }}
-              dataName={'المدرسة '}
-              formType={'schools'}
-              storeData={'schools'}
-              pathname={'school/grade'}
-              handlePageChange={handlePageChange}
-            />
-            <ResponsiveCardGrid cardData={cardData} />
-          </Grid>
-        </Grid>
-      </Grid>
+              <Grid item xs={12}>
+                <DataTable
+                  editData={{ department_id: id, type: 'school' }}
+                  dataName={'المدرسة '}
+                  formType={'schools'}
+                  storeData={'schools'}
+                  pathname={'school/grade'}
+                  handlePageChange={handlePageChange}
+                />
+                <ResponsiveCardGrid cardData={cardData} />
+              </Grid>
+            </Grid>
+          </Grid>{' '}
+        </>
+      ) : (
+        <NoPermissionComponent featureName='School' />
+      )}
     </Grid>
   )
 }

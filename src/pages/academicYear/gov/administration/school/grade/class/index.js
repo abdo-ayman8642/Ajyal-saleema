@@ -10,6 +10,7 @@ import DataTable from 'src/views/apps/academicYear/Table'
 import { useRouter } from 'next/router'
 import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
 import { useAuth } from 'src/hooks/useAuth'
+import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 
 function ClassesData() {
   const dispatch = useDispatch()
@@ -17,7 +18,7 @@ function ClassesData() {
   const data = useSelector(state => state.academicData['classes'])
   const user = useAuth()
   const { year } = user?.user?.permissions
-  const { add } = year
+  const { read } = year
 
   const [showDrawer, setDrawer] = useState(false)
   const router = useRouter()
@@ -62,37 +63,43 @@ function ClassesData() {
 
   return (
     <Grid container spacing={10}>
-      <Grid item xs={12} md={12}>
-        <PageHeader src={'/images/class.jpg'} />
-      </Grid>
-      <Grid item xs={12} md={12}>
-        <Grid container>
-          <Grid item xs={12}>
-            <TableHeader
-              title={'الفصول'}
-              formType={'classes'}
-              showDrawer={showDrawer}
-              setDrawer={setDrawer}
-              addData={requestData}
-            />
+      {read ? (
+        <>
+          <Grid item xs={12} md={12}>
+            <PageHeader src={'/images/class.jpg'} />
           </Grid>
+          <Grid item xs={12} md={12}>
+            <Grid container>
+              <Grid item xs={12}>
+                <TableHeader
+                  title={'الفصول'}
+                  formType={'classes'}
+                  showDrawer={showDrawer}
+                  setDrawer={setDrawer}
+                  addData={requestData}
+                />
+              </Grid>
 
-          <Grid item xs={12}>
-            <DataTable
-              dataName={'الفصل'}
-              formType={'classes'}
-              storeData={'classes'}
-              editData={requestData}
-              pathname={'class/student'}
-              handlePageChange={handlePageChange}
-              renderAgain={() => {
-                dispatch(fetchClasses({ page: 1, schoolId: pastRoute, gradeId: id }))
-              }}
-            />
-            <ResponsiveCardGrid cardData={cardData} />
+              <Grid item xs={12}>
+                <DataTable
+                  dataName={'الفصل'}
+                  formType={'classes'}
+                  storeData={'classes'}
+                  editData={requestData}
+                  pathname={'class/student'}
+                  handlePageChange={handlePageChange}
+                  renderAgain={() => {
+                    dispatch(fetchClasses({ page: 1, schoolId: pastRoute, gradeId: id }))
+                  }}
+                />
+                <ResponsiveCardGrid cardData={cardData} />
+              </Grid>
+            </Grid>
           </Grid>
-        </Grid>
-      </Grid>
+        </>
+      ) : (
+        <NoPermissionComponent featureName='Class' />
+      )}
     </Grid>
   )
 }

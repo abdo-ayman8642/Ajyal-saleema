@@ -13,6 +13,7 @@ import { fetchData } from 'src/store/apps/student/actions'
 import { useAuth } from 'src/hooks/useAuth'
 import student from 'src/store/apps/student'
 import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
+import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 
 function CampsData() {
   const dispatch = useDispatch()
@@ -21,6 +22,10 @@ function CampsData() {
   const data = useSelector(state => state.academicData['students'])
   const router = useRouter()
   const campId = router.query.id
+  const user = useAuth()
+
+  const { year } = user?.user?.permissions
+  const { add, edit, delete: deletee, read } = year
 
   const cardData = [{ header: 'Total Students', number: data?.data?.total }]
 
@@ -40,41 +45,40 @@ function CampsData() {
 
   return (
     <Grid container spacing={10}>
-      <Grid item xs={12} md={12}>
-        <PageHeader src={'/images/govs.jpg'} />
-      </Grid>
-      <Grid item xs={12} md={12}>
-        <Grid container>
-          <Grid item xs={12}>
-            <TableHeader
-              title={'الطلاب'}
-              formType={'students'}
-              showDrawer={showDrawer}
-              setDrawer={setDrawer}
-              addData={{ urlId: campId, query: 'school_camp', school_id: campId }}
-            />
+      {read ? (
+        <>
+          <Grid item xs={12} md={12}>
+            <PageHeader src={'/images/govs.jpg'} />
           </Grid>
-          <Grid item xs={12}>
-            {/* {read ? (
-              <> */}
-            <DataTable
-              dataName={'الطالب'}
-              formType={'students'}
-              storeData={'students'}
-              pathname={`student/view`}
-              pastRoute={campId}
-              editData={{ urlId: campId, query: 'school_camp' }}
-              permissions={students}
-            />
+          <Grid item xs={12} md={12}>
+            <Grid container>
+              <Grid item xs={12}>
+                <TableHeader
+                  title={'الطلاب'}
+                  formType={'students'}
+                  showDrawer={showDrawer}
+                  setDrawer={setDrawer}
+                  addData={{ urlId: campId, query: 'school_camp', school_id: campId }}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <DataTable
+                  dataName={'الطالب'}
+                  formType={'students'}
+                  storeData={'students'}
+                  pathname={`student/view`}
+                  pastRoute={campId}
+                  editData={{ urlId: campId, query: 'school_camp' }}
+                />
 
-            <ResponsiveCardGrid cardData={cardData} />
-            {/* </>
-            ) : (
-              <h1 style={{ display: 'block', margin: '5% auto' }}>Don't Have A Permission</h1>
-            )} */}
+                <ResponsiveCardGrid cardData={cardData} />
+              </Grid>
+            </Grid>
           </Grid>
-        </Grid>
-      </Grid>
+        </>
+      ) : (
+        <NoPermissionComponent featureName='Students' />
+      )}
     </Grid>
   )
 }

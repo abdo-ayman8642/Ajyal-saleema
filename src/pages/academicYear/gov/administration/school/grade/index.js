@@ -10,6 +10,7 @@ import DataTable from 'src/views/apps/academicYear/Table'
 import { useRouter } from 'next/router'
 import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
 import { useAuth } from 'src/hooks/useAuth'
+import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 
 function GradesData() {
   const dispatch = useDispatch()
@@ -20,7 +21,7 @@ function GradesData() {
   const pastRoute = router.query.id
   const data = useSelector(state => state.academicData['grades'])
   const user = useAuth()
-  const { add } = user?.user?.permissions?.year
+  const { read } = user?.user?.permissions?.year
 
   const {
     total_classes = null,
@@ -56,34 +57,40 @@ function GradesData() {
 
   return (
     <Grid container spacing={10}>
-      <Grid item xs={12} md={12}>
-        <PageHeader src={'/images/grades.jpg'} />
-      </Grid>
-      <Grid item xs={12} md={12}>
-        <Grid container>
-          <Grid item xs={12}>
-            <TableHeader
-              title={'الصفوف'}
-              formType={'grades'}
-              showDrawer={showDrawer}
-              setDrawer={setDrawer}
-              addData={{ school_id: pastRoute }}
-            />
+      {read ? (
+        <>
+          <Grid item xs={12} md={12}>
+            <PageHeader src={'/images/grades.jpg'} />
           </Grid>
+          <Grid item xs={12} md={12}>
+            <Grid container>
+              <Grid item xs={12}>
+                <TableHeader
+                  title={'الصفوف'}
+                  formType={'grades'}
+                  showDrawer={showDrawer}
+                  setDrawer={setDrawer}
+                  addData={{ school_id: pastRoute }}
+                />
+              </Grid>
 
-          <Grid item xs={12}>
-            <DataTable
-              dataName={'الصف '}
-              formType={'grades'}
-              storeData={'grades'}
-              pathname={'grade/class'}
-              pastRoute={pastRoute}
-              handlePageChange={handlePageChange}
-            />
-            <ResponsiveCardGrid cardData={cardData} />
+              <Grid item xs={12}>
+                <DataTable
+                  dataName={'الصف '}
+                  formType={'grades'}
+                  storeData={'grades'}
+                  pathname={'grade/class'}
+                  pastRoute={pastRoute}
+                  handlePageChange={handlePageChange}
+                />
+                <ResponsiveCardGrid cardData={cardData} />
+              </Grid>
+            </Grid>
           </Grid>
-        </Grid>
-      </Grid>
+        </>
+      ) : (
+        <NoPermissionComponent featureName='Grade' />
+      )}
     </Grid>
   )
 }
