@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -17,12 +17,14 @@ import CardActions from '@mui/material/CardActions'
 // ** Custom Components
 import CustomChip from 'src/@core/components/mui/chip'
 import CustomAvatar from 'src/@core/components/mui/avatar'
+import { fetchById } from 'src/store/apps/student/actions'
 
 // ** Utils Import
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
 import * as yup from 'yup'
 import { IconButton } from '@mui/material'
+import { useRouter } from 'next/router'
 
 // ** Styled <sup> component
 const Sup = styled('sup')(({ theme }) => ({
@@ -54,15 +56,25 @@ const is_trueColors = {
   inactive: 'secondary'
 }
 
-const LeftSide = ({ data: student }) => {
+const LeftSide = ({}) => {
   // ** States
 
   const school = useSelector(state => state.academicData.singleSchool?.data) || {}
   const administration = useSelector(state => state.academicData.singleAdministration?.data) || {}
+  const student = useSelector(state => state.student.singleStudent?.data) || {}
   const [showAdd, setShowAdd] = useState(false)
   const [showEdit, setShowEdit] = useState(false)
   const [showDelete, setShowDelete] = useState(false)
+  const dispatch = useDispatch()
+  const router = useRouter()
+  const { id } = router.query
+  console.log(id)
+  console.log(student)
 
+  useEffect(() => {
+    console.log('id: ' + id)
+    dispatch(fetchById(id))
+  }, [dispatch])
   // const dispatch = useDispatch()
 
   // // const handleEditSubmit = data => {
@@ -138,10 +150,10 @@ const LeftSide = ({ data: student }) => {
                   </Typography>
                   <Typography variant='body2'>{student.name}</Typography>
                 </Box>
-                <Box sx={{ display: 'flex', mb: 2.7 }}>
+                {/* <Box sx={{ display: 'flex', mb: 2.7 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}>السن :</Typography>
                   <Typography variant='body2'>{student.age}</Typography>
-                </Box>
+                </Box> */}
                 <Box sx={{ display: 'flex', mb: 2.7 }}>
                   <Typography sx={{ mr: 2, fontWeight: 500, fontSize: '0.875rem' }}> المحافظة :</Typography>
                   <Typography variant='body2'>{student.city}</Typography>

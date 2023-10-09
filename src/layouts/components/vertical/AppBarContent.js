@@ -58,12 +58,12 @@ const AppBarContent = props => {
         <img
           src={'/logos/educate_me-multilingual_logo-left_aligned-original_colors-print_cmyk.png'}
           alt='logo'
-          style={{ maxWidth: `${isMobile ? '85px' : '150px'}`, height: 'auto' }}
+          style={{ maxWidth: `${isMobile ? '75px' : '150px'}`, height: 'auto' }}
         />
         <img
           src={'/logos/N4HK_ARABIC.png'}
           alt='logo'
-          style={{ maxWidth: `${isMobile ? '85px' : '150px'}`, height: 'auto' }}
+          style={{ maxWidth: `${isMobile ? '75px' : '150px'}`, height: 'auto' }}
         />
       </div>
       <Box className='actions-right' sx={{ display: 'flex', alignItems: 'center' }}>

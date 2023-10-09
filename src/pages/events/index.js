@@ -24,9 +24,9 @@ function Events() {
   const selectedEvents = useSelector(state => state.events?.selectedEvents)
 
   const user = useAuth()
-
-  const { year } = user?.user?.permissions
-  const { add, edit, delete: deletee, read } = year
+  console.log(user?.user?.permissions)
+  const { events: event } = user?.user?.permissions
+  const { add, edit, delete: deletee, read } = event
 
   const formInputs = [
     {
@@ -78,8 +78,9 @@ function Events() {
         </Grid>
       )}
 
-      {add ?? (
+      {add && (
         <TableHeader
+          title={'حدث'}
           toggleAdd={toggleAddForm}
           toggleConfirm={toggleConfirm}
           placeholder={'حدث'}

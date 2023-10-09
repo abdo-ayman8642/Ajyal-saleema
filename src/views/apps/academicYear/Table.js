@@ -43,6 +43,8 @@ import Tooltip from '@mui/material/Tooltip'
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord'
 import AddBoxIcon from '@mui/icons-material/AddBox'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
+import HomeIcon from '@mui/icons-material/Home'
+import ForestIcon from '@mui/icons-material/Forest'
 
 // ** Utils Import
 import CardStatsCharacter from 'src/@core/components/card-statistics/card-stats-with-image'
@@ -121,7 +123,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
     const attendanceColumn = [
       {
         flex: 0.7,
-        minWidth: 100,
+        minWidth: 70,
         field: 'attendance',
         headerName: 'الحضور',
         renderCell: ({ row }) => {
@@ -175,7 +177,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
     const administrationColumns = [
       {
         flex: 1,
-        minWidth: 100,
+        minWidth: 70,
         field: 'schools',
         headerName: 'المدارس',
         renderCell: ({ row }) => {
@@ -184,7 +186,6 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
           return (
             <Box
               sx={{
-                marginLeft: -3,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -206,7 +207,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
                   variant='subtitle2'
                   sx={{ color: 'text.primary', textDecoration: 'none' }}
                 >
-                  {isMobile ? 'المدارس' : 'المدارس التابعة للإدارة'}
+                  {isMobile ? <HomeIcon /> : 'المدارس التابعة للإدارة'}
                 </Typography>
               </Link>
             </Box>
@@ -215,7 +216,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
       },
       {
         flex: 1,
-        minWidth: 100,
+        minWidth: 70,
         field: 'camp',
         headerName: 'المعسكر',
         renderCell: ({ row }) => {
@@ -224,7 +225,6 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
           return (
             <Box
               sx={{
-                marginLeft: -3,
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -246,7 +246,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
                   variant='subtitle2'
                   sx={{ color: 'text.primary', textDecoration: 'none' }}
                 >
-                  المعسكر
+                  {isMobile ? <ForestIcon /> : 'المعسكر'}
                 </Typography>
               </Link>
             </Box>
@@ -255,22 +255,28 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
       }
     ]
 
-    const studentsColumns = [
-      {
-        flex: 1,
-        field: 'gender',
-        minWidth: 100,
-        headerName: 'الجنس',
-        renderCell: ({ row }) => {
-          return (
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Typography noWrap variant='subtitle1'>
-                {row.gender}
-              </Typography>
-            </Box>
-          )
+    const renderGender = () => {
+      if (!isMobile) {
+        return {
+          flex: 1,
+          field: 'gender',
+          minWidth: 100,
+          headerName: 'الجنس',
+          renderCell: ({ row }) => {
+            return (
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Typography noWrap variant='subtitle1'>
+                  {row.gender}
+                </Typography>
+              </Box>
+            )
+          }
         }
-      },
+      }
+      return {}
+    }
+    const studentsColumns = [
+      renderGender(),
       {
         flex: 1,
         minWidth: 100,
@@ -403,7 +409,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
     if (type === 'camps' || type === 'classes')
       return {
         flex: 1,
-        minWidth: 100,
+        minWidth: 80,
         sorDataTable: false,
         field: 'teacher',
         headerName: 'المعلم',
@@ -414,7 +420,14 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
                 noWrap
                 component='a'
                 variant='subtitle2'
-                sx={{ color: 'text.primary', textDecoration: 'none' }}
+                sx={{
+                  color: 'text.primary',
+                  textDecoration: 'none',
+                  display: 'flex',
+                  flexDirection: `${isMobile ? 'column' : 'row'}`,
+                  justifyContent: 'center',
+                  alignItems: 'center'
+                }}
               >
                 {row?.teacher ? (
                   <>
@@ -460,28 +473,30 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
   }
 
   const renderControls = type => {
-    return {
-      flex: 1,
-      minWidth: 100,
-      sorDataTable: false,
-      field: 'actions',
-      headerName: 'التحكم',
-      renderCell: ({ row }) => (
-        <Box sx={{ display: 'flex' }}>
-          <>
-            {edit && (
-              <IconButton onClick={() => onClickEdit(row)} sx={{ ml: '-10px' }}>
-                <ModeEditOutlineIcon sx={{ cursor: 'pointer', color: '#ddbb24' }} />
-              </IconButton>
-            )}
-            {deletee && (
-              <IconButton onClick={() => onClickDelete(row)}>
-                <DeleteIcon sx={{ cursor: 'pointer', color: 'red' }} />
-              </IconButton>
-            )}
-          </>
-        </Box>
-      )
+    if (deletee || edit) {
+      return {
+        flex: 1,
+        minWidth: 100,
+        sorDataTable: false,
+        field: 'actions',
+        headerName: 'التحكم',
+        renderCell: ({ row }) => (
+          <Box sx={{ display: 'flex' }}>
+            <>
+              {edit && (
+                <IconButton onClick={() => onClickEdit(row)} sx={{ ml: '-10px' }}>
+                  <ModeEditOutlineIcon sx={{ cursor: 'pointer', color: '#ddbb24' }} />
+                </IconButton>
+              )}
+              {deletee && (
+                <IconButton onClick={() => onClickDelete(row)}>
+                  <DeleteIcon sx={{ cursor: 'pointer', color: 'red' }} />
+                </IconButton>
+              )}
+            </>
+          </Box>
+        )
+      }
     }
 
     return {}

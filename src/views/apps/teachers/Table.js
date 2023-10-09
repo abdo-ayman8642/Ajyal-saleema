@@ -55,29 +55,6 @@ const renderClient = row => {
   }
 }
 
-const defaultColumns = [
-  {
-    flex: 1,
-    minWidth: 100,
-    field: 'fullName',
-    headerName: 'الإسم',
-    renderCell: ({ row }) => {
-      const { id, name } = row
-
-      return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {renderClient(row)}
-          <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
-            <Typography noWrap component='a' variant='subtitle2' sx={{ color: 'text.primary', textDecoration: 'none' }}>
-              {name}
-            </Typography>
-          </Box>
-        </Box>
-      )
-    }
-  }
-]
-
 const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssign, permissions }) => {
   // stats and variables
   const dispatch = useDispatch()
@@ -112,6 +89,35 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
       window.removeEventListener('resize', handleResize)
     }
   }, [])
+  const renderFlex = ismobile => (ismobile ? 'auto' : 1)
+
+  const defaultColumns = [
+    {
+      flex: renderFlex(isMobile),
+      minWidth: 120,
+      field: 'fullName',
+      headerName: 'الإسم',
+      renderCell: ({ row }) => {
+        const { id, name } = row
+
+        return (
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {renderClient(row)}
+            <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+              <Typography
+                noWrap
+                component='a'
+                variant='subtitle2'
+                sx={{ color: 'text.primary', textDecoration: 'none' }}
+              >
+                {name}
+              </Typography>
+            </Box>
+          </Box>
+        )
+      }
+    }
+  ]
 
   const renderGender = () => {
     if (!isMobile) {
@@ -133,67 +139,76 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
     return {}
   }
 
+  const renderControls = () => {
+    if (add || edit || deletee) {
+      return {
+        flex: renderFlex(isMobile),
+        minWidth: 80,
+        sortable: false,
+        field: 'actions',
+        headerName: 'التحكم',
+        renderCell: ({ row }) => (
+          <Box sx={{ display: 'flex', ml: '-25px' }}>
+            {edit && (
+              <IconButton sx={{ cursor: 'pointer', color: '#ddbb24' }} onClick={() => onClickEdit(row)}>
+                <ModeEditOutlineIcon />
+              </IconButton>
+            )}
+            {deletee && (
+              <IconButton
+                sx={{ cursor: 'pointer', color: 'red' }}
+                onClick={() => {
+                  onClickDelete(row)
+                }}
+              >
+                <DeleteIcon />
+              </IconButton>
+            )}
+            {add && (
+              <IconButton
+                sx={{ cursor: 'pointer', color: 'green' }}
+                onClick={() => {
+                  onClickAdd(row)
+                }}
+              >
+                <AddBoxIcon />
+              </IconButton>
+            )}
+          </Box>
+        )
+      }
+    }
+    return {}
+  }
+
   const columns = [
     ...defaultColumns,
     renderGender(),
     {
-      flex: 1,
+      flex: renderFlex(isMobile),
       minWidth: 100,
       sortable: false,
       field: 'teachers',
       headerName: 'الفصول',
       renderCell: ({ row }) => (
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <div style={{ padding: '0 1rem', fontSize: '1rem', fontWeight: 500, cursor: 'default' }}>
-            {(row?.classes?.length || 0) + (row?.camps?.length || 0)}
-          </div>
           <Button
             variant='contained'
             color='secondary'
             startIcon={<ChecklistRtlIcon />}
             onClick={() => toggleAttendance(row)}
           >
+            {isMobile ? null : (
+              <div style={{ padding: '0 0.5rem', fontSize: '1rem', fontWeight: 500, cursor: 'default' }}>
+                {(row?.classes?.length || 0) + (row?.camps?.length || 0)}
+              </div>
+            )}
             {isMobile ? null : 'الفصول'}
           </Button>
         </Box>
       )
     },
-    {
-      flex: 1,
-      minWidth: 100,
-      sortable: false,
-      field: 'actions',
-      headerName: 'التحكم',
-      renderCell: ({ row }) => (
-        <Box sx={{ display: 'flex', gap: '10px', ml: '-15px' }}>
-          {edit && (
-            <IconButton sx={{ cursor: 'pointer', color: '#ddbb24' }} onClick={() => onClickEdit(row)}>
-              <ModeEditOutlineIcon />
-            </IconButton>
-          )}
-          {deletee && (
-            <IconButton
-              sx={{ cursor: 'pointer', color: 'red' }}
-              onClick={() => {
-                onClickDelete(row)
-              }}
-            >
-              <DeleteIcon />
-            </IconButton>
-          )}
-          {add && (
-            <IconButton
-              sx={{ cursor: 'pointer', color: 'green' }}
-              onClick={() => {
-                onClickAdd(row)
-              }}
-            >
-              <AddBoxIcon />
-            </IconButton>
-          )}
-        </Box>
-      )
-    }
+    renderControls()
   ]
 
   // ** Functions

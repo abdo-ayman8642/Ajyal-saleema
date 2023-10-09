@@ -97,6 +97,31 @@ const SessionsList = ({ formInputs, toggleConfirm }) => {
   const { sessions: sessionsPer } = user?.user?.permissions
   const { read, add, edit } = sessionsPer
 
+  const renderColumns = columns => {
+    if (edit) {
+      return {
+        flex: 0.3,
+        minWidth: 100,
+        sortable: false,
+        field: 'actions',
+        headerName: 'التحكم',
+        renderCell: ({ row }) => (
+          <Box sx={{ display: 'flex' }}>
+            {edit && (
+              <IconButton onClick={() => onClickEdit(row)} sx={{ ml: '-10px' }}>
+                <ModeEditOutlineIcon sx={{ cursor: 'pointer', color: '#ddbb24' }} />
+              </IconButton>
+            )}
+
+            {/* <IconButton onClick={() => onClickDelete(row)}>
+              <DeleteIcon sx={{ cursor: 'pointer', color: 'red' }} />
+            </IconButton> */}
+          </Box>
+        )
+      }
+    }
+    return {}
+  }
   // console.log(
   //   sessions.map((session, index) => {
   //     return { ...session, name: `${index + 1}: ${session.name}` }
@@ -104,29 +129,7 @@ const SessionsList = ({ formInputs, toggleConfirm }) => {
   // )
 
   /****************** columns Actions *****************/
-  const columns = [
-    ...defaultColumns,
-    {
-      flex: 0.3,
-      minWidth: 100,
-      sortable: false,
-      field: 'actions',
-      headerName: 'التحكم',
-      renderCell: ({ row }) => (
-        <Box sx={{ display: 'flex' }}>
-          {edit && (
-            <IconButton onClick={() => onClickEdit(row)} sx={{ ml: '-10px' }}>
-              <ModeEditOutlineIcon sx={{ cursor: 'pointer', color: '#ddbb24' }} />
-            </IconButton>
-          )}
-
-          {/* <IconButton onClick={() => onClickDelete(row)}>
-            <DeleteIcon sx={{ cursor: 'pointer', color: 'red' }} />
-          </IconButton> */}
-        </Box>
-      )
-    }
-  ]
+  const columns = [...defaultColumns, renderColumns()]
 
   /****************** Functions *****************/
 
@@ -147,7 +150,11 @@ const SessionsList = ({ formInputs, toggleConfirm }) => {
   const toggleShowEdit = () => {
     setShowEdit(!showEdit)
   }
+  function isObjectEmpty(obj) {
+    return Object.keys(obj).length === 0
+  }
 
+  columns = columns.filter(obj => !isObjectEmpty(obj))
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>

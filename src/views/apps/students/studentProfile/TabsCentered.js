@@ -34,7 +34,7 @@ const TabsFullWidth = () => {
   const dispatch = useDispatch()
 
   const student =
-    useSelector(state => state.student.singleStudent?.data) || useSelector(state => state.academicData?.selectedData)
+    useSelector(state => state.student?.singleStudent?.data) || useSelector(state => state.academicData?.selectedData)
 
   // useEffect(() => {
   //   if (exams && exams.length > 0) {

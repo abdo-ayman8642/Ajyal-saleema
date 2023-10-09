@@ -92,6 +92,7 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, d
   const [currentUser, setCurrentUser] = useState(null)
 
   const user = useAuth()
+
   const role = user?.user?.role
 
   const [isMobile, setIsMobile] = useState(false)
@@ -114,21 +115,6 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, d
       window.removeEventListener('resize', handleResize)
     }
   }, [])
-
-  const renderAge = type => {
-    if (type !== 'user')
-      return {
-        flex: 1,
-        minWidth: 100,
-        field: 'age',
-        headerName: 'السن',
-        renderCell: ({ row }) => {
-          return <Typography>{row.age}</Typography>
-        }
-      }
-
-    return {}
-  }
 
   const renderEmail = () => {
     if (!isMobile) {
@@ -170,6 +156,26 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, d
     return {}
   }
 
+  const renderRole = role => {
+    if (!isMobile) {
+      return {
+        flex: 1,
+        field: 'role',
+        minWidth: 100,
+        headerName: 'الوظيفة',
+        renderCell: ({ row }) => {
+          return (
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
+                {row.role === '0' ? 'مسئول مميز' : row.role === '1' ? 'مسئول' : 'متطوع'}
+              </Typography>
+            </Box>
+          )
+        }
+      }
+    }
+  }
+
   const defaultColumns = [
     {
       flex: 1,
@@ -198,23 +204,7 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, d
     },
 
     renderEmail(),
-    renderPhone(),
-    {
-      flex: 1,
-      field: 'role',
-      minWidth: 100,
-      headerName: 'الوظيفة',
-      renderCell: ({ row }) => {
-        return (
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography noWrap sx={{ color: 'text.secondary', textTransform: 'capitalize' }}>
-              {row.role === '0' ? 'مسئول مميز' : row.role === '1' ? 'مسئول' : 'متطوع'}
-            </Typography>
-          </Box>
-        )
-      }
-    },
-    renderAge(dataType)
+    renderPhone()
   ]
 
   // ** add actions to default row

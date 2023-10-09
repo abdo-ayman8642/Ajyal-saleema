@@ -88,34 +88,38 @@ const EventList = ({ formInputs, toggleConfirm }) => {
   const [showEdit, setShowEdit] = useState(false)
   const user = useAuth()
 
-  const { year } = user?.user?.permissions
-  const { add, edit, delete: deletee, read } = year
+  const { events: event } = user?.user?.permissions
+  const { add, edit, delete: deletee, read } = event
+
+  const renderColumns = () => {
+    if (edit || deletee) {
+      return {
+        flex: 0.8,
+        minWidth: 100,
+        sortable: false,
+        field: 'actions',
+        headerName: 'التحكم',
+        renderCell: ({ row }) => (
+          <Box sx={{ display: 'flex' }}>
+            {edit && (
+              <IconButton onClick={() => onClickEdit(row)} sx={{ ml: '-10px' }}>
+                <ModeEditOutlineIcon sx={{ cursor: 'pointer', color: '#ddbb24' }} />
+              </IconButton>
+            )}
+            {deletee && (
+              <IconButton onClick={() => onClickDelete(row)}>
+                <DeleteIcon sx={{ cursor: 'pointer', color: 'red' }} />
+              </IconButton>
+            )}
+          </Box>
+        )
+      }
+    }
+    return {}
+  }
   /****************** columns Actions *****************/
 
-  const columns = [
-    ...defaultColumns,
-    {
-      flex: 0.8,
-      minWidth: 100,
-      sortable: false,
-      field: 'actions',
-      headerName: 'التحكم',
-      renderCell: ({ row }) => (
-        <Box sx={{ display: 'flex' }}>
-          {edit && (
-            <IconButton onClick={() => onClickEdit(row)} sx={{ ml: '-10px' }}>
-              <ModeEditOutlineIcon sx={{ cursor: 'pointer', color: '#ddbb24' }} />
-            </IconButton>
-          )}
-          {deletee && (
-            <IconButton onClick={() => onClickDelete(row)}>
-              <DeleteIcon sx={{ cursor: 'pointer', color: 'red' }} />
-            </IconButton>
-          )}
-        </Box>
-      )
-    }
-  ]
+  const columns = [...defaultColumns, renderColumns()]
 
   /****************** Functions *****************/
 
@@ -136,6 +140,12 @@ const EventList = ({ formInputs, toggleConfirm }) => {
   const toggleShowEdit = () => {
     setShowEdit(!showEdit)
   }
+
+  function isObjectEmpty(obj) {
+    return Object.keys(obj).length === 0
+  }
+
+  columns = columns.filter(obj => !isObjectEmpty(obj))
 
   return (
     <Grid container spacing={6}>
