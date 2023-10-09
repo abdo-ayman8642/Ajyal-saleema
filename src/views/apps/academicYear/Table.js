@@ -382,7 +382,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
         headerName: 'حضور الحصص',
         renderCell: ({ row }) => (
           <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(6,1fr)', gap: '7px', alignItems: 'center' }}>
-            {makeSessionsDots(row.session_ids).map((i, index) => {
+            {makeSessionsDots(row.session_ids)?.map((i, index) => {
               const color = i ? 'green' : 'red'
 
               return (

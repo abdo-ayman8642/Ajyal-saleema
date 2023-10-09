@@ -49,7 +49,7 @@ function RightSide({ id, studentId }) {
   return (
     <div style={{ marginTop: '4rem' }}>
       <CustomStepper activeStep={activeStep}>
-        {steps.map((label, index) => {
+        {steps?.map((label, index) => {
           const stepProps = {}
           const labelProps = {}
 

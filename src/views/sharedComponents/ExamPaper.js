@@ -45,7 +45,7 @@ const ExamPaper = ({ exam, page, setAnswers, answers, id, studView }) => {
   return (
     <Card sx={{ mt: 10 }}>
       {selectedExam &&
-        selectedExam?.exam?.questions.map((ques, index) => (
+        selectedExam?.exam?.questions?.map((ques, index) => (
           <Box>
             <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5.75, 6.25)} !important`, width: '100%' }}>
               <Box sx={{ width: '100%', mt: 5 }}>

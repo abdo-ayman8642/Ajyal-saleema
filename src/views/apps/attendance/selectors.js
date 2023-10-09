@@ -39,7 +39,7 @@ function Selectors() {
   useEffect(() => {
     fetchOptionItem()
   }, [])
-  const tagKeys = data.map(_ => useMemo(() => uuidv4(), []))
+  const tagKeys = data?.map(_ => useMemo(() => uuidv4(), []))
 
   const handleSelected = async (e, index, item) => {
     if (index === data.length - 1) return
@@ -84,7 +84,7 @@ function Selectors() {
     try {
       const response = await fetch(path)
       const jsonData = await response.json()
-      const itemArray = jsonData.data ? jsonData.data.map(data => [data.id, data.name]) : []
+      const itemArray = jsonData.data ? jsonData.data?.map(data => [data.id, data.name]) : []
 
       dispatch(setField({ index: index, field: 'items', value: itemArray }))
     } catch (error) {
@@ -96,11 +96,12 @@ function Selectors() {
     dispatch(setField({ index: currIndex, field: 'currValue', value: valuePassed }))
     dispatch(resetFromIndexToLast({ index: currIndex + 1 }))
     dispatch(setField({ index: currIndex + 1, field: 'disabledAtt', value: false }))
+
     return valuePassed
   }
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-      {data.map((item, index) => (
+      {data?.map((item, index) => (
         <FormControl disabled={item.disabledAtt} sx={{ padding: '10px 0' }} key={tagKeys[index]}>
           <InputLabel id='demo-simple-select-helper-label'>{translatecorrespondingarabic(item.fieldName)}</InputLabel>
           <Select
@@ -113,7 +114,7 @@ function Selectors() {
             <MenuItem value=''>
               <em>None</em>
             </MenuItem>
-            {item.items.map(i => (
+            {item?.items?.map(i => (
               <MenuItem key={uuidv4()} value={i} id={index}>
                 {i[1]}
               </MenuItem>

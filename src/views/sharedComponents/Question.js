@@ -103,7 +103,7 @@ const Question = ({ question, exam, setAnswers, answers, studView, id }) => {
       <FormControl error={error} sx={{ width: '100%' }}>
         {question.type === 'single' && (
           <RadioGroup aria-label='quiz' name='quiz' value={value} onChange={handleRadioChange}>
-            {question.choices.map((ans, index) => (
+            {question.choices?.map((ans, index) => (
               <FormControlLabel key={index} value={ans.id} control={<Radio />} label={ans.content} />
             ))}
           </RadioGroup>

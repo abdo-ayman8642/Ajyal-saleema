@@ -56,7 +56,7 @@ const data = [
 const Slides = () => {
   return (
     <>
-      {data.map((slide, index) => {
+      {data?.map((slide, index) => {
         return (
           <Box key={index} className='keen-slider__slide'>
             <Typography variant='h6' sx={{ color: 'common.white' }}>
@@ -75,7 +75,7 @@ const Slides = () => {
               <Grid item xs={12} sm={6} lg={8} sx={{ order: [2, 1] }}>
                 <Typography sx={{ mb: 4.5, color: 'common.white' }}>{slide.title}</Typography>
                 <Grid container spacing={4}>
-                  {Object.keys(slide.details).map((key, index) => {
+                  {Object.keys(slide.details)?.map((key, index) => {
                     return (
                       <Grid item key={index} xs={6}>
                         <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -153,7 +153,7 @@ const CardStatisticsWeeklySalesBg = () => {
       <CardContent>
         {loaded && instanceRef.current && (
           <Box className='swiper-dots' sx={{ top: 7, right: 13, position: 'absolute' }}>
-            {[...Array(instanceRef.current.track.details.slides.length).keys()].map(idx => {
+            {[...Array(instanceRef.current.track.details.slides.length).keys()]?.map(idx => {
               return (
                 <Badge
                   key={idx}

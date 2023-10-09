@@ -34,7 +34,7 @@ function SchoolsData() {
 
       return acc
     },
-    { total_classes: 0, total_schools: 0, total_students: 0 }
+    { total_classes: 0, total_students: 0 }
   )
 
   const { total_classes = null, total_students = null } = sums || {}

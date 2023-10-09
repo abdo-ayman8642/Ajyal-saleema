@@ -35,7 +35,7 @@ function RightSide({ buttonVisibility, exam }) {
   return (
     <div>
       <CustomStepper activeStep={activeStep}>
-        {steps.map((label, index) => {
+        {steps?.map((label, index) => {
           const stepProps = {}
           const labelProps = {}
 

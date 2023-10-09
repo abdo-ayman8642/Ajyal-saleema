@@ -58,7 +58,7 @@ const data = [
 const Slides = () => {
   return (
     <>
-      {data.map((slide, index) => {
+      {data?.map((slide, index) => {
         return (
           <Box key={index} className='keen-slider__slide'>
             <Box sx={{ mb: 4.5, display: 'flex', alignItems: 'center' }}>
@@ -66,7 +66,7 @@ const Slides = () => {
               <div>
                 <Typography sx={{ mb: 2.5, fontWeight: 600 }}>{slide.title}</Typography>
                 <Grid container spacing={2.5}>
-                  {Object.keys(slide.details).map((key, index) => (
+                  {Object.keys(slide.details)?.map((key, index) => (
                     <Grid item xs={6} key={index}>
                       <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <CustomAvatar
@@ -149,7 +149,7 @@ const CardStatisticsWeeklySales = () => {
           loaded &&
           instanceRef.current && (
             <Box className='swiper-dots'>
-              {[...Array(instanceRef.current.track.details.slides.length).keys()].map(idx => {
+              {[...Array(instanceRef.current.track.details.slides.length).keys()]?.map(idx => {
                 return (
                   <Badge
                     key={idx}

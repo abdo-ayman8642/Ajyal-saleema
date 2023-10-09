@@ -258,7 +258,7 @@ function PermissionsV2({ user }) {
                 : { display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }
             }
           >
-            {Object.keys(navPermissions).map((section, index) => (
+            {Object.keys(navPermissions)?.map((section, index) => (
               <FormControlLabel
                 key={section}
                 label={section}

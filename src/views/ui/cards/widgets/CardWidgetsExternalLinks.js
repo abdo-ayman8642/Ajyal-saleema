@@ -163,7 +163,7 @@ const CardWidgetsExternalLinks = () => {
       <TableContainer sx={{ mb: 3.75 }}>
         <Table>
           <TableBody>
-            {data.map((item, index) => (
+            {data?.map((item, index) => (
               <TableRow
                 key={index}
                 sx={{ '& .MuiTableCell-root': { borderBottomWidth: 0, py: `${theme.spacing(1.125)} !important` } }}
