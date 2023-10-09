@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react'
+import React, { useState, Fragment, useEffect } from 'react'
 import List from '@mui/material/List'
 import Divider from '@mui/material/Divider'
 import ListItem from '@mui/material/ListItem'
@@ -57,6 +57,27 @@ function PermissionsV2({ user }) {
   const { permissions: selectedUser, id, name } = user
   const [view, setView] = useState(false)
   const router = useRouter()
+
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    function handleResize() {
+      // Check if the window width is less than a certain threshold (e.g., 768 pixels for mobile)
+      const isMobile = window.innerWidth < 768
+      setIsMobile(isMobile)
+    }
+
+    // Attach the event listener when the component mounts
+    window.addEventListener('resize', handleResize)
+
+    // Call it initially to set the initial value
+    handleResize()
+
+    // Remove the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
   // State to track permissions
 
@@ -224,11 +245,27 @@ function PermissionsV2({ user }) {
           </ListItemButton>
         </ListItem>
         <Collapse in={open['nav']} timeout='auto' unmountOnExit>
-          <div style={{ display: 'flex', flexWrap: 'nowrap', margin: '0 2rem', gap: '1rem' }}>
-            {Object.keys(navPermissions).map(section => (
+          <div
+            style={
+              isMobile
+                ? {
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 2fr))',
+                    Gap: '1rem',
+                    justifyContent: 'center',
+                    margin: '0 1rem'
+                  }
+                : { display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }
+            }
+          >
+            {Object.keys(navPermissions).map((section, index) => (
               <FormControlLabel
                 key={section}
                 label={section}
+                sx={{
+                  gridColumn: `${index === Object.keys(navPermissions).length - 1 ? 'span 2' : ''}`,
+                  justifySelf: `${index === Object.keys(navPermissions).length - 1 ? 'center' : ''}`
+                }}
                 control={
                   <Checkbox
                     checked={permissions['nav'][section]}

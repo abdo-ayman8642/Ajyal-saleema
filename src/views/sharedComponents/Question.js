@@ -14,6 +14,8 @@ import { examSlice } from 'src/store/apps/exams'
 import { useSelector } from 'react-redux'
 import { useRouter } from 'next/router'
 import styled from '@emotion/styled'
+import { useAuth } from 'src/hooks/useAuth'
+import DeleteIcon from '@mui/icons-material/Delete'
 
 const StyledFormGroup = styled(FormGroup)`
   margin-top: 20px;
@@ -27,6 +29,12 @@ const Question = ({ question, exam, setAnswers, answers, studView, id }) => {
   const [showDelete, setShowDelete] = useState(false)
   const student = useSelector(state => state.student?.singleStudent)
   const dispatch = useDispatch()
+
+  const user = useAuth()
+  const role = user?.user?.role
+  const { exams: examPer } = user?.user?.permissions || {}
+  const { read, add, edit, delete: deletee } = examPer
+
   const router = useRouter()
   const routeId = router.query.id
   useEffect(() => {
@@ -127,13 +135,28 @@ const Question = ({ question, exam, setAnswers, answers, studView, id }) => {
           </FormControl>
         )}
         <FormHelperText>{helperText}</FormHelperText>
-        {!studView && (
+        {!studView && deletee && (
           <Button
             type='submit'
             variant='outlined'
-            sx={{ mt: 3, fontSize: '1rem', fontWeight: 'bold', width: '30%' }}
+            sx={{
+              mt: 3,
+              fontSize: '1rem',
+              fontWeight: 'bold',
+              width: '30%',
+              color: 'red',
+              borderColor: 'rgba(255,0,0,0.4)',
+              display: 'flex',
+              gap: '1rem',
+              transition: 'all 0.5s',
+              '&:hover': {
+                backgroundColor: 'rgba(255,0,0,0.05) !important',
+                borderColor: 'rgba(255,0,0,0.7) !important'
+              }
+            }}
             onClick={toggleDelete}
           >
+            <DeleteIcon />
             مسح السؤال
           </Button>
         )}

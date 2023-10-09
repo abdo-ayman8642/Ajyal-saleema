@@ -30,6 +30,7 @@ import * as yup from 'yup'
 import { IconButton } from '@mui/material'
 import ConfirmDialog from '../ConfirmDialog'
 import AddQuestionForm from '../AddQuestionForm'
+import { useAuth } from 'src/hooks/useAuth'
 
 // ** Styled <sup> component
 const Sup = styled('sup')(({ theme }) => ({
@@ -69,6 +70,10 @@ const LeftSide = ({ exam }) => {
   const [showDelete, setShowDelete] = useState(false)
   const dispatch = useDispatch()
   const [questionType, setQuestionType] = useState(null)
+  const user = useAuth()
+  const role = user?.user?.role
+  const { exams: examPer } = user?.user?.permissions || {}
+  const { read, add, edit, delete: deletee } = examPer
 
   //** Functions */
   const toggleShowDelete = () => {
@@ -226,12 +231,16 @@ const LeftSide = ({ exam }) => {
                 {/* <Button variant='outlined' color='warning' startIcon={<EditIcon />} onClick={toggleShowEdit}>
                   تعديل
                 </Button> */}
-                <Button variant='outlined' color='primary' startIcon={<AddIcon />} onClick={toggleShowAdd}>
-                  إضافة
-                </Button>
-                <Button variant='outlined' color='error' startIcon={<DeleteIcon />} onClick={toggleShowDelete}>
-                  مسح
-                </Button>
+                {add && (
+                  <Button variant='outlined' color='primary' startIcon={<AddIcon />} onClick={toggleShowAdd}>
+                    إضافة
+                  </Button>
+                )}
+                {deletee && (
+                  <Button variant='outlined' color='error' startIcon={<DeleteIcon />} onClick={toggleShowDelete}>
+                    مسح
+                  </Button>
+                )}
               </Box>
             </CardActions>
           </Card>

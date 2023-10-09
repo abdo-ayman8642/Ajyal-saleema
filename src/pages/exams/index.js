@@ -19,9 +19,8 @@ function Exams() {
   const [showAdd, setShowAdd] = useState(false)
   const user = useAuth()
   const role = user?.user?.role
-  const { exams: sessionsPer } = user?.user?.permissions || {}
-  const { read, add, edit } = sessionsPer
-  const deletee = sessionsPer?.['delete']
+  const { exams: exam } = user?.user?.permissions || {}
+  const { read, add, edit, delete: deletee } = exam
 
   useEffect(() => {
     dispatch(fetchData())
@@ -85,9 +84,12 @@ function Exams() {
     <>
       {read ? (
         <Grid container>
-          <Grid item xs={12} md={12}>
-            <PageHeader toggleAdd={toggleAdd} />
-          </Grid>
+          {/* {add && (
+            <Grid item xs={12} md={12}>
+              <PageHeader toggleAdd={toggleAdd} />
+            </Grid>
+          )} */}
+
           <Grid item xs={12} md={12}>
             <TabsCentered exams={exams} />
           </Grid>
@@ -104,7 +106,7 @@ function Exams() {
           )}
         </Grid>
       ) : (
-        <NoPermissionComponent featureName='Events' />
+        <NoPermissionComponent featureName='Exams' />
       )}
     </>
   )

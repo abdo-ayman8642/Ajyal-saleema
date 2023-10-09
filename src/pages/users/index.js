@@ -138,7 +138,6 @@ function Users() {
     <Grid container direction='column'>
       {role != 2 ? (
         <>
-          <PageHeader src={'/images/users.jpg'} />
           <Grid item>
             <TableHeader
               toggleAdd={toggleAddForm}
