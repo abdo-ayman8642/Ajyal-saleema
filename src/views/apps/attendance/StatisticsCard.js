@@ -24,7 +24,6 @@ import PercentIcon from '@mui/icons-material/Percent'
 //{ totalStudents, attend, absent }
 const StatisticsCard = ({ StudentsData }) => {
   const [totalStudents, average, totalPresent, totalAbsent] = StudentsData?.chartState
-  console.log(StudentsData?.chartState)
 
   const salesData = [
     {

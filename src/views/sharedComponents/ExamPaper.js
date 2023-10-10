@@ -16,7 +16,6 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { fetchQuestions } from 'src/store/apps/exams/actions'
 import { CircularProgress } from '@mui/material'
-import { useRouter } from 'next/router'
 
 // Styled Box component
 
@@ -24,8 +23,7 @@ const ExamPaper = ({ exam, page, setAnswers, answers, id, studView }) => {
   const dispatch = useDispatch()
   const selectedExam = useSelector(state => state?.exams?.questions?.data)
   const loading = useSelector(state => state?.exams?.questionsLoading)
-  const router = useRouter()
-  const routeId = router.query.id
+  console.log(id, exam)
 
   const examId = exam?.id || id
   useEffect(() => {
@@ -42,6 +40,7 @@ const ExamPaper = ({ exam, page, setAnswers, answers, id, studView }) => {
     )
   }
 
+  console.log(selectedExam)
   return (
     <Card sx={{ mt: 10 }}>
       {selectedExam &&

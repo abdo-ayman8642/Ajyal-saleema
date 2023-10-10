@@ -15,7 +15,7 @@ import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 function CampsData() {
   const dispatch = useDispatch()
   const loading = useSelector(state => state.academicData?.campsLoading)
-  const camps = useSelector(state => state.academicData?.camps)
+  let camps = useSelector(state => state.academicData?.camps)
   const [showDrawer, setDrawer] = useState(false)
   const router = useRouter()
   const administrationId = router.query.id
@@ -32,6 +32,8 @@ function CampsData() {
   const handlePageChange = nextPage => {
     dispatch(getCampsByAdministration({ id: administrationId, type: 'camp', page: nextPage }))
   }
+
+  if (!Array.isArray(camps)) camps = []
 
   const sums = camps?.reduce(
     (acc, obj) => {

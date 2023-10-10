@@ -20,6 +20,7 @@ function AdministrationData() {
   const data = useSelector(state => state.academicData['administrations'])
   const user = useAuth()
   const { academic: view } = user?.user?.permissions?.nav
+  const { read } = user?.user?.permissions?.year
 
   const [showDrawer, setDrawer] = useState(false)
   const router = useRouter()
@@ -76,7 +77,7 @@ function AdministrationData() {
 
   return (
     <Grid container spacing={10}>
-      {view ? (
+      {view && read ? (
         <>
           <Grid item xs={12} md={12}>
             <PageHeader src={'/images/administration.jpg'} />

@@ -17,7 +17,8 @@ function AcademicYear() {
   const years = useSelector(state => state.academicData['years'])
   const user = useAuth()
   const { academic: view } = user?.user?.permissions?.nav
-  console.log(view)
+  const { read } = user?.user?.permissions?.year
+
   const handlePageChange = nextPage => {
     dispatch(fetchYears(nextPage))
   }
@@ -66,7 +67,7 @@ function AcademicYear() {
 
   return (
     <Grid container spacing={10}>
-      {view ? (
+      {view && read ? (
         <>
           <Grid item xs={12} md={12}>
             <PageHeader src={'/images/academics2.jpg'} />

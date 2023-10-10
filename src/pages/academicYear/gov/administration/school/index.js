@@ -16,7 +16,7 @@ function SchoolsData() {
   const dispatch = useDispatch()
   const loading = useSelector(state => state.academicData?.schoolsLoading)
   const [showDrawer, setDrawer] = useState(false)
-  const data = useSelector(state => state.academicData['schools'])
+  let data = useSelector(state => state.academicData['schools'])
   const router = useRouter()
   const { id } = router.query
   const user = useAuth()
@@ -28,6 +28,7 @@ function SchoolsData() {
     dispatch(fetchSchools({ page: 1, id: id, type: 'school' }))
   }, [dispatch, id])
 
+  if (!Array.isArray(data)) data = []
   const sums = data?.reduce(
     (acc, obj) => {
       acc.total_classes += obj.total_classes

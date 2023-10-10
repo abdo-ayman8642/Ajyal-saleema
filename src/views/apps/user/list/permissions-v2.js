@@ -187,7 +187,9 @@ function PermissionsV2({ user }) {
           <>
             <ListItem key={section} disablePadding>
               <ListItemButton onClick={() => handleAccordionToggle(section)}>
-                <ListItemText primary={section.charAt(0).toUpperCase() + section.slice(1)} />
+                <ListItemText
+                  primary={section === 'year' ? 'Academic' : section.charAt(0).toUpperCase() + section.slice(1)}
+                />
               </ListItemButton>
             </ListItem>
             <Collapse key={section} in={open[section]} timeout='auto' unmountOnExit>

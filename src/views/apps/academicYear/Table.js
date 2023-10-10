@@ -473,31 +473,29 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
   }
 
   const renderControls = type => {
-    if (formType !== 'years' && formType !== 'govs' && formType !== 'administrations') {
-      if (deletee || edit) {
-        return {
-          flex: 1,
-          minWidth: 100,
-          sorDataTable: false,
-          field: 'actions',
-          headerName: 'التحكم',
-          renderCell: ({ row }) => (
-            <Box sx={{ display: 'flex' }}>
-              <>
-                {edit && (
-                  <IconButton onClick={() => onClickEdit(row)} sx={{ ml: '-10px' }}>
-                    <ModeEditOutlineIcon sx={{ cursor: 'pointer', color: '#ddbb24' }} />
-                  </IconButton>
-                )}
-                {deletee && (
-                  <IconButton onClick={() => onClickDelete(row)}>
-                    <DeleteIcon sx={{ cursor: 'pointer', color: 'red' }} />
-                  </IconButton>
-                )}
-              </>
-            </Box>
-          )
-        }
+    if (deletee || edit) {
+      return {
+        flex: 1,
+        minWidth: 100,
+        sorDataTable: false,
+        field: 'actions',
+        headerName: 'التحكم',
+        renderCell: ({ row }) => (
+          <Box sx={{ display: 'flex' }}>
+            <>
+              {edit && (
+                <IconButton onClick={() => onClickEdit(row)} sx={{ ml: '-10px' }}>
+                  <ModeEditOutlineIcon sx={{ cursor: 'pointer', color: '#ddbb24' }} />
+                </IconButton>
+              )}
+              {deletee && (
+                <IconButton onClick={() => onClickDelete(row)}>
+                  <DeleteIcon sx={{ cursor: 'pointer', color: 'red' }} />
+                </IconButton>
+              )}
+            </>
+          </Box>
+        )
       }
     }
 

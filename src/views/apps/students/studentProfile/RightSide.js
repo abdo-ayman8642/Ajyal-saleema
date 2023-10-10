@@ -32,11 +32,12 @@ function RightSide({ id, studentId }) {
     }
   }))
 
+  console.log('Answers:', answers)
   function getStepContent(step) {
     return (
       <ExamPaper
         page={step + 1}
-        id={answers.exam_id}
+        id={id}
         setCounter={setCounter}
         setAnswers={setAnswers}
         counter={counter}

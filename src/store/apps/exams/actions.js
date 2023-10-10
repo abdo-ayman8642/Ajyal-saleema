@@ -138,6 +138,7 @@ export const editExam = createAsyncThunk('appExam/editExam', async ({ id, data }
 export const submitAnswers = createAsyncThunk(
   'appExam/submitAnswers',
   async ({ data }, { rejectWithValue, dispatch }) => {
+    console.log(data)
     try {
       const response = await axios.post(`${baseUrl}exam/answers/submit`, JSON.stringify(data), {
         headers: { 'Content-Type': 'application/json' }

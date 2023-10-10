@@ -37,6 +37,7 @@ function GovData() {
   const searchedData = useSelector(state => state.academicData?.searchedData)
   const user = useAuth()
   const { academic: view } = user?.user?.permissions?.nav
+  const { read } = user?.user?.permissions?.year
 
   const {
     total_classes = null,
@@ -80,7 +81,7 @@ function GovData() {
 
   return (
     <Grid container spacing={10}>
-      {view ? (
+      {view && read ? (
         <>
           {' '}
           <Grid item xs={12} md={12}>

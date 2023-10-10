@@ -48,7 +48,7 @@ const Question = ({ question, exam, setAnswers, answers, studView, id }) => {
       setValue(event.target.value)
     }
 
-    if (routeId) {
+    if (true) {
       setAnswers(prevState => ({
         ...prevState,
         answers: [...avoidDuplicates(prevState.answers, question.id), { question_id: question.id, choice_id: value }]
@@ -80,6 +80,7 @@ const Question = ({ question, exam, setAnswers, answers, studView, id }) => {
     dispatch(fetchQuestions({ id: exam?.id || id, page: 1 }))
   }
 
+  console.log(value)
   return (
     <Box sx={{ width: '100%' }}>
       <Typography variant='h6' sx={{ mb: 2 }}>
