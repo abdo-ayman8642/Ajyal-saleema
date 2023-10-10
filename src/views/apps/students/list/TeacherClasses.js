@@ -70,70 +70,60 @@ function TeacherClasses({ toggle, open, data }) {
           </Header>
           <div style={{ textAlign: 'center', margin: '0.5rem 0' }}>Students in</div>
           <Grid container spacing={2}>
-            {/* First Row */}
-            {!!total_class_students && (
-              <Grid item xs={4}>
-                <Card>
-                  <CardContent style={cardStyles}>
-                    <div>Classes</div>
-                    <Typography variant='h5' style={{ fontWeight: 'bold' }}>
-                      {total_class_students}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            )}
-            {!!total_camp_students && (
-              <Grid item xs={4}>
-                <Card>
-                  <CardContent style={cardStyles}>
-                    <div>Camps</div>
-                    <Typography variant='h5' style={{ fontWeight: 'bold' }}>
-                      {total_camp_students}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            )}
-            {!!total_departs && (
-              <Grid item xs={4}>
-                <Card>
-                  <CardContent style={cardStyles}>
-                    <div>Departs</div>
-                    <Typography variant='h5' style={{ fontWeight: 'bold' }}>
-                      {total_departs}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            )}
+            <Grid item xs={4}>
+              <Card>
+                <CardContent style={cardStyles}>
+                  <div>Classes</div>
+                  <Typography variant='h5' style={{ fontWeight: 'bold' }}>
+                    {total_class_students || 0}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
 
-            {/* Second Row */}
+            <Grid item xs={4}>
+              <Card>
+                <CardContent style={cardStyles}>
+                  <div>Camps</div>
+                  <Typography variant='h5' style={{ fontWeight: 'bold' }}>
+                    {total_camp_students || 0}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
 
-            {!!total_classes && (
-              <Grid item xs={6} sx={{ mt: '1rem' }}>
-                <Card>
-                  <CardContent style={cardStyles}>
-                    <div>Total Classes</div>
-                    <Typography variant='h5' style={{ fontWeight: 'bold' }}>
-                      {total_classes}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            )}
-            {!!total_camps && (
-              <Grid item xs={6} sx={{ mt: '1rem' }}>
-                <Card>
-                  <CardContent style={cardStyles}>
-                    <div>Total Camps</div>
-                    <Typography variant='h5' style={{ fontWeight: 'bold' }}>
-                      {total_camps}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            )}
+            <Grid item xs={4}>
+              <Card>
+                <CardContent style={cardStyles}>
+                  <div>Departs</div>
+                  <Typography variant='h5' style={{ fontWeight: 'bold' }}>
+                    {total_departs || 0}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+
+            <Grid item xs={6} sx={{ mt: '1rem' }}>
+              <Card>
+                <CardContent style={cardStyles}>
+                  <div>Total Classes</div>
+                  <Typography variant='h5' style={{ fontWeight: 'bold' }}>
+                    {total_classes || 0}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+
+            <Grid item xs={6} sx={{ mt: '1rem' }}>
+              <Card>
+                <CardContent style={cardStyles}>
+                  <div>Total Camps</div>
+                  <Typography variant='h5' style={{ fontWeight: 'bold' }}>
+                    {total_camps || 0}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
           </Grid>
 
           {!!classes?.length && <h4 style={{ textAlign: 'center' }}>فصل</h4>}

@@ -9,6 +9,8 @@ import { fetchAdministrations, searchData } from 'src/store/apps/academicData/ac
 import DataTable from 'src/views/apps/academicYear/Table'
 import { useRouter } from 'next/router'
 import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
+import { useAuth } from 'src/hooks/useAuth'
+import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 
 function AdministrationData() {
   const dispatch = useDispatch()
@@ -16,6 +18,8 @@ function AdministrationData() {
   const searchedData = useSelector(state => state.academicData?.searchedData)
   const searchedQuery = useSelector(state => state.academicData?.searchedQuery)
   const data = useSelector(state => state.academicData['administrations'])
+  const user = useAuth()
+  const { academic: view } = user?.user?.permissions?.nav
 
   const [showDrawer, setDrawer] = useState(false)
   const router = useRouter()
@@ -72,36 +76,42 @@ function AdministrationData() {
 
   return (
     <Grid container spacing={10}>
-      <Grid item xs={12} md={12}>
-        <PageHeader src={'/images/administration.jpg'} />
-      </Grid>
-      <Grid item xs={12} md={12}>
-        <Grid container>
-          <Grid item xs={12}>
-            <TableHeader
-              title={'الإدارات التعليمية'}
-              formType={'administrations'}
-              showDrawer={showDrawer}
-              setDrawer={setDrawer}
-              addData={formActionData}
-              fetchData={fetchAdministrations}
-              fetchParams={{ page: 1, cityId: id, yearId: pastRoute }}
-              placeholder={'الإدارة التعليمية'}
-            />
+      {view ? (
+        <>
+          <Grid item xs={12} md={12}>
+            <PageHeader src={'/images/administration.jpg'} />
           </Grid>
+          <Grid item xs={12} md={12}>
+            <Grid container>
+              <Grid item xs={12}>
+                <TableHeader
+                  title={'الإدارات التعليمية'}
+                  formType={'administrations'}
+                  showDrawer={showDrawer}
+                  setDrawer={setDrawer}
+                  addData={formActionData}
+                  fetchData={fetchAdministrations}
+                  fetchParams={{ page: 1, cityId: id, yearId: pastRoute }}
+                  placeholder={'الإدارة التعليمية'}
+                />
+              </Grid>
 
-          <Grid item xs={12}>
-            <DataTable
-              dataName={'الإدارة '}
-              formType={'administrations'}
-              storeData={'administrations'}
-              editData={formActionData}
-              handlePageChange={handlePageChange}
-            />
-            <ResponsiveCardGrid cardData={cardData} />
+              <Grid item xs={12}>
+                <DataTable
+                  dataName={'الإدارة '}
+                  formType={'administrations'}
+                  storeData={'administrations'}
+                  editData={formActionData}
+                  handlePageChange={handlePageChange}
+                />
+                <ResponsiveCardGrid cardData={cardData} />
+              </Grid>
+            </Grid>
           </Grid>
-        </Grid>
-      </Grid>
+        </>
+      ) : (
+        <NoPermissionComponent featureName='Administrations' />
+      )}
     </Grid>
   )
 }

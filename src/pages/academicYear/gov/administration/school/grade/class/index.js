@@ -17,8 +17,8 @@ function ClassesData() {
   const loading = useSelector(state => state.academicData?.classesLoading)
   const data = useSelector(state => state.academicData['classes'])
   const user = useAuth()
-  const { year } = user?.user?.permissions
-  const { read } = year
+  const { read } = user?.user?.permissions?.year
+  const { academic: view } = user?.user?.permissions?.nav
 
   const [showDrawer, setDrawer] = useState(false)
   const router = useRouter()
@@ -61,7 +61,7 @@ function ClassesData() {
 
   return (
     <Grid container spacing={10}>
-      {read ? (
+      {read && view ? (
         <>
           <Grid item xs={12} md={12}>
             <PageHeader src={'/images/class.jpg'} />

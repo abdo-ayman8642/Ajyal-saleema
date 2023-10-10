@@ -23,6 +23,7 @@ function CampsData() {
   const user = useAuth()
 
   const { read } = user?.user?.permissions?.year
+  const { academic: view } = user?.user?.permissions?.nav
 
   useEffect(() => {
     dispatch(getCampsByAdministration({ id: administrationId, type: 'camp' }))
@@ -60,7 +61,7 @@ function CampsData() {
 
   return (
     <Grid container spacing={10}>
-      {read ? (
+      {read && view ? (
         <>
           <Grid item xs={12} md={12}>
             <PageHeader src={'/images/govs.jpg'} />
@@ -96,7 +97,7 @@ function CampsData() {
           </Grid>
         </>
       ) : (
-        <NoPermissionComponent featureName='camps' />
+        <NoPermissionComponent featureName='Camps' />
       )}
     </Grid>
   )

@@ -12,7 +12,7 @@ const NoPermissionComponent = ({ featureName, onRetry }) => {
             Access Denied
           </Typography>
           <Typography variant='body1' color='textSecondary' paragraph>
-            You do not have permission to access the {featureName} Section.
+            You do not have permission to access the {featureName} Section
           </Typography>
         </Box>
       </Grid>

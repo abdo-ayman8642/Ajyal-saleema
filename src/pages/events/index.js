@@ -20,7 +20,8 @@ function Events() {
   const selectedEvents = useSelector(state => state.events?.selectedEvents)
 
   const user = useAuth()
-  const { read } = user?.user?.permissions?.events
+  const { read, add } = user?.user?.permissions?.events
+  const { events: view } = user?.user?.permissions?.nav
 
   const formInputs = [
     {
@@ -66,26 +67,24 @@ function Events() {
 
   return (
     <Grid container direction='column'>
-      {read && (
-        <Grid item xs={12} md={12}>
-          <PageHeader src={'/images/govs.jpg'} />
-        </Grid>
-      )}
-
-      {add && (
-        <TableHeader
-          title={'حدث'}
-          toggleAdd={toggleAddForm}
-          toggleConfirm={toggleConfirm}
-          placeholder={'حدث'}
-          dataType={'events'}
-          selected={selectedEvents || events}
-          searchdata={{ page: 1, query: '', searched: 'events' }}
-        />
-      )}
-
-      {read ? (
-        <EventList formInputs={formInputs} toggleConfirm={toggleConfirm} />
+      {read && view ? (
+        <>
+          <Grid item xs={12} md={12}>
+            <PageHeader src={'/images/govs.jpg'} />
+          </Grid>
+          {add && (
+            <TableHeader
+              title={'حدث'}
+              toggleAdd={toggleAddForm}
+              toggleConfirm={toggleConfirm}
+              placeholder={'حدث'}
+              dataType={'events'}
+              selected={selectedEvents || events}
+              searchdata={{ page: 1, query: '', searched: 'events' }}
+            />
+          )}
+          <EventList formInputs={formInputs} toggleConfirm={toggleConfirm} />
+        </>
       ) : (
         <NoPermissionComponent featureName='Events' />
       )}

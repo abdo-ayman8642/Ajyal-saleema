@@ -20,6 +20,7 @@ function StudentsData() {
   const id = router.query.id
   const user = useAuth()
   const { read } = user?.user?.permissions?.year
+  const { academic: view } = user?.user?.permissions?.nav
 
   const cardData = [{ header: 'Total Students', number: data?.data?.total }]
 
@@ -43,7 +44,7 @@ function StudentsData() {
 
   return (
     <Grid container spacing={10}>
-      {read ? (
+      {read && view ? (
         <>
           <Grid item xs={12} md={12}>
             <PageHeader src={'/images/students2.jpg'} />

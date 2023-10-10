@@ -23,8 +23,8 @@ function Sessions() {
   const selectedSession = useSelector(state => state.sessions?.selectedSession)
 
   const user = useAuth()
-  const { sessions: sessionsPer } = user?.user?.permissions || {}
-  const { read, add } = sessionsPer
+  const { read, add } = user?.user?.permissions?.sessions || {}
+  const { sessions: view } = user?.user?.permissions?.nav
 
   const formInputs = [
     {
@@ -59,17 +59,20 @@ function Sessions() {
 
   return (
     <Grid container direction='column'>
-      {add && (
-        <TableHeader
-          toggleAdd={toggleAddForm}
-          toggleConfirm={toggleConfirm}
-          placeholder={'الحصص'}
-          dataType={'sessions'}
-          selected={selectedSession}
-        />
-      )}
-      {read ? (
-        <SessionsList formInputs={formInputs} toggleConfirm={toggleConfirm} />
+      {read && view ? (
+        <>
+          {add && (
+            <TableHeader
+              toggleAdd={toggleAddForm}
+              toggleConfirm={toggleConfirm}
+              placeholder={'الحصص'}
+              dataType={'sessions'}
+              selected={selectedSession}
+            />
+          )}
+
+          <SessionsList formInputs={formInputs} toggleConfirm={toggleConfirm} />
+        </>
       ) : (
         <NoPermissionComponent featureName='Sessions' />
       )}

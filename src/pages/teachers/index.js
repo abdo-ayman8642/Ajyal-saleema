@@ -58,9 +58,8 @@ function Teachers() {
     }
   })
   const { teachers } = user?.user?.permissions
-
-  const { read, add, edit } = teachers
-  const deletee = teachers?.['delete']
+  const { teachers: view } = user?.user?.permissions?.nav
+  const { read } = teachers
 
   const formInputs = [
     {
@@ -126,7 +125,7 @@ function Teachers() {
 
   return (
     <Grid container direction='column'>
-      {read ? (
+      {read && view ? (
         <>
           <Grid item>
             <TableHeader

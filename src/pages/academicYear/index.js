@@ -8,13 +8,16 @@ import { useAuth } from 'src/hooks/useAuth'
 import { fetchYears } from 'src/store/apps/academicData/actions'
 import DataTable from 'src/views/apps/academicYear/Table'
 import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
+import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 
 function AcademicYear() {
   const dispatch = useDispatch()
   const loading = useSelector(state => state.academicData?.yearsLoading)
   const [showYearDrawer, setYearDrawer] = useState(false)
   const years = useSelector(state => state.academicData['years'])
-
+  const user = useAuth()
+  const { academic: view } = user?.user?.permissions?.nav
+  console.log(view)
   const handlePageChange = nextPage => {
     dispatch(fetchYears(nextPage))
   }
@@ -63,32 +66,38 @@ function AcademicYear() {
 
   return (
     <Grid container spacing={10}>
-      <Grid item xs={12} md={12}>
-        <PageHeader src={'/images/academics2.jpg'} />
-      </Grid>
+      {view ? (
+        <>
+          <Grid item xs={12} md={12}>
+            <PageHeader src={'/images/academics2.jpg'} />
+          </Grid>
 
-      <Grid item xs={12} md={12}>
-        <Grid container>
-          <Grid item xs={12}>
-            <TableHeader
-              title={'السنة التنفيذية'}
-              formType={'years'}
-              showDrawer={showYearDrawer}
-              setDrawer={setYearDrawer}
-            />
+          <Grid item xs={12} md={12}>
+            <Grid container>
+              <Grid item xs={12}>
+                <TableHeader
+                  title={'السنة التنفيذية'}
+                  formType={'years'}
+                  showDrawer={showYearDrawer}
+                  setDrawer={setYearDrawer}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <DataTable
+                  dataName={'العام الدراسي'}
+                  formType={'years'}
+                  storeData={'years'}
+                  pathname={`academicYear/gov`}
+                  handlePageChange={handlePageChange}
+                />
+                <ResponsiveCardGrid cardData={cardData} />
+              </Grid>
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <DataTable
-              dataName={'العام الدراسي'}
-              formType={'years'}
-              storeData={'years'}
-              pathname={`academicYear/gov`}
-              handlePageChange={handlePageChange}
-            />
-            <ResponsiveCardGrid cardData={cardData} />
-          </Grid>
-        </Grid>
-      </Grid>
+        </>
+      ) : (
+        <NoPermissionComponent featureName='Academic Years' />
+      )}
     </Grid>
   )
 }

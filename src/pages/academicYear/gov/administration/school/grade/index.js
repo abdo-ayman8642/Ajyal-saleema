@@ -20,7 +20,9 @@ function GradesData() {
   const pastRoute = router.query.id
   const data = useSelector(state => state.academicData['grades'])
   const user = useAuth()
+
   const { read } = user?.user?.permissions?.year
+  const { academic: view } = user?.user?.permissions?.nav
 
   const { total_classes = null, total_students = null } = data?.data?.[0] || {}
 
@@ -49,7 +51,7 @@ function GradesData() {
 
   return (
     <Grid container spacing={10}>
-      {read ? (
+      {read && view ? (
         <>
           <Grid item xs={12} md={12}>
             <PageHeader src={'/images/grades.jpg'} />

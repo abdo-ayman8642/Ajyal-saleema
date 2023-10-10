@@ -18,6 +18,7 @@ function Exams() {
   const [showAdd, setShowAdd] = useState(false)
   const user = useAuth()
   const { read } = user?.user?.permissions?.exams || {}
+  const { exams: view } = user?.user?.permissions?.nav
 
   useEffect(() => {
     dispatch(fetchData())
@@ -79,7 +80,7 @@ function Exams() {
 
   return (
     <>
-      {read ? (
+      {read && view ? (
         <Grid container>
           <Grid item xs={12} md={12}>
             <TabsCentered exams={exams} />

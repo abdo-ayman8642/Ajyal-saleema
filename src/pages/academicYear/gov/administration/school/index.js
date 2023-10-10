@@ -22,6 +22,7 @@ function SchoolsData() {
   const user = useAuth()
 
   const { read } = user?.user?.permissions?.year
+  const { academic: view } = user?.user?.permissions?.nav
 
   useEffect(() => {
     dispatch(fetchSchools({ page: 1, id: id, type: 'school' }))
@@ -61,7 +62,7 @@ function SchoolsData() {
 
   return (
     <Grid container spacing={10}>
-      {read ? (
+      {read && view ? (
         <>
           {' '}
           <Grid item xs={12} md={12}>

@@ -30,7 +30,7 @@ const Home = () => {
   const dashboardStats = useSelector(state => state.user?.dashboard?.data)
   const loading = useSelector(state => state.user?.dashboardLoading)
   const user = useAuth()
-  const permission = user?.user?.permissions?.nav?.home
+  const { home: view } = user?.user?.permissions?.nav
 
   useEffect(() => {
     _.isEmpty(user?.user) && window.location.reload()
@@ -131,7 +131,7 @@ const Home = () => {
 
   return (
     <Grid container spacing={6}>
-      {permission ? (
+      {view ? (
         <>
           <Grid item xs={12} lg={3}>
             <CardStatsCharacter data={schoolData} />
@@ -143,22 +143,9 @@ const Home = () => {
           <Grid item xs={12} lg={3} sx={{ breakInside: 'avoid' }}>
             <CardStatsCharacter data={teacherData} />
           </Grid>
-          {/* <Grid item xs={12} lg={3}>
-        <CardStatsCharacter data={userData} />
-      </Grid> */}
           <Grid item xs={12} lg={3}>
             <CardStatsCharacter data={studentsData} />
           </Grid>
-          {/* {dashboardStats?.exams_results?.map(exam => (
-        <Grid item xs={12} lg={2} key={exam.id}>
-          <CardStatsDonutChart
-            title={exam.name}
-            fail={exam.failure_exam_students_numbers}
-            success={exam.success_exam_students_numbers}
-            total={exam.failure_exam_students_numbers + exam.success_exam_students_numbers}
-          />
-        </Grid>
-      ))} */}
 
           <Grid item xs={12} lg={5}>
             <CardStatsOrdersImpressions data={sessionsData} />

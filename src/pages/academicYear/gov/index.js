@@ -11,6 +11,8 @@ import { useRouter } from 'next/router'
 import { handlePastRoute } from 'src/store/apps/academicData'
 import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
 import { fetchYears } from 'src/store/apps/academicData/actions'
+import { useAuth } from 'src/hooks/useAuth'
+import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 
 function getObjectById(objects, id) {
   if (!objects) return null
@@ -33,6 +35,8 @@ function GovData() {
   const data = useSelector(state => state.academicData['years'])
   const searchedQuery = useSelector(state => state.academicData?.searchedQuery)
   const searchedData = useSelector(state => state.academicData?.searchedData)
+  const user = useAuth()
+  const { academic: view } = user?.user?.permissions?.nav
 
   const {
     total_classes = null,
@@ -76,36 +80,43 @@ function GovData() {
 
   return (
     <Grid container spacing={10}>
-      <Grid item xs={12} md={12}>
-        <PageHeader src={'/images/govs.jpg'} />
-      </Grid>
-      <Grid item xs={12} md={12}>
-        <Grid container>
-          <Grid item xs={12}>
-            <TableHeader
-              fetchData={fetchGovs}
-              title={'المحافظات'}
-              formType={'govs'}
-              showDrawer={showDrawer}
-              setDrawer={setDrawer}
-              fetchParams={1}
-              placeholder={'المحافظة'}
-            />
+      {view ? (
+        <>
+          {' '}
+          <Grid item xs={12} md={12}>
+            <PageHeader src={'/images/govs.jpg'} />
           </Grid>
+          <Grid item xs={12} md={12}>
+            <Grid container>
+              <Grid item xs={12}>
+                <TableHeader
+                  fetchData={fetchGovs}
+                  title={'المحافظات'}
+                  formType={'govs'}
+                  showDrawer={showDrawer}
+                  setDrawer={setDrawer}
+                  fetchParams={1}
+                  placeholder={'المحافظة'}
+                />
+              </Grid>
 
-          <Grid item xs={12}>
-            <DataTable
-              dataName={'المحافظة'}
-              formType={'govs'}
-              storeData={'govs'}
-              pathname={`gov/administration`}
-              pastRoute={yearId}
-              handlePageChange={handlePageChange}
-            />
-            <ResponsiveCardGrid cardData={cardData} />
+              <Grid item xs={12}>
+                <DataTable
+                  dataName={'المحافظة'}
+                  formType={'govs'}
+                  storeData={'govs'}
+                  pathname={`gov/administration`}
+                  pastRoute={yearId}
+                  handlePageChange={handlePageChange}
+                />
+                <ResponsiveCardGrid cardData={cardData} />
+              </Grid>
+            </Grid>
           </Grid>
-        </Grid>
-      </Grid>
+        </>
+      ) : (
+        <NoPermissionComponent featureName='Governorate' />
+      )}
     </Grid>
   )
 }
