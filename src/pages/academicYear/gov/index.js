@@ -37,7 +37,8 @@ function GovData() {
   const searchedData = useSelector(state => state.academicData?.searchedData)
   const user = useAuth()
   const { academic: view } = user?.user?.permissions?.nav
-  const { read } = user?.user?.permissions?.year
+
+  const { read } = user?.user?.permissions?.year?.govs
 
   const {
     total_classes = null,

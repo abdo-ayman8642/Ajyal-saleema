@@ -22,7 +22,7 @@ function CampsData() {
 
   const user = useAuth()
 
-  const { read } = user?.user?.permissions?.year
+  const { read } = user?.user?.permissions?.year?.camps
   const { academic: view } = user?.user?.permissions?.nav
 
   useEffect(() => {

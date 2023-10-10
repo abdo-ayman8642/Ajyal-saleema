@@ -16,8 +16,8 @@ function AcademicYear() {
   const [showYearDrawer, setYearDrawer] = useState(false)
   const years = useSelector(state => state.academicData['years'])
   const user = useAuth()
-  const { academic: view } = user?.user?.permissions?.nav
-  const { read } = user?.user?.permissions?.year
+  const { academic: view } = user?.user?.permissions?.nav || {}
+  const { read } = user?.user?.permissions?.year?.years
 
   const handlePageChange = nextPage => {
     dispatch(fetchYears(nextPage))

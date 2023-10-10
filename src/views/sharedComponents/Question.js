@@ -62,10 +62,7 @@ const Question = ({ question, exam, setAnswers, answers, studView, id }) => {
       // Update the answers state for text questions
       setAnswers(prevState => ({
         ...prevState,
-        answers: [
-          ...avoidDuplicates(prevState.answers, question.id),
-          { question_id: question.id, text_answer: newValue }
-        ]
+        answers: [...avoidDuplicates(prevState.answers, question.id), { question_id: question.id, content: newValue }]
       }))
     }
   }

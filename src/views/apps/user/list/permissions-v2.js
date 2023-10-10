@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux'
 import { updateUser } from 'src/store/apps/user/actions'
 import { useRouter } from 'next/router'
 import { useAuth } from 'src/hooks/useAuth'
+import Typography from '@mui/material/Typography'
 
 function deepEqual(obj1, obj2) {
   const keys1 = Object.keys(obj1).sort()
@@ -81,18 +82,65 @@ function PermissionsV2({ user }) {
 
   // State to track permissions
 
-  const [permissions, setPermissions] = useState({
-    year: {
-      read: selectedUser?.year?.read || false,
-      add: selectedUser?.year?.add || false,
-      edit: selectedUser?.year?.edit || false,
-      delete: selectedUser?.year?.delete || false
+  const initialYearPermissions = {
+    years: {
+      read: selectedUser?.year?.years?.read || false,
+      edit: selectedUser?.year?.years?.edit || false,
+      add: selectedUser?.year?.years?.add || false,
+      delete: selectedUser?.year?.years?.delete || false
     },
+    govs: {
+      read: selectedUser?.year?.govs?.read || false,
+      edit: selectedUser?.year?.govs?.edit || false,
+      add: selectedUser?.year?.govs?.add || false,
+      delete: selectedUser?.year?.govs?.delete || false
+    },
+    administrations: {
+      read: selectedUser?.year?.administrations?.read || false,
+      edit: selectedUser?.year?.administrations?.edit || false,
+      add: selectedUser?.year?.administrations?.add || false,
+      delete: selectedUser?.year?.administrations?.delete || false
+    },
+    schools: {
+      read: selectedUser?.year?.schools?.read || false,
+      edit: selectedUser?.year?.schools?.edit || false,
+      add: selectedUser?.year?.schools?.add || false,
+      delete: selectedUser?.year?.schools?.delete || false
+    },
+    camps: {
+      read: selectedUser?.year?.camps?.read || false,
+      edit: selectedUser?.year?.camps?.edit || false,
+      add: selectedUser?.year?.camps?.add || false,
+      delete: selectedUser?.year?.camps?.delete || false
+    },
+    grades: {
+      read: selectedUser?.year?.grades?.read || false,
+      edit: selectedUser?.year?.grades?.edit || false,
+      add: selectedUser?.year?.grades?.add || false,
+      delete: selectedUser?.year?.grades?.delete || false
+    },
+    classes: {
+      read: selectedUser?.year?.classes?.read || false,
+      edit: selectedUser?.year?.classes?.edit || false,
+      add: selectedUser?.year?.classes?.add || false,
+      delete: selectedUser?.year?.classes?.delete || false
+    },
+    students: {
+      read: selectedUser?.year?.students?.read || false,
+      edit: selectedUser?.year?.students?.edit || false,
+      add: selectedUser?.year?.students?.add || false,
+      delete: selectedUser?.year?.students?.delete || false
+    },
+    student: {
+      read: selectedUser?.year?.student?.read || false
+    }
+  }
+
+  const [permissions, setPermissions] = useState({
+    year: { ...initialYearPermissions },
     sessions: {
       read: selectedUser?.sessions?.read || false,
-      add: selectedUser?.sessions?.add || false,
-      edit: selectedUser?.sessions?.edit || false,
-      delete: selectedUser?.sessions?.delete || false
+      edit: selectedUser?.sessions?.edit || false
     },
     events: {
       read: selectedUser?.events?.read || false,
@@ -103,7 +151,6 @@ function PermissionsV2({ user }) {
     exams: {
       read: selectedUser?.exams?.read || false,
       add: selectedUser?.exams?.add || false,
-      edit: selectedUser?.exams?.edit || false,
       delete: selectedUser?.exams?.delete || false
     },
     teachers: {
@@ -149,6 +196,19 @@ function PermissionsV2({ user }) {
     setView(true)
   }
 
+  // State to track 'Academic Permissions'
+  const [academicPermissions, setAcademicPermissions] = useState({
+    years: false,
+    govs: false,
+    administrations: false,
+    schools: false,
+    camps: false,
+    grades: false,
+    classes: false,
+    students: false,
+    student: false
+  })
+
   // State to track 'nav' permissions
   const [navPermissions, setNavPermissions] = useState({
     academic: false,
@@ -158,8 +218,6 @@ function PermissionsV2({ user }) {
     home: false,
     sessions: false,
     teachers: false
-
-    // Add more 'nav' permissions here as needed...
   })
 
   // Function to handle 'nav' permission checkbox changes
@@ -173,6 +231,22 @@ function PermissionsV2({ user }) {
     }))
     setView(true)
   }
+  const handleAcademicPermissionChange = (permissionType, action) => event => {
+    const isChecked = event.target.checked
+
+    setPermissions(prevPermissions => ({
+      ...prevPermissions,
+      year: {
+        ...prevPermissions.year,
+        [permissionType]: {
+          ...prevPermissions.year[permissionType],
+          [action]: isChecked
+        }
+      }
+    }))
+
+    setView(true)
+  }
 
   const handleUpdatePermissions = body => {
     dispatch(updateUser({ data: body }))
@@ -182,14 +256,103 @@ function PermissionsV2({ user }) {
   return (
     <Fragment>
       <h3 style={{ textAlign: 'center' }}>{'Permissions for:    ' + name}</h3>
+      <List component='academic' aria-label='secondary mailbox'>
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => handleAccordionToggle('year')}>
+            <ListItemText primary={'Academic Data'} />
+          </ListItemButton>
+        </ListItem>
+        <Collapse in={open['year']} timeout='auto' unmountOnExit>
+          <div
+            style={
+              isMobile
+                ? {
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 2fr))',
+                    Gap: '1rem',
+                    justifyContent: 'center',
+                    margin: '0 1rem'
+                  }
+                : {
+                    display: 'flex',
+                    justifyContent: 'center',
+                    gap: '1rem',
+                    flexWrap: 'wrap'
+                  }
+            }
+          >
+            {Object.keys(academicPermissions)?.map((section, index) => (
+              <FormGroup
+                key={section}
+                row
+                style={{
+                  display: 'flex',
+                  justifyContent: 'start',
+                  gap: '2rem',
+                  flexDirection: 'column',
+                  alignItems: 'center'
+                }}
+              >
+                <Typography variant='h6' gutterBottom>
+                  {section}
+                </Typography>
+                <FormControlLabel
+                  label='Read'
+                  control={
+                    <Checkbox
+                      checked={permissions['year'][section].read}
+                      onChange={handleAcademicPermissionChange(section, 'read')}
+                      name={`${section}-read`}
+                    />
+                  }
+                />
+                {section !== 'student' && (
+                  <FormControlLabel
+                    label='Add'
+                    control={
+                      <Checkbox
+                        checked={permissions['year'][section].add}
+                        onChange={handleAcademicPermissionChange(section, 'add')}
+                        name={`${section}-add`}
+                      />
+                    }
+                  />
+                )}
+                {section !== 'student' && (
+                  <FormControlLabel
+                    label='Edit'
+                    control={
+                      <Checkbox
+                        checked={permissions['year'][section].edit}
+                        onChange={handleAcademicPermissionChange(section, 'edit')}
+                        name={`${section}-edit`}
+                      />
+                    }
+                  />
+                )}
+                {section !== 'student' && (
+                  <FormControlLabel
+                    label='Delete'
+                    control={
+                      <Checkbox
+                        checked={permissions['year'][section].delete}
+                        onChange={handleAcademicPermissionChange(section, 'delete')}
+                        name={`${section}-delete`}
+                      />
+                    }
+                  />
+                )}
+              </FormGroup>
+            ))}
+          </div>
+        </Collapse>
+      </List>
       <List component='nav' aria-label='main mailbox'>
-        {['year', 'sessions', 'events', 'exams', 'teachers'].map(section => (
+        {['sessions', 'events', 'exams', 'teachers'].map(section => (
           <>
             <ListItem key={section} disablePadding>
               <ListItemButton onClick={() => handleAccordionToggle(section)}>
-                <ListItemText
-                  primary={section === 'year' ? 'Academic' : section.charAt(0).toUpperCase() + section.slice(1)}
-                />
+                <ListItemText primary={section.charAt(0).toUpperCase() + section.slice(1)} />
               </ListItemButton>
             </ListItem>
             <Collapse key={section} in={open[section]} timeout='auto' unmountOnExit>
@@ -205,36 +368,43 @@ function PermissionsV2({ user }) {
                     />
                   }
                 />
-                <FormControlLabel
-                  label='Add'
-                  control={
-                    <Checkbox
-                      checked={permissions[section].add}
-                      onChange={handlePermissionChange(section, 'add')}
-                      name={`${section}-add`}
-                    />
-                  }
-                />
-                <FormControlLabel
-                  label='Edit'
-                  control={
-                    <Checkbox
-                      checked={permissions[section].edit}
-                      onChange={handlePermissionChange(section, 'edit')}
-                      name={`${section}-edit`}
-                    />
-                  }
-                />
-                <FormControlLabel
-                  label='Delete'
-                  control={
-                    <Checkbox
-                      checked={permissions[section].delete}
-                      onChange={handlePermissionChange(section, 'delete')}
-                      name={`${section}-delete`}
-                    />
-                  }
-                />
+                {section !== 'sessions' && (
+                  <FormControlLabel
+                    label='Add'
+                    control={
+                      <Checkbox
+                        checked={permissions[section].add}
+                        onChange={handlePermissionChange(section, 'add')}
+                        name={`${section}-add`}
+                      />
+                    }
+                  />
+                )}
+                {section !== 'exams' && (
+                  <FormControlLabel
+                    label='Edit'
+                    control={
+                      <Checkbox
+                        checked={permissions[section].edit}
+                        onChange={handlePermissionChange(section, 'edit')}
+                        name={`${section}-edit`}
+                      />
+                    }
+                  />
+                )}
+
+                {section !== 'sessions' && (
+                  <FormControlLabel
+                    label='Delete'
+                    control={
+                      <Checkbox
+                        checked={permissions[section].delete}
+                        onChange={handlePermissionChange(section, 'delete')}
+                        name={`${section}-delete`}
+                      />
+                    }
+                  />
+                )}
               </FormGroup>
             </Collapse>
           </>

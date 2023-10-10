@@ -58,7 +58,7 @@ function Teachers() {
     }
   })
   const { teachers } = user?.user?.permissions
-  const { teachers: view } = user?.user?.permissions?.nav
+  const { teachers: view } = user?.user?.permissions?.nav || {}
   const { read } = teachers
 
   const formInputs = [

@@ -19,7 +19,7 @@ function StudentsData() {
   const router = useRouter()
   const id = router.query.id
   const user = useAuth()
-  const { read } = user?.user?.permissions?.year
+  const { read } = user?.user?.permissions?.year?.students
   const { academic: view } = user?.user?.permissions?.nav
 
   const cardData = [{ header: 'Total Students', number: data?.data?.total }]

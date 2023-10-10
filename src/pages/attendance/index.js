@@ -8,6 +8,7 @@ import PageHeader from 'src/@core/components/page-header'
 import Link from '@mui/material/Link'
 import { Button, Card, CardContent, Grid, styled, Typography } from '@mui/material'
 import { useAuth } from 'src/hooks/useAuth'
+import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -67,28 +68,34 @@ const HeaderButton = styled(Button)(({ theme }) => ({
 
 function Attendance() {
   const user = useAuth()
-  const role = user?.user?.role
+  const { attendance: view } = user?.user?.permissions?.nav || {}
 
   return (
     <>
-      <HeaderCard banner='/path/to/banner.jpg' sx={{ mb: 10, width: '100%', px: { xs: 3, sm: 5 } }}>
-        <HeaderContent>
-          <StyledTypography variant='h2' color='textPrimary' sx={{ py: 5 }}>
-            الحضور
-          </StyledTypography>
-        </HeaderContent>
-      </HeaderCard>
-      <Grid container rowSpacing={1} columnSpacing={{ xs: 3, sm: 5, md: 8 }}>
-        <Grid item xs={3}>
-          <Selectors />
-        </Grid>
-        <Grid item xs={9}>
-          <Item sx={{ marginBottom: '20px' }}>
-            <Checkboxes />
-          </Item>
-          <ApexChart />
-        </Grid>
-      </Grid>
+      {view ? (
+        <>
+          <HeaderCard banner='/path/to/banner.jpg' sx={{ mb: 10, width: '100%', px: { xs: 3, sm: 5 } }}>
+            <HeaderContent>
+              <StyledTypography variant='h2' color='textPrimary' sx={{ py: 5 }}>
+                الحضور
+              </StyledTypography>
+            </HeaderContent>
+          </HeaderCard>
+          <Grid container rowSpacing={1} columnSpacing={{ xs: 3, sm: 5, md: 8 }}>
+            <Grid item xs={3}>
+              <Selectors />
+            </Grid>
+            <Grid item xs={9}>
+              <Item sx={{ marginBottom: '20px' }}>
+                <Checkboxes />
+              </Item>
+              <ApexChart />
+            </Grid>
+          </Grid>
+        </>
+      ) : (
+        <NoPermissionComponent featureName='Attendance' />
+      )}
     </>
   )
 }

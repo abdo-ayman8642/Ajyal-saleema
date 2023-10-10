@@ -47,8 +47,9 @@ function TableHeader({ title, formType, showDrawer, setDrawer, addData, placehol
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const user = useAuth()
+  const role = user?.user?.role
   const { year } = user?.user?.permissions
-  const { add, edit, delete: deletee, read } = year
+  const { add, edit, delete: deletee, read } = year?.[formType]
 
   const handleUpload = async file => {
     if (file) {

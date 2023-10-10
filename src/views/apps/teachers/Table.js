@@ -129,7 +129,7 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
         renderCell: ({ row }) => {
           return (
             <Typography variant='body2' noWrap>
-              {row.gender}
+              {row.gender === 'male' ? 'ذكر' : 'أنثى'}
             </Typography>
           )
         }

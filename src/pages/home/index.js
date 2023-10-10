@@ -30,12 +30,13 @@ const Home = () => {
   const dashboardStats = useSelector(state => state.user?.dashboard?.data)
   const loading = useSelector(state => state.user?.dashboardLoading)
   const user = useAuth()
-  const { home: view } = user?.user?.permissions?.nav
 
   useEffect(() => {
-    _.isEmpty(user?.user) && window.location.reload()
+    _.isEmpty(user?.user || {}) && window.location.reload()
     dispatch(dashboardData())
   }, [dispatch])
+
+  const { home: view } = user?.user?.permissions?.nav || {}
 
   const teacherData = {
     title: 'المدرسين',

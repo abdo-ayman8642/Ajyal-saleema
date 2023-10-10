@@ -17,7 +17,7 @@ function ClassesData() {
   const loading = useSelector(state => state.academicData?.classesLoading)
   const data = useSelector(state => state.academicData['classes'])
   const user = useAuth()
-  const { read } = user?.user?.permissions?.year
+  const { read } = user?.user?.permissions?.year?.classes
   const { academic: view } = user?.user?.permissions?.nav
 
   const [showDrawer, setDrawer] = useState(false)

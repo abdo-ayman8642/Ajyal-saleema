@@ -147,10 +147,7 @@ const LoginPage = () => {
       {!hidden ? (
         <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
           <LoginIllustrationWrapper>
-            <LoginIllustration
-              alt='login-illustration'
-              src={`/images/pages/${imageSource}-${theme.palette.mode}.png`}
-            />
+            <LoginIllustration alt='login-illustration' src={`/images/pages/misc-coming-soon.png`} />
           </LoginIllustrationWrapper>
           <FooterIllustrationsV2 />
         </Box>

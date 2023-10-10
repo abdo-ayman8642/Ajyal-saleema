@@ -138,7 +138,46 @@ export const editExam = createAsyncThunk('appExam/editExam', async ({ id, data }
 export const submitAnswers = createAsyncThunk(
   'appExam/submitAnswers',
   async ({ data }, { rejectWithValue, dispatch }) => {
-    console.log(data)
+    const multiChoiceGroups = new Map()
+
+    // Create an array to hold the grouped answers
+    const groupedAnswers = []
+
+    data.answers.forEach(answer => {
+      if (answer.hasOwnProperty('content')) {
+        answer.type = 'text'
+        groupedAnswers.push(answer)
+      } else if (answer.hasOwnProperty('choice_id')) {
+        answer.type = 'choice'
+
+        if (!multiChoiceGroups.has(answer.question_id)) {
+          multiChoiceGroups.set(answer.question_id, [])
+        }
+
+        multiChoiceGroups.get(answer.question_id).push(answer.choice_id)
+      }
+    })
+
+    // Add grouped multi-choice answers to groupedAnswers
+    multiChoiceGroups.forEach((choiceIds, questionId) => {
+      if (choiceIds.length === 1) {
+        groupedAnswers.push({
+          question_id: questionId,
+          type: 'choice',
+          choice_id: choiceIds[0] // Convert to a single string
+        })
+      } else {
+        groupedAnswers.push({
+          question_id: questionId,
+          type: 'choice',
+          choice_id: choiceIds
+        })
+      }
+    })
+
+    // Update data.answers with the grouped and typed answers
+    data.answers = groupedAnswers
+
     try {
       const response = await axios.post(`${baseUrl}exam/answers/submit`, JSON.stringify(data), {
         headers: { 'Content-Type': 'application/json' }

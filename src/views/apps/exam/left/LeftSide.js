@@ -31,6 +31,7 @@ import { IconButton } from '@mui/material'
 import ConfirmDialog from '../ConfirmDialog'
 import AddQuestionForm from '../AddQuestionForm'
 import { useAuth } from 'src/hooks/useAuth'
+import DownloadIcon from '@mui/icons-material/Download'
 
 // ** Styled <sup> component
 const Sup = styled('sup')(({ theme }) => ({
@@ -234,6 +235,28 @@ const LeftSide = ({ exam }) => {
                 {add && (
                   <Button variant='outlined' color='primary' startIcon={<AddIcon />} onClick={toggleShowAdd}>
                     إضافة
+                  </Button>
+                )}
+                {read && (
+                  <Button
+                    variant='outlined'
+                    sx={{
+                      fontSize: '1rem',
+                      fontWeight: 'bold',
+                      width: 'fit-content',
+                      color: '	rgb(0, 128, 0)',
+                      borderColor: '	rgba(0, 128, 0,0.4)',
+                      display: 'flex',
+                      gap: '1rem',
+                      transition: 'all 0.5s',
+                      '&:hover': {
+                        backgroundColor: 'rgba(0,128,0,0.06) !important',
+                        borderColor: 'rgba(0,128,0,0.7) !important'
+                      }
+                    }}
+                    startIcon={<DownloadIcon />}
+                  >
+                    تنزيل
                   </Button>
                 )}
                 {deletee && (

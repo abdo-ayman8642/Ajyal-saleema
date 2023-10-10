@@ -24,7 +24,7 @@ function Sessions() {
 
   const user = useAuth()
   const { read, add } = user?.user?.permissions?.sessions || {}
-  const { sessions: view } = user?.user?.permissions?.nav
+  const { sessions: view } = user?.user?.permissions?.nav || {}
 
   const formInputs = [
     {

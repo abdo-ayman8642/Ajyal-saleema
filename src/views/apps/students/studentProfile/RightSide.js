@@ -32,7 +32,6 @@ function RightSide({ id, studentId }) {
     }
   }))
 
-  console.log('Answers:', answers)
   function getStepContent(step) {
     return (
       <ExamPaper

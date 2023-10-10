@@ -31,6 +31,8 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 import { CircularProgress, Tooltip } from '@mui/material'
 import Permissions from './Permissions'
 import PermissionsV2 from './permissions-v2'
+import TeacherClasses from '../../students/list/TeacherClasses'
+import InformationView from './InformationView'
 
 // ** Styled component for the link for the avatar with image
 const AvatarWithImageLink = styled(Link)(({ theme }) => ({
@@ -59,29 +61,13 @@ const style = {
   }
 }
 
-// ** renders client column
-const renderClient = row => {
-  if (row.avatar?.length) {
-    return <CustomAvatar src={row.avatar} sx={{ mr: 3, width: 34, height: 34 }} />
-  } else {
-    return (
-      <CustomAvatar skin='light' color={row.avatarColor} sx={{ mr: 3, width: 34, height: 34, fontSize: '1rem' }}>
-        {row.role === 'volunteer' ? (
-          <VolunteerActivismIcon />
-        ) : row.role === 'superadmin' ? (
-          <AdminPanelSettingsIcon />
-        ) : (
-          <SupervisorAccountIcon />
-        )}
-      </CustomAvatar>
-    )
-  }
-}
-
-const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, dataType }) => {
+const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, dataType }) => {
   // stats and variables
   const dispatch = useDispatch()
   const [pageSize, setPageSize] = useState(10)
+  const user = useAuth()
+  const [showInformation, setInformation] = useState(false)
+  const [userData, setUserData] = useState(user?.user)
   const currPage = useSelector(state => state.user?.data?.data.current_page)
   const users = useSelector(state => state.user?.data?.data?.data)
   const searchedUsers = useSelector(state => state.user?.searchedUsers?.data?.data)
@@ -90,8 +76,6 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, d
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
   const [currentUser, setCurrentUser] = useState(null)
-
-  const user = useAuth()
 
   const role = user?.user?.role
 
@@ -135,6 +119,25 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, d
 
     return {}
   }
+  const renderGender = () => {
+    if (!isMobile) {
+      return {
+        flex: 1,
+        field: 'gender',
+        minWidth: 100,
+        headerName: 'الجنس',
+        renderCell: ({ row }) => {
+          return (
+            <Typography variant='body2' noWrap>
+              {row.gender === 'male' ? 'ذكر' : 'أنثى'}
+            </Typography>
+          )
+        }
+      }
+    }
+
+    return {}
+  }
 
   const renderPhone = () => {
     if (!isMobile) {
@@ -156,7 +159,7 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, d
     return {}
   }
 
-  const renderRole = role => {
+  const renderRole = () => {
     if (!isMobile) {
       return {
         flex: 1,
@@ -174,6 +177,24 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, d
         }
       }
     }
+    return {}
+  }
+
+  // ** renders client column
+  const renderClient = row => {
+    return (
+      <div onClick={() => toggleInfromation(row)}>
+        <CustomAvatar skin='light' color={row.avatarColor} sx={{ mr: 3, width: 34, height: 34, fontSize: '1rem' }}>
+          {row.role === 'volunteer' ? (
+            <VolunteerActivismIcon />
+          ) : row.role === 'superadmin' ? (
+            <AdminPanelSettingsIcon />
+          ) : (
+            <SupervisorAccountIcon />
+          )}
+        </CustomAvatar>
+      </div>
+    )
   }
 
   const defaultColumns = [
@@ -204,6 +225,8 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, d
     },
 
     renderEmail(),
+    renderGender(),
+    renderRole(),
     renderPhone()
   ]
 
@@ -286,6 +309,11 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, d
     dispatch(handleSelectedUser([...selected]))
   }
 
+  const toggleInfromation = row => {
+    setUserData(row)
+    setInformation(!showInformation)
+  }
+
   return (
     <Grid container spacing={6}>
       <div>
@@ -319,6 +347,7 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, toggleAcl, d
           />
         </Card>
       </Grid>
+      <InformationView toggle={toggleInfromation} open={showInformation} data={userData} />
     </Grid>
   )
 }

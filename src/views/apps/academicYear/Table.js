@@ -89,8 +89,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
   const user = useAuth()
   const role = user?.user?.role
   const { year } = user?.user?.permissions
-  const { add, edit, delete: deletee, read } = year
-
+  const { add, edit, delete: deletee, read } = year?.[formType]
   const schoolData = {
     title: 'المدارس',
     chipColor: 'primary',
@@ -266,7 +265,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
             return (
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
                 <Typography noWrap variant='subtitle1'>
-                  {row.gender}
+                  {row.gender === 'male' ? 'ذكر' : 'أنثى'}
                 </Typography>
               </Box>
             )

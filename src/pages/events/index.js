@@ -21,7 +21,7 @@ function Events() {
 
   const user = useAuth()
   const { read, add } = user?.user?.permissions?.events
-  const { events: view } = user?.user?.permissions?.nav
+  const { events: view } = user?.user?.permissions?.nav || {}
 
   const formInputs = [
     {
