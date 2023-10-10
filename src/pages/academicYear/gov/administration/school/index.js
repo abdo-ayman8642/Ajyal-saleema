@@ -21,8 +21,8 @@ function SchoolsData() {
   const { id } = router.query
   const user = useAuth()
 
-  const { read } = user?.user?.permissions?.year?.schools
-  const { academic: view } = user?.user?.permissions?.nav
+  const { read } = user?.user?.permissions?.year?.schools || {}
+  const { academic: view } = user?.user?.permissions?.nav || {}
 
   useEffect(() => {
     dispatch(fetchSchools({ page: 1, id: id, type: 'school' }))

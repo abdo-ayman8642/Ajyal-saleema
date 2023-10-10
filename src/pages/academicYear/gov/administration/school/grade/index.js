@@ -21,8 +21,8 @@ function GradesData() {
   const data = useSelector(state => state.academicData['grades'])
   const user = useAuth()
 
-  const { read } = user?.user?.permissions?.year?.grades
-  const { academic: view } = user?.user?.permissions?.nav
+  const { read } = user?.user?.permissions?.year?.grades || {}
+  const { academic: view } = user?.user?.permissions?.nav || {}
 
   const { total_classes = null, total_students = null } = data?.data?.[0] || {}
 

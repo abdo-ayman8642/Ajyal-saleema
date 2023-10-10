@@ -38,7 +38,7 @@ function GovData() {
   const user = useAuth()
   const { academic: view } = user?.user?.permissions?.nav
 
-  const { read } = user?.user?.permissions?.year?.govs
+  const { read } = user?.user?.permissions?.year?.govs || {}
 
   const {
     total_classes = null,

@@ -19,8 +19,8 @@ function AdministrationData() {
   const searchedQuery = useSelector(state => state.academicData?.searchedQuery)
   const data = useSelector(state => state.academicData['administrations'])
   const user = useAuth()
-  const { academic: view } = user?.user?.permissions?.nav
-  const { read } = user?.user?.permissions?.year?.administrations
+  const { academic: view } = user?.user?.permissions?.nav || {}
+  const { read } = user?.user?.permissions?.year?.administrations || {}
 
   const [showDrawer, setDrawer] = useState(false)
   const router = useRouter()
