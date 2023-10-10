@@ -17,7 +17,9 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import { useDispatch } from 'react-redux'
 import { unAssignTeacher } from 'src/store/apps/teachers/actions'
 import { useAuth } from 'src/hooks/useAuth'
-import { deleteDepartment } from 'src/store/lms/admin/subjects-classes/departments/actions'
+import Grid from '@mui/material/Grid'
+import Card from '@mui/material/Card'
+import CardContent from '@mui/material/CardContent'
 
 const Header = styled(Box)(({ theme }) => ({
   display: 'flex',
@@ -39,9 +41,7 @@ function TeacherClasses({ toggle, open, data }) {
   const total_classes = classes?.length
   const total_camps = camps?.length
   const user = useAuth()
-  const { teachers } = user?.user?.permissions
-
-  const deletee = teachers?.['delete']
+  const { delete: deletee } = user?.user?.permissions?.teachers
 
   const dispatch = useDispatch()
 
@@ -49,6 +49,15 @@ function TeacherClasses({ toggle, open, data }) {
     // const ret = type == 'classes' ? {}
 
     dispatch(unAssignTeacher({ data: type }))
+  }
+
+  const cardStyles = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+    height: '100%'
   }
 
   return (
@@ -59,11 +68,73 @@ function TeacherClasses({ toggle, open, data }) {
             <Typography variant='h5'>{name}</Typography>
             <Close fontSize='small' onClick={toggle} sx={{ cursor: 'pointer' }} />
           </Header>
-          {!!total_class_students && <div>Total Students in Classes: {total_class_students}</div>}
-          {!!total_camp_students && <div>Total Students in Camps: {total_camp_students}</div>}
-          {!!total_departs && <div>Total Students in Departs: {total_departs}</div>}
-          {!!total_classes && <div>Total Classes: {total_classes}</div>}
-          {!!total_camps && <div>Total Camps: {total_camps}</div>}
+          <div style={{ textAlign: 'center', margin: '0.5rem 0' }}>Students in</div>
+          <Grid container spacing={2}>
+            {/* First Row */}
+            {!!total_class_students && (
+              <Grid item xs={4}>
+                <Card>
+                  <CardContent style={cardStyles}>
+                    <div>Classes</div>
+                    <Typography variant='h5' style={{ fontWeight: 'bold' }}>
+                      {total_class_students}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            )}
+            {!!total_camp_students && (
+              <Grid item xs={4}>
+                <Card>
+                  <CardContent style={cardStyles}>
+                    <div>Camps</div>
+                    <Typography variant='h5' style={{ fontWeight: 'bold' }}>
+                      {total_camp_students}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            )}
+            {!!total_departs && (
+              <Grid item xs={4}>
+                <Card>
+                  <CardContent style={cardStyles}>
+                    <div>Departs</div>
+                    <Typography variant='h5' style={{ fontWeight: 'bold' }}>
+                      {total_departs}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            )}
+
+            {/* Second Row */}
+
+            {!!total_classes && (
+              <Grid item xs={6} sx={{ mt: '1rem' }}>
+                <Card>
+                  <CardContent style={cardStyles}>
+                    <div>Total Classes</div>
+                    <Typography variant='h5' style={{ fontWeight: 'bold' }}>
+                      {total_classes}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            )}
+            {!!total_camps && (
+              <Grid item xs={6} sx={{ mt: '1rem' }}>
+                <Card>
+                  <CardContent style={cardStyles}>
+                    <div>Total Camps</div>
+                    <Typography variant='h5' style={{ fontWeight: 'bold' }}>
+                      {total_camps}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            )}
+          </Grid>
 
           {!!classes?.length && <h4 style={{ textAlign: 'center' }}>فصل</h4>}
 

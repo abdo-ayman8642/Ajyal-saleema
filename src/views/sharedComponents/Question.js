@@ -6,7 +6,7 @@ import RadioGroup from '@mui/material/RadioGroup'
 import FormControl from '@mui/material/FormControl'
 import FormHelperText from '@mui/material/FormHelperText'
 import FormControlLabel from '@mui/material/FormControlLabel'
-import { Box, Checkbox, FormGroup, TextField, Typography } from '@mui/material'
+import { Box, Checkbox, FormGroup, TextField, Tooltip, Typography } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import { deleteQuestion, fetchExamAnalysis, fetchQuestions, submitAnswers } from 'src/store/apps/exams/actions'
 import ConfirmDialog from '../apps/exam/ConfirmDialog'
@@ -31,22 +31,7 @@ const Question = ({ question, exam, setAnswers, answers, studView, id }) => {
   const dispatch = useDispatch()
 
   const user = useAuth()
-  const role = user?.user?.role
-  const { exams: examPer } = user?.user?.permissions || {}
-  const { read, add, edit, delete: deletee } = examPer
-
-  const router = useRouter()
-  const routeId = router.query.id
-  useEffect(() => {
-    // const trueChoice = question.choices.find(c => c.is_true === 1)
-    // if (trueChoice) {
-    //   if (!routeId) {
-    //     setValue(trueChoice.id)
-    //   }
-    // }
-  }, [exam])
-
-  //** functions */
+  const { delete: deletee } = user?.user?.permissions?.exams || {}
 
   const avoidDuplicates = (ans, id) => {
     const uniqueAns = ans.filter(answer => answer.question_id !== id)
@@ -136,29 +121,31 @@ const Question = ({ question, exam, setAnswers, answers, studView, id }) => {
         )}
         <FormHelperText>{helperText}</FormHelperText>
         {!studView && deletee && (
-          <Button
-            type='submit'
-            variant='outlined'
-            sx={{
-              mt: 3,
-              fontSize: '1rem',
-              fontWeight: 'bold',
-              width: '30%',
-              color: 'red',
-              borderColor: 'rgba(255,0,0,0.4)',
-              display: 'flex',
-              gap: '1rem',
-              transition: 'all 0.5s',
-              '&:hover': {
-                backgroundColor: 'rgba(255,0,0,0.05) !important',
-                borderColor: 'rgba(255,0,0,0.7) !important'
-              }
-            }}
-            onClick={toggleDelete}
-          >
-            <DeleteIcon />
-            مسح السؤال
-          </Button>
+          <Tooltip title='مسح السؤال'>
+            <Button
+              type='submit'
+              variant='outlined'
+              sx={{
+                mt: 3,
+                fontSize: '1rem',
+                fontWeight: 'bold',
+                width: 'fit-content',
+                color: 'red',
+                borderColor: 'rgba(255,0,0,0.4)',
+                display: 'flex',
+                padding: '0.5rem 1rem',
+                gap: '1rem',
+                transition: 'all 0.5s',
+                '&:hover': {
+                  backgroundColor: 'rgba(255,0,0,0.05) !important',
+                  borderColor: 'rgba(255,0,0,0.7) !important'
+                }
+              }}
+              onClick={toggleDelete}
+            >
+              <DeleteIcon />
+            </Button>
+          </Tooltip>
         )}
       </FormControl>
 

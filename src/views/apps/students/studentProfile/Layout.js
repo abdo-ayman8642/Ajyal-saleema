@@ -5,17 +5,20 @@ import { useDispatch } from 'react-redux'
 import { fetchData as fetchExamData } from 'src/store/apps/exams/actions'
 import { fetchById as fetchStudentId } from 'src/store/apps/student/actions'
 import TabsFullWidth from './TabsCentered'
+import { useRouter } from 'next/router'
 
 function StudentLayout() {
   //** stats && variables */
   const dispatch = useDispatch()
   const loading = useSelector(state => state.exams?.dataLoading)
   const exams = useSelector(state => state?.exams?.data?.data)
-  const student = useSelector(state => state.student.singleStudent?.data) || {}
+  const student = useSelector(state => state?.student?.singleStudent?.data) || {}
+  const router = useRouter()
+  const { id } = router.query
 
   useEffect(() => {
     dispatch(fetchExamData())
-    dispatch(fetchStudentId())
+    dispatch(fetchStudentId(id))
   }, [dispatch])
 
   if (loading) {
