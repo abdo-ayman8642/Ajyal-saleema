@@ -39,38 +39,6 @@ const Question = ({ question, exam, setAnswers, answers, studView, id }) => {
     return uniqueAns
   }
 
-  const handleChange = event => {
-    if (question.type === 'single') {
-      handleRadioChange(event)
-    } else if (question.type === 'multi') {
-      handleCheckBoxChange(event)
-    } else {
-      setValue(event.target.value)
-    }
-
-    if (true) {
-      setAnswers(prevState => ({
-        ...prevState,
-        answers: [...avoidDuplicates(prevState.answers, question.id), { question_id: question.id, choice_id: value }]
-      }))
-      console.log(answers)
-    }
-  }
-
-  const handleRadioChange = event => {
-    setError(false)
-    console.log(event.target.value)
-    console.log(answers)
-    setValue(event.target.value)
-  }
-
-  const handleCheckBoxChange = event => {
-    console.log(event.target)
-    const { id, checked } = event.target
-    console.log(id, checked)
-    setValue(prevState => ({ ...prevState, [id]: checked }))
-  }
-
   const toggleDelete = () => {
     setShowDelete(!showDelete)
   }
@@ -80,7 +48,68 @@ const Question = ({ question, exam, setAnswers, answers, studView, id }) => {
     dispatch(fetchQuestions({ id: exam?.id || id, page: 1 }))
   }
 
-  console.log(value)
+  const handleChange = event => {
+    const newValue = event.target.value
+
+    if (question.type === 'single') {
+      handleRadioChange(event)
+    } else if (question.type === 'multi') {
+      handleCheckBoxChange(event)
+    } else {
+      // Update the value state with the new value
+      setValue(newValue)
+
+      // Update the answers state for text questions
+      setAnswers(prevState => ({
+        ...prevState,
+        answers: [
+          ...avoidDuplicates(prevState.answers, question.id),
+          { question_id: question.id, text_answer: newValue }
+        ]
+      }))
+    }
+  }
+
+  const handleRadioChange = event => {
+    setError(false)
+    const selectedValue = event.target.value
+    setValue(selectedValue)
+
+    // Update the answers state for single-radio button questions
+    setAnswers(prevState => ({
+      ...prevState,
+      answers: [
+        ...avoidDuplicates(prevState.answers, question.id),
+        { question_id: question.id, choice_id: selectedValue }
+      ]
+    }))
+  }
+
+  const handleCheckBoxChange = event => {
+    const { id, checked } = event.target
+    setValue(prevState => ({ ...prevState, [id]: checked }))
+
+    // Update the answers state for multi-answer questions
+    setAnswers(prevState => {
+      const updatedAnswers = [...prevState.answers]
+      const existingAnswerIndex = updatedAnswers.findIndex(
+        answer => answer.question_id === question.id && answer.choice_id === id
+      )
+
+      if (checked && existingAnswerIndex === -1) {
+        // Add the new answer
+        updatedAnswers.push({ question_id: question.id, choice_id: id })
+      } else if (!checked && existingAnswerIndex !== -1) {
+        // Remove the answer if it was unchecked
+        updatedAnswers.splice(existingAnswerIndex, 1)
+      }
+
+      return {
+        ...prevState,
+        answers: updatedAnswers
+      }
+    })
+  }
   return (
     <Box sx={{ width: '100%' }}>
       <Typography variant='h6' sx={{ mb: 2 }}>

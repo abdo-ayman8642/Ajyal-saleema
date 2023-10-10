@@ -29,6 +29,7 @@ function SchoolsData() {
   }, [dispatch, id])
 
   if (!Array.isArray(data)) data = []
+
   const sums = data?.reduce(
     (acc, obj) => {
       acc.total_classes += obj.total_classes

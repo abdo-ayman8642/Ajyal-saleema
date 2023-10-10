@@ -23,7 +23,6 @@ const ExamPaper = ({ exam, page, setAnswers, answers, id, studView }) => {
   const dispatch = useDispatch()
   const selectedExam = useSelector(state => state?.exams?.questions?.data)
   const loading = useSelector(state => state?.exams?.questionsLoading)
-  console.log(id, exam)
 
   const examId = exam?.id || id
   useEffect(() => {
@@ -40,7 +39,6 @@ const ExamPaper = ({ exam, page, setAnswers, answers, id, studView }) => {
     )
   }
 
-  console.log(selectedExam)
   return (
     <Card sx={{ mt: 10 }}>
       {selectedExam &&
