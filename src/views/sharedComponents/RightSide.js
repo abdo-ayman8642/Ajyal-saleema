@@ -17,7 +17,7 @@ function RightSide({ buttonVisibility, exam }) {
     setActiveStep(prevActiveStep => prevActiveStep - 1)
   }
 
-  const steps = ['Page 1', 'Page 2', 'Page 3', 'Page 4', 'Page 5']
+  const steps = ['', '', '', '', '']
 
   const CustomStepper = styled(Stepper)(({ theme }) => ({
     '& .MuiStepLabel-label': {

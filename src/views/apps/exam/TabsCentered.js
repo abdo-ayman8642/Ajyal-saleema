@@ -38,7 +38,7 @@ const TabsFullWidth = () => {
 
   return (
     <Grid container>
-      <Grid item md={12}>
+      <Grid item md={12} sx={{ width: '100%' }}>
         <TabContext value={value?.toString()}>
           <TabList variant='fullWidth' onChange={handleChange} aria-label='full width tabs example'>
             {exams?.map(ex => (

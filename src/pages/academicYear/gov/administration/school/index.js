@@ -63,7 +63,7 @@ function SchoolsData() {
   }
 
   return (
-    <Grid container spacing={10}>
+    <Grid container>
       {read && view ? (
         <>
           {' '}

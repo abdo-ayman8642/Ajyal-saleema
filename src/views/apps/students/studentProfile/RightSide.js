@@ -21,7 +21,7 @@ function RightSide({ id, studentId, taken }) {
     setActiveStep(prevActiveStep => prevActiveStep - 1)
   }
 
-  const steps = ['Page 1', 'Page 2', 'Page 3', 'Page 4', 'Page 5']
+  const steps = ['', '', '', '', '']
 
   const CustomStepper = styled(Stepper)(({ theme }) => ({
     '& .MuiStepLabel-label': {
@@ -98,7 +98,12 @@ function RightSide({ id, studentId, taken }) {
           </div>
         </>
       ) : (
-        <div style={{ textAlign: 'center' }}>Already Took This Exam</div>
+        <div style={{ textAlign: 'center', padding: '5rem' }}>
+          <div style={{ paddingBottom: '2rem', fontSize: '1.5rem', textTransform: 'uppercase', letterSpacing: '2px' }}>
+            Already Took This Exam
+          </div>
+          <img src='/undraw_done_re_oak4.svg' alt='Description of the illustration' style={{ width: '100%' }} />
+        </div>
       )}
     </div>
   )

@@ -41,7 +41,7 @@ function CampsData() {
   }
 
   return (
-    <Grid container spacing={10}>
+    <Grid container>
       {read && view ? (
         <>
           <Grid item xs={12} md={12}>
