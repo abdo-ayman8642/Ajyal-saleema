@@ -29,6 +29,8 @@ const ExamPaper = ({ exam, page, setAnswers, answers, id, studView }) => {
     dispatch(fetchQuestions({ id: examId, page: page }))
   }, [exam, page])
 
+  const { taken } = exam || {}
+
   if (loading) {
     return (
       <Grid container sx={{ justifyContent: 'center', alignItems: 'center', height: '100%' }}>
@@ -47,6 +49,7 @@ const ExamPaper = ({ exam, page, setAnswers, answers, id, studView }) => {
             <CardContent sx={{ p: theme => `${theme.spacing(3.25, 5.75, 6.25)} !important`, width: '100%' }}>
               <Box sx={{ width: '100%', mt: 5 }}>
                 <Question
+                  taken={taken}
                   question={ques}
                   exam={selectedExam}
                   id={examId}

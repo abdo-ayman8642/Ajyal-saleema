@@ -116,11 +116,8 @@ function Users() {
     setShowFileImpExp(!showFileImpExp)
   }
 
-  const toggleAcl = () => {
-    setShowAcl(!showAcl)
-  }
-
   const handlePageChange = nextPage => {
+    console.log(nextPage)
     dispatch(fetchData(nextPage))
   }
 
@@ -158,7 +155,6 @@ function Users() {
               toggleAddForm={toggleAddForm}
               toggleDialog={toggleDialog}
               toggleEditForm={toggleEditForm}
-              toggleAcl={toggleAcl}
               handlePageChange={handlePageChange}
               role={role}
             />
@@ -177,7 +173,6 @@ function Users() {
           {showEditForm && (
             <DialogEditUserInfo toggle={toggleEditForm} showEditForm={showEditForm} formInputs={formInputs} />
           )}
-          {showAcl && <Permissions open={showAcl} toggle={toggleAcl} />}
         </>
       ) : (
         <NoPermissionComponent featureName='Users' />

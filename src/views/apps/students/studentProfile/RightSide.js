@@ -5,7 +5,8 @@ import styled from '@emotion/styled'
 import { useDispatch } from 'react-redux'
 import { submitAnswers } from 'src/store/apps/exams/actions'
 
-function RightSide({ id, studentId }) {
+function RightSide({ id, studentId, taken }) {
+  console.log('taken', taken)
   //** stats && variables */
   const [activeStep, setActiveStep] = useState(0)
   const [counter, setCounter] = useState(1)
@@ -48,52 +49,58 @@ function RightSide({ id, studentId }) {
 
   return (
     <div style={{ marginTop: '4rem' }}>
-      <CustomStepper activeStep={activeStep}>
-        {steps?.map((label, index) => {
-          const stepProps = {}
-          const labelProps = {}
+      {!taken ? (
+        <>
+          <CustomStepper activeStep={activeStep}>
+            {steps?.map((label, index) => {
+              const stepProps = {}
+              const labelProps = {}
 
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          )
-        })}
-      </CustomStepper>
-      <div>
-        {activeStep === steps.length ? (
+              return (
+                <Step key={label} {...stepProps}>
+                  <StepLabel {...labelProps}>{label}</StepLabel>
+                </Step>
+              )
+            })}
+          </CustomStepper>
           <div>
-            <p>All pages completed</p>
+            {activeStep === steps.length ? (
+              <div>
+                <p>All pages completed</p>
+              </div>
+            ) : (
+              <div>
+                <>{getStepContent(activeStep)}</>
+                <Box sx={{ mt: 3, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                  <Box>
+                    <Button disabled={activeStep === 0} onClick={handleBack}>
+                      Back
+                    </Button>
+                    <Button
+                      variant='contained'
+                      color='primary'
+                      onClick={handleNext}
+                      disabled={activeStep === steps.length - 1 ? true : false}
+                    >
+                      {activeStep === steps.length - 1 ? 'Finish' : 'التالي'}
+                    </Button>
+                  </Box>
+                  <Button
+                    variant='contained'
+                    color='primary'
+                    disabled={activeStep !== steps.length - 1 ? true : false}
+                    onClick={() => dispatch(submitAnswers({ data: answers }))}
+                  >
+                    إنتهاء الإختبار
+                  </Button>
+                </Box>
+              </div>
+            )}
           </div>
-        ) : (
-          <div>
-            <>{getStepContent(activeStep)}</>
-            <Box sx={{ mt: 3, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-              <Box>
-                <Button disabled={activeStep === 0} onClick={handleBack}>
-                  Back
-                </Button>
-                <Button
-                  variant='contained'
-                  color='primary'
-                  onClick={handleNext}
-                  disabled={activeStep === steps.length - 1 ? true : false}
-                >
-                  {activeStep === steps.length - 1 ? 'Finish' : 'التالي'}
-                </Button>
-              </Box>
-              <Button
-                variant='contained'
-                color='primary'
-                disabled={activeStep !== steps.length - 1 ? true : false}
-                onClick={() => dispatch(submitAnswers({ data: answers }))}
-              >
-                إنتهاء الإختبار
-              </Button>
-            </Box>
-          </div>
-        )}
-      </div>
+        </>
+      ) : (
+        <div style={{ textAlign: 'center' }}>Already Took This Exam</div>
+      )}
     </div>
   )
 }

@@ -63,6 +63,41 @@ const is_trueColors = {
   inactive: 'secondary'
 }
 
+const handleDownload = async id => {
+  const baseUrl = 'https://edu.kyanlabs.com/edu/api/'
+
+  //https://edu.kyanlabs.com/edu/api/
+  const excelUrl = `${baseUrl}student/exam-questions/${id}`
+
+  try {
+    const response = await fetch(excelUrl, {
+      headers: {
+        'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      }
+    })
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch Excel sheet. Status code: ${response.status}`)
+    }
+
+    const blob = await response.blob()
+
+    // Create a blob URL and use it to download the file
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = 'Exam.xlsx'
+    a.click()
+
+    // Clean up the blob URL
+    window.URL.revokeObjectURL(url)
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 const LeftSide = ({ exam }) => {
   // ** States
   const exams = useSelector(state => state?.exams?.data?.data)
@@ -75,6 +110,7 @@ const LeftSide = ({ exam }) => {
   const role = user?.user?.role
   const { exams: examPer } = user?.user?.permissions || {}
   const { read, add, edit, delete: deletee } = examPer
+  const { taken } = exam
 
   //** Functions */
   const toggleShowDelete = () => {
@@ -154,6 +190,7 @@ const LeftSide = ({ exam }) => {
       false3: yup.string()
     }
   }
+
   const schemaExamObj = showErrors => {
     return {
       name: yup
@@ -222,6 +259,7 @@ const LeftSide = ({ exam }) => {
                 sx={{
                   width: '100%',
                   display: 'flex',
+                  gap: '0.5rem',
                   justifyContent: 'space-around',
                   '& button': {
                     width: '120px',
@@ -233,13 +271,20 @@ const LeftSide = ({ exam }) => {
                   تعديل
                 </Button> */}
                 {add && (
-                  <Button variant='outlined' color='primary' startIcon={<AddIcon />} onClick={toggleShowAdd}>
+                  <Button
+                    variant='outlined'
+                    color='primary'
+                    disabled={taken}
+                    startIcon={<AddIcon />}
+                    onClick={toggleShowAdd}
+                  >
                     إضافة
                   </Button>
                 )}
                 {read && (
                   <Button
                     variant='outlined'
+                    disabled={!taken}
                     sx={{
                       fontSize: '1rem',
                       fontWeight: 'bold',
@@ -255,6 +300,7 @@ const LeftSide = ({ exam }) => {
                       }
                     }}
                     startIcon={<DownloadIcon />}
+                    onClick={() => handleDownload(exam.id)}
                   >
                     تنزيل
                   </Button>

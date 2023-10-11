@@ -12,13 +12,9 @@ function StudentLayout() {
   const dispatch = useDispatch()
   const loading = useSelector(state => state.exams?.dataLoading)
   const exams = useSelector(state => state?.exams?.data?.data)
-  const student = useSelector(state => state?.student?.singleStudent?.data) || {}
-  const router = useRouter()
-  const { id } = router.query
 
   useEffect(() => {
     dispatch(fetchExamData())
-    dispatch(fetchStudentId(id))
   }, [dispatch])
 
   if (loading) {
@@ -34,7 +30,7 @@ function StudentLayout() {
   return (
     <Grid container>
       <Grid item xs={12} md={12}>
-        <TabsFullWidth exams={exams} student={student} />
+        <TabsFullWidth exams={exams} />
       </Grid>
     </Grid>
   )

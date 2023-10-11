@@ -77,6 +77,7 @@ function Exams() {
   if (!exams || exams.length === 0) {
     return <CreateExam />
   }
+  console.log(exams)
 
   return (
     <>

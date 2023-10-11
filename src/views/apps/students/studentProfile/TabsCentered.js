@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { styled } from '@mui/material/styles'
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
@@ -10,6 +10,9 @@ import LeftSide from './LeftSide'
 import { useRouter } from 'next/router'
 import HasNotExam from './HasNotExam'
 import RightSide from './RightSide'
+import { fetchById as fetchStudentId } from 'src/store/apps/student/actions'
+import { fetchData as fetchExamData } from 'src/store/apps/exams/actions'
+import { useDispatch } from 'react-redux'
 
 const Tab = styled(MuiTab)(({ theme }) => ({
   minHeight: 48,
@@ -23,15 +26,21 @@ const Tab = styled(MuiTab)(({ theme }) => ({
   fontWeight: 'bold'
 }))
 
-const TabsFullWidth = ({ exams, student }) => {
+const TabsFullWidth = ({ exams }) => {
   // ** State
   const [value, setValue] = useState('')
   const router = useRouter()
   const routeId = router.query.id
+  const dispatch = useDispatch()
+  const student = useSelector(state => state?.student?.singleStudent?.data)
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
+
+  useEffect(() => {
+    dispatch(fetchStudentId(routeId))
+  }, [dispatch, routeId])
 
   const StudentExamView = () => {
     if (routeId) {
@@ -46,7 +55,7 @@ const TabsFullWidth = ({ exams, student }) => {
               </TabList>
               {exams?.map(ex => (
                 <TabPanel value={ex.id.toString()} sx={{ p: 0, width: '100%' }} key={ex.id}>
-                  <RightSide id={ex.id} studentId={routeId} />
+                  <RightSide id={ex.id} studentId={routeId} taken={student?.token_Exams?.includes(Number(ex.id))} />
                 </TabPanel>
               ))}
             </TabContext>

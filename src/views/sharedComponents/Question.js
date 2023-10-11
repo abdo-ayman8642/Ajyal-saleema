@@ -21,13 +21,14 @@ const StyledFormGroup = styled(FormGroup)`
   margin-top: 20px;
 `
 
-const Question = ({ question, exam, setAnswers, answers, studView, id }) => {
+const Question = ({ question, exam, setAnswers, answers, studView, id, taken }) => {
+  console.log(answers.answers)
+
   //** stats & variables */
   const [value, setValue] = useState('')
   const [error, setError] = useState(false)
   const [helperText, setHelperText] = useState('')
   const [showDelete, setShowDelete] = useState(false)
-  const student = useSelector(state => state.student?.singleStudent)
   const dispatch = useDispatch()
 
   const user = useAuth()
@@ -89,6 +90,7 @@ const Question = ({ question, exam, setAnswers, answers, studView, id }) => {
     // Update the answers state for multi-answer questions
     setAnswers(prevState => {
       const updatedAnswers = [...prevState.answers]
+
       const existingAnswerIndex = updatedAnswers.findIndex(
         answer => answer.question_id === question.id && answer.choice_id === id
       )
@@ -107,6 +109,7 @@ const Question = ({ question, exam, setAnswers, answers, studView, id }) => {
       }
     })
   }
+
   return (
     <Box sx={{ width: '100%' }}>
       <Typography variant='h6' sx={{ mb: 2 }}>
@@ -147,7 +150,7 @@ const Question = ({ question, exam, setAnswers, answers, studView, id }) => {
           </FormControl>
         )}
         <FormHelperText>{helperText}</FormHelperText>
-        {!studView && deletee && (
+        {!studView && !taken && deletee && (
           <Tooltip title='مسح السؤال'>
             <Button
               type='submit'

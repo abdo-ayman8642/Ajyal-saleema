@@ -90,6 +90,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
   const role = user?.user?.role
   const { year } = user?.user?.permissions
   const { add, edit, delete: deletee, read } = year?.[formType]
+
   const schoolData = {
     title: 'المدارس',
     chipColor: 'primary',
@@ -272,8 +273,10 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
           }
         }
       }
+
       return {}
     }
+
     const studentsColumns = [
       renderGender(),
       {
@@ -573,7 +576,6 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
               }
               disableSelectionOnClick
               onCellClick={selected => dispatch(handleSelectedData(selected.row))}
-              rowsPerPageOptions={[10, 25, 50]}
               onPageChange={newPage => handlePageChange(newPage + 1)}
               sx={{ '& .MuiDataGrid-columnHeaders': { borderRadius: 0 } }}
               hideFooterPagination={

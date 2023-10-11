@@ -17,6 +17,7 @@ import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline'
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount'
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
 import { useAuth } from 'src/hooks/useAuth'
+
 // ** Icons Imports
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism'
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings'
@@ -70,6 +71,7 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, dataType }) 
   const [userData, setUserData] = useState(user?.user)
   const currPage = useSelector(state => state.user?.data?.data.current_page)
   const users = useSelector(state => state.user?.data?.data?.data)
+  const total = useSelector(state => state.user?.data?.data?.total)
   const searchedUsers = useSelector(state => state.user?.searchedUsers?.data?.data)
   const loading = useSelector(state => state.user?.searchedUsersLoading)
   const [open, setOpen] = React.useState(false)
@@ -119,6 +121,7 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, dataType }) 
 
     return {}
   }
+
   const renderGender = () => {
     if (!isMobile) {
       return {
@@ -177,6 +180,7 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, dataType }) 
         }
       }
     }
+
     return {}
   }
 
@@ -241,6 +245,7 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, dataType }) 
       headerName: 'التحكم',
       renderCell: ({ row }) => {
         const row_role = row?.role
+
         return (
           <Box sx={{ display: 'flex', gap: '10px', ml: '-15px' }}>
             {(role === '1' || role === '0') && (
@@ -301,10 +306,6 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, dataType }) 
     toggleDialog()
   }
 
-  const handleFilter = useCallback(val => {
-    setValue(val)
-  }, [])
-
   const handleDelete = selected => {
     dispatch(handleSelectedUser([...selected]))
   }
@@ -313,6 +314,8 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, dataType }) 
     setUserData(row)
     setInformation(!showInformation)
   }
+
+  console.log(searchedUsers || users)
 
   return (
     <Grid container spacing={6}>
@@ -334,15 +337,15 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, dataType }) 
             page={currPage - 1}
             autoHeight
             rows={searchedUsers || users}
+            rowCount={total}
             checkboxSelection={dataType !== 'user'}
             pageSize={pageSize}
             disableSelectionOnClick
+            paginationMode='server'
             columns={columns}
             onSelectionModelChange={selected => handleDelete(selected)}
             loading={loading}
-            // rowsPerPageOptions={[10, 25, 50]}
-
-            onPageSizeChange={newPageSize => handlePageChange(newPageSize + 1)}
+            onPageChange={pageSize => handlePageChange(pageSize + 1)}
             sx={{ '& .MuiDataGrid-columnHeaders': { borderRadius: 0 } }}
           />
         </Card>
