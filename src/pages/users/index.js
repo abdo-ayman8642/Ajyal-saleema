@@ -117,7 +117,6 @@ function Users() {
   }
 
   const handlePageChange = nextPage => {
-    console.log(nextPage)
     dispatch(fetchData(nextPage))
   }
 

@@ -22,8 +22,6 @@ const StyledFormGroup = styled(FormGroup)`
 `
 
 const Question = ({ question, exam, setAnswers, answers, studView, id, taken }) => {
-  console.log(answers.answers)
-
   //** stats & variables */
   const [value, setValue] = useState('')
   const [error, setError] = useState(false)

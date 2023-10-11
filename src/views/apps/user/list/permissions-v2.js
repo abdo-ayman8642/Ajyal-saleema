@@ -270,8 +270,11 @@ function PermissionsV2({ user }) {
 
   return (
     <Fragment>
-      <h3 style={{ textAlign: 'center' }}>{'Permissions for:    ' + name}</h3>
-      <List component='academic' aria-label='secondary mailbox'>
+      <h3 style={{ textAlign: 'center', fontSize: '1rem', fontWeight: '400', fontStyle: 'italic', margin: 0 }}>
+        {'Permissions for:    '}
+        <span style={{ fontWeight: '600', fontStyle: 'normal', margin: '0 0.5rem' }}>{name}</span>
+      </h3>
+      <List component='academic' aria-label='secondary mailbox' sx={{ padding: 0 }}>
         <ListItem disablePadding>
           <ListItemButton onClick={() => handleAccordionToggle('year')}>
             <ListItemText primary={'Academic Data'} />
@@ -303,7 +306,11 @@ function PermissionsV2({ user }) {
                 sx={{
                   fontSize: '1rem',
                   fontWeight: '500',
-                  padding: '0.7rem'
+                  padding: '0.2rem 0.7rem',
+                  margin: '0.2rem',
+                  '&.MuiButton-containedSecondary': {
+                    backgroundColor: 'transparent' // Remove the background color for selected state
+                  }
                 }}
                 variant={academicPermissions[section] ? 'contained' : 'outlined'}
                 color='primary'
@@ -321,7 +328,8 @@ function PermissionsV2({ user }) {
                 style={{
                   display: 'flex',
                   justifyContent: 'center',
-                  gap: '0.2rem',
+                  gap: '0.1rem',
+                  alignItems: 'center',
                   flexDirection: 'row',
                   alignItems: 'center',
                   marginTop: '10px'
@@ -329,8 +337,10 @@ function PermissionsV2({ user }) {
               >
                 <FormControlLabel
                   label='Read'
+                  sx={{ display: 'flex', flexDirection: 'column' }}
                   control={
                     <Checkbox
+                      sx={{ order: 2 }}
                       checked={permissions['year'][isSelected].read}
                       onChange={handleAcademicPermissionChange(isSelected, 'read')}
                       name={`${isSelected}-read`}
@@ -340,8 +350,10 @@ function PermissionsV2({ user }) {
 
                 <FormControlLabel
                   label='Add'
+                  sx={{ display: 'flex', flexDirection: 'column' }}
                   control={
                     <Checkbox
+                      sx={{ order: 2 }}
                       checked={permissions['year'][isSelected].add}
                       onChange={handleAcademicPermissionChange(isSelected, 'add')}
                       name={`${isSelected}-add`}
@@ -351,8 +363,10 @@ function PermissionsV2({ user }) {
 
                 <FormControlLabel
                   label='Edit'
+                  sx={{ display: 'flex', flexDirection: 'column' }}
                   control={
                     <Checkbox
+                      sx={{ order: 2 }}
                       checked={permissions['year'][isSelected].edit}
                       onChange={handleAcademicPermissionChange(isSelected, 'edit')}
                       name={`${isSelected}-edit`}
@@ -362,8 +376,10 @@ function PermissionsV2({ user }) {
 
                 <FormControlLabel
                   label='Delete'
+                  sx={{ display: 'flex', flexDirection: 'column' }}
                   control={
                     <Checkbox
+                      sx={{ order: 2 }}
                       checked={permissions['year'][isSelected].delete}
                       onChange={handleAcademicPermissionChange(isSelected, 'delete')}
                       name={`${isSelected}-delete`}
@@ -375,7 +391,7 @@ function PermissionsV2({ user }) {
           )}
         </Collapse>
       </List>
-      <List component='nav' aria-label='main mailbox'>
+      <List component='nav' aria-label='main mailbox' sx={{ padding: 0 }}>
         {['sessions', 'events', 'exams', 'teachers'].map(section => (
           <>
             <ListItem key={section} disablePadding>
@@ -385,11 +401,24 @@ function PermissionsV2({ user }) {
             </ListItem>
             <Collapse key={section} in={open[section]} timeout='auto' unmountOnExit>
               {/* Permission Checkbox Content */}
-              <FormGroup row style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
+              <FormGroup
+                row
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  gap: '0.1rem',
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginTop: '10px'
+                }}
+              >
                 <FormControlLabel
                   label='Read'
+                  sx={{ display: 'flex', flexDirection: 'column' }}
                   control={
                     <Checkbox
+                      sx={{ order: 2 }}
                       checked={permissions[section].read}
                       onChange={handlePermissionChange(section, 'read')}
                       name={`${section}-read`}
@@ -399,8 +428,10 @@ function PermissionsV2({ user }) {
                 {section !== 'sessions' && (
                   <FormControlLabel
                     label='Add'
+                    sx={{ display: 'flex', flexDirection: 'column' }}
                     control={
                       <Checkbox
+                        sx={{ order: 2 }}
                         checked={permissions[section].add}
                         onChange={handlePermissionChange(section, 'add')}
                         name={`${section}-add`}
@@ -411,8 +442,10 @@ function PermissionsV2({ user }) {
                 {section !== 'exams' && (
                   <FormControlLabel
                     label='Edit'
+                    sx={{ display: 'flex', flexDirection: 'column' }}
                     control={
                       <Checkbox
+                        sx={{ order: 2 }}
                         checked={permissions[section].edit}
                         onChange={handlePermissionChange(section, 'edit')}
                         name={`${section}-edit`}
@@ -424,8 +457,10 @@ function PermissionsV2({ user }) {
                 {section !== 'sessions' && (
                   <FormControlLabel
                     label='Delete'
+                    sx={{ display: 'flex', flexDirection: 'column' }}
                     control={
                       <Checkbox
+                        sx={{ order: 2 }}
                         checked={permissions[section].delete}
                         onChange={handlePermissionChange(section, 'delete')}
                         name={`${section}-delete`}
@@ -438,7 +473,7 @@ function PermissionsV2({ user }) {
           </>
         ))}
       </List>
-      <List component='nav' aria-label='secondary mailbox'>
+      <List component='nav' aria-label='secondary mailbox' sx={{ padding: 0 }}>
         <ListItem disablePadding>
           <ListItemButton onClick={() => handleAccordionToggle('nav')}>
             <ListItemText primary={'Show Tabs'} />

@@ -6,8 +6,6 @@ import RightSide from '../../sharedComponents/RightSide'
 function ExamWrapper({ exam }) {
   //** stats & variables */
 
-  console.log(exam)
-
   return (
     <Grid container spacing={4} sx={{ mt: 4 }}>
       <Grid item xs={12} lg={4}>

@@ -35,6 +35,11 @@ function InformationView({ toggle, open, data }) {
   const renderRoleName = role => {
     return role === '0' ? 'مسئول مميز' : role === '1' ? 'مسئول' : 'متطوع'
   }
+
+  const renderGender = i => {
+    return i === 'male' ? 'ذكر' : 'أنثى'
+  }
+
   return (
     <Dialog fullWidth open={open} maxWidth='xs' onClose={toggle}>
       <DialogContent>
@@ -60,7 +65,7 @@ function InformationView({ toggle, open, data }) {
           <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon>{/* <Icon icon='mdi:email-outline' fontSize={20} /> */}</ListItemIcon>
-              <ListItemText primary={`الجنس :  ` + gender} />
+              <ListItemText primary={`الجنس :  ` + renderGender(gender)} />
             </ListItemButton>
           </ListItem>
           <Divider sx={{ m: '0 !important' }} />

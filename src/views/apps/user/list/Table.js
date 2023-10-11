@@ -315,8 +315,6 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, dataType }) 
     setInformation(!showInformation)
   }
 
-  console.log(searchedUsers || users)
-
   return (
     <Grid container spacing={6}>
       <div>

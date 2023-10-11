@@ -6,7 +6,6 @@ import { useDispatch } from 'react-redux'
 import { submitAnswers } from 'src/store/apps/exams/actions'
 
 function RightSide({ id, studentId, taken }) {
-  console.log('taken', taken)
   //** stats && variables */
   const [activeStep, setActiveStep] = useState(0)
   const [counter, setCounter] = useState(1)
