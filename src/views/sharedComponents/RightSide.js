@@ -63,6 +63,7 @@ function RightSide({ buttonVisibility, exam }) {
                 color='primary'
                 onClick={handleNext}
                 disabled={activeStep === steps.length - 1 ? true : false}
+                sx={{ ml: 4 }}
               >
                 {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
               </Button>

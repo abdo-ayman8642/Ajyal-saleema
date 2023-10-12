@@ -55,7 +55,12 @@ const TabsFullWidth = ({ exams }) => {
               </TabList>
               {exams?.map(ex => (
                 <TabPanel value={ex.id.toString()} sx={{ p: 0, width: '100%' }} key={ex.id}>
-                  <RightSide id={ex.id} studentId={routeId} taken={student?.token_Exams?.includes(Number(ex.id))} />
+                  <RightSide
+                    id={ex.id}
+                    studentId={routeId}
+                    taken={student?.token_Exams?.includes(Number(ex.id))}
+                    total_num={ex.TotlaNumberOfQuestions}
+                  />
                 </TabPanel>
               ))}
             </TabContext>

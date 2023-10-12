@@ -5,7 +5,7 @@ import styled from '@emotion/styled'
 import { useDispatch } from 'react-redux'
 import { submitAnswers } from 'src/store/apps/exams/actions'
 
-function RightSide({ id, studentId, taken }) {
+function RightSide({ id, studentId, taken, total_num }) {
   //** stats && variables */
   const [activeStep, setActiveStep] = useState(0)
   const [counter, setCounter] = useState(1)
@@ -21,7 +21,7 @@ function RightSide({ id, studentId, taken }) {
     setActiveStep(prevActiveStep => prevActiveStep - 1)
   }
 
-  const steps = ['', '', '', '', '']
+  const steps = Array.from({ length: Math.ceil(total_num / 10) }, () => '')
 
   const CustomStepper = styled(Stepper)(({ theme }) => ({
     '& .MuiStepLabel-label': {
@@ -56,8 +56,8 @@ function RightSide({ id, studentId, taken }) {
               const labelProps = {}
 
               return (
-                <Step key={label} {...stepProps}>
-                  <StepLabel {...labelProps}>{label}</StepLabel>
+                <Step key={Math.random()} {...stepProps}>
+                  <StepLabel {...labelProps}></StepLabel>
                 </Step>
               )
             })}
@@ -80,6 +80,7 @@ function RightSide({ id, studentId, taken }) {
                       color='primary'
                       onClick={handleNext}
                       disabled={activeStep === steps.length - 1 ? true : false}
+                      sx={{ ml: 4 }}
                     >
                       {activeStep === steps.length - 1 ? 'Finish' : 'التالي'}
                     </Button>
@@ -87,7 +88,7 @@ function RightSide({ id, studentId, taken }) {
                   <Button
                     variant='contained'
                     color='primary'
-                    disabled={activeStep !== steps.length - 1 ? true : false}
+                    disabled={answers?.answers?.length !== total_num && true}
                     onClick={() => dispatch(submitAnswers({ data: answers }))}
                   >
                     إنتهاء الإختبار
