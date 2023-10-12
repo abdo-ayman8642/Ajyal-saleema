@@ -17,7 +17,9 @@ function RightSide({ buttonVisibility, exam }) {
     setActiveStep(prevActiveStep => prevActiveStep - 1)
   }
 
-  const steps = ['', '', '', '', '']
+  const total_num = exam?.TotlaNumberOfQuestions || 0
+
+  const steps = Array.from({ length: Math.ceil(total_num / 10) }, () => '')
 
   const CustomStepper = styled(Stepper)(({ theme }) => ({
     '& .MuiStepLabel-label': {

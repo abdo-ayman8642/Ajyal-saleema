@@ -18,7 +18,7 @@ function Exams() {
   const [showAdd, setShowAdd] = useState(false)
   const user = useAuth()
   const { read } = user?.user?.permissions?.exams || {}
-  const { exams: view } = user?.user?.permissions?.nav
+  const { exams: view } = user?.user?.permissions?.nav || {}
 
   useEffect(() => {
     dispatch(fetchData())

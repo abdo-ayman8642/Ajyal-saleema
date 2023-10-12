@@ -35,6 +35,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     initAuth()
   }, [])
+
   const initAuth = async () => {
     setIsInitialized(true)
     const storedToken = window.localStorage.getItem(authConfig.storageTokenKeyName)
@@ -61,6 +62,7 @@ const AuthProvider = ({ children }) => {
       setLoading(false)
     }
   }
+
   const handleLogin = (params, errorCallback) => {
     axios
       .post(authConfig.loginEndpoint, params)
@@ -79,7 +81,7 @@ const AuthProvider = ({ children }) => {
             setUser({ ...response.data.userData })
             await window.localStorage.setItem('userData', JSON.stringify(response.data.userData))
             const redirectURL = returnUrl && returnUrl !== '/home' ? returnUrl : '/home'
-            router.replace(redirectURL)
+            router.replace('/')
           })
       })
       .catch(err => {
