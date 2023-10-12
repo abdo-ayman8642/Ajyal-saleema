@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Stepper, Step, StepLabel, Button, Box } from '@mui/material'
 import ExamPaper from 'src/views/sharedComponents/ExamPaper'
 import styled from '@emotion/styled'
-import { fetchQuestions } from 'src/store/apps/exams/actions'
 
 function RightSide({ buttonVisibility, exam }) {
   //** stats && variables */
@@ -34,6 +33,8 @@ function RightSide({ buttonVisibility, exam }) {
     return <ExamPaper page={step + 1} exam={exam} />
   }
 
+  console.log(exam)
+
   return (
     <div>
       <CustomStepper activeStep={activeStep}>
@@ -50,8 +51,17 @@ function RightSide({ buttonVisibility, exam }) {
       </CustomStepper>
       <div>
         {activeStep === steps.length ? (
-          <div>
-            <p>All pages completed</p>
+          <div style={{ textAlign: 'center', padding: '5rem' }}>
+            <div
+              style={{ paddingBottom: '2rem', fontSize: '1.5rem', textTransform: 'uppercase', letterSpacing: '2px' }}
+            >
+              No Question Added Yet
+            </div>
+            <img
+              src='/undraw_no_data_re_kwbl.svg'
+              alt='Description of the quiz had no questions'
+              style={{ width: '60%' }}
+            />
           </div>
         ) : (
           <div>

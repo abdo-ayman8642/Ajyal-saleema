@@ -27,7 +27,7 @@ const CardStatsCharacter = ({ data }) => {
               }}
             >
               <Typography variant='h6' sx={{ mr: 1.5 }}>
-                {stats || 30}
+                {stats}
               </Typography>
               <Typography variant='body2' sx={{ color: trend === 'negative' ? 'error.main' : 'success.main' }}>
                 {`اجمالي ${title}`}

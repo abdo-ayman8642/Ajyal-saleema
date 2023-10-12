@@ -9,6 +9,7 @@ import TabsCentered from 'src/views/apps/exam/TabsCentered'
 import * as yup from 'yup'
 import { useAuth } from 'src/hooks/useAuth'
 import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
+import PageHeader from 'src/views/apps/exam/PageHeader'
 
 function Exams() {
   //** stats && variables */
@@ -82,6 +83,9 @@ function Exams() {
     <>
       {read && view ? (
         <Grid container>
+          <Grid item xs={12} md={12}>
+            <PageHeader toggleAdd={toggleAdd} />
+          </Grid>
           <Grid item xs={12} md={12}>
             <TabsCentered exams={exams} />
           </Grid>
