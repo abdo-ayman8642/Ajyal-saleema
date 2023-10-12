@@ -76,8 +76,6 @@ function RightSide({ id, studentId, taken, total_num }) {
     )
   }
 
-  console.log(accumulateObjectsById(answers?.answers)?.length === total_num)
-
   const finished = accumulateObjectsById(answers?.answers)?.length === total_num
 
   return (
@@ -130,7 +128,7 @@ function RightSide({ id, studentId, taken, total_num }) {
                       disabled={activeStep === steps.length - 1 ? true : false}
                       sx={{ ml: 4 }}
                     >
-                      {activeStep === steps.length - 1 ? 'Finish' : 'التالي'}
+                      {'التالي'}
                     </Button>
                   </Box>
                   <Button

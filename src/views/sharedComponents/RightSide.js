@@ -33,8 +33,6 @@ function RightSide({ buttonVisibility, exam }) {
     return <ExamPaper page={step + 1} exam={exam} />
   }
 
-  console.log(exam)
-
   return (
     <div>
       <CustomStepper activeStep={activeStep}>
@@ -77,7 +75,7 @@ function RightSide({ buttonVisibility, exam }) {
                 disabled={activeStep === steps.length - 1 ? true : false}
                 sx={{ ml: 4 }}
               >
-                {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                {'التالي'}
               </Button>
             </Box>
           </div>
