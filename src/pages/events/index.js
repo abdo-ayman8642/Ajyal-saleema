@@ -32,12 +32,12 @@ function Events() {
 
     {
       name: 'date_from',
-      label: 'Date From',
+      label: 'التاريخ من',
       type: 'date'
     },
     {
       name: 'date_to',
-      label: 'Date To',
+      label: 'تاريخ ل',
       type: 'date'
     }
   ]
@@ -69,9 +69,9 @@ function Events() {
     <Grid container direction='column'>
       {read && view ? (
         <>
-          <Grid item xs={12} md={12}>
+          {/* <Grid item xs={12} md={12}>
             <PageHeader src={'/images/govs.jpg'} />
-          </Grid>
+          </Grid> */}
           {add && (
             <TableHeader
               title={'حدث'}
@@ -94,7 +94,7 @@ function Events() {
           open={showConfirm}
           toggle={toggleConfirm}
           loading={loading}
-          confirmationType={'المحاضرة'}
+          confirmationType={'الغاء الحدث'}
           selected={selectedEvents || events}
           deleteMulti={deleteMultiEvents}
           deleteSingle={deleteEvent}

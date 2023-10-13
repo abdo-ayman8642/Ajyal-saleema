@@ -19,6 +19,8 @@ import { Button } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import SchoolIcon from '@mui/icons-material/School'
 import ChecklistRtlIcon from '@mui/icons-material/ChecklistRtl'
+import DialogEditSessionInfo from '../sessions/DialogEditSession'
+import DialogAddEventInfo from './DialogAddEvent'
 
 // ** redux Imports
 import { useDispatch, useSelector } from 'react-redux'
@@ -94,7 +96,7 @@ const EventList = ({ formInputs, toggleConfirm }) => {
   const renderColumns = () => {
     if (edit || deletee) {
       return {
-        flex: 0.8,
+        flex: 0.4,
         minWidth: 100,
         sortable: false,
         field: 'actions',
@@ -115,8 +117,10 @@ const EventList = ({ formInputs, toggleConfirm }) => {
         )
       }
     }
+
     return {}
   }
+
   /****************** columns Actions *****************/
 
   const columns = [...defaultColumns, renderColumns()]
@@ -165,7 +169,7 @@ const EventList = ({ formInputs, toggleConfirm }) => {
           />
         </Card>
       </Grid>
-      {/* {showEdit && <DialogEditSessionInfo formInputs={formInputs} toggle={toggleShowEdit} showEdit={showEdit} />} */}
+      {showEdit && <DialogAddEventInfo formInputs={formInputs} toggle={toggleShowEdit} showEdit={showEdit} />}
     </Grid>
   )
 }

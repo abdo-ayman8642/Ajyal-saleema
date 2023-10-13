@@ -27,8 +27,8 @@ function GradesData() {
   const { total_classes = null, total_students = null } = data?.data?.[0] || {}
 
   const cardData = [
-    { header: 'Total Classes', number: total_classes },
-    { header: 'Total Students', number: total_students }
+    { header: 'مجموع الفصول', number: total_classes },
+    { header: 'مجموع الطلاب', number: total_students }
   ]
 
   useEffect(() => {

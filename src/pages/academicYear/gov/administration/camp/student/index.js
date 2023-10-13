@@ -24,7 +24,7 @@ function CampsData() {
   const { read } = user?.user?.permissions?.year?.students || {}
   const { academic: view } = user?.user?.permissions?.nav || {}
 
-  const cardData = [{ header: 'Total Students', number: data?.data?.total }]
+  const cardData = [{ header: 'مجموع الطلاب', number: data?.data?.total }]
 
   useEffect(() => {
     dispatch(filterBy({ page: 1, query: 'school_camp', value: campId }))

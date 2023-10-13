@@ -49,11 +49,11 @@ function GovData() {
   } = getObjectById(data?.data, Number(yearId)) || {}
 
   const cardData = [
-    { header: 'Total Departments', number: total_departs },
-    { header: 'Total Camps', number: total_camps },
-    { header: 'Total Schools', number: total_schools },
-    { header: 'Total Classes', number: total_classes },
-    { header: 'Total Students', number: total_students }
+    { header: 'مجموع الإدارات', number: total_departs },
+    { header: 'مجموع المعسكرات', number: total_camps },
+    { header: 'مجموع المدارس', number: total_schools },
+    { header: 'مجموع الفصول', number: total_classes },
+    { header: 'مجموع الطلاب', number: total_students }
   ]
 
   useEffect(() => {

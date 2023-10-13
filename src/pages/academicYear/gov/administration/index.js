@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
 import { useAuth } from 'src/hooks/useAuth'
 import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
+import themeConfig from 'src/configs/themeConfig'
 
 function AdministrationData() {
   const dispatch = useDispatch()
@@ -21,6 +22,7 @@ function AdministrationData() {
   const user = useAuth()
   const { academic: view } = user?.user?.permissions?.nav || {}
   const { read } = user?.user?.permissions?.year?.administrations || {}
+  console.log(themeConfig)
 
   const [showDrawer, setDrawer] = useState(false)
   const router = useRouter()
@@ -50,11 +52,11 @@ function AdministrationData() {
   const { total_classes = null, total_schools = null, total_students = null, total_camps = null } = sums || {}
 
   const cardData = [
-    { header: 'Total Departments', number: data?.total },
-    { header: 'Total Schools', number: total_schools },
-    { header: 'Total Camps', number: total_camps },
-    { header: 'Total Classes', number: total_classes },
-    { header: 'Total Students', number: total_students }
+    { header: 'مجموع الإدارات', number: data?.total },
+    { header: 'مجموع المدارس', number: total_schools },
+    { header: 'مجموع المعسكرات', number: total_camps },
+    { header: 'مجموع الفصول', number: total_classes },
+    { header: 'مجموع الطلاب', number: total_students }
   ]
 
   if (loading) {

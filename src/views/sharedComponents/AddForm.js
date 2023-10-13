@@ -130,10 +130,10 @@ const AddForm = ({ onSubmit, onCancel, schema, formInputs }) => {
         })}
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Button size='large' type='submit' variant='contained' sx={{ mr: 3 }}>
-            Submit
+            تأكيد
           </Button>
           <Button size='large' variant='outlined' color='secondary' onClick={handleCancel}>
-            Cancel
+            إلغاء
           </Button>
         </Box>
       </form>

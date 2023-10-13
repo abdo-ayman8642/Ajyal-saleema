@@ -43,9 +43,9 @@ function SchoolsData() {
   const { total_classes = null, total_students = null } = sums || {}
 
   const cardData = [
-    { header: 'Total Schools', number: data?.length },
-    { header: 'Total Classes', number: total_classes },
-    { header: 'Total Students', number: total_students }
+    { header: 'مجموع المدارس', number: data?.length },
+    { header: 'مجموع الفصول', number: total_classes },
+    { header: 'مجموع الطلاب', number: total_students }
   ]
 
   if (loading) {

@@ -151,6 +151,7 @@ const SidebarAddTeacher = props => {
   //** Functions */
   const onSubmit = e => {
     const schoolType = formData.type === 'camp' ? 'schools' : 'classes'
+
     let formDataInputs = {
       name: text,
       teacher_id: teacherId?.[0],
@@ -206,12 +207,12 @@ const SidebarAddTeacher = props => {
       sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
     >
       <Header>
-        <Typography variant='h5'>{teacherId ? 'Assign New Class' : 'Add Teacher'}</Typography>
+        <Typography variant='h5'>{teacherId ? 'تعيين فصل جديد' : 'إضافة المعلم'}</Typography>
         <Close fontSize='small' onClick={handleClose} sx={{ cursor: 'pointer' }} />
       </Header>
       {teacherId && (
         <Typography variant='h7' sx={{ textAlign: 'center' }}>
-          {`Teacher:  `}
+          {`مدرس:  `}
           <span style={{ textDecoration: 'underline' }}>{teacherId && `${teacherId?.[1]}`}</span>
         </Typography>
       )}
@@ -227,12 +228,12 @@ const SidebarAddTeacher = props => {
                   rules={{ required: true }}
                   render={({ field: { value, onChange } }) => (
                     <TextField
-                      label='Full Name'
+                      label='الاسم الكامل'
                       onChange={e => {
                         e.preventDefault()
                         setText(e.target.value)
                       }}
-                      placeholder='Enter your name'
+                      placeholder='أدخل أسمك'
                       value={text}
                       error={Boolean(errors.fullName)}
                     />
@@ -248,19 +249,19 @@ const SidebarAddTeacher = props => {
                   rules={{ required: true }}
                   render={({ field: { value, onChange } }) => (
                     <Box>
-                      <InputLabel id='gender-select-label'>Gender</InputLabel>
+                      <InputLabel id='gender-select-label'>نوع</InputLabel>
                       <Select
                         fullWidth
                         value={value}
                         id='gender-select'
-                        label='Gender'
+                        label='نوع'
                         labelId='gender-select-label'
                         inputRef={genderref}
                         onChange={onChange}
-                        inputProps={{ placeholder: 'Select Gender' }}
+                        inputProps={{ placeholder: 'حدد نوع الجنس' }}
                       >
-                        <MenuItem value='male'>Male</MenuItem>
-                        <MenuItem value='female'>Female</MenuItem>
+                        <MenuItem value='male'>ذكر</MenuItem>
+                        <MenuItem value='female'>أنثى</MenuItem>
                       </Select>
                     </Box>
                   )}
@@ -276,15 +277,15 @@ const SidebarAddTeacher = props => {
               rules={{ required: true }}
               render={({ field: { value, onChange } }) => (
                 <Box>
-                  <InputLabel id='year-select-label'>Academic year</InputLabel>
+                  <InputLabel id='year-select-label'>السنة الأكاديمية</InputLabel>
                   <Select
                     fullWidth
                     value={value}
                     id='year-select'
-                    label='Academic year'
+                    label='السنة الأكاديمية'
                     labelId='year-select-label'
                     onChange={onChange}
-                    inputProps={{ placeholder: 'Select year' }}
+                    inputProps={{ placeholder: 'حدد السنة' }}
                   >
                     {years?.map(y => (
                       <MenuItem value={y.id} key={y.id}>
@@ -305,15 +306,15 @@ const SidebarAddTeacher = props => {
                 rules={{ required: true }}
                 render={({ field: { value, onChange } }) => (
                   <Box>
-                    <InputLabel id='gov-select-label'>Select governorate</InputLabel>
+                    <InputLabel id='gov-select-label'>اختر المحافظة</InputLabel>
                     <Select
                       fullWidth
                       value={value}
                       id='gov-select'
-                      label='Select governorate'
+                      label='اختر المحافظة'
                       labelId='gov-select-label'
                       onChange={onChange}
-                      inputProps={{ placeholder: 'Select governorate' }}
+                      inputProps={{ placeholder: 'اختر المحافظة' }}
                     >
                       {govs?.map(g => (
                         <MenuItem value={g.id} key={g.id}>
@@ -336,15 +337,15 @@ const SidebarAddTeacher = props => {
                 rules={{ required: true }}
                 render={({ field: { value, onChange } }) => (
                   <Box>
-                    <InputLabel id='adminstr-select-label'>Select administration</InputLabel>
+                    <InputLabel id='adminstr-select-label'>اختر الإدارة</InputLabel>
                     <Select
                       fullWidth
                       value={value}
                       id='adminstr-select'
-                      label='Select administration'
+                      label='اختر الإدارة'
                       labelId='adminstr-select-label'
                       onChange={onChange}
-                      inputProps={{ placeholder: 'Select administration' }}
+                      inputProps={{ placeholder: 'اختر الإدارة' }}
                     >
                       {administration?.map(ad => (
                         <MenuItem value={ad.id} key={ad.id}>
@@ -370,15 +371,15 @@ const SidebarAddTeacher = props => {
                 rules={{ required: true }}
                 render={({ field: { value, onChange } }) => (
                   <Box>
-                    <InputLabel id='type-select-label'>إختيار النوع</InputLabel>
+                    <InputLabel id='type-select-label'>إختيار نوع التعلم</InputLabel>
                     <Select
                       fullWidth
                       value={value}
                       id='type-select'
-                      label='إختيار النوع'
+                      label='إختيار نوع التعلم'
                       labelId='school-select-label'
                       onChange={onChange}
-                      inputProps={{ placeholder: 'إختيار النوع' }}
+                      inputProps={{ placeholder: 'إختيار نوع التعلم' }}
                     >
                       <MenuItem
                         value={'camp'}
@@ -414,15 +415,15 @@ const SidebarAddTeacher = props => {
                     rules={{ required: true }}
                     render={({ field: { value, onChange } }) => (
                       <Box>
-                        <InputLabel id='school-select-label'>Select school</InputLabel>
+                        <InputLabel id='school-select-label'>اختر المدرسة</InputLabel>
                         <Select
                           fullWidth
                           value={value}
                           id='school-select'
-                          label='Select school'
+                          label='اختر المدرسة'
                           labelId='school-select-label'
                           onChange={onChange}
-                          inputProps={{ placeholder: 'Select school' }}
+                          inputProps={{ placeholder: 'اختر المدرسة' }}
                         >
                           {schools?.map(s => (
                             <MenuItem value={s.id} key={s.id} onClick={() => updateSchool(s.id)}>
@@ -446,15 +447,15 @@ const SidebarAddTeacher = props => {
                       rules={{ required: true }}
                       render={({ field: { value, onChange } }) => (
                         <Box>
-                          <InputLabel id='school-select-label'>Select school</InputLabel>
+                          <InputLabel id='school-select-label'>اختر المدرسة</InputLabel>
                           <Select
                             fullWidth
                             value={value}
                             id='school-select'
-                            label='Select school'
+                            label='اختر المدرسة'
                             labelId='school-select-label'
                             onChange={onChange}
-                            inputProps={{ placeholder: 'Select school' }}
+                            inputProps={{ placeholder: 'اختر المدرسة' }}
                           >
                             {schools?.map(s => (
                               <MenuItem value={s.id} key={s.id} onClick={() => updateSchool(s.id)}>
@@ -477,15 +478,15 @@ const SidebarAddTeacher = props => {
                         rules={{ required: true }}
                         render={({ field: { value, onChange } }) => (
                           <Box>
-                            <InputLabel id='grade-select-label'>Select grade</InputLabel>
+                            <InputLabel id='grade-select-label'>حدد الصف</InputLabel>
                             <Select
                               fullWidth
                               value={value}
                               id='grade-select'
-                              label='Select grade'
+                              label='حدد الصف'
                               labelId='grade-select-label'
                               onChange={onChange}
-                              inputProps={{ placeholder: 'Select grade' }}
+                              inputProps={{ placeholder: 'حدد الصف' }}
                             >
                               {grades?.map(g => (
                                 <MenuItem value={g.id} key={g.id}>
@@ -509,15 +510,15 @@ const SidebarAddTeacher = props => {
                         rules={{ required: true }}
                         render={({ field: { value, onChange } }) => (
                           <Box>
-                            <InputLabel id='class-select-label'>Select class</InputLabel>
+                            <InputLabel id='class-select-label'>حدد الفصل</InputLabel>
                             <Select
                               fullWidth
                               value={value}
                               id='class-select'
-                              label='Select class'
+                              label='حدد الفصل'
                               labelId='class-select-label'
                               onChange={onChange}
-                              inputProps={{ placeholder: 'Select class' }}
+                              inputProps={{ placeholder: 'حدد الفصل' }}
                             >
                               {classes?.map(c => (
                                 <MenuItem
@@ -546,10 +547,10 @@ const SidebarAddTeacher = props => {
 
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Button size='large' type='submit' variant='contained' sx={{ mr: 3 }} onClick={onSubmit}>
-              Submit
+              تأكيد
             </Button>
             <Button size='large' variant='outlined' color='secondary' onClick={handleClose}>
-              Cancel
+              إلغاء
             </Button>
           </Box>
         </form>

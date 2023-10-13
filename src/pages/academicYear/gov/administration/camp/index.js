@@ -47,8 +47,8 @@ function CampsData() {
   const { total_students = null } = sums || {}
 
   const cardData = [
-    { header: 'Total Camps', number: camps?.length },
-    { header: 'Total Students', number: total_students }
+    { header: 'مجموع المعسكرات', number: camps?.length },
+    { header: 'مجموع الطلاب', number: total_students }
   ]
 
   if (loading) {

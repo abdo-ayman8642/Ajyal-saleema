@@ -146,10 +146,10 @@ const EditForm = ({ formInputs, schema, customizeSubmit, handleClose, selected }
         })}
         <Grid item sm={12} xs={12} sx={{ pb: { xs: 8, sm: 12.5 }, justifyContent: 'space-between' }}>
           <Button variant='contained' sx={{ mr: 2 }} type='submit'>
-            Submit
+            تأكيد
           </Button>
           <Button variant='outlined' color='secondary' onClick={() => onClose()}>
-            Discard
+            إلغاء
           </Button>
         </Grid>
       </Grid>

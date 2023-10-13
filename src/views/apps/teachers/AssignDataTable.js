@@ -117,7 +117,7 @@ const AssignTeacher = props => {
       sx={{ '& .MuiDrawer-paper': { width: { xs: 300, sm: 400 } } }}
     >
       <Header>
-        <Typography variant='h5'> Add Teacher</Typography>
+        <Typography variant='h5'>إضافة المعلم</Typography>
         <Close fontSize='small' onClick={handleClose} sx={{ cursor: 'pointer' }} />
       </Header>
 
@@ -135,7 +135,7 @@ const AssignTeacher = props => {
                 //color: selected ? 'blue' : 'rgba(0, 0, 0, 0.54)' // Change label color when an option is selected
               }}
             >
-              Select Teacher
+              حدد المعلم
             </InputLabel>
             <Controller
               name='teacher'
@@ -161,7 +161,7 @@ const AssignTeacher = props => {
                   }}
                 >
                   <MenuItem value='' disabled>
-                    <em>Select Teacher</em>
+                    <em>حدد المعلم</em>
                   </MenuItem>
                   {teachers?.map(t => (
                     <MenuItem value={t.id} key={t.id}>
@@ -177,12 +177,12 @@ const AssignTeacher = props => {
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             {teacherId && (
               <Button size='large' type='submit' variant='contained' sx={{ mr: 3 }} onClick={onSubmit}>
-                Submit
+                تأكيد
               </Button>
             )}
 
             <Button size='large' variant='outlined' color='secondary' onClick={handleClose}>
-              Cancel
+              إلغاء
             </Button>
           </Box>
         </form>

@@ -1,4 +1,3 @@
-// ** React Imports
 import { useState, forwardRef, useEffect } from 'react'
 
 // ** MUI Imports
@@ -26,10 +25,10 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Fade ref={ref} {...props} />
 })
 
-const DialogEditSessionInfo = ({ toggle, formInputs, showEdit }) => {
+const DialogAddEventInfo = ({ toggle, formInputs, showEdit }) => {
   // ** States */
   const dispatch = useDispatch()
-  const selectedSession = useSelector(state => state.sessions.selectedSession)
+  const events = useSelector(state => state.events?.data.data?.data)
 
   const schema = yup.object().shape({
     name: yup
@@ -51,12 +50,14 @@ const DialogEditSessionInfo = ({ toggle, formInputs, showEdit }) => {
   }
 
   const customizeSubmit = data => {
+    console.log(data)
+
     let formData = {
       name: data.name,
       date: data.date,
       type: data.type
     }
-    dispatch(editSession({ data: formData, id: selectedSession.id }))
+    //dispatch(editSession({ data: formData, id: selectedSession.id }))
     handleClose()
   }
 
@@ -83,7 +84,7 @@ const DialogEditSessionInfo = ({ toggle, formInputs, showEdit }) => {
         </IconButton>
         <Box sx={{ mb: 8, textAlign: 'center' }}>
           <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
-            تعديل الحصة
+            تعديل الحدث
           </Typography>
         </Box>
         <EditForm
@@ -91,11 +92,11 @@ const DialogEditSessionInfo = ({ toggle, formInputs, showEdit }) => {
           handleClose={handleClose}
           schema={schema}
           formInputs={formInputs}
-          selected={selectedSession}
+          selected={events}
         />
       </DialogContent>
     </Dialog>
   )
 }
 
-export default DialogEditSessionInfo
+export default DialogAddEventInfo

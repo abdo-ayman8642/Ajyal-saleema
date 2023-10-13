@@ -47,7 +47,7 @@ function ClassesData() {
 
   const { total_students = null } = sums || {}
 
-  const cardData = [{ header: 'Total Students', number: total_students }]
+  const cardData = [{ header: 'مجموع الطلاب', number: total_students }]
 
   if (loading) {
     return (

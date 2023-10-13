@@ -21,6 +21,56 @@ const StyledFormGroup = styled(FormGroup)`
   margin-top: 20px;
 `
 
+function accumulateObjectsById(inputArray) {
+  if (!inputArray) return
+  const result = {}
+
+  for (const obj of inputArray) {
+    const id = obj.question_id
+    if (!result[id]) {
+      result[id] = { question_id: id, value: [] }
+    }
+
+    if (obj.content) {
+      result[id].value.push(obj.content)
+    }
+
+    if (obj.choice_id) {
+      result[id].value.push(obj.choice_id)
+    }
+  }
+
+  // Convert value to a string if it has only one element
+  for (const item of Object.values(result)) {
+    if (item.value.length === 1) {
+      item.value = item.value[0]
+    } else if (item.value.length === 0) {
+      delete result[item.question_id]
+    }
+  }
+
+  return Object.values(result)
+}
+
+function findObjectsWithQuestionID(array, questionID) {
+  if (!Array.isArray(array)) return
+
+  return array.filter(obj => obj.question_id === questionID)
+}
+
+const handleCheckMulti = (array, questionID) => {
+  if (!array) return
+  console.log(array)
+  console.log(questionID)
+  const returned = findObjectsWithQuestionID(accumulateObjectsById(array, questionID)?.[0]?.value)
+
+  console.log(returned)
+
+  if (Array.isArray(returned)) return returned.map(str => Number(str))
+
+  return [Number(returned)]
+}
+
 const Question = ({ question, exam, setAnswers, answers, studView, id, taken }) => {
   //** stats & variables */
   const [value, setValue] = useState('')
@@ -115,7 +165,12 @@ const Question = ({ question, exam, setAnswers, answers, studView, id, taken }) 
       </Typography>
       <FormControl error={error} sx={{ width: '100%' }}>
         {question.type === 'single' && (
-          <RadioGroup aria-label='quiz' name='quiz' value={value} onChange={handleRadioChange}>
+          <RadioGroup
+            aria-label='quiz'
+            name='quiz'
+            value={findObjectsWithQuestionID(accumulateObjectsById(answers?.answers), question.id)?.[0]?.value}
+            onChange={handleRadioChange}
+          >
             {question.choices?.map((ans, index) => (
               <FormControlLabel key={index} value={ans.id} control={<Radio />} label={ans.content} />
             ))}
@@ -140,7 +195,7 @@ const Question = ({ question, exam, setAnswers, answers, studView, id, taken }) 
               minRows={5}
               fullWidth
               type='text'
-              value={value}
+              value={findObjectsWithQuestionID(accumulateObjectsById(answers?.answers), question.id)?.[0]?.value}
               label={'الإجابة'}
               onChange={handleChange}
               sx={{ width: '100%' }}
@@ -180,7 +235,7 @@ const Question = ({ question, exam, setAnswers, answers, studView, id, taken }) 
       <ConfirmDialog
         open={showDelete}
         toggle={toggleDelete}
-        confirmationType={'السؤال'}
+        confirmationType={'مسح السؤال'}
         dispatchFunc={handleDeleteQues}
       />
     </Box>

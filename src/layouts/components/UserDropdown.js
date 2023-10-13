@@ -38,6 +38,7 @@ const UserDropdown = props => {
   // ** Hooks
   const router = useRouter()
   const { logout, user } = useAuth()
+
   // ** Vars
   const { direction } = settings
 
@@ -74,26 +75,30 @@ const UserDropdown = props => {
   const renderRole = ({ role }) => {
     switch (role) {
       case '0':
-        return 'Super Admin'
+        return 'مسئول مميز'
       case '1':
-        return 'Admin'
+        return 'مسئول'
       case '2':
-        return 'volunteer'
+        return 'متطوع'
     }
   }
 
   const renderAvatarPath = ({ role, gender }) => {
     if (role === '0') {
       if (gender === 'male') return '/images/avatars/1.png'
+
       return '/images/avatars/2.png'
     }
     if (role === '1') {
       if (gender === 'male') return '/images/avatars/3.png'
+
       return '/images/avatars/4.png'
     }
     if (gender === 'male') return '/images/avatars/5.png'
+
     return '/images/avatars/6.png'
   }
+
   return (
     <Fragment>
       <Badge
@@ -164,7 +169,7 @@ const UserDropdown = props => {
               color: 'text.secondary'
             }}
           />
-          Logout
+          تسجيل خروج
         </MenuItem>
       </Menu>
     </Fragment>

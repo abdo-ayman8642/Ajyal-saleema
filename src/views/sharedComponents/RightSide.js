@@ -53,7 +53,7 @@ function RightSide({ buttonVisibility, exam }) {
             <div
               style={{ paddingBottom: '2rem', fontSize: '1.5rem', textTransform: 'uppercase', letterSpacing: '2px' }}
             >
-              No Question Added Yet
+              لم تتم إضافة أي سؤال حتى الآن
             </div>
             <img
               src='/undraw_no_data_re_kwbl.svg'
@@ -66,7 +66,7 @@ function RightSide({ buttonVisibility, exam }) {
             <>{getStepContent(activeStep)}</>
             <Box sx={{ mt: 3 }}>
               <Button disabled={activeStep === 0} onClick={handleBack}>
-                Back
+                إرجاع
               </Button>
               <Button
                 variant='contained'
@@ -75,7 +75,7 @@ function RightSide({ buttonVisibility, exam }) {
                 disabled={activeStep === steps.length - 1 ? true : false}
                 sx={{ ml: 4 }}
               >
-                {'التالي'}
+                التالي
               </Button>
             </Box>
           </div>

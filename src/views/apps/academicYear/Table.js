@@ -600,7 +600,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
         <ConfirmDelete
           open={showConfirm}
           toggle={toggleConfirm}
-          confirmationType={'مسح العام الدراسي'}
+          confirmationType={'المسح '}
           deleteAction={deleteAction}
           selected={selected}
           fetchData={editData}

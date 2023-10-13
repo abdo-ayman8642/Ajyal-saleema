@@ -105,7 +105,7 @@ function RightSide({ id, studentId, taken, total_num }) {
                     letterSpacing: '2px'
                   }}
                 >
-                  No Question Added Yet
+                  لم تتم إضافة أي سؤال حتى الآن
                 </div>
                 <img
                   src='/undraw_no_data_re_kwbl.svg'
@@ -119,7 +119,7 @@ function RightSide({ id, studentId, taken, total_num }) {
                 <Box sx={{ mt: 3, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                   <Box>
                     <Button disabled={activeStep === 0} onClick={handleBack}>
-                      Back
+                      إرجاع
                     </Button>
                     <Button
                       variant='contained'
@@ -148,7 +148,7 @@ function RightSide({ id, studentId, taken, total_num }) {
       ) : (
         <div style={{ textAlign: 'center', padding: '5rem' }}>
           <div style={{ paddingBottom: '2rem', fontSize: '1.5rem', textTransform: 'uppercase', letterSpacing: '2px' }}>
-            Already Took This Exam
+            أخذت هذا الامتحان بالفعل
           </div>
           <img src='/undraw_done_re_oak4.svg' alt='Description of the illustration' style={{ width: '100%' }} />
         </div>

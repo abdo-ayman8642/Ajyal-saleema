@@ -48,11 +48,11 @@ function AcademicYear() {
   } = sums || {}
 
   const cardData = [
-    { header: 'Total Departments', number: years?.total },
-    { header: 'Total Schools', number: total_schools },
-    { header: 'Total Camps', number: total_camps },
-    { header: 'Total Classes', number: total_classes },
-    { header: 'Total Students', number: total_students }
+    { header: 'مجموع الإدارات', number: years?.total },
+    { header: 'مجموع المدارس', number: total_schools },
+    { header: 'مجموع المعسكرات', number: total_camps },
+    { header: 'مجموع الفصول', number: total_classes },
+    { header: 'مجموع الطلاب', number: total_students }
   ]
 
   if (loading) {

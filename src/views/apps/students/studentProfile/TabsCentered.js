@@ -46,7 +46,7 @@ const TabsFullWidth = ({ exams }) => {
     if (routeId) {
       if (exams?.length) {
         return (
-          <Grid item md={8}>
+          <Grid item md={8} sx={{ width: '100%' }}>
             <TabContext value={value?.toString()}>
               <TabList variant='fullWidth' onChange={handleChange} aria-label='full width tabs example'>
                 {exams?.map(ex => (
