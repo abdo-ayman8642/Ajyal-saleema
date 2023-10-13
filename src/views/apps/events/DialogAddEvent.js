@@ -19,13 +19,13 @@ import { useSelector } from 'react-redux'
 import * as yup from 'yup'
 
 import EditForm from 'src/views/sharedComponents/EditForm'
-import { editSession } from 'src/store/apps/sessions/actions'
+import { editEvent } from 'src/store/apps/events/actions'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Fade ref={ref} {...props} />
 })
 
-const DialogAddEventInfo = ({ toggle, formInputs, showEdit }) => {
+const DialogAddEventInfo = ({ toggle, formInputs, showEdit, edited }) => {
   // ** States */
   const dispatch = useDispatch()
   const events = useSelector(state => state.events?.data.data?.data)
@@ -33,8 +33,10 @@ const DialogAddEventInfo = ({ toggle, formInputs, showEdit }) => {
   const schema = yup.object().shape({
     name: yup
       .string()
-      .min(3, obj => showErrors('Session Name', obj.value.length, obj.min))
-      .required()
+      .min(3, obj => showErrors('Event Name', obj.value.length, obj.min))
+      .required(),
+    date_from: yup.date().required(),
+    date_to: yup.date().required()
   })
 
   /** Functions */
@@ -54,10 +56,10 @@ const DialogAddEventInfo = ({ toggle, formInputs, showEdit }) => {
 
     let formData = {
       name: data.name,
-      date: data.date,
-      type: data.type
+      from: data.date_from,
+      to: data.date_to
     }
-    //dispatch(editSession({ data: formData, id: selectedSession.id }))
+    dispatch(editEvent({ data: formData, id: edited.id }))
     handleClose()
   }
 
@@ -92,7 +94,7 @@ const DialogAddEventInfo = ({ toggle, formInputs, showEdit }) => {
           handleClose={handleClose}
           schema={schema}
           formInputs={formInputs}
-          selected={events}
+          selected={edited}
         />
       </DialogContent>
     </Dialog>

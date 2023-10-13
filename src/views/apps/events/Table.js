@@ -88,6 +88,7 @@ const EventList = ({ formInputs, toggleConfirm }) => {
   const events = useSelector(state => state.events?.data.data)
   const selectedEvents = useSelector(state => state.events?.selectedEvents)
   const [showEdit, setShowEdit] = useState(false)
+  const [currEvent, setCurrEvent] = useState(null)
   const user = useAuth()
 
   const { events: event } = user?.user?.permissions
@@ -129,6 +130,7 @@ const EventList = ({ formInputs, toggleConfirm }) => {
 
   const onClickEdit = row => {
     toggleShowEdit()
+    setCurrEvent(row)
     dispatch(handleSelectedEvents(row))
   }
 
@@ -169,7 +171,9 @@ const EventList = ({ formInputs, toggleConfirm }) => {
           />
         </Card>
       </Grid>
-      {showEdit && <DialogAddEventInfo formInputs={formInputs} toggle={toggleShowEdit} showEdit={showEdit} />}
+      {showEdit && (
+        <DialogAddEventInfo formInputs={formInputs} toggle={toggleShowEdit} showEdit={showEdit} edited={currEvent} />
+      )}
     </Grid>
   )
 }

@@ -6,6 +6,7 @@ const baseUrl = 'https://edu.kyanlabs.com/edu/api/'
 export const fetchData = createAsyncThunk('appEvent/fetchData', async (page, { rejectWithValue }) => {
   try {
     const response = await axios.get(`${baseUrl}events`)
+
     return response
   } catch (err) {
     if (!err.response) {
@@ -36,6 +37,7 @@ export const addEvent = createAsyncThunk('appEvent/addEvent', async ({ data }, {
 })
 
 export const editEvent = createAsyncThunk('appEvent/editEvent', async ({ data, id }, { rejectWithValue, dispatch }) => {
+  console.log(data)
   try {
     const response = await axios.patch(`${baseUrl}events/${id}`, JSON.stringify(data), {
       headers: {

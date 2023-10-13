@@ -49,7 +49,8 @@ const EditForm = ({ formInputs, schema, customizeSubmit, handleClose, selected }
   useEffect(() => {
     if (formInputs) {
       for (const key in defaultValues) {
-        setValue(key, selected[key])
+        const serachKey = key === 'date_from' ? 'from' : key === 'date_to' ? 'to' : key
+        setValue(key, selected[serachKey])
       }
     }
   }, [formInputs])
