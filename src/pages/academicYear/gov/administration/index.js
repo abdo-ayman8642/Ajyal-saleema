@@ -22,7 +22,6 @@ function AdministrationData() {
   const user = useAuth()
   const { academic: view } = user?.user?.permissions?.nav || {}
   const { read } = user?.user?.permissions?.year?.administrations || {}
-  console.log(themeConfig)
 
   const [showDrawer, setDrawer] = useState(false)
   const router = useRouter()

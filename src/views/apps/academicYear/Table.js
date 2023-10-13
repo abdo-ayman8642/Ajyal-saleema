@@ -189,14 +189,14 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: '#f2f2f2',
+                backgroundColor: 'transparent',
                 padding: '6px 12px',
                 borderRadius: '24px',
                 cursor: 'pointer',
                 boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
                 transition: 'background-color 0.3s ease',
                 '&:hover': {
-                  backgroundColor: '#dcdcdc'
+                  borderColor: '#dcdcdc'
                 }
               }}
             >
@@ -228,15 +228,13 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                backgroundColor: '#f2f2f2',
+                backgroundColor: 'transparent',
                 padding: '6px 12px',
                 borderRadius: '24px',
                 cursor: 'pointer',
                 boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
                 transition: 'background-color 0.3s ease',
-                '&:hover': {
-                  backgroundColor: '#dcdcdc'
-                }
+                '&:hover': {}
               }}
             >
               <Link href={{ pathname: 'administration/camp', query: { pastRoute: pastRoute, id: id } }} passHref>
@@ -246,7 +244,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
                   variant='subtitle2'
                   sx={{ color: 'text.primary', textDecoration: 'none' }}
                 >
-                  {isMobile ? <ForestIcon /> : 'المعسكر'}
+                  {isMobile ? <ForestIcon /> : 'المعسكرات'}
                 </Typography>
               </Link>
             </Box>
