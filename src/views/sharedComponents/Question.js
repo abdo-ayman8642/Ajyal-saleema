@@ -60,11 +60,8 @@ function findObjectsWithQuestionID(array, questionID) {
 
 const handleCheckMulti = (array, questionID) => {
   if (!array) return
-  console.log(array)
-  console.log(questionID)
-  const returned = findObjectsWithQuestionID(accumulateObjectsById(array, questionID)?.[0]?.value)
-
-  console.log(returned)
+  const uniformed = accumulateObjectsById(array)
+  const returned = findObjectsWithQuestionID(uniformed, questionID)?.[0]?.value
 
   if (Array.isArray(returned)) return returned.map(str => Number(str))
 
@@ -168,7 +165,7 @@ const Question = ({ question, exam, setAnswers, answers, studView, id, taken }) 
           <RadioGroup
             aria-label='quiz'
             name='quiz'
-            value={findObjectsWithQuestionID(accumulateObjectsById(answers?.answers), question.id)?.[0]?.value}
+            value={findObjectsWithQuestionID(accumulateObjectsById(answers?.answers), question.id)}
             onChange={handleRadioChange}
           >
             {question.choices?.map((ans, index) => (
@@ -182,7 +179,13 @@ const Question = ({ question, exam, setAnswers, answers, studView, id, taken }) 
               <FormControlLabel
                 sx={{ marginBottom: '5px' }}
                 label={q.content}
-                control={<Checkbox checked={value[q.id] || false} onChange={handleChange} id={q.id} />}
+                control={
+                  <Checkbox
+                    checked={handleCheckMulti(answers?.answers, question.id)?.includes(q.id) || false}
+                    onChange={handleChange}
+                    id={q.id}
+                  />
+                }
                 key={q.id}
               />
             ))}
