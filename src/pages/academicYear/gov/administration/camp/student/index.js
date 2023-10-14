@@ -30,6 +30,10 @@ function CampsData() {
     dispatch(filterBy({ page: 1, query: 'school_camp', value: campId }))
   }, [dispatch, campId])
 
+  const handlePageChange = nextPage => {
+    dispatch(filterBy({ page: nextPage, query: 'school_camp', value: campId }))
+  }
+
   if (loading) {
     return (
       <Grid container sx={{ justifyContent: 'center', alignItems: 'center', height: '100%' }}>
@@ -66,6 +70,7 @@ function CampsData() {
                   pathname={`student/view`}
                   pastRoute={campId}
                   editData={{ urlId: campId, query: 'school_camp' }}
+                  handlePageChange={handlePageChange}
                 />
 
                 <ResponsiveCardGrid cardData={cardData} />
