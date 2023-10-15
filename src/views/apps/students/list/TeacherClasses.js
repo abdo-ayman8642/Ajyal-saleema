@@ -68,12 +68,12 @@ function TeacherClasses({ toggle, open, data }) {
             <Typography variant='h5'>{name}</Typography>
             <Close fontSize='small' onClick={toggle} sx={{ cursor: 'pointer' }} />
           </Header>
-          <div style={{ textAlign: 'center', margin: '0.5rem 0' }}>عدد الطلاب في</div>
+          <div style={{ textAlign: 'center', margin: '0.5rem 0' }}></div>
           <Grid container spacing={2}>
-            <Grid item xs={4}>
+            <Grid item xs={12}>
               <Card>
                 <CardContent style={cardStyles}>
-                  <div>حصص</div>
+                  <div> عدد الطلاب في الحصص</div>
                   <Typography variant='h5' style={{ fontWeight: 'bold' }}>
                     {total_class_students || 0}
                   </Typography>
@@ -81,7 +81,7 @@ function TeacherClasses({ toggle, open, data }) {
               </Card>
             </Grid>
 
-            <Grid item xs={4}>
+            {/* <Grid item xs={4}>
               <Card>
                 <CardContent style={cardStyles}>
                   <div>المعسكرات</div>
@@ -90,9 +90,9 @@ function TeacherClasses({ toggle, open, data }) {
                   </Typography>
                 </CardContent>
               </Card>
-            </Grid>
+            </Grid> */}
 
-            <Grid item xs={4}>
+            {/* <Grid item xs={4}>
               <Card>
                 <CardContent style={cardStyles}>
                   <div>الإدارات</div>
@@ -101,9 +101,9 @@ function TeacherClasses({ toggle, open, data }) {
                   </Typography>
                 </CardContent>
               </Card>
-            </Grid>
+            </Grid> */}
 
-            <Grid item xs={6} sx={{ mt: '1rem' }}>
+            <Grid item xs={12} sx={{ mt: '1rem' }}>
               <Card>
                 <CardContent style={cardStyles}>
                   <div>مجموع الفصول</div>
@@ -114,7 +114,18 @@ function TeacherClasses({ toggle, open, data }) {
               </Card>
             </Grid>
 
-            <Grid item xs={6} sx={{ mt: '1rem' }}>
+            <Grid item xs={12}>
+              <Card>
+                <CardContent style={cardStyles}>
+                  <div> عدد المحاضرات</div>
+                  <Typography variant='h5' style={{ fontWeight: 'bold' }}>
+                    0
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+
+            {/* <Grid item xs={6} sx={{ mt: '1rem' }}>
               <Card>
                 <CardContent style={cardStyles}>
                   <div>إجمالي المعسكرات</div>
@@ -123,7 +134,7 @@ function TeacherClasses({ toggle, open, data }) {
                   </Typography>
                 </CardContent>
               </Card>
-            </Grid>
+            </Grid> */}
           </Grid>
 
           {!!classes?.length && <h4 style={{ textAlign: 'center' }}>فصل</h4>}

@@ -38,12 +38,12 @@ const StatisticsCard = ({ StudentsData }) => {
       color: 'success',
       title: 'الطلاب الحاضرون'
     },
-    {
-      color: 'error',
-      stats: totalAbsent || 0,
-      icon: <PersonOffIcon />,
-      title: 'الطلاب الغائبون'
-    },
+    // {
+    //   color: 'error',
+    //   stats: totalAbsent || 0,
+    //   icon: <PersonOffIcon />,
+    //   title: 'الطلاب الغائبون'
+    // },
     {
       color: 'info',
       stats: average || 0,
@@ -76,7 +76,7 @@ const StatisticsCard = ({ StudentsData }) => {
         titleTypographyProps={{ variant: 'h6' }}
       />
       <CardContent>
-        <Grid container spacing={6}>
+        <Grid container spacing={6} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {renderStats()}
         </Grid>
       </CardContent>

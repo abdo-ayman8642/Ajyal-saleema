@@ -55,7 +55,10 @@ function AdministrationData() {
     { header: 'مجموع المدارس', number: total_schools },
     { header: 'مجموع المعسكرات', number: total_camps },
     { header: 'مجموع الفصول', number: total_classes },
-    { header: 'مجموع الطلاب', number: total_students }
+    { header: 'مجموع الطلاب', number: total_students },
+    { header: 'الحاضرين فى الامتحان القبلى', number: 0 },
+    { header: 'الحاضرين فى الامتحان البعدى', number: 0 },
+    { header: 'عدد المدرسين', number: 0 }
   ]
 
   if (loading) {

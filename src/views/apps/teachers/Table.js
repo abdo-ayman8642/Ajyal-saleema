@@ -30,6 +30,7 @@ import { handleSelectedTeacher } from 'src/store/apps/teachers'
 import SidebarAddTeacher from './DrawerAdd'
 import TeacherClasses from '../students/list/TeacherClasses'
 import { useAuth } from 'src/hooks/useAuth'
+import { TextField } from '@mui/material'
 
 // ** Styled component for the link for the avatar with image
 const AvatarWithImageLink = styled(Link)(({ theme }) => ({
@@ -59,6 +60,7 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
   // stats and variables
   const dispatch = useDispatch()
   const [pageSize, setPageSize] = useState(10)
+  const [searchQuery, setSearchQuery] = useState('')
   const selectedTeacher = useSelector(state => state.selectedTeacher)
   const teachers = useSelector(state => state.teachers?.data?.data)
   const [showAttendance, setShowAttendance] = useState(false)
@@ -252,13 +254,25 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
 
   columns = columns.filter(obj => !isObjectEmpty(obj))
 
+  console.log(teachers)
+
+  const filteredTeachers = teachers.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
+
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
+        <TextField
+          label='Search Teacher'
+          variant='outlined'
+          fullWidth
+          value={searchQuery}
+          onChange={e => setSearchQuery(e.target.value)}
+          sx={{ width: '30%', mb: '1rem', mt: '1rem' }}
+        />
         <Card>
           <DataGrid
             autoHeight
-            rows={teachers || []}
+            rows={filteredTeachers || []}
             checkboxSelection={false}
             pageSize={pageSize}
             disableSelectionOnClick

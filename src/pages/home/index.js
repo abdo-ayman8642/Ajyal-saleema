@@ -22,6 +22,7 @@ import CardStatisticsSales from 'src/views/ui/cards/statistics/CardStatisticsSal
 import PageHeader from 'src/views/apps/academicYear/PageHeader'
 import { useAuth } from 'src/hooks/useAuth'
 import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
+import QuizStats from 'src/views/apps/exam/quizesStats'
 
 const _ = require('lodash')
 
@@ -148,11 +149,14 @@ const Home = () => {
             <CardStatsCharacter data={studentsData} />
           </Grid>
 
-          <Grid item xs={12} lg={5}>
+          <Grid item xs={12} lg={6}>
             <CardStatsOrdersImpressions data={sessionsData} />
           </Grid>
           <Grid item xs={12} lg={6}>
             <GenderStats data={genderData} />
+          </Grid>
+          <Grid item xs={12} lg={6}>
+            <QuizStats data={genderData} />
           </Grid>
 
           <Grid item xs={12} lg={12}>

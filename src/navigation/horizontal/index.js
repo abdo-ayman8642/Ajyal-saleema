@@ -30,31 +30,18 @@ const navigation = () => {
       path: '/academicYear'
     })
 
-  usedNav.push({
-    title: 'الأعضاء',
-    icon: PeopleAltIcon,
-    path: '/users'
-  })
+  permissions?.['teachers'] &&
+    usedNav.push({
+      title: 'المدرسين',
+      icon: NoteAltIcon,
+      path: '/teachers'
+    })
 
   permissions?.['sessions'] &&
     usedNav.push({
       title: 'الحصص',
       icon: ClassIcon,
       path: '/sessions'
-    })
-
-  permissions?.['events'] &&
-    usedNav.push({
-      title: 'الأحداث',
-      icon: EventIcon,
-      path: '/events'
-    })
-
-  permissions?.['teachers'] &&
-    usedNav.push({
-      title: 'المدرسين',
-      icon: NoteAltIcon,
-      path: '/teachers'
     })
 
   permissions?.['exams'] &&
@@ -64,12 +51,25 @@ const navigation = () => {
       path: '/exams'
     })
 
+  permissions?.['events'] &&
+    usedNav.push({
+      title: 'الأحداث',
+      icon: EventIcon,
+      path: '/events'
+    })
+
   permissions?.['attendance'] &&
     usedNav.push({
       title: 'الحضور',
       icon: HowToRegIcon,
       path: '/attendance'
     })
+
+  usedNav.push({
+    title: 'الأعضاء',
+    icon: PeopleAltIcon,
+    path: '/users'
+  })
 
   //const usedNav = role != 2 ? normalNav : volNav
   return [...usedNav]

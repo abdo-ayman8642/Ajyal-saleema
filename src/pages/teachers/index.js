@@ -23,6 +23,7 @@ import DialogEditForm from 'src/views/apps/teachers/EditDialogForm'
 import { useAuth } from 'src/hooks/useAuth'
 import { useHistory } from 'react-router-dom'
 import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
+import SchoolDataTable from 'src/views/apps/academicYear/schoolDataTable'
 
 function Teachers() {
   // main variables

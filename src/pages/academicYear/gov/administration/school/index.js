@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import { useAuth } from 'src/hooks/useAuth'
 import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
 import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
+import SchoolDataTable from 'src/views/apps/academicYear/schoolDataTable'
 
 function SchoolsData() {
   const dispatch = useDispatch()
@@ -58,15 +59,14 @@ function SchoolsData() {
     )
   }
 
-  const handlePageChange = nextPage => {
-    dispatch(fetchSchools({ page: nextPage, id: id, type: 'school' }))
-  }
+  // const handlePageChange = nextPage => {
+  //   dispatch(fetchSchools({ page: nextPage, id: id, type: 'school' }))
+  // }
 
   return (
     <Grid container>
       {read && view ? (
         <>
-          {' '}
           <Grid item xs={12} md={12}>
             <PageHeader src={'/images/academics.jpg'} />
           </Grid>
@@ -84,13 +84,12 @@ function SchoolsData() {
               </Grid>
 
               <Grid item xs={12}>
-                <DataTable
+                <SchoolDataTable
                   editData={{ department_id: id, type: 'school' }}
                   dataName={'المدرسة '}
                   formType={'schools'}
                   storeData={'schools'}
                   pathname={'school/grade'}
-                  handlePageChange={handlePageChange}
                 />
                 <ResponsiveCardGrid cardData={cardData} />
               </Grid>

@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import { useAuth } from 'src/hooks/useAuth'
 import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
 import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
+import CampDataTable from 'src/views/apps/academicYear/campDataTable'
 
 function CampsData() {
   const dispatch = useDispatch()
@@ -28,10 +29,6 @@ function CampsData() {
   useEffect(() => {
     dispatch(getCampsByAdministration({ id: administrationId, type: 'camp' }))
   }, [dispatch, administrationId])
-
-  const handlePageChange = nextPage => {
-    dispatch(getCampsByAdministration({ id: administrationId, type: 'camp', page: nextPage }))
-  }
 
   if (!Array.isArray(camps)) camps = []
 
@@ -81,14 +78,13 @@ function CampsData() {
               </Grid>
 
               <Grid item xs={12}>
-                <DataTable
+                <CampDataTable
                   dataName={'المعسكر'}
                   formType={'camps'}
                   storeData={'camps'}
                   pathname={`camp/student`}
                   pastRoute={administrationId}
                   editData={{ department_id: administrationId, type: 'camp' }}
-                  handlePageChange={handlePageChange}
                   renderAgain={() => {
                     dispatch(getCampsByAdministration({ id: administrationId, type: 'camp' }))
                   }}

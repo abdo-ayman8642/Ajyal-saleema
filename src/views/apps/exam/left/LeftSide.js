@@ -20,6 +20,7 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete'
 import AddIcon from '@mui/icons-material/Add'
+import RestartAltIcon from '@mui/icons-material/RestartAlt'
 
 // ** Utils Import
 import { useSelector } from 'react-redux'
@@ -27,7 +28,7 @@ import { addQuestion, deleteExam, editExam, fetchQuestions } from 'src/store/app
 import { useDispatch } from 'react-redux'
 import AddExam from '../AddExam'
 import * as yup from 'yup'
-import { IconButton } from '@mui/material'
+import { IconButton, Tooltip } from '@mui/material'
 import ConfirmDialog from '../ConfirmDialog'
 import AddQuestionForm from '../AddQuestionForm'
 import { useAuth } from 'src/hooks/useAuth'
@@ -270,6 +271,14 @@ const LeftSide = ({ exam }) => {
                 {/* <Button variant='outlined' color='warning' startIcon={<EditIcon />} onClick={toggleShowEdit}>
                   تعديل
                 </Button> */}
+                {deletee && (
+                  <Tooltip title='مسح بيانات الطلاب و البدئ من جديد'>
+                    <Button variant='outlined' color='error' startIcon={<RestartAltIcon />}>
+                      إعادة
+                    </Button>
+                  </Tooltip>
+                )}
+
                 {add && (
                   <Button
                     variant='outlined'

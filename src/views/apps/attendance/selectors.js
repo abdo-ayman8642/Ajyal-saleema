@@ -84,7 +84,10 @@ function Selectors() {
     try {
       const response = await fetch(path)
       const jsonData = await response.json()
-      const itemArray = jsonData.data ? jsonData.data?.map(data => [data.id, data.name]) : []
+      console.log(jsonData)
+      const itemArray = jsonData.data
+        ? jsonData.data?.map(data => [data.id, data.name])
+        : jsonData?.map(data => [data.id, data.name])
 
       dispatch(setField({ index: index, field: 'items', value: itemArray }))
     } catch (error) {
@@ -99,6 +102,8 @@ function Selectors() {
 
     return valuePassed
   }
+  console.log(data)
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       {data?.map((item, index) => (
