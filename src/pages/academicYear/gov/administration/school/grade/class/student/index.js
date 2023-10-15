@@ -10,6 +10,7 @@ import { useRouter } from 'next/router'
 import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
 import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 import { useAuth } from 'src/hooks/useAuth'
+import StudentDatatable from 'src/views/apps/academicYear/studentDataTable'
 
 function StudentsData() {
   const dispatch = useDispatch()
@@ -61,7 +62,7 @@ function StudentsData() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <DataTable
+                <StudentDatatable
                   dataName={'الطالب'}
                   formType={'students'}
                   storeData={'students'}

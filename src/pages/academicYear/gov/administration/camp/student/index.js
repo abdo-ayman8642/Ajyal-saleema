@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import { useAuth } from 'src/hooks/useAuth'
 import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
 import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
+import StudentDatatable from 'src/views/apps/academicYear/studentDataTable'
 
 function CampsData() {
   const dispatch = useDispatch()
@@ -24,7 +25,7 @@ function CampsData() {
   const { read } = user?.user?.permissions?.year?.students || {}
   const { academic: view } = user?.user?.permissions?.nav || {}
 
-  const cardData = [{ header: 'مجموع الطلاب', number: data?.data?.total }]
+  const cardData = [{ header: 'مجموع الطلاب', number: data?.data?.length }]
 
   useEffect(() => {
     dispatch(filterBy({ page: 1, query: 'school_camp', value: campId }))
@@ -63,7 +64,7 @@ function CampsData() {
                 />
               </Grid>
               <Grid item xs={12}>
-                <DataTable
+                <StudentDatatable
                   dataName={'الطالب'}
                   formType={'students'}
                   storeData={'students'}

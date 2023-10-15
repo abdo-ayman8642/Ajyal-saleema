@@ -416,6 +416,7 @@ const CampDataTable = ({
 
   const camps = searchedData?.data || data?.data || data
   const filteredCamps = camps?.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
+
   return (
     <>
       <Grid container spacing={6}>
