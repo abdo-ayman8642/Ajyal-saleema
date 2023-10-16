@@ -39,19 +39,19 @@ We worked closely with Ajyal Salema to develop a Learning Management System that
 
 ## Screenshots
 
-- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20041439.png)
-- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20041642.png)
-- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20041953.png)
-- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20042028.png)
-- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20042102.png)
-- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20042330.png)
-- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20042400.png)
-- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20042422.png)
-- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20042447.png)
-- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20042615.png)
-- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20042712.png)
-- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20042750.png)
-- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20042826.png)
+![Login Page](public/Screenshots/Screenshot%202023-10-16%20041439.png)
+![Home page](public/Screenshots/Screenshot%202023-10-16%20041642.png)
+![Users Page](public/Screenshots/Screenshot%202023-10-16%20041953.png)
+![Permisions-1](public/Screenshots/Screenshot%202023-10-16%20042028.png)
+![Permisions-2](public/Screenshots/Screenshot%202023-10-16%20042102.png)
+![Attendance Page](public/Screenshots/Screenshot%202023-10-16%20042330.png)
+![Quiz Page-1](public/Screenshots/Screenshot%202023-10-16%20042400.png)
+![Quiz page-2](public/Screenshots/Screenshot%202023-10-16%20042422.png)
+![Sessions Page](public/Screenshots/Screenshot%202023-10-16%20042447.png)
+![Teachers Page](public/Screenshots/Screenshot%202023-10-16%20042615.png)
+![Adminstration View](public/Screenshots/Screenshot%202023-10-16%20042712.png)
+![Students View](public/Screenshots/Screenshot%202023-10-16%20042750.png)
+![Student profile View](public/Screenshots/Screenshot%202023-10-16%20042826.png)
 
 ## Conclusion
 
