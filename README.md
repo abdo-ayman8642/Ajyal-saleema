@@ -61,7 +61,7 @@ We worked closely with Ajyal Salema to develop a Learning Management System that
 
 ## Demo
 
-Feel free to explore our LMS application using the following demo credentials:
+Feel free to explore our LMS application at [Ajyal Saleema](https://edu.kyanlabs.com/) using the following demo credentials:
 Note that you don't have any permissions except reading only
 
 - **Username:** volunteer@gmail.com
