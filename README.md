@@ -14,7 +14,6 @@ Ajyal Salema faced several challenges that our LMS project aimed to address:
 - **Quiz and Progress Tracking**: Creating tools for quizzes, and tracking student progress.
 - **User Experience**: Improving the overall user experience for both students and instructors.
 
-
 ## Features we offered
 
 - User authentication
@@ -23,7 +22,6 @@ Ajyal Salema faced several challenges that our LMS project aimed to address:
 - Quiz creation and management
 - Making Reports for every governorate, Adminstarion, Schools, Classes and also Camps
 - User progress tracking
-
 
 ### How Our LMS Project Helped
 
@@ -39,10 +37,21 @@ We worked closely with Ajyal Salema to develop a Learning Management System that
 
 - **User Experience**: The project prioritized the user experience, ensuring a user-friendly interface that provides an engaging and effective learning environment.
 
-## Screenshots 
+## Screenshots
 
-- ![Alt Text]()
-
+- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20041439.png)
+- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20041642.png)
+- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20041953.png)
+- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20042028.png)
+- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20042102.png)
+- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20042330.png)
+- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20042400.png)
+- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20042422.png)
+- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20042447.png)
+- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20042615.png)
+- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20042712.png)
+- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20042750.png)
+- ![Alt Text](public/Screenshots/Screenshot%202023-10-16%20042826.png)
 
 ## Conclusion
 
@@ -51,6 +60,3 @@ Our collaboration with Ajyal Salema led to the successful development of a custo
 ---
 
 We are committed to continuous improvement and welcome feedback and contributions from the open-source community. If you're interested in contributing to our project, please check the "Contributing" section above. Thank you for your support.
-
-
-

@@ -214,7 +214,7 @@ const StudentDatatable = ({ dataName, formType, storeData, pathname, pastRoute, 
               checkboxSelection={false}
               pageSize={pageSize}
               columns={columns}
-              rowCount={filteredStudents.length}
+              rowCount={filteredStudents?.length}
               disableSelectionOnClick
               onCellClick={selected => dispatch(handleSelectedData(selected.row))}
               sx={{ '& .MuiDataGrid-columnHeaders': { borderRadius: 0 } }}

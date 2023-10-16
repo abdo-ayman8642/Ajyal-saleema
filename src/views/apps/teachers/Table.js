@@ -27,7 +27,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import CustomAvatar from 'src/@core/components/mui/avatar'
 import { SchoolOutline } from 'mdi-material-ui'
 import { handleSelectedTeacher } from 'src/store/apps/teachers'
-import SidebarAddTeacher from './DrawerAdd'
 import TeacherClasses from '../students/list/TeacherClasses'
 import { useAuth } from 'src/hooks/useAuth'
 import { TextField } from '@mui/material'
@@ -180,6 +179,7 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
         )
       }
     }
+
     return {}
   }
 
@@ -232,10 +232,6 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
     toggleDialog()
   }
 
-  const handleFilter = useCallback(val => {
-    setValue(val)
-  }, [])
-
   const handleDelete = selected => {
     dispatch(handleSelectedTeacher([...selected]))
   }
@@ -254,9 +250,7 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
 
   columns = columns.filter(obj => !isObjectEmpty(obj))
 
-  console.log(teachers)
-
-  const filteredTeachers = teachers.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
+  const filteredTeachers = teachers?.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
 
   return (
     <Grid container spacing={6}>
