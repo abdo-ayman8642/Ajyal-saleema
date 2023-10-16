@@ -8,11 +8,11 @@ Ajyal Salema is a prominent education organization dedicated to providing high-q
 
 Ajyal Salema faced several challenges that our LMS project aimed to address:
 
-- **Scalable Learning Platform**: The need for a scalable learning platform to accommodate a growing number of students and courses.
+- **Scalable Learning Platform**: The need for a scalable learning platform to accommodate a growing number of students.
 - **Efficient Quizes Management**: Simplifying the process of creating, managing, and updating Quizes.
 - **User Authentication**: Implementing a secure and user-friendly authentication system for students, instructors and volunteers.
 - **Quiz and Progress Tracking**: Creating tools for quizzes, and tracking student progress.
-- **User Experience**: Improving the overall user experience for both students and instructors.
+- **User Experience**: Improving the overall user experience for both students, instructors and volunteers.
 
 ## Features we offered
 
@@ -22,6 +22,11 @@ Ajyal Salema faced several challenges that our LMS project aimed to address:
 - Quiz creation and management
 - Making Reports for every governorate, Adminstarion, Schools, Classes and also Camps
 - User progress tracking
+- Adding Events and Viewing it in a well designed Calender in Dashboard
+- Easily Assigning and unassigning teachers in classes and camps if you have the permission
+- Can easily export any Data or report for data analysis or further processing
+- Security and data integrity
+- accessibility and fully responsivity in any device from a small mobile phone to a large tv screen
 
 ### How Our LMS Project Helped
 
@@ -31,9 +36,9 @@ We worked closely with Ajyal Salema to develop a Learning Management System that
 
 - **Efficient Course Management**: The platform provides an intuitive interface for course creation, content management, and updates, making it easy for instructors to maintain up-to-date courses.
 
-- **User Authentication**: We implemented a robust and secure user authentication system, protecting sensitive data and ensuring a smooth login and registration process.
+- **User Authentication**: We implemented a robust and secure user authentication system, protecting sensitive data and ensuring a smooth login and registration process (where super admin acount register users and gives permissions).
 
-- **Assessment and Progress Tracking**: Our LMS includes features for creating and managing quizzes and assignments. It also offers comprehensive progress tracking tools, allowing both students and instructors to monitor performance effectively.
+- **Quiz and Progress Tracking**: Our LMS includes features for creating and managing quizzes. It also offers comprehensive progress tracking tools, allowing both students and instructors to monitor performance effectively.
 
 - **User Experience**: The project prioritized the user experience, ensuring a user-friendly interface that provides an engaging and effective learning environment.
 
@@ -41,6 +46,7 @@ We worked closely with Ajyal Salema to develop a Learning Management System that
 
 ![Login Page](public/Screenshots/Screenshot%202023-10-16%20041439.png)
 ![Home page](public/Screenshots/Screenshot%202023-10-16%20041642.png)
+![Home page Dark mode](public/Screenshots/Screenshot%202023-10-16%20052316.png)
 ![Users Page](public/Screenshots/Screenshot%202023-10-16%20041953.png)
 ![Permisions-1](public/Screenshots/Screenshot%202023-10-16%20042028.png)
 ![Permisions-2](public/Screenshots/Screenshot%202023-10-16%20042102.png)
@@ -52,6 +58,14 @@ We worked closely with Ajyal Salema to develop a Learning Management System that
 ![Adminstration View](public/Screenshots/Screenshot%202023-10-16%20042712.png)
 ![Students View](public/Screenshots/Screenshot%202023-10-16%20042750.png)
 ![Student profile View](public/Screenshots/Screenshot%202023-10-16%20042826.png)
+
+## Demo
+
+Feel free to explore our LMS application using the following demo credentials:
+Note that you don't have any permissions except reading only
+
+- **Username:** volunteer@gmail.com
+- **Password:** 12345678
 
 ## Conclusion
 
