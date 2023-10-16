@@ -18,7 +18,7 @@ function Exams() {
   const exams = useSelector(state => state?.exams?.data?.data)
   const [showAdd, setShowAdd] = useState(false)
   const user = useAuth()
-  const { read } = user?.user?.permissions?.exams || {}
+  const { read, add } = user?.user?.permissions?.exams || {}
   const { exams: view } = user?.user?.permissions?.nav || {}
 
   useEffect(() => {
@@ -76,16 +76,32 @@ function Exams() {
   }
 
   if (!exams || exams.length === 0) {
-    return <CreateExam />
+    if (add) return <CreateExam />
+
+    return (
+      <div style={{ textAlign: 'center', padding: '5rem' }}>
+        <div style={{ paddingBottom: '2rem', fontSize: '1.5rem', textTransform: 'uppercase', letterSpacing: '2px' }}>
+          لم تتم إضافة أي سؤال حتى الآن
+        </div>
+        <img
+          src='/undraw_no_data_re_kwbl.svg'
+          alt='Description of the quiz had no questions'
+          style={{ width: '60%' }}
+        />
+      </div>
+    )
   }
 
   return (
     <>
       {read && view ? (
         <Grid container>
-          <Grid item xs={12} md={12}>
-            <PageHeader toggleAdd={toggleAdd} />
-          </Grid>
+          {add && (
+            <Grid item xs={12} md={12}>
+              <PageHeader toggleAdd={toggleAdd} />
+            </Grid>
+          )}
+
           <Grid item xs={12} md={12}>
             <TabsCentered exams={exams} />
           </Grid>

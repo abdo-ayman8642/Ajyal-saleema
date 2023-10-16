@@ -4,6 +4,8 @@ import ExamPaper from 'src/views/sharedComponents/ExamPaper'
 import styled from '@emotion/styled'
 import { useDispatch } from 'react-redux'
 import { submitAnswers } from 'src/store/apps/exams/actions'
+import NoPermissionComponent from '../../permissions/noAccess'
+import { useAuth } from 'src/hooks/useAuth'
 
 function accumulateObjectsById(inputArray) {
   const result = {}
@@ -41,6 +43,8 @@ function RightSide({ id, studentId, taken, total_num }) {
   const [counter, setCounter] = useState(1)
   const [answers, setAnswers] = useState({ exam_id: id, student_id: studentId, answers: [] })
   const dispatch = useDispatch()
+  const user = useAuth()
+  const { read, add } = user?.user?.permissions?.exams || {}
 
   //** Functions */
   const handleNext = () => {
@@ -77,6 +81,10 @@ function RightSide({ id, studentId, taken, total_num }) {
   }
 
   const finished = accumulateObjectsById(answers?.answers)?.length === total_num
+
+  if (!add) {
+    return <NoPermissionComponent featureName={'Student Exams'} />
+  }
 
   return (
     <div style={{ marginTop: '4rem' }}>
@@ -134,7 +142,6 @@ function RightSide({ id, studentId, taken, total_num }) {
                   <Button
                     variant='contained'
                     color='primary'
-                    // answers?.answers?.length !== total_num && true
                     disabled={!finished}
                     onClick={() => dispatch(submitAnswers({ data: answers }))}
                   >
