@@ -271,7 +271,7 @@ function PermissionsV2({ user }) {
   return (
     <Fragment>
       <h3 style={{ textAlign: 'center', fontSize: '1rem', fontWeight: '400', fontStyle: 'italic', margin: 0 }}>
-        {'Permissions for:    '}
+        الصلاحيات للمستخدم:
         <span style={{ fontWeight: '600', fontStyle: 'normal', margin: '0 0.5rem' }}>{name}</span>
       </h3>
       <List component='academic' aria-label='secondary mailbox' sx={{ padding: 0 }}>

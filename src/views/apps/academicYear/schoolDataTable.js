@@ -194,7 +194,7 @@ const SchoolDataTable = ({ dataName, formType, storeData, pathname, pastRoute, e
       <Grid container spacing={6}>
         <Grid item xs={12} sx={{ maxWidth: '500', minHeight: '400', marginBottom: '3rem' }}>
           <TextField
-            label='Search School'
+            label='بحث عن مدرسة'
             variant='outlined'
             fullWidth
             value={searchQuery}

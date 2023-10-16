@@ -256,7 +256,7 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
     <Grid container spacing={6}>
       <Grid item xs={12}>
         <TextField
-          label='Search Teacher'
+          label='بحث عن مدرس'
           variant='outlined'
           fullWidth
           value={searchQuery}

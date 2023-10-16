@@ -64,22 +64,29 @@ const StudentDatatable = ({ dataName, formType, storeData, pathname, pastRoute, 
   }, [])
 
   const handleDefaultColumns = (name, pathname, pastRoute, handleClick, formType, toggle) => {
-    const studentsColumns = [
-      {
-        flex: 1,
-        minWidth: 100,
-        sortable: false,
-        field: 'attendance',
-        headerName: 'الحضور',
-        renderCell: ({ row }) => (
-          <Box sx={{ display: 'flex' }}>
-            <Button variant='contained' color='secondary' startIcon={<ChecklistRtlIcon />} onClick={() => toggle(row)}>
-              {!isMobile && 'تسجيل الحضور'}
-            </Button>
-          </Box>
-        )
-      }
-    ]
+    const studentsColumns = add
+      ? [
+          {
+            flex: 1,
+            minWidth: 100,
+            sortable: false,
+            field: 'attendance',
+            headerName: 'الحضور',
+            renderCell: ({ row }) => (
+              <Box sx={{ display: 'flex' }}>
+                <Button
+                  variant='contained'
+                  color='secondary'
+                  startIcon={<ChecklistRtlIcon />}
+                  onClick={() => toggle(row)}
+                >
+                  {!isMobile && 'تسجيل الحضور'}
+                </Button>
+              </Box>
+            )
+          }
+        ]
+      : [{}]
 
     const defaultColumns = [
       {
@@ -199,7 +206,7 @@ const StudentDatatable = ({ dataName, formType, storeData, pathname, pastRoute, 
       <Grid container spacing={6}>
         <Grid item xs={12} sx={{ maxWidth: '500', minHeight: '400', marginBottom: '3rem' }}>
           <TextField
-            label='Search Student'
+            label='بحث عن طالب'
             variant='outlined'
             fullWidth
             value={searchQuery}
