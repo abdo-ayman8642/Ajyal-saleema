@@ -35,17 +35,23 @@ function CampsData() {
   const sums = camps?.reduce(
     (acc, obj) => {
       acc.total_students += obj.total_students
+      acc.firstExamAttend += obj.exams_attendance?.[0]?.attendance
+      acc.secondExamAttend += obj.exams_attendance?.[1]?.attendance
+      acc.total_teachers += obj.total_teachers
 
       return acc
     },
-    { total_students: 0 }
+    { total_students: 0, firstExamAttend: 0, secondExamAttend: 0, total_teachers: 0 }
   )
 
-  const { total_students = null } = sums || {}
+  const { total_students = null, firstExamAttend = null, secondExamAttend = null, total_teachers = null } = sums || {}
 
   const cardData = [
     { header: 'مجموع المعسكرات', number: camps?.length },
-    { header: 'مجموع الطلاب', number: total_students }
+    { header: 'مجموع الطلاب', number: total_students },
+    { header: 'الحاضرين فى الامتحان القبلى', number: firstExamAttend },
+    { header: 'الحاضرين فى الامتحان البعدى', number: secondExamAttend },
+    { header: 'عدد المدرسين', number: total_teachers }
   ]
 
   if (loading) {

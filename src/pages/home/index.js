@@ -94,6 +94,10 @@ const Home = () => {
     male: dashboardStats?.male_students_numbers
   }
 
+  const examData = {
+    data: dashboardStats?.exam_attendnce
+  }
+
   const sessionsData = {
     totalAttendance: dashboardStats?.Total_Attendance[0]?.Total_Present_Students,
     totalAbsence: dashboardStats?.Total_Attendance[0]?.Total_Missed_Students,
@@ -156,7 +160,7 @@ const Home = () => {
             <GenderStats data={genderData} />
           </Grid>
           <Grid item xs={12} lg={6}>
-            <QuizStats data={genderData} />
+            <QuizStats data={examData} />
           </Grid>
 
           <Grid item xs={12} lg={12}>

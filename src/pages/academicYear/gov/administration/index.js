@@ -42,13 +42,32 @@ function AdministrationData() {
       acc.total_schools += obj.total_schools
       acc.total_students += obj.total_students
       acc.total_camps += obj.total_camps
+      acc.total_teachers += obj.total_teachers
+      acc.firstExamAttend += obj.exams_attendance?.[0]?.attendance
+      acc.secondExamAttend += obj.exams_attendance?.[1]?.attendance
 
       return acc
     },
-    { total_classes: 0, total_schools: 0, total_students: 0, total_camps: 0 }
+    {
+      total_classes: 0,
+      total_schools: 0,
+      total_students: 0,
+      total_camps: 0,
+      total_teachers: 0,
+      firstExamAttend: 0,
+      secondExamAttend: 0
+    }
   )
 
-  const { total_classes = null, total_schools = null, total_students = null, total_camps = null } = sums || {}
+  const {
+    total_classes = null,
+    total_schools = null,
+    total_students = null,
+    total_camps = null,
+    total_teachers = null,
+    firstExamAttend = null,
+    secondExamAttend = null
+  } = sums || {}
 
   const cardData = [
     { header: 'مجموع الإدارات', number: data?.total },
@@ -56,9 +75,9 @@ function AdministrationData() {
     { header: 'مجموع المعسكرات', number: total_camps },
     { header: 'مجموع الفصول', number: total_classes },
     { header: 'مجموع الطلاب', number: total_students },
-    { header: 'الحاضرين فى الامتحان القبلى', number: 0 },
-    { header: 'الحاضرين فى الامتحان البعدى', number: 0 },
-    { header: 'عدد المدرسين', number: 0 }
+    { header: 'الحاضرين فى الامتحان القبلى', number: firstExamAttend },
+    { header: 'الحاضرين فى الامتحان البعدى', number: secondExamAttend },
+    { header: 'عدد المدرسين', number: total_teachers }
   ]
 
   if (loading) {

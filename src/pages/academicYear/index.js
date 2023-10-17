@@ -32,11 +32,12 @@ function AcademicYear() {
       acc.total_classes += obj.total_classes
       acc.total_schools += obj.total_schools
       acc.total_students += obj.total_students
+      acc.total_departs += obj.total_departs
       acc.total_camps += obj.total_camps
 
       return acc
     },
-    { total_classes: 0, total_schools: 0, total_students: 0, total_camps: 0 }
+    { total_classes: 0, total_schools: 0, total_students: 0, total_camps: 0, total_departs: 0 }
   )
 
   const {
@@ -48,7 +49,8 @@ function AcademicYear() {
   } = sums || {}
 
   const cardData = [
-    { header: 'مجموع الإدارات', number: years?.total },
+    { header: 'مجموع السنين التنفيذية', number: years?.total },
+    { header: 'مجموع الإدارات', number: total_departs },
     { header: 'مجموع المدارس', number: total_schools },
     { header: 'مجموع المعسكرات', number: total_camps },
     { header: 'مجموع الفصول', number: total_classes },
