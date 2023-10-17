@@ -12,6 +12,7 @@ import ResponsiveCardGrid from 'src/views/apps/academicYear/responsiveCards'
 import { useAuth } from 'src/hooks/useAuth'
 import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 import themeConfig from 'src/configs/themeConfig'
+import ExportToExcelButton from 'src/views/sharedComponents/ExportFilters'
 
 function AdministrationData() {
   const dispatch = useDispatch()
@@ -117,6 +118,7 @@ function AdministrationData() {
                   fetchData={fetchAdministrations}
                   fetchParams={{ page: 1, cityId: id, yearId: pastRoute }}
                   placeholder={'الإدارة التعليمية'}
+                  filters={cardData}
                 />
               </Grid>
 

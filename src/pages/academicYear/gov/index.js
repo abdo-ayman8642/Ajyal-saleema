@@ -99,6 +99,7 @@ function GovData() {
                   setDrawer={setDrawer}
                   fetchParams={1}
                   placeholder={'المحافظة'}
+                  filters={cardData}
                 />
               </Grid>
 

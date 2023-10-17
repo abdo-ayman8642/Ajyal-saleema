@@ -83,6 +83,7 @@ function AcademicYear() {
                   formType={'years'}
                   showDrawer={showYearDrawer}
                   setDrawer={setYearDrawer}
+                  filters={cardData}
                 />
               </Grid>
               <Grid item xs={12}>

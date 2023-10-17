@@ -65,6 +65,7 @@ function GradesData() {
                   showDrawer={showDrawer}
                   setDrawer={setDrawer}
                   addData={{ school_id: pastRoute }}
+                  filters={cardData}
                 />
               </Grid>
 

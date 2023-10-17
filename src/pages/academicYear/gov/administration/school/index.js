@@ -92,6 +92,7 @@ function SchoolsData() {
                   setDrawer={setDrawer}
                   addData={{ department_id: id, type: 'school' }}
                   enableSearch={true}
+                  filters={cardData}
                 />
               </Grid>
 

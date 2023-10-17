@@ -18,6 +18,7 @@ import axios from 'axios'
 import ExcelUploaderRestrictions from './importExcel'
 import { filterBy } from 'src/store/apps/academicData/actions'
 import { useAuth } from 'src/hooks/useAuth'
+import ExportToExcelButton from 'src/views/sharedComponents/ExportFilters'
 
 const style = {
   position: 'absolute',
@@ -35,7 +36,17 @@ const style = {
   }
 }
 
-function TableHeader({ title, formType, showDrawer, setDrawer, addData, placeholder, fetchData, fetchParams }) {
+function TableHeader({
+  title,
+  formType,
+  showDrawer,
+  setDrawer,
+  addData,
+  placeholder,
+  fetchData,
+  fetchParams,
+  filters
+}) {
   const dispatch = useDispatch()
   const formInputs = academicDataInputs(formType)
   const action = handleActions('add', formType)
@@ -206,6 +217,7 @@ function TableHeader({ title, formType, showDrawer, setDrawer, addData, placehol
               }}
             />
           )} */}
+          {filters && <ExportToExcelButton filters={filters} />}
           {add && (
             <Button sx={{ mb: 2, fontSize: '1rem', fontWeight: 'bold' }} onClick={toggle} variant='contained'>
               إضافة

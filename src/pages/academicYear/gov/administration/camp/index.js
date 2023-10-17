@@ -80,6 +80,7 @@ function CampsData() {
                   showDrawer={showDrawer}
                   setDrawer={setDrawer}
                   addData={{ department_id: administrationId, type: 'camp' }}
+                  filters={cardData}
                 />
               </Grid>
 
