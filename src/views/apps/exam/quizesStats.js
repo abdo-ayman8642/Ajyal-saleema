@@ -18,9 +18,9 @@ import MaleIcon from '@mui/icons-material/Male'
 const QuizStats = ({ data }) => {
   //** stats & vars */
 
-  const total = data?.data[0]?.TotalNumberOfStudents + data?.data[1]?.TotalNumberOfStudents
-  const firstQuizAttendant = data?.data[0]?.TotalNumberOfStudents
-  const secondQuizAttendant = data?.data[1]?.TotalNumberOfStudents
+  const total = data?.data?.[0]?.TotalNumberOfStudents + data?.data?.[1]?.TotalNumberOfStudents
+  const firstQuizAttendant = data?.data?.[0]?.TotalNumberOfStudents
+  const secondQuizAttendant = data?.data?.[1]?.TotalNumberOfStudents
 
   return (
     <Card>
@@ -28,9 +28,9 @@ const QuizStats = ({ data }) => {
         <Box sx={{ mb: 3, display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
           <Box>
             <Typography variant='h6' sx={{ mb: 1.5 }}>
-              نسبة حضور الامتحان القبلى و البعدى
+              عدد حضور الامتحان القبلى و البعدى
             </Typography>
-            <Typography variant='h6'>{total} عدد اجمالي</Typography>
+            <Typography variant='h6'>{total}</Typography>
           </Box>
         </Box>
         <Box sx={{ mb: 7, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -46,10 +46,8 @@ const QuizStats = ({ data }) => {
               </CustomAvatar>
               <Typography variant='body'>الامتحان القبلى</Typography>
             </Box>
-            <Typography variant='h6'>{`${Math.floor((firstQuizAttendant / total) * 100) || 0} %`}</Typography>
-            <Typography variant='caption' sx={{ color: 'InfoText' }}>
-              {firstQuizAttendant || 0} طالب
-            </Typography>
+            <Typography variant='h6'>{firstQuizAttendant || 0} طالب</Typography>
+            <Typography variant='caption'>{`${Math.floor((firstQuizAttendant / total) * 100) || 0} %`}</Typography>
           </Box>
           <Divider flexItem sx={{ m: 0 }} orientation='vertical'>
             <CustomAvatar
@@ -69,10 +67,8 @@ const QuizStats = ({ data }) => {
                 <QuizIcon sx={{ fontSize: '0.875rem' }} />
               </CustomAvatar>
             </Box>
-            <Typography variant='h6'>{`${Math.floor((secondQuizAttendant / total) * 100) || 0} %`}</Typography>
-            <Typography variant='caption' sx={{ color: 'InfoText' }}>
-              طالب {secondQuizAttendant || 0}
-            </Typography>
+            <Typography variant='h6'>طالب {secondQuizAttendant || 0}</Typography>
+            <Typography variant='caption'>{`${Math.floor((secondQuizAttendant / total) * 100) || 0} %`}</Typography>
           </Box>
         </Box>
         <LinearProgress
