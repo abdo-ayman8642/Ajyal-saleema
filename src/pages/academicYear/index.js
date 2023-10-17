@@ -27,34 +27,13 @@ function AcademicYear() {
     dispatch(fetchYears(1))
   }, [dispatch])
 
-  const sums = years?.data?.reduce(
-    (acc, obj) => {
-      acc.total_classes += obj.total_classes
-      acc.total_schools += obj.total_schools
-      acc.total_students += obj.total_students
-      acc.total_departs += obj.total_departs
-      acc.total_camps += obj.total_camps
-
-      return acc
-    },
-    { total_classes: 0, total_schools: 0, total_students: 0, total_camps: 0, total_departs: 0 }
-  )
-
-  const {
-    total_classes = null,
-    total_departs = null,
-    total_schools = null,
-    total_students = null,
-    total_camps = null
-  } = sums || {}
-
   const cardData = [
-    { header: 'مجموع السنين التنفيذية', number: years?.total },
-    { header: 'مجموع الإدارات', number: total_departs },
-    { header: 'مجموع المدارس', number: total_schools },
-    { header: 'مجموع المعسكرات', number: total_camps },
-    { header: 'مجموع الفصول', number: total_classes },
-    { header: 'مجموع الطلاب', number: total_students }
+    { header: 'مجموع السنين التنفيذية', number: years?.data?.length },
+    { header: 'مجموع الإدارات', number: years?.totals?.total_departs },
+    { header: 'مجموع المدارس', number: years?.totals?.total_schools },
+    { header: 'مجموع المعسكرات', number: years?.totals?.total_camps },
+    { header: 'مجموع الفصول', number: years?.totals?.total_classes },
+    { header: 'مجموع الطلاب', number: years?.totals?.total_students }
   ]
 
   if (loading) {

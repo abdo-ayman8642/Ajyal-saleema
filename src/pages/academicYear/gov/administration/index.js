@@ -37,48 +37,15 @@ function AdministrationData() {
     dispatch(fetchAdministrations({ page: 1, cityId: id, yearId: pastRoute }))
   }, [pastRoute, dispatch, id])
 
-  const sums = data?.data?.reduce(
-    (acc, obj) => {
-      acc.total_classes += obj.total_classes
-      acc.total_schools += obj.total_schools
-      acc.total_students += obj.total_students
-      acc.total_camps += obj.total_camps
-      acc.total_teachers += obj.total_teachers
-      acc.firstExamAttend += obj.exams_attendance?.[0]?.attendance
-      acc.secondExamAttend += obj.exams_attendance?.[1]?.attendance
-
-      return acc
-    },
-    {
-      total_classes: 0,
-      total_schools: 0,
-      total_students: 0,
-      total_camps: 0,
-      total_teachers: 0,
-      firstExamAttend: 0,
-      secondExamAttend: 0
-    }
-  )
-
-  const {
-    total_classes = null,
-    total_schools = null,
-    total_students = null,
-    total_camps = null,
-    total_teachers = null,
-    firstExamAttend = null,
-    secondExamAttend = null
-  } = sums || {}
-
   const cardData = [
-    { header: 'مجموع الإدارات', number: data?.total },
-    { header: 'مجموع المدارس', number: total_schools },
-    { header: 'مجموع المعسكرات', number: total_camps },
-    { header: 'مجموع الفصول', number: total_classes },
-    { header: 'مجموع الطلاب', number: total_students },
-    { header: 'الحاضرين فى الامتحان القبلى', number: firstExamAttend },
-    { header: 'الحاضرين فى الامتحان البعدى', number: secondExamAttend },
-    { header: 'عدد المدرسين', number: total_teachers }
+    { header: 'مجموع الإدارات', number: data?.data?.length },
+    { header: 'مجموع المدارس', number: data?.totals?.total_schools },
+    { header: 'مجموع المعسكرات', number: data?.totals?.total_camps },
+    { header: 'مجموع الفصول', number: data?.totals?.total_classes },
+    { header: 'مجموع الطلاب', number: data?.totals?.total_students },
+    { header: 'الحاضرين فى الامتحان القبلى', number: data?.totals?.['exam attendance']?.[0]?.attendance },
+    { header: 'الحاضرين فى الامتحان البعدى', number: data?.totals?.['exam attendance']?.[1]?.attendance },
+    { header: 'عدد المدرسين', number: data?.totals?.total_teachers }
   ]
 
   if (loading) {

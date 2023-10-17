@@ -38,12 +38,12 @@ const ExportToExcelButton = ({ filters }) => {
       URL.revokeObjectURL(url)
     })
   }
+
   return (
     <Tooltip title='Export Filters To Excel Sheet'>
-      <Button color='inherit' onClick={exportToExcel} startIcon={<GetAppIcon />}>
-        Export Filters
-      </Button>
+      <Button color='inherit' onClick={exportToExcel} startIcon={<GetAppIcon />}></Button>
     </Tooltip>
   )
 }
+
 export default ExportToExcelButton
