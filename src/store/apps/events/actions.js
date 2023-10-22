@@ -37,7 +37,6 @@ export const addEvent = createAsyncThunk('appEvent/addEvent', async ({ data }, {
 })
 
 export const editEvent = createAsyncThunk('appEvent/editEvent', async ({ data, id }, { rejectWithValue, dispatch }) => {
-  console.log(data)
   try {
     const response = await axios.patch(`${baseUrl}events/${id}`, JSON.stringify(data), {
       headers: {

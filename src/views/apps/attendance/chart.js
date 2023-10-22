@@ -7,6 +7,7 @@ import StatisticsCard from './StatisticsCard'
 
 const ApexChart = () => {
   const [chartState, setChartState] = useState([0, 0])
+  const [schoolId, setSchoolId] = useState(null)
 
   const state = {
     series: chartState.slice(2),
@@ -67,9 +68,10 @@ const ApexChart = () => {
   }, [sessions_ids_list, currInput])
 
   const fecthAttendance = async () => {
+    currInput?.[1] == 'school' && setSchoolId(currInput?.[0])
     const path = `https://edu.kyanlabs.com/edu/api/students/sessions/attendance?${currInput?.[1]}=${
       currInput?.[0] || 1
-    }`
+    }&school=${schoolId}`
     try {
       const response = await fetch(path, {
         headers: { 'content-type': 'application/json' },

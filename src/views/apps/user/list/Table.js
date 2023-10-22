@@ -248,38 +248,31 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, dataType }) 
 
         return (
           <Box sx={{ display: 'flex', gap: '10px', ml: '-15px' }}>
-            {(role === '1' || role === '0') && (
+            {row_role !== '0' && (
               <>
-                {row_role !== '0' && (
-                  <>
-                    <IconButton sx={{ cursor: 'pointer', color: '#ddbb24' }} onClick={() => onClickEdit(row)}>
-                      <ModeEditOutlineIcon />
-                    </IconButton>
-                    {role === '0' && (
-                      <>
-                        <IconButton
-                          sx={{ cursor: 'pointer', color: 'red' }}
-                          onClick={() => {
-                            onClickDelete(row)
-                          }}
-                        >
-                          <DeleteIcon />
-                        </IconButton>
+                <IconButton sx={{ cursor: 'pointer', color: '#ddbb24' }} onClick={() => onClickEdit(row)}>
+                  <ModeEditOutlineIcon />
+                </IconButton>
 
-                        <Tooltip title='Modify Permissions'>
-                          <IconButton
-                            onClick={() => {
-                              handleOpen()
-                              setCurrentUser(row)
-                            }}
-                          >
-                            <ManageAccountsIcon />
-                          </IconButton>
-                        </Tooltip>
-                      </>
-                    )}
-                  </>
-                )}
+                <IconButton
+                  sx={{ cursor: 'pointer', color: 'red' }}
+                  onClick={() => {
+                    onClickDelete(row)
+                  }}
+                >
+                  <DeleteIcon />
+                </IconButton>
+
+                <Tooltip title='Modify Permissions'>
+                  <IconButton
+                    onClick={() => {
+                      handleOpen()
+                      setCurrentUser(row)
+                    }}
+                  >
+                    <ManageAccountsIcon />
+                  </IconButton>
+                </Tooltip>
               </>
             )}
           </Box>

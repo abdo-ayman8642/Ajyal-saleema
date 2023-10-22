@@ -42,16 +42,16 @@ function Selectors() {
   const tagKeys = data?.map(_ => useMemo(() => uuidv4(), []))
 
   const handleSelected = async (e, index, item) => {
-    if (index === data.length - 1) return
+    if (index === data.length) return
 
     const value = e.target.value
     dispatch(setCurrentInput({ value: [value[0], item.endpoint] }))
-    const valueRet = await openNextAndResetBelow(index, value)
-    await fetchOptionItem(index + 1, true, valueRet)
+    const valueRet = await openNextAndResetBelow(index, value, index === data.length - 1)
+    index !== data.length - 1 && (await fetchOptionItem(index + 1, true, valueRet))
   }
 
   const fetchOptionItem = async (index = 0, openNext = false, val) => {
-    const identifier = { 0: 'years', 1: 'cities', 2: 'departs', 4: 'grades', 3: 'schools', 5: 'classes' }
+    const identifier = { 0: 'years', 1: 'cities', 2: 'departs', 3: 'schools', 4: 'grades', 5: 'classes' }
     let path
     switch (index) {
       case 0: //year =>  api/years
@@ -66,12 +66,12 @@ function Selectors() {
         path = `https://edu.kyanlabs.com/edu/api/${identifier[index]}/year/${data[0].currValue[0]}/city/${val[0]}`
         break
 
-      case 4: //grade => api/grades
-        path = `https://edu.kyanlabs.com/edu/api/${identifier[index]}`
-        break
-
       case 3: //schools => api/schools/{department id}
         path = `https://edu.kyanlabs.com/edu/api/${identifier[index]}/depart/${val[0]}?type=school`
+        break
+
+      case 4: //grade => api/grades
+        path = `https://edu.kyanlabs.com/edu/api/${identifier[index]}`
         break
 
       case 5: //classes => api/classes/school/{school_id}/grade/{grade_id}
@@ -84,7 +84,6 @@ function Selectors() {
     try {
       const response = await fetch(path)
       const jsonData = await response.json()
-      console.log(jsonData)
       const itemArray = jsonData.data
         ? jsonData.data?.map(data => [data.id, data.name])
         : jsonData?.map(data => [data.id, data.name])
@@ -95,14 +94,13 @@ function Selectors() {
     }
   }
 
-  const openNextAndResetBelow = async (currIndex, valuePassed) => {
+  const openNextAndResetBelow = async (currIndex, valuePassed, last = false) => {
     dispatch(setField({ index: currIndex, field: 'currValue', value: valuePassed }))
     dispatch(resetFromIndexToLast({ index: currIndex + 1 }))
-    dispatch(setField({ index: currIndex + 1, field: 'disabledAtt', value: false }))
+    !last && dispatch(setField({ index: currIndex + 1, field: 'disabledAtt', value: false }))
 
     return valuePassed
   }
-  console.log(data)
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column' }}>

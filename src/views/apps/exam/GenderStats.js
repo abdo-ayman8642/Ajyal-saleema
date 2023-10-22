@@ -44,7 +44,7 @@ const GenderStats = ({ data }) => {
               </CustomAvatar>
               <Typography variant='body'>الذكور</Typography>
             </Box>
-            <Typography variant='h6'>{`${Math.floor(malePercentage) || 0} %`}</Typography>
+            <Typography variant='h6'>{`${Math.round(malePercentage) || 0} %`}</Typography>
             <Typography variant='caption' sx={{ color: 'text.disabled' }}>
               {data.male}
             </Typography>
@@ -67,7 +67,7 @@ const GenderStats = ({ data }) => {
                 <FemaleIcon sx={{ fontSize: '0.875rem' }} />
               </CustomAvatar>
             </Box>
-            <Typography variant='h6'>{`${Math.floor(femalePercentage) || 0} %`}</Typography>
+            <Typography variant='h6'>{`${Math.round(femalePercentage) || 0} %`}</Typography>
             <Typography variant='caption' sx={{ color: 'text.disabled' }}>
               {data.female}
             </Typography>

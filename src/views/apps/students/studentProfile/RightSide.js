@@ -45,6 +45,7 @@ function RightSide({ id, studentId, taken, total_num }) {
   const dispatch = useDispatch()
   const user = useAuth()
   const { read, add } = user?.user?.permissions?.exams || {}
+  const { read: take_exams } = user?.user?.permissions?.year?.student || {}
 
   //** Functions */
   const handleNext = () => {
@@ -82,7 +83,7 @@ function RightSide({ id, studentId, taken, total_num }) {
 
   const finished = accumulateObjectsById(answers?.answers)?.length === total_num
 
-  if (!add) {
+  if (!take_exams) {
     return <NoPermissionComponent featureName={'Student Exams'} />
   }
 

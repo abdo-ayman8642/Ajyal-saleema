@@ -374,7 +374,6 @@ const CampDataTable = ({
 
   let columns = [
     ...handleDefaultColumns(dataName, pathname, pastRoute, handleClickStudent, formType, toggleAttendance),
-    renderSessionsAttendance(formType),
     renderTeacher(formType),
     renderControls(formType)
   ]

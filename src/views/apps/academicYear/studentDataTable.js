@@ -63,6 +63,28 @@ const StudentDatatable = ({ dataName, formType, storeData, pathname, pastRoute, 
     }
   }, [])
 
+  const renderGender = () => {
+    if (!isMobile) {
+      return {
+        flex: 1,
+        field: 'gender',
+        minWidth: 100,
+        headerName: 'الجنس',
+        renderCell: ({ row }) => {
+          return (
+            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              <Typography noWrap variant='subtitle1'>
+                {row.gender === 'male' ? 'ذكر' : 'أنثى'}
+              </Typography>
+            </Box>
+          )
+        }
+      }
+    }
+
+    return {}
+  }
+
   const handleDefaultColumns = (name, pathname, pastRoute, handleClick, formType, toggle) => {
     const studentsColumns = add
       ? [
@@ -114,7 +136,8 @@ const StudentDatatable = ({ dataName, formType, storeData, pathname, pastRoute, 
             </Box>
           )
         }
-      }
+      },
+      renderGender()
     ]
 
     if (formType === 'students') {

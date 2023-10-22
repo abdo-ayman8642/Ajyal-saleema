@@ -15,6 +15,7 @@ import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 
 import LogoutVariant from 'mdi-material-ui/LogoutVariant'
+import PersonIcon from '@mui/icons-material/Person'
 
 // ** Context
 import { useAuth } from 'src/hooks/useAuth'
@@ -159,8 +160,22 @@ const UserDropdown = props => {
             </Box>
           </Box>
         </Box>
+        <MenuItem
+          sx={{ py: 2 }}
+          onClick={() => {
+            router.push('/profile')
+          }}
+        >
+          <PersonIcon
+            sx={{
+              marginRight: 2,
+              fontSize: '1.375rem',
+              color: 'text.secondary'
+            }}
+          />
+          ملف تعريفي للمستخدم
+        </MenuItem>
         <Divider sx={{ mt: 0, mb: 1 }} />
-
         <MenuItem sx={{ py: 2 }} onClick={handleLogout}>
           <LogoutVariant
             sx={{

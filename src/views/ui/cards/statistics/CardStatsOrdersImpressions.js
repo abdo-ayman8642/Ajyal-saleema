@@ -24,7 +24,14 @@ const CardStatsOrdersImpressions = ({ data }) => {
           <Box>
             <Typography sx={{ mb: 'auto', fontWeight: 600, whiteSpace: 'nowrap' }}>الحصص</Typography>
           </Box>
-          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', mt: 8 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              mt: 8
+            }}
+          >
             <Box
               sx={{
                 display: 'flex',
@@ -87,6 +94,40 @@ const CardStatsOrdersImpressions = ({ data }) => {
               </Box>
               <Typography variant='body2' sx={{ color: 'success.main' }}>
                 إجمالي الطلبة المشاركة
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                flexWrap: 'wrap',
+                alignItems: 'flex-start',
+                m: '1rem'
+              }}
+            >
+              <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <CustomAvatar
+                  skin='light'
+                  color='secondary'
+                  variant='rounded'
+                  sx={{
+                    mr: 1.5,
+                    width: 36,
+                    height: 24,
+                    fontSize: '0.75rem',
+                    borderRadius: '6px',
+                    color: 'text.primary',
+                    p: 4
+                  }}
+                >
+                  <DomainVerificationIcon />
+                </CustomAvatar>
+                <Typography sx={{ fontSize: '1rem', fontWeight: 'bold' }}>
+                  {(data.totalAttendance / data.totalParticipation) * 100}%
+                </Typography>
+              </Box>
+              <Typography variant='body2' sx={{ color: 'success.main' }}>
+                متوسط نسبة حضور الطلاب
               </Typography>
             </Box>
           </Box>

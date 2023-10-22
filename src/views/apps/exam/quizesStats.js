@@ -47,7 +47,7 @@ const QuizStats = ({ data }) => {
               <Typography variant='body'>الامتحان القبلى</Typography>
             </Box>
             <Typography variant='h5'>{firstQuizAttendant || 0} طالب</Typography>
-            <Typography variant='caption'>{`${Math.floor((firstQuizAttendant / total) * 100) || 0} %`}</Typography>
+            <Typography variant='caption'>{`${Math.round((firstQuizAttendant / total) * 100) || 0} %`}</Typography>
           </Box>
           <Divider flexItem sx={{ m: 0 }} orientation='vertical'>
             <CustomAvatar
@@ -68,7 +68,7 @@ const QuizStats = ({ data }) => {
               </CustomAvatar>
             </Box>
             <Typography variant='h5'>طالب {secondQuizAttendant || 0}</Typography>
-            <Typography variant='caption'>{`${Math.floor((secondQuizAttendant / total) * 100) || 0} %`}</Typography>
+            <Typography variant='caption'>{`${Math.round((secondQuizAttendant / total) * 100) || 0} %`}</Typography>
           </Box>
         </Box>
         <LinearProgress

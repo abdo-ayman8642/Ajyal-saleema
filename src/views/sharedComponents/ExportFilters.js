@@ -13,7 +13,6 @@ const ExportToExcelButton = ({ filters }) => {
     const dataArr = [data]
     const headersArray = filters.map(item => item.header)
 
-    console.log(headersArray)
     const workbook = new ExcelJS.Workbook()
     const worksheet = workbook.addWorksheet('Data')
 

@@ -52,8 +52,6 @@ const DialogAddEventInfo = ({ toggle, formInputs, showEdit, edited }) => {
   }
 
   const customizeSubmit = data => {
-    console.log(data)
-
     let formData = {
       name: data.name,
       from: data.date_from,
