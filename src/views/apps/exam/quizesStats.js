@@ -72,7 +72,7 @@ const QuizStats = ({ data }) => {
           </Box>
         </Box>
         <LinearProgress
-          value={(firstQuizAttendant / total) * 100}
+          value={Math.round((firstQuizAttendant / total) * 100)}
           variant='determinate'
           sx={{
             height: 10,

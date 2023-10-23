@@ -49,7 +49,7 @@ const HeaderButton = styled(Button)(({ theme }) => ({
 }))
 
 // Define the page header component
-const PageHeader = ({ toggleAdd }) => {
+const PageHeader = ({ toggleAdd, numberOfExams }) => {
   const handleOnClick = () => {
     toggleAdd()
   }
@@ -59,12 +59,16 @@ const PageHeader = ({ toggleAdd }) => {
         <StyledTypography variant='h2' color='textPrimary' sx={{ py: 5 }}>
           الإمتحانات
         </StyledTypography>
-        <SubtitleTypography variant='subtitle2' color='textSecondary'>
-          يمكنك إضافة امتحان جديد
-        </SubtitleTypography>
-        <HeaderButton variant='contained' sx={{ fontSize: '1rem', fontWeight: 'bold' }} onClick={handleOnClick}>
-          إضافة إمتحان
-        </HeaderButton>
+        {numberOfExams < 2 && (
+          <>
+            <SubtitleTypography variant='subtitle2' color='textSecondary'>
+              يمكنك إضافة امتحان جديد
+            </SubtitleTypography>
+            <HeaderButton variant='contained' sx={{ fontSize: '1rem', fontWeight: 'bold' }} onClick={handleOnClick}>
+              إضافة إمتحان
+            </HeaderButton>
+          </>
+        )}
       </HeaderContent>
     </HeaderCard>
   )

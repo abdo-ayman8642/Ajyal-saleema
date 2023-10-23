@@ -194,6 +194,7 @@ const AddQuestionForm = ({ open, setOpen, examId }) => {
                     type='number'
                     value={value}
                     label={'عدد الإجابات'}
+                    required
                     onChange={onChange}
                     error={Boolean(errors.email)}
                     disabled={typeClicked}
@@ -230,21 +231,23 @@ const AddQuestionForm = ({ open, setOpen, examId }) => {
                 )}
               </FormControl>
             ))}
-          <Box sx={{ display: 'flex', gap: '20px' }}>
-            {!typeClicked && (
-              <Button variant='outlined' color='primary' startIcon={<AddIcon />} onClick={() => onTypeClick()}>
-                إضافة الإجابات
+          {!!selectedType && (
+            <Box sx={{ display: 'flex', gap: '20px' }}>
+              {!typeClicked && (
+                <Button variant='outlined' color='primary' startIcon={<AddIcon />} onClick={() => onTypeClick()}>
+                  إضافة الإجابات
+                </Button>
+              )}
+              <Button
+                type='submit'
+                size='large'
+                variant='contained'
+                sx={{ fontSize: '1rem', letterSpacing: '2px', flex: '1' }}
+              >
+                إضافة السؤال
               </Button>
-            )}
-            <Button
-              type='submit'
-              size='large'
-              variant='contained'
-              sx={{ fontSize: '1rem', letterSpacing: '2px', flex: '1' }}
-            >
-              إضافة السؤال
-            </Button>
-          </Box>
+            </Box>
+          )}
         </form>
       </DialogContent>
     </Dialog>

@@ -98,7 +98,7 @@ function Exams() {
         <Grid container>
           {add && (
             <Grid item xs={12} md={12}>
-              <PageHeader toggleAdd={toggleAdd} />
+              <PageHeader toggleAdd={toggleAdd} numberOfExams={exams?.length} />
             </Grid>
           )}
 

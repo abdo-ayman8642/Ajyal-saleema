@@ -17,9 +17,8 @@ import MaleIcon from '@mui/icons-material/Male'
 const GenderStats = ({ data }) => {
   //** stats & vars */
   const total = data.male + data.female
-  const malePercentage = Math.round(data.male / total) * 100
-  const femalePercentage = Math.round(data.female / total) * 100
-
+  const malePercentage = Math.round((data.male / total) * 100)
+  const femalePercentage = Math.round((data.female / total) * 100)
   return (
     <Card>
       <CardContent>

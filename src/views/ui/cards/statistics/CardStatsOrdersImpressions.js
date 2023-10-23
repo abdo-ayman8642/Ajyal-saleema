@@ -17,6 +17,7 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 import DomainVerificationIcon from '@mui/icons-material/DomainVerification'
 
 const CardStatsOrdersImpressions = ({ data }) => {
+  console.log(data)
   return (
     <Card>
       <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -122,9 +123,7 @@ const CardStatsOrdersImpressions = ({ data }) => {
                 >
                   <DomainVerificationIcon />
                 </CustomAvatar>
-                <Typography sx={{ fontSize: '1rem', fontWeight: 'bold' }}>
-                  {(data.totalAttendance / data.totalParticipation) * 100}%
-                </Typography>
+                <Typography sx={{ fontSize: '1rem', fontWeight: 'bold' }}>{data?.average}%</Typography>
               </Box>
               <Typography variant='body2' sx={{ color: 'success.main' }}>
                 متوسط نسبة حضور الطلاب

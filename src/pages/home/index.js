@@ -88,6 +88,7 @@ const Home = () => {
     totalAttendance: dashboardStats?.Total_Attendance[0]?.Total_Present_Students,
     totalAbsence: dashboardStats?.Total_Attendance[0]?.Total_Missed_Students,
     totalSessions: dashboardStats?.sessions_numbers,
+    average: dashboardStats?.Total_Attendance?.[0]?.average,
     totalParticipation:
       dashboardStats?.Total_Attendance[0]?.Total_Present_Students +
       dashboardStats?.Total_Attendance[0]?.Total_Missed_Students
