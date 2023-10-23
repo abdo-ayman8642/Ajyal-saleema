@@ -436,7 +436,8 @@ const CampDataTable = ({
               checkboxSelection={false}
               pageSize={pageSize}
               columns={columns}
-              rowCount={searchedData?.total || data?.total || data?.data?.length}
+              rowsPerPageOptions={[10, 25, 50, camps?.length]}
+              onPageSizeChange={newPageSize => setPageSize(newPageSize)}
               disableSelectionOnClick
               onCellClick={selected => dispatch(handleSelectedData(selected.row))}
               sx={{ '& .MuiDataGrid-columnHeaders': { borderRadius: 0 } }}

@@ -91,10 +91,12 @@ export const deleteMultiUsers = createAsyncThunk('appUser/multiDelete', async (i
 })
 
 export const editUser = createAsyncThunk('appUser/editUser', async ({ data, id }, { rejectWithValue, dispatch }) => {
+  const token = localStorage.getItem('accessToken')
   try {
     const response = await axios.patch(`${baseUrl}users/${id}`, JSON.stringify(data), {
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
       }
     })
     dispatch(fetchData())
