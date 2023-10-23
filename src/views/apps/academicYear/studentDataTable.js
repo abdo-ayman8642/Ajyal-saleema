@@ -45,7 +45,6 @@ const StudentDatatable = ({ dataName, formType, storeData, pathname, pastRoute, 
   const user = useAuth()
   const { year } = user?.user?.permissions
   const { add, edit, delete: deletee, read } = year?.[formType]
-  console.log(place)
 
   const [isMobile, setIsMobile] = useState(false)
 
@@ -87,7 +86,6 @@ const StudentDatatable = ({ dataName, formType, storeData, pathname, pastRoute, 
   }
 
   const handleDefaultColumns = (name, pathname, pastRoute, handleClick, formType, toggle, place) => {
-    console.log(place)
     const studentsColumns =
       add && place !== 'camp'
         ? [

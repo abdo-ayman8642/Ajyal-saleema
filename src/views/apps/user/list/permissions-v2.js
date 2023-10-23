@@ -161,9 +161,12 @@ function PermissionsV2({ user }) {
     },
     teachers: {
       read: selectedUser?.teachers?.read || false,
-      add: selectedUser?.teachers.add || false,
+      add: selectedUser?.teachers?.add || false,
       edit: selectedUser?.teachers?.edit || false,
       delete: selectedUser?.teachers?.delete || false
+    },
+    user: {
+      read: selectedUser?.user?.read || false
     },
     nav: {
       academic: selectedUser?.nav?.academic || false,
@@ -272,7 +275,6 @@ function PermissionsV2({ user }) {
     body?.user_id === currUserId && router.push('/') // Navigates to the root path '/' if its same user
   }
 
-  console.log(permissions)
   return (
     <Fragment>
       <h3 style={{ textAlign: 'center', fontSize: '1rem', fontWeight: '400', fontStyle: 'italic', margin: 0 }}>
@@ -405,7 +407,7 @@ function PermissionsV2({ user }) {
         </Collapse>
       </List>
       <List component='nav' aria-label='main mailbox' sx={{ padding: 0 }}>
-        {['sessions', 'events', 'exams', 'teachers'].map(section => (
+        {['sessions', 'events', 'exams', 'teachers', 'user'].map(section => (
           <>
             <ListItem key={section} disablePadding>
               <ListItemButton onClick={() => handleAccordionToggle(section)}>
@@ -427,7 +429,7 @@ function PermissionsV2({ user }) {
                 }}
               >
                 <FormControlLabel
-                  label='Read'
+                  label={section === 'user' ? 'Self Edit' : 'Read'}
                   sx={{ display: 'flex', flexDirection: 'column' }}
                   control={
                     <Checkbox
@@ -438,7 +440,7 @@ function PermissionsV2({ user }) {
                     />
                   }
                 />
-                {section !== 'sessions' && (
+                {section !== 'sessions' && section !== 'user' && (
                   <FormControlLabel
                     label='Add'
                     sx={{ display: 'flex', flexDirection: 'column' }}
@@ -452,7 +454,7 @@ function PermissionsV2({ user }) {
                     }
                   />
                 )}
-                {section !== 'exams' && (
+                {section !== 'exams' && section !== 'user' && (
                   <FormControlLabel
                     label='Edit'
                     sx={{ display: 'flex', flexDirection: 'column' }}
@@ -467,7 +469,7 @@ function PermissionsV2({ user }) {
                   />
                 )}
 
-                {section !== 'sessions' && (
+                {section !== 'sessions' && section !== 'user' && (
                   <FormControlLabel
                     label='Delete'
                     sx={{ display: 'flex', flexDirection: 'column' }}

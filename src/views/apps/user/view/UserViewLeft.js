@@ -27,9 +27,11 @@ import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import { editUser } from 'src/store/apps/user/actions'
 import { fetchData } from 'src/store/apps/user/actions'
+import NoPermissionComponent from '../../permissions/noAccess'
 
 import CustomAvatar from 'src/@core/components/mui/avatar'
 import { useDispatch } from 'react-redux'
+import { useAuth } from 'src/hooks/useAuth'
 
 const renderAvatarPath = ({ role, gender }) => {
   if (role === '0') {
@@ -49,6 +51,8 @@ const renderAvatarPath = ({ role, gender }) => {
 
 const UserViewLeft = ({ user }) => {
   const dispatch = useDispatch()
+  const userPer = useAuth()
+  const canEdit = userPer?.user?.permissions?.user?.read
   const [openEdit, setOpenEdit] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState(false)
@@ -172,103 +176,109 @@ const UserViewLeft = ({ user }) => {
             sx={{ '& .MuiPaper-root': { width: '100%', maxWidth: 650, p: [2, 10] } }}
             aria-describedby='user-view-edit-description'
           >
-            <DialogTitle id='user-view-edit' sx={{ textAlign: 'center', fontSize: '1.5rem !important' }}>
-              تحرير معلومات المستخدم
-            </DialogTitle>
-            <DialogContent>
-              <form onSubmit={handleSubmit}>
-                <Grid container spacing={6}>
-                  <Grid item xs={12}>
-                    <TextField
-                      fullWidth
-                      label='الاسم الكامل'
-                      name='name'
-                      value={formValues.name}
-                      onChange={handleInputChange}
-                      sx={{ mt: '1rem' }}
-                    />
-                  </Grid>
+            {canEdit ? (
+              <>
+                <DialogTitle id='user-view-edit' sx={{ textAlign: 'center', fontSize: '1.5rem !important' }}>
+                  تحرير معلومات المستخدم
+                </DialogTitle>
+                <DialogContent>
+                  <form onSubmit={handleSubmit}>
+                    <Grid container spacing={6}>
+                      <Grid item xs={12}>
+                        <TextField
+                          fullWidth
+                          label='الاسم الكامل'
+                          name='name'
+                          value={formValues.name}
+                          onChange={handleInputChange}
+                          sx={{ mt: '1rem' }}
+                        />
+                      </Grid>
 
-                  <Grid item xs={12}>
-                    <TextField
-                      fullWidth
-                      type='email'
-                      label='بريد إلكتروني'
-                      name='email'
-                      value={formValues.email}
-                      onChange={handleInputChange}
-                    />
-                  </Grid>
+                      <Grid item xs={12}>
+                        <TextField
+                          fullWidth
+                          type='email'
+                          label='بريد إلكتروني'
+                          name='email'
+                          value={formValues.email}
+                          onChange={handleInputChange}
+                        />
+                      </Grid>
 
-                  <Grid item xs={12} sm={6}>
-                    <TextField
-                      fullWidth
-                      label='اتصال'
-                      name='phone'
-                      value={formValues.phone}
-                      onChange={handleInputChange}
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <FormControl fullWidth>
-                      <InputLabel id='gender-label' style={{ backgroundColor: 'white', padding: '0 8px' }}>
-                        نوع
-                      </InputLabel>
-                      <Select
-                        labelId='gender-label'
-                        name='gender'
-                        value={formValues.gender}
-                        onChange={handleInputChange}
-                      >
-                        <MenuItem value='male'>ذكر</MenuItem>
-                        <MenuItem value='female'>أنثى</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </Grid>
-                  <Grid item xs={12}>
-                    <FormGroup row>
-                      <FormControlLabel
-                        label='تغيير كلمة المرور'
-                        control={<Checkbox checked={formValues.checked} onChange={handleChange} name='checked' />}
-                      />
-                    </FormGroup>
-                  </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <TextField
+                          fullWidth
+                          label='اتصال'
+                          name='phone'
+                          value={formValues.phone}
+                          onChange={handleInputChange}
+                        />
+                      </Grid>
+                      <Grid item xs={6}>
+                        <FormControl fullWidth>
+                          <InputLabel id='gender-label' style={{ backgroundColor: 'white', padding: '0 8px' }}>
+                            نوع
+                          </InputLabel>
+                          <Select
+                            labelId='gender-label'
+                            name='gender'
+                            value={formValues.gender}
+                            onChange={handleInputChange}
+                          >
+                            <MenuItem value='male'>ذكر</MenuItem>
+                            <MenuItem value='female'>أنثى</MenuItem>
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                      <Grid item xs={12}>
+                        <FormGroup row>
+                          <FormControlLabel
+                            label='تغيير كلمة المرور'
+                            control={<Checkbox checked={formValues.checked} onChange={handleChange} name='checked' />}
+                          />
+                        </FormGroup>
+                      </Grid>
 
-                  {formValues.checked && (
-                    <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        type={showPassword ? 'text' : 'password'}
-                        required
-                        label='كلمة المرور الجديدة'
-                        name='password'
-                        value={formValues.password}
-                        onChange={handleInputChange}
-                        error={error}
-                        helperText={error ? 'Password must be at least 8 characters long' : ''}
-                        InputProps={{
-                          endAdornment: (
-                            <InputAdornment position='end'>
-                              <IconButton onClick={handleTogglePasswordVisibility} edge='end'>
-                                {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                              </IconButton>
-                            </InputAdornment>
-                          )
-                        }}
-                      />
+                      {formValues.checked && (
+                        <Grid item xs={12}>
+                          <TextField
+                            fullWidth
+                            type={showPassword ? 'text' : 'password'}
+                            required
+                            label='كلمة المرور الجديدة'
+                            name='password'
+                            value={formValues.password}
+                            onChange={handleInputChange}
+                            error={error}
+                            helperText={error ? 'Password must be at least 8 characters long' : ''}
+                            InputProps={{
+                              endAdornment: (
+                                <InputAdornment position='end'>
+                                  <IconButton onClick={handleTogglePasswordVisibility} edge='end'>
+                                    {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                                  </IconButton>
+                                </InputAdornment>
+                              )
+                            }}
+                          />
+                        </Grid>
+                      )}
                     </Grid>
-                  )}
-                </Grid>
-                <DialogActions sx={{ justifyContent: 'center' }}>
-                  <Button variant='contained' sx={{ mr: 1 }} type='submit'>
-                    تسجيل
-                  </Button>
-                  <Button variant='outlined' color='secondary' onClick={handleEditClose}>
-                    الغاء
-                  </Button>
-                </DialogActions>
-              </form>
-            </DialogContent>
+                    <DialogActions sx={{ justifyContent: 'center' }}>
+                      <Button variant='contained' sx={{ mr: 1 }} type='submit'>
+                        تسجيل
+                      </Button>
+                      <Button variant='outlined' color='secondary' onClick={handleEditClose}>
+                        الغاء
+                      </Button>
+                    </DialogActions>
+                  </form>
+                </DialogContent>
+              </>
+            ) : (
+              <NoPermissionComponent featureName={'User self Edit'} />
+            )}
           </Dialog>
         </Card>
       </Grid>

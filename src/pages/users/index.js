@@ -19,11 +19,9 @@ import { handleSearch } from 'src/helperFunctions/search'
 import DialogEditUserInfo from 'src/views/apps/user/list/DialogEditUserInfo'
 import ConfirmDialog from 'src/views/sharedComponents/ConfirmDialog'
 import TableHeader from 'src/views/sharedComponents/TableHeader'
-import Permissions from 'src/views/apps/user/list/Permissions'
 import SidebarAddUser from 'src/views/apps/user/list/AddUserDrawer'
 import UserList from 'src/views/apps/user/list/Table'
 import { resetSearchedUsers } from 'src/store/apps/user'
-import PageHeader from 'src/views/apps/academicYear/PageHeader'
 import { useAuth } from 'src/hooks/useAuth'
 import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 
@@ -36,7 +34,6 @@ function Users() {
   const [showEditForm, setShowEditForm] = useState(false)
   const selectedUser = useSelector(state => state.user?.selectedUser)
   const [showFileImpExp, setShowFileImpExp] = useState(false)
-  const [showAcl, setShowAcl] = useState(false)
   const user = useAuth()
   const role = user?.user?.role
 
