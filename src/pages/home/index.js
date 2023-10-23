@@ -75,20 +75,6 @@ const Home = () => {
     cardImg: '/images/school.jpg'
   }
 
-  const examOne = {
-    title: 'الإختبار الاول',
-    fail: dashboardStats?.failure_exam_students_numbers || 200,
-    success: dashboardStats?.success_exam_students_numbers || 1000,
-    total: dashboardStats?.failure_exam_students_numbers + dashboardStats?.success_exam_students_numbers || 1200
-  }
-
-  const examTwo = {
-    title: 'الإختبار الثاني',
-    success: 200,
-    fail: 20,
-    total: 220
-  }
-
   const genderData = {
     female: dashboardStats?.female_students_numbers,
     male: dashboardStats?.male_students_numbers

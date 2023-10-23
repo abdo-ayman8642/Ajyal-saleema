@@ -62,11 +62,11 @@ function Users() {
       type: 'select',
       options: [
         {
-          value: 'volunteer',
+          value: '2',
           label: 'متطوع'
         },
         {
-          value: 'admin',
+          value: '1',
           label: 'مسئول'
         }
       ]

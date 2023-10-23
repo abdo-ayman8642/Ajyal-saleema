@@ -1,20 +1,13 @@
 // ** React Imports
-import { useState, forwardRef, useEffect } from 'react'
+import { forwardRef } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import Grid from '@mui/material/Grid'
 import Dialog from '@mui/material/Dialog'
-import Button from '@mui/material/Button'
-import MenuItem from '@mui/material/MenuItem'
-import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
-import InputLabel from '@mui/material/InputLabel'
-import FormControl from '@mui/material/FormControl'
 import Fade from '@mui/material/Fade'
 import DialogContent from '@mui/material/DialogContent'
-import Select from '@mui/material/Select'
 
 // ** Icons Imports
 import Close from 'mdi-material-ui/Close'
@@ -23,10 +16,7 @@ import { useSelector } from 'react-redux'
 
 /** import libraries */
 import * as yup from 'yup'
-import { yupResolver } from '@hookform/resolvers/yup'
-import { useForm, Controller } from 'react-hook-form'
 import { editUser } from 'src/store/apps/user/actions'
-import { FormHelperText } from '@mui/material'
 import EditForm from 'src/views/sharedComponents/EditForm'
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -45,10 +35,7 @@ const DialogEditUserInfo = ({ toggle, formInputs, showEditForm }) => {
       .typeError('phone Number field is required')
       .min(10, obj => showErrors('phone Number', obj.value.length, obj.min))
       .required(),
-    password: yup
-      .string()
-      .min(8, obj => showErrors('passord', obj.value.length, obj.min))
-      .required(),
+    password: yup.string().min(8, obj => showErrors('passord', obj.value.length, obj.min)),
     name: yup
       .string()
       .min(3, obj => showErrors('First Name', obj.value.length, obj.min))
@@ -69,10 +56,11 @@ const DialogEditUserInfo = ({ toggle, formInputs, showEditForm }) => {
   }
 
   const customizeSubmit = data => {
+    const passwordField = data.password ? { password: data.password } : {}
     let formData = {
       name: data.name,
       gender: data.gender,
-      password: data.password,
+      ...passwordField,
       email: data.email,
       role: data.role,
       phone: data.phone
@@ -104,7 +92,7 @@ const DialogEditUserInfo = ({ toggle, formInputs, showEditForm }) => {
         </IconButton>
         <Box sx={{ mb: 8, textAlign: 'center' }}>
           <Typography variant='h5' sx={{ mb: 3, lineHeight: '2rem' }}>
-            Edit User Information
+            تحرير معلومات المستخدم
           </Typography>
         </Box>
         <EditForm

@@ -29,7 +29,7 @@ import { getAttendance } from 'src/store/apps/student/actions'
 import { handleSelectedStudent } from 'src/store/apps/student'
 import CheckAttendance from '../students/list/CheckAttendance'
 
-const StudentDatatable = ({ dataName, formType, storeData, pathname, pastRoute, editData }) => {
+const StudentDatatable = ({ dataName, formType, storeData, pathname, pastRoute, editData, place }) => {
   // ********* States & variables *******************/
   const [pageSize, setPageSize] = useState(10)
   const [searchQuery, setSearchQuery] = useState('')
@@ -45,6 +45,7 @@ const StudentDatatable = ({ dataName, formType, storeData, pathname, pastRoute, 
   const user = useAuth()
   const { year } = user?.user?.permissions
   const { add, edit, delete: deletee, read } = year?.[formType]
+  console.log(place)
 
   const [isMobile, setIsMobile] = useState(false)
 
@@ -85,30 +86,32 @@ const StudentDatatable = ({ dataName, formType, storeData, pathname, pastRoute, 
     return {}
   }
 
-  const handleDefaultColumns = (name, pathname, pastRoute, handleClick, formType, toggle) => {
-    const studentsColumns = add
-      ? [
-          {
-            flex: 1,
-            minWidth: 100,
-            sortable: false,
-            field: 'attendance',
-            headerName: 'الحضور',
-            renderCell: ({ row }) => (
-              <Box sx={{ display: 'flex' }}>
-                <Button
-                  variant='contained'
-                  color='secondary'
-                  startIcon={<ChecklistRtlIcon />}
-                  onClick={() => toggle(row)}
-                >
-                  {!isMobile && 'تسجيل الحضور'}
-                </Button>
-              </Box>
-            )
-          }
-        ]
-      : [{}]
+  const handleDefaultColumns = (name, pathname, pastRoute, handleClick, formType, toggle, place) => {
+    console.log(place)
+    const studentsColumns =
+      add && place !== 'camp'
+        ? [
+            {
+              flex: 1,
+              minWidth: 100,
+              sortable: false,
+              field: 'attendance',
+              headerName: 'الحضور',
+              renderCell: ({ row }) => (
+                <Box sx={{ display: 'flex' }}>
+                  <Button
+                    variant='contained'
+                    color='secondary'
+                    startIcon={<ChecklistRtlIcon />}
+                    onClick={() => toggle(row)}
+                  >
+                    {!isMobile && 'تسجيل الحضور'}
+                  </Button>
+                </Box>
+              )
+            }
+          ]
+        : [{}]
 
     const defaultColumns = [
       {
@@ -188,7 +191,7 @@ const StudentDatatable = ({ dataName, formType, storeData, pathname, pastRoute, 
   }
 
   let columns = [
-    ...handleDefaultColumns(dataName, pathname, pastRoute, handleClickStudent, formType, toggleAttendance),
+    ...handleDefaultColumns(dataName, pathname, pastRoute, handleClickStudent, formType, toggleAttendance, place),
     renderControls(formType)
   ]
   function isObjectEmpty(obj) {

@@ -67,6 +67,7 @@ function CampsData() {
                 <StudentDatatable
                   dataName={'الطالب'}
                   formType={'students'}
+                  place={'camp'}
                   storeData={'students'}
                   pathname={`student/view`}
                   pastRoute={campId}

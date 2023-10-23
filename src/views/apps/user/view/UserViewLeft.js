@@ -51,6 +51,7 @@ const UserViewLeft = ({ user }) => {
   const dispatch = useDispatch()
   const [openEdit, setOpenEdit] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [error, setError] = useState(false)
   const [formValues, setFormValues] = useState({
     name: user?.name || '',
     email: user?.email || '',
@@ -67,6 +68,9 @@ const UserViewLeft = ({ user }) => {
   const handleInputChange = event => {
     const { name, value } = event.target
     setFormValues({ ...formValues, [name]: value })
+    if (name === 'password') {
+      setError(value.length < 8)
+    }
   }
 
   const handleTogglePasswordVisibility = () => {
@@ -86,7 +90,9 @@ const UserViewLeft = ({ user }) => {
   }
   const handleSubmit = async e => {
     e.preventDefault()
+
     !formValues['checked'] && delete formValues['password']
+    if (formValues?.password && formValues?.password?.length < 8) return
     delete formValues['checked']
     await dispatch(editUser({ data: formValues, id: user?.id }))
     setOpenEdit(false)
@@ -238,6 +244,8 @@ const UserViewLeft = ({ user }) => {
                         name='password'
                         value={formValues.password}
                         onChange={handleInputChange}
+                        error={error}
+                        helperText={error ? 'Password must be at least 8 characters long' : ''}
                         InputProps={{
                           endAdornment: (
                             <InputAdornment position='end'>
