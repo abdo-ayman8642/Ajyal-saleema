@@ -48,10 +48,7 @@ function CampsData() {
 
   const cardData = [
     { header: 'مجموع المعسكرات', number: camps?.length },
-    { header: 'مجموع الطلاب', number: total_students },
-    { header: 'الحاضرين فى الامتحان القبلى', number: firstExamAttend },
-    { header: 'الحاضرين فى الامتحان البعدى', number: secondExamAttend },
-    { header: 'عدد المدرسين', number: total_teachers }
+    { header: 'مجموع الطلاب', number: total_students }
   ]
 
   if (loading) {

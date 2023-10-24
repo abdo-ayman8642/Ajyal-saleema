@@ -15,21 +15,39 @@ import CustomChip from 'src/@core/components/mui/chip'
 import LaptopMacIcon from '@mui/icons-material/LaptopMac'
 import CustomAvatar from 'src/@core/components/mui/avatar'
 import DomainVerificationIcon from '@mui/icons-material/DomainVerification'
+import { Repeat } from 'mdi-material-ui'
+import { useEffect, useState } from 'react'
 
 const CardStatsOrdersImpressions = ({ data }) => {
-  console.log(data)
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    function handleResize() {
+      const isMobile = window.innerWidth < 768
+      setIsMobile(isMobile)
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    handleResize()
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+  const currView = isMobile ? 'column' : 'row'
   return (
     <Card>
-      <CardContent sx={{ display: 'flex', justifyContent: 'space-between' }}>
+      <CardContent sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: currView }}>
         <Box>
           <Box>
             <Typography sx={{ mb: 'auto', fontWeight: 600, whiteSpace: 'nowrap' }}>الحصص</Typography>
           </Box>
           <Box
             sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
+              display: 'grid',
+              gridTemplateColumns: '1fr 1.5fr 1fr',
+
               mt: 8
             }}
           >
@@ -103,7 +121,7 @@ const CardStatsOrdersImpressions = ({ data }) => {
                 flexDirection: 'column',
                 flexWrap: 'wrap',
                 alignItems: 'flex-start',
-                m: '1rem'
+                my: 1
               }}
             >
               <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

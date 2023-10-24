@@ -1,4 +1,9 @@
-import { BarChart } from '@mui/x-charts'
+import dynamic from 'next/dynamic'
+
+// Create a dynamic import for the BarChart component
+const BarChart = dynamic(() => import('@mui/x-charts').then(module => module.BarChart), {
+  ssr: false // This disables server-side rendering for this component
+})
 
 const chartSetting = {
   xAxis: [
@@ -6,11 +11,10 @@ const chartSetting = {
       label: 'حضور الحصص'
     }
   ],
-  width: 500,
   height: 400
 }
 
-const valueFormatter = value => `${value}`
+const valueFormatter = value => `${value} حضور الطلاب`
 
 const HorizontalBars = ({ dataset }) => {
   return (
@@ -18,57 +22,57 @@ const HorizontalBars = ({ dataset }) => {
       dataset={
         dataset || [
           {
-            session_name: '1: مجموعاتي الغذائية',
-            number_of_attendant_Students: 20
+            session_name: '1',
+            number_of_attendant_Students: 0
           },
           {
-            session_name: '2: الفوائد والمغذيات في المجموعات الغذائية',
-            number_of_attendant_Students: 14
+            session_name: '2',
+            number_of_attendant_Students: 0
           },
           {
-            session_name: '3: المجموعات الغذائية والحصص',
-            number_of_attendant_Students: 11
+            session_name: '3',
+            number_of_attendant_Students: 0
           },
           {
-            session_name: '4: الفاكهة والخضار ألوان قوس قزح',
-            number_of_attendant_Students: 8
+            session_name: '4',
+            number_of_attendant_Students: 0
           },
           {
-            session_name: '5: النشاط البدني',
-            number_of_attendant_Students: 16
+            session_name: '5',
+            number_of_attendant_Students: 0
           },
           {
-            session_name: '6: النشاط البدني الرجوع الى درس 5',
-            number_of_attendant_Students: 18
+            session_name: '6',
+            number_of_attendant_Students: 0
           },
           {
-            session_name: '7: أهمية وجبة الإفطار',
-            number_of_attendant_Students: 24
+            session_name: '7',
+            number_of_attendant_Students: 0
           },
           {
-            session_name: '8:الوجبات الخفيفة الصحية(سناك صحي)',
-            number_of_attendant_Students: 71
+            session_name: '8',
+            number_of_attendant_Students: 0
           },
           {
-            session_name: '9: أين تختبيء الدهون والسكريات',
-            number_of_attendant_Students: 24
+            session_name: '9',
+            number_of_attendant_Students: 0
           },
           {
-            session_name: '10: أسنان نظيفة، أسنان قوية',
-            number_of_attendant_Students: 42
+            session_name: '10',
+            number_of_attendant_Students: 0
           },
           {
-            session_name: '11: الماء أفضل شيء',
-            number_of_attendant_Students: 2
+            session_name: '11',
+            number_of_attendant_Students: 0
           },
           {
-            session_name: '12: القيمة الغذائية',
-            number_of_attendant_Students: 13
+            session_name: '12',
+            number_of_attendant_Students: 0
           }
         ]
       }
       yAxis={[{ scaleType: 'band', dataKey: 'session_name' }]}
-      series={[{ dataKey: 'number_of_attendant_Students', label: 'حضور الحصص', valueFormatter }]}
+      series={[{ dataKey: 'number_of_attendant_Students', valueFormatter }]}
       layout='horizontal'
       leftAxis={null}
       {...chartSetting}

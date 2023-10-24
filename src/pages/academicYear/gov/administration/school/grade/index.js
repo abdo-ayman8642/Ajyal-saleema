@@ -24,7 +24,7 @@ function GradesData() {
   const { read } = user?.user?.permissions?.year?.grades || {}
   const { academic: view } = user?.user?.permissions?.nav || {}
 
-  const { total_classes = null, total_students = null } = data?.data?.[0] || {}
+  const { total_classes = null, total_students = null } = data?.totals || {}
 
   const cardData = [
     { header: 'مجموع الفصول', number: total_classes },

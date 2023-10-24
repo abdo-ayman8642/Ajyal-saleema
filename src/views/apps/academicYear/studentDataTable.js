@@ -223,7 +223,9 @@ const StudentDatatable = ({ dataName, formType, storeData, pathname, pastRoute, 
   }
 
   const students = searchedData?.data || data?.data
-  const filteredStudents = students?.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
+  const filteredStudents = Array.isArray(students)
+    ? students?.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    : []
 
   return (
     <>
@@ -245,7 +247,7 @@ const StudentDatatable = ({ dataName, formType, storeData, pathname, pastRoute, 
               checkboxSelection={false}
               pageSize={pageSize}
               columns={columns}
-              rowsPerPageOptions={[10, 25, 50, students?.length]}
+              rowsPerPageOptions={[10, 25, 50, 100]}
               onPageSizeChange={newPageSize => setPageSize(newPageSize)}
               disableSelectionOnClick
               onCellClick={selected => dispatch(handleSelectedData(selected.row))}

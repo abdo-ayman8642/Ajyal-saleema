@@ -36,16 +36,7 @@ function ClassesData() {
     dispatch(fetchClasses({ page: nextPage, schoolId: pastRoute, gradeId: id }))
   }
 
-  const sums = data?.data?.reduce(
-    (acc, obj) => {
-      acc.total_students += obj.total_students
-
-      return acc
-    },
-    { total_students: 0 }
-  )
-
-  const { total_students = null } = sums || {}
+  const { total_students = null } = data?.totals || {}
 
   const cardData = [{ header: 'مجموع الطلاب', number: total_students }]
 

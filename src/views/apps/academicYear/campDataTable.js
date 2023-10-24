@@ -46,6 +46,7 @@ import AddBoxIcon from '@mui/icons-material/AddBox'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 import HomeIcon from '@mui/icons-material/Home'
 import ForestIcon from '@mui/icons-material/Forest'
+import AcademicView from '../user/list/academicView'
 
 // ** Utils Import
 import CardStatsCharacter from 'src/@core/components/card-statistics/card-stats-with-image'
@@ -91,6 +92,8 @@ const CampDataTable = ({
   const dispatch = useDispatch()
   const [showEdit, setShowEdit] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
+  const [showInformation, setInformation] = useState(false)
+  const [userData, setUserData] = useState(user?.user)
   const searchedData = useSelector(state => state.academicData?.searchedData)
   const data = useSelector(state => state.academicData[storeData])
   const editAction = handleActions('edit', formType)
@@ -129,6 +132,15 @@ const CampDataTable = ({
       window.removeEventListener('resize', handleResize)
     }
   }, [])
+
+  // ** renders client column
+  const renderClient = row => {
+    return (
+      <div onClick={() => toggleInfromation(row)}>
+        <CustomAvatar skin='light' sx={{ mr: 3, width: 34, height: 34, fontSize: '1rem' }} />
+      </div>
+    )
+  }
 
   const handleDefaultColumns = (name, pathname, pastRoute, handleClick, formType, toggle) => {
     const attendanceColumn = [
@@ -185,6 +197,33 @@ const CampDataTable = ({
         }
       : {}
 
+    const totalStudents = !isMobile
+      ? {
+          flex: 0.3,
+          minWidth: 100,
+          field: 'total_students',
+          headerName: 'عدد الطلاب',
+          renderCell: ({ row }) => {
+            const { total_students } = row
+
+            return (
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+                  <Typography
+                    noWrap
+                    component='a'
+                    variant='subtitle2'
+                    sx={{ color: 'text.primary', textDecoration: 'none' }}
+                  >
+                    {total_students || 0}
+                  </Typography>
+                </Box>
+              </Box>
+            )
+          }
+        }
+      : {}
+
     const defaultColumns = [
       {
         flex: 1.5,
@@ -196,6 +235,7 @@ const CampDataTable = ({
 
           return (
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              {renderClient(row)}
               <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }} onClick={handleClick}>
                 {formType === 'administrations' ? (
                   <Typography
@@ -225,6 +265,7 @@ const CampDataTable = ({
       }
     ]
 
+    defaultColumns.push(totalStudents)
     defaultColumns.push(codeColumn)
 
     return defaultColumns
@@ -276,7 +317,7 @@ const CampDataTable = ({
   }
 
   const renderTeacher = type => {
-    if (type === 'camps' || type === 'classes')
+    if (type === 'classes')
       return {
         flex: 1,
         minWidth: 80,
@@ -406,6 +447,10 @@ const CampDataTable = ({
   const handleClickStudent = row => {
     dispatch(handleSelectedData(row))
   }
+  const toggleInfromation = row => {
+    setUserData(row)
+    setInformation(!showInformation)
+  }
 
   const onClickAdd = row => {
     const { id, name } = row
@@ -413,8 +458,11 @@ const CampDataTable = ({
     setShowForm(!showForm)
   }
 
-  const camps = searchedData?.data || data?.data || data
-  const filteredCamps = camps?.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
+  const camps = searchedData?.data || data?.data || data || []
+
+  const filteredCamps = Array.isArray(camps)
+    ? camps?.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    : []
 
   return (
     <>
@@ -436,7 +484,7 @@ const CampDataTable = ({
               checkboxSelection={false}
               pageSize={pageSize}
               columns={columns}
-              rowsPerPageOptions={[10, 25, 50, camps?.length]}
+              rowsPerPageOptions={[10, 25, 50, 100]}
               onPageSizeChange={newPageSize => setPageSize(newPageSize)}
               disableSelectionOnClick
               onCellClick={selected => dispatch(handleSelectedData(selected.row))}
@@ -463,7 +511,7 @@ const CampDataTable = ({
           selected={selected}
           fetchData={editData}
         />
-        <CheckAttendance toggle={toggleAttendance} open={showAttendance} />
+        <AcademicView toggle={toggleInfromation} open={showInformation} data={userData} formType='camp' />
       </Grid>
     </>
   )

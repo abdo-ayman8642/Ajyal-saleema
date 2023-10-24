@@ -45,6 +45,7 @@ import AddBoxIcon from '@mui/icons-material/AddBox'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 import HomeIcon from '@mui/icons-material/Home'
 import ForestIcon from '@mui/icons-material/Forest'
+import AcademicView from '../user/list/academicView'
 
 // ** Utils Import
 import CardStatsCharacter from 'src/@core/components/card-statistics/card-stats-with-image'
@@ -80,6 +81,8 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
   const dispatch = useDispatch()
   const [showEdit, setShowEdit] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
+  const [showInformation, setInformation] = useState(false)
+  const [userData, setUserData] = useState(user?.user)
   const searchedData = useSelector(state => state.academicData?.searchedData)
   const data = useSelector(state => state.academicData[storeData])
   const editAction = handleActions('edit', formType)
@@ -120,32 +123,46 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
   }, [])
 
   const handleDefaultColumns = (name, pathname, pastRoute, handleClick, formType, toggle) => {
-    const attendanceColumn = [
-      {
-        flex: 0.7,
-        minWidth: 70,
-        field: 'attendance',
-        headerName: 'الحضور',
-        renderCell: ({ row }) => {
-          const { id, name } = row
+    const attendanceColumn = !isMobile
+      ? [
+          {
+            flex: 0.7,
+            minWidth: 70,
+            field: 'attendance',
+            headerName: 'الحضور',
+            renderCell: ({ row }) => {
+              const { id, name } = row
 
-          return (
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
-                <Typography
-                  noWrap
-                  component='a'
-                  variant='subtitle2'
-                  sx={{ color: 'text.primary', textDecoration: 'none' }}
-                >
-                  {row.total_attendance}
-                </Typography>
-              </Box>
-            </Box>
-          )
-        }
+              return (
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+                    <Typography
+                      noWrap
+                      component='a'
+                      variant='subtitle2'
+                      sx={{ color: 'text.primary', textDecoration: 'none' }}
+                    >
+                      {row.total_attendance}
+                    </Typography>
+                  </Box>
+                </Box>
+              )
+            }
+          }
+        ]
+      : [{}]
+
+    // ** renders client column
+    const renderClient = row => {
+      if (formType === 'grades' || formType === 'classes') {
+        return (
+          <div onClick={() => toggleInfromation(row)}>
+            <CustomAvatar skin='light' sx={{ mr: 3, width: 34, height: 34, fontSize: '1rem' }} />
+          </div>
+        )
       }
-    ]
+      return null
+    }
 
     const codeColumn = !isMobile
       ? {
@@ -166,6 +183,60 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
                     sx={{ color: 'text.primary', textDecoration: 'none' }}
                   >
                     {code || '__'}
+                  </Typography>
+                </Box>
+              </Box>
+            )
+          }
+        }
+      : {}
+
+    const totalStudents = !isMobile
+      ? {
+          flex: 0.4,
+          minWidth: 100,
+          field: 'total_students',
+          headerName: 'عدد الطلاب',
+          renderCell: ({ row }) => {
+            const { total_students } = row
+
+            return (
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+                  <Typography
+                    noWrap
+                    component='a'
+                    variant='subtitle2'
+                    sx={{ color: 'text.primary', textDecoration: 'none' }}
+                  >
+                    {total_students || 0}
+                  </Typography>
+                </Box>
+              </Box>
+            )
+          }
+        }
+      : {}
+
+    const totalClasses = !isMobile
+      ? {
+          flex: 0.4,
+          minWidth: 100,
+          field: 'total_classes',
+          headerName: 'عدد الفصول',
+          renderCell: ({ row }) => {
+            const { total_classes } = row
+
+            return (
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+                  <Typography
+                    noWrap
+                    component='a'
+                    variant='subtitle2'
+                    sx={{ color: 'text.primary', textDecoration: 'none' }}
+                  >
+                    {total_classes || 0}
                   </Typography>
                 </Box>
               </Box>
@@ -304,6 +375,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
 
           return (
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              {renderClient(row)}
               <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }} onClick={handleClick}>
                 {formType === 'administrations' ? (
                   <Typography
@@ -334,12 +406,19 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
     ]
 
     if (formType === 'classes') {
-      const classCol = [...defaultColumns, ...attendanceColumn]
+      const classCol = [...defaultColumns]
+      classCol.push(totalStudents, ...attendanceColumn)
 
       return classCol
     }
     if (formType === 'schools' || formType === 'govs' || formType === 'camps') {
       defaultColumns.push(codeColumn)
+
+      return defaultColumns
+    }
+
+    if (formType === 'grades') {
+      defaultColumns.push(totalStudents, totalClasses)
 
       return defaultColumns
     }
@@ -538,6 +617,11 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
     dispatch(handleSelectedData(row))
   }
 
+  const toggleInfromation = row => {
+    setUserData(row)
+    setInformation(!showInformation)
+  }
+
   const onClickAdd = row => {
     const { id, name } = row
     setCurrent_ID({ id, type: row?.type })
@@ -604,6 +688,7 @@ const DataTable = ({ dataName, formType, storeData, pathname, pastRoute, editDat
           fetchData={editData}
         />
         <CheckAttendance toggle={toggleAttendance} open={showAttendance} />
+        <AcademicView toggle={toggleInfromation} open={showInformation} data={userData} formType={formType} />
       </Grid>
       {/* <div style={{ display: 'flex' }}>
         <CardStatsCharacter data={schoolData} />

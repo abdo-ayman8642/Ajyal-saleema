@@ -382,14 +382,6 @@ const SidebarAddTeacher = props => {
                       inputProps={{ placeholder: 'إختيار نوع التعلم' }}
                     >
                       <MenuItem
-                        value={'camp'}
-                        onClick={() => {
-                          updateType('camp')
-                        }}
-                      >
-                        كامب
-                      </MenuItem>
-                      <MenuItem
                         value={'school'}
                         onClick={() => {
                           updateType('school')
@@ -407,38 +399,7 @@ const SidebarAddTeacher = props => {
 
           {selectedType && (
             <>
-              {selectedType === 'camp' ? (
-                <FormControl fullWidth sx={{ mb: 6 }}>
-                  <Controller
-                    name='school'
-                    control={control}
-                    rules={{ required: true }}
-                    render={({ field: { value, onChange } }) => (
-                      <Box>
-                        <InputLabel id='school-select-label'>اختر المدرسة</InputLabel>
-                        <Select
-                          fullWidth
-                          value={value}
-                          id='school-select'
-                          label='اختر المدرسة'
-                          labelId='school-select-label'
-                          onChange={onChange}
-                          inputProps={{ placeholder: 'اختر المدرسة' }}
-                        >
-                          {schools?.map(s => (
-                            <MenuItem value={s.id} key={s.id} onClick={() => updateSchool(s.id)}>
-                              {s.name}
-                            </MenuItem>
-                          ))}
-                        </Select>
-                      </Box>
-                    )}
-                  />
-                  {errors.school && (
-                    <FormHelperText sx={{ color: 'error.main' }}>{errors.school.message}</FormHelperText>
-                  )}
-                </FormControl>
-              ) : (
+              {selectedType === 'camp' ? null : (
                 <>
                   <FormControl fullWidth sx={{ mb: 6 }}>
                     <Controller

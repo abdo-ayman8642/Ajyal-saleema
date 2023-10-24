@@ -13,6 +13,9 @@ import { DataGrid } from '@mui/x-data-grid'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline'
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount'
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts'
+import CustomAvatar from 'src/@core/components/mui/avatar'
 
 // ** Icons Imports
 import DeleteIcon from '@mui/icons-material/Delete'
@@ -25,6 +28,8 @@ import { handleSelectedData } from 'src/store/apps/academicData'
 import { handleActions } from 'src/helperFunctions/academicDataActions'
 import DialogEditForm from './DialogEditForm'
 import ConfirmDelete from './ConfirmDelete'
+import InformationView from '../user/list/InformationView'
+import AcademicView from '../user/list/academicView'
 
 const SchoolDataTable = ({ dataName, formType, storeData, pathname, pastRoute, editData }) => {
   // ********* States & variables *******************/
@@ -34,6 +39,8 @@ const SchoolDataTable = ({ dataName, formType, storeData, pathname, pastRoute, e
   const [showEdit, setShowEdit] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
   const searchedData = useSelector(state => state.academicData?.searchedData)
+  const [showInformation, setInformation] = useState(false)
+  const [userData, setUserData] = useState(user?.user)
   const data = useSelector(state => state.academicData[storeData])
   const editAction = handleActions('edit', formType)
   const deleteAction = handleActions('delete', formType)
@@ -87,6 +94,42 @@ const SchoolDataTable = ({ dataName, formType, storeData, pathname, pastRoute, e
         }
       : {}
 
+    const totalStudents = !isMobile
+      ? {
+          flex: 0.3,
+          minWidth: 100,
+          field: 'total_students',
+          headerName: 'عدد الطلاب',
+          renderCell: ({ row }) => {
+            const { total_students } = row
+
+            return (
+              <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
+                  <Typography
+                    noWrap
+                    component='a'
+                    variant='subtitle2'
+                    sx={{ color: 'text.primary', textDecoration: 'none' }}
+                  >
+                    {total_students || 0}
+                  </Typography>
+                </Box>
+              </Box>
+            )
+          }
+        }
+      : {}
+
+    // ** renders client column
+    const renderClient = row => {
+      return (
+        <div onClick={() => toggleInfromation(row)}>
+          <CustomAvatar skin='light' sx={{ mr: 3, width: 34, height: 34, fontSize: '1rem' }} />
+        </div>
+      )
+    }
+
     const defaultColumns = [
       {
         flex: 1.5,
@@ -98,6 +141,7 @@ const SchoolDataTable = ({ dataName, formType, storeData, pathname, pastRoute, e
 
           return (
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
+              {renderClient(row)}
               <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }} onClick={handleClick}>
                 <Link href={{ pathname: pathname, query: { pastRoute: pastRoute, id: id } }} passHref>
                   <Typography
@@ -116,6 +160,7 @@ const SchoolDataTable = ({ dataName, formType, storeData, pathname, pastRoute, e
       }
     ]
 
+    defaultColumns.push(totalStudents)
     defaultColumns.push(codeColumn)
 
     return defaultColumns
@@ -176,6 +221,10 @@ const SchoolDataTable = ({ dataName, formType, storeData, pathname, pastRoute, e
   const toggleShowEdit = () => {
     setShowEdit(!showEdit)
   }
+  const toggleInfromation = row => {
+    setUserData(row)
+    setInformation(!showInformation)
+  }
 
   const toggleConfirm = () => {
     setShowConfirm(!showConfirm)
@@ -187,8 +236,9 @@ const SchoolDataTable = ({ dataName, formType, storeData, pathname, pastRoute, e
 
   const schools = searchedData?.data || data?.data || data
 
-  const filteredSchools = schools?.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
-
+  const filteredSchools = Array.isArray(schools)
+    ? schools?.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    : []
   return (
     <>
       <Grid container spacing={6}>
@@ -208,7 +258,7 @@ const SchoolDataTable = ({ dataName, formType, storeData, pathname, pastRoute, e
               rows={filteredSchools}
               pageSize={pageSize}
               columns={columns}
-              rowsPerPageOptions={[10, 25, 50, schools?.length]}
+              rowsPerPageOptions={[10, 25, 50, 100]}
               onPageSizeChange={newPageSize => setPageSize(newPageSize)}
               disableSelectionOnClick
               onCellClick={selected => dispatch(handleSelectedData(selected.row))}
@@ -235,6 +285,7 @@ const SchoolDataTable = ({ dataName, formType, storeData, pathname, pastRoute, e
           selected={selected}
           fetchData={editData}
         />
+        <AcademicView toggle={toggleInfromation} open={showInformation} data={userData} formType='school' />
       </Grid>
     </>
   )

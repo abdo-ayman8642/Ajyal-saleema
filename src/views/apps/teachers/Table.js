@@ -270,6 +270,7 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
             checkboxSelection={false}
             pageSize={pageSize}
             disableSelectionOnClick
+            rowsPerPageOptions={[10, 25, 50, 100]}
             columns={columns}
             onSelectionModelChange={selected => handleDelete(selected)}
             onPageSizeChange={newPageSize => setPageSize(newPageSize)}

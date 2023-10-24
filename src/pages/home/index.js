@@ -1,7 +1,7 @@
 // ** MUI Imports
 import Grid from '@mui/material/Grid'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { dashboardData } from 'src/store/apps/user/actions'
@@ -23,7 +23,7 @@ import PageHeader from 'src/views/apps/academicYear/PageHeader'
 import { useAuth } from 'src/hooks/useAuth'
 import NoPermissionComponent from 'src/views/apps/permissions/noAccess'
 import QuizStats from 'src/views/apps/exam/quizesStats'
-//import HorizontalBars from 'src/views/charts/BarChart'
+import HorizontalBars from 'src/views/charts/BarChart'
 
 const _ = require('lodash')
 
@@ -148,11 +148,11 @@ const Home = () => {
             <GenderStats data={genderData} />
           </Grid>
           <Grid item xs={12} lg={6}>
+            <HorizontalBars dataset={dashboardStats?.sessions_attendance} />
+          </Grid>
+          <Grid item xs={12} lg={6}>
             <QuizStats data={examData} />
           </Grid>
-          {/* <Grid item xs={12} lg={6}>
-            <HorizontalBars dataset={dashboardStats?.sessions_attendance} />
-          </Grid> */}
           <Grid item xs={12} lg={12}>
             <DashboardCalendar data={dashboardStats?.event} />
           </Grid>

@@ -71,7 +71,7 @@ const ApexChart = () => {
     currInput?.[1] == 'school' && setSchoolId(currInput?.[0])
     const path = `https://edu.kyanlabs.com/edu/api/students/sessions/attendance?${currInput?.[1]}=${
       currInput?.[0] || 1
-    }&school=${schoolId}`
+    }&school_id=${schoolId}`
     try {
       const response = await fetch(path, {
         headers: { 'content-type': 'application/json' },
