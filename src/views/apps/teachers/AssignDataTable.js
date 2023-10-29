@@ -9,6 +9,7 @@ import MenuItem from '@mui/material/MenuItem'
 import { styled } from '@mui/material/styles'
 import TextField from '@mui/material/TextField'
 import InputLabel from '@mui/material/InputLabel'
+import Autocomplete from '@mui/material/Autocomplete'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
@@ -82,7 +83,7 @@ const AssignTeacher = props => {
   const [teacherId, setTeacherId] = useState(null)
   const [selected, setSelected] = useState(false)
 
-  const teachers = useSelector(state => state.teachers?.data?.data)
+  const teachers = useSelector(state => state.teachers?.data?.data) || []
 
   useEffect(() => {
     dispatch(fetchData(1))
@@ -103,7 +104,7 @@ const AssignTeacher = props => {
   }
 
   const onChangeTeacher = teacher => {
-    setTeacherId(teacher?.target?.value)
+    setTeacherId(teacher?.id)
     setSelected(true)
   }
 
@@ -124,51 +125,22 @@ const AssignTeacher = props => {
       <Box sx={{ p: 5 }}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <FormControl fullWidth sx={{ mb: 6 }}>
-            <InputLabel
-              id='teacher-select-label'
-              sx={{
-                transform: selected ? 'translate(0, -6px) scale(0.75)' : '', // Move label up when an option is selected
-                backgroundColor: selected ? 'white' : '',
-                margin: selected ? '0 1rem' : '',
-                padding: selected ? '0 0.5rem' : ''
-
-                //color: selected ? 'blue' : 'rgba(0, 0, 0, 0.54)' // Change label color when an option is selected
-              }}
-            >
-              حدد المعلم
-            </InputLabel>
             <Controller
               name='teacher'
               control={control}
               rules={{ required: true }}
               render={({ field: { value, onChange } }) => (
-                <Select
+                <Autocomplete
                   fullWidth
-                  value={value}
-                  id='teacher-select'
-                  labelId='teacher-select-label'
-                  onChange={e => {
-                    onChange(e)
-                    onChangeTeacher(e)
+                  options={teachers}
+                  getOptionLabel={teacher => teacher.name}
+                  value={teachers.find(t => t.id === value) || null}
+                  onChange={(e, newValue) => {
+                    onChange(newValue ? newValue.id : null)
+                    onChangeTeacher(newValue)
                   }}
-                  sx={{
-                    '&:before': {
-                      borderBottom: '1px solid rgba(0, 0, 0, 0.42)' // Change the border color
-                    },
-                    '&:hover:not(.Mui-disabled):before': {
-                      borderBottom: '1px solid rgba(0, 0, 0, 0.87)' // Change the border color on hover
-                    }
-                  }}
-                >
-                  <MenuItem value='' disabled>
-                    <em>حدد المعلم</em>
-                  </MenuItem>
-                  {teachers?.map(t => (
-                    <MenuItem value={t.id} key={t.id}>
-                      {t.name}
-                    </MenuItem>
-                  ))}
-                </Select>
+                  renderInput={params => <TextField {...params} label='حدد المعلم' />}
+                />
               )}
             />
             {errors.teacher && <FormHelperText sx={{ color: 'error.main' }}>{errors.teacher.message}</FormHelperText>}

@@ -123,7 +123,7 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
   const renderGender = () => {
     if (!isMobile) {
       return {
-        flex: 1,
+        flex: 0.3,
         field: 'gender',
         minWidth: 100,
         headerName: 'الجنس',
@@ -131,6 +131,26 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
           return (
             <Typography variant='body2' noWrap>
               {row.gender === 'male' ? 'ذكر' : 'أنثى'}
+            </Typography>
+          )
+        }
+      }
+    }
+
+    return {}
+  }
+
+  const renderPhone = () => {
+    if (!isMobile) {
+      return {
+        flex: 0.7,
+        field: 'phone',
+        minWidth: 100,
+        headerName: 'الهاتف',
+        renderCell: ({ row }) => {
+          return (
+            <Typography variant='body2' noWrap>
+              {row.phone ? `+20 ${row.phone}` : null}
             </Typography>
           )
         }
@@ -186,6 +206,7 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
   const columns = [
     ...defaultColumns,
     renderGender(),
+    renderPhone(),
     {
       flex: renderFlex(isMobile),
       minWidth: 100,

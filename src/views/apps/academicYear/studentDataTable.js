@@ -158,6 +158,43 @@ const StudentDatatable = ({ dataName, formType, storeData, pathname, pastRoute, 
     dispatch(handleSelectedStudent(row))
   }
 
+  const makeSessionsDots = attendance => {
+    return Array.from({ length: 12 }, (_, i) => attendance.includes(i + 1))
+  }
+
+  const renderSessionsAttendance = type => {
+    if ((type === 'camps' || type === 'classes') && !isMobile)
+      return {
+        flex: 1,
+        minWidth: 100,
+        sorDataTable: false,
+        field: 'sessionAttendance',
+        headerName: 'حضور الحصص',
+        renderCell: ({ row }) => (
+          <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(6,1fr)', gap: '7px', alignItems: 'center' }}>
+            {makeSessionsDots(row.session_ids)?.map((i, index) => {
+              const color = i ? 'green' : 'red'
+
+              return (
+                <Tooltip key={index} title={'Session: ' + (index + 1)}>
+                  <div
+                    style={{
+                      width: '8px',
+                      height: '8px',
+                      backgroundColor: `${color}`,
+                      borderRadius: '50%'
+                    }}
+                  ></div>
+                </Tooltip>
+              )
+            })}
+          </Box>
+        )
+      }
+
+    return {}
+  }
+
   const renderControls = type => {
     if (deletee || edit) {
       return {

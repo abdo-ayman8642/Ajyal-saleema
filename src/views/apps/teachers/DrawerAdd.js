@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import FormControl from '@mui/material/FormControl'
 import FormHelperText from '@mui/material/FormHelperText'
+import Autocomplete from '@mui/material/Autocomplete'
 
 // ** Third Party Imports
 import * as yup from 'yup'
@@ -114,12 +115,13 @@ const SidebarAddTeacher = props => {
   const years = useSelector(state => state.academicData?.years?.data)
   const govs = useSelector(state => state.academicData?.govs?.data)
   const administration = useSelector(state => state.academicData?.administrations?.data)
-  const schools = useSelector(state => state.academicData?.schools)
+  const schools = useSelector(state => state.academicData?.schools) || []
   const grades = useSelector(state => state.academicData?.grades?.data)
   const classes = useSelector(state => state.academicData?.classes?.data)
   const selectedClass = watch('class')
   const genderref = useRef(0)
   const [text, setText] = useState('')
+  const [phone, setPhone] = useState('')
   const [formData, setFormData] = useState({ type: '', classes: null, schools: null })
 
   useEffect(() => {
@@ -156,6 +158,7 @@ const SidebarAddTeacher = props => {
       name: text,
       teacher_id: teacherId?.[0],
       gender: genderref?.current?.value,
+      phone: Number(phone),
       [schoolType]: formData[schoolType]
 
       // [schoolType]: [{ id: data.class }]
@@ -235,11 +238,10 @@ const SidebarAddTeacher = props => {
                       }}
                       placeholder='أدخل أسمك'
                       value={text}
-                      error={Boolean(errors.fullName)}
+                      required
                     />
                   )}
                 />
-                {errors.name && <FormHelperText sx={{ color: 'error.main' }}>{errors.name.message}</FormHelperText>}
               </FormControl>
 
               <FormControl fullWidth sx={{ mb: 6 }}>
@@ -266,240 +268,285 @@ const SidebarAddTeacher = props => {
                     </Box>
                   )}
                 />
-                {errors.gender && <FormHelperText sx={{ color: 'error.main' }}>{errors.gender.message}</FormHelperText>}
+              </FormControl>
+              <FormControl fullWidth sx={{ mb: 6 }}>
+                <Controller
+                  name='phone'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <TextField
+                      type='number'
+                      label='الهاتف'
+                      onChange={e => {
+                        e.preventDefault()
+                        setPhone(e.target.value)
+                      }}
+                      InputProps={{
+                        startAdornment: <div style={{ marginRight: '10px' }}>+20</div> // Add the static prefix
+                      }}
+                      placeholder='أدخل الهاتف'
+                      value={phone}
+                    />
+                  )}
+                />
               </FormControl>
             </>
           )}
-          <FormControl fullWidth sx={{ mb: 6 }}>
-            <Controller
-              name='year'
-              control={control}
-              rules={{ required: true }}
-              render={({ field: { value, onChange } }) => (
-                <Box>
-                  <InputLabel id='year-select-label'>السنة الأكاديمية</InputLabel>
-                  <Select
-                    fullWidth
-                    value={value}
-                    id='year-select'
-                    label='السنة الأكاديمية'
-                    labelId='year-select-label'
-                    onChange={onChange}
-                    inputProps={{ placeholder: 'حدد السنة' }}
-                  >
-                    {years?.map(y => (
-                      <MenuItem value={y.id} key={y.id}>
-                        {y.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </Box>
-              )}
-            />
-            {errors.year && <FormHelperText sx={{ color: 'error.main' }}>{errors.year.message}</FormHelperText>}
-          </FormControl>
-          {selectedYear && (
-            <FormControl fullWidth sx={{ mb: 6 }}>
-              <Controller
-                name='gov'
-                control={control}
-                rules={{ required: true }}
-                render={({ field: { value, onChange } }) => (
-                  <Box>
-                    <InputLabel id='gov-select-label'>اختر المحافظة</InputLabel>
-                    <Select
-                      fullWidth
-                      value={value}
-                      id='gov-select'
-                      label='اختر المحافظة'
-                      labelId='gov-select-label'
-                      onChange={onChange}
-                      inputProps={{ placeholder: 'اختر المحافظة' }}
-                    >
-                      {govs?.map(g => (
-                        <MenuItem value={g.id} key={g.id}>
-                          {g.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </Box>
-                )}
-              />
-              {errors.gov && <FormHelperText sx={{ color: 'error.main' }}>{errors.gov.message}</FormHelperText>}
-            </FormControl>
-          )}
-
-          {selectedGov && (
-            <FormControl fullWidth sx={{ mb: 6 }}>
-              <Controller
-                name='administr'
-                control={control}
-                rules={{ required: true }}
-                render={({ field: { value, onChange } }) => (
-                  <Box>
-                    <InputLabel id='adminstr-select-label'>اختر الإدارة</InputLabel>
-                    <Select
-                      fullWidth
-                      value={value}
-                      id='adminstr-select'
-                      label='اختر الإدارة'
-                      labelId='adminstr-select-label'
-                      onChange={onChange}
-                      inputProps={{ placeholder: 'اختر الإدارة' }}
-                    >
-                      {administration?.map(ad => (
-                        <MenuItem value={ad.id} key={ad.id}>
-                          {ad.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                  </Box>
-                )}
-              />
-
-              {errors.administr && (
-                <FormHelperText sx={{ color: 'error.main' }}>{errors.administr.message}</FormHelperText>
-              )}
-            </FormControl>
-          )}
-
-          {selectedAdminstr && (
-            <FormControl fullWidth sx={{ mb: 6 }}>
-              <Controller
-                name='type'
-                control={control}
-                rules={{ required: true }}
-                render={({ field: { value, onChange } }) => (
-                  <Box>
-                    <InputLabel id='type-select-label'>إختيار نوع التعلم</InputLabel>
-                    <Select
-                      fullWidth
-                      value={value}
-                      id='type-select'
-                      label='إختيار نوع التعلم'
-                      labelId='school-select-label'
-                      onChange={onChange}
-                      inputProps={{ placeholder: 'إختيار نوع التعلم' }}
-                    >
-                      <MenuItem
-                        value={'school'}
-                        onClick={() => {
-                          updateType('school')
-                        }}
-                      >
-                        مدرسة
-                      </MenuItem>
-                    </Select>
-                  </Box>
-                )}
-              />
-              {errors.school && <FormHelperText sx={{ color: 'error.main' }}>{errors.school.message}</FormHelperText>}
-            </FormControl>
-          )}
-
-          {selectedType && (
+          {teacherId && (
             <>
-              {selectedType === 'camp' ? null : (
-                <>
-                  <FormControl fullWidth sx={{ mb: 6 }}>
-                    <Controller
-                      name='school'
-                      control={control}
-                      rules={{ required: true }}
-                      render={({ field: { value, onChange } }) => (
-                        <Box>
-                          <InputLabel id='school-select-label'>اختر المدرسة</InputLabel>
-                          <Select
-                            fullWidth
-                            value={value}
-                            id='school-select'
-                            label='اختر المدرسة'
-                            labelId='school-select-label'
-                            onChange={onChange}
-                            inputProps={{ placeholder: 'اختر المدرسة' }}
-                          >
-                            {schools?.map(s => (
-                              <MenuItem value={s.id} key={s.id} onClick={() => updateSchool(s.id)}>
-                                {s.name}
-                              </MenuItem>
-                            ))}
-                          </Select>
-                        </Box>
-                      )}
-                    />
-                    {errors.school && (
-                      <FormHelperText sx={{ color: 'error.main' }}>{errors.school.message}</FormHelperText>
-                    )}
-                  </FormControl>
-                  {selectedSchool && (
-                    <FormControl fullWidth sx={{ mb: 6 }}>
-                      <Controller
-                        name='grade'
-                        control={control}
-                        rules={{ required: true }}
-                        render={({ field: { value, onChange } }) => (
-                          <Box>
-                            <InputLabel id='grade-select-label'>حدد الصف</InputLabel>
-                            <Select
-                              fullWidth
-                              value={value}
-                              id='grade-select'
-                              label='حدد الصف'
-                              labelId='grade-select-label'
-                              onChange={onChange}
-                              inputProps={{ placeholder: 'حدد الصف' }}
-                            >
-                              {grades?.map(g => (
-                                <MenuItem value={g.id} key={g.id}>
-                                  {g.name}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          </Box>
-                        )}
-                      />
-                      {errors.grade && (
-                        <FormHelperText sx={{ color: 'error.main' }}>{errors.grade.message}</FormHelperText>
-                      )}
-                    </FormControl>
+              <FormControl fullWidth sx={{ mb: 6 }}>
+                <Controller
+                  name='year'
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field: { value, onChange } }) => (
+                    <Box>
+                      <InputLabel id='year-select-label'>السنة الأكاديمية</InputLabel>
+                      <Select
+                        fullWidth
+                        value={value}
+                        id='year-select'
+                        label='السنة الأكاديمية'
+                        labelId='year-select-label'
+                        onChange={onChange}
+                        inputProps={{ placeholder: 'حدد السنة' }}
+                      >
+                        {years?.map(y => (
+                          <MenuItem value={y.id} key={y.id}>
+                            {y.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </Box>
                   )}
-                  {selectedGrade && (
-                    <FormControl fullWidth sx={{ mb: 6 }}>
-                      <Controller
-                        name='class'
-                        control={control}
-                        rules={{ required: true }}
-                        render={({ field: { value, onChange } }) => (
-                          <Box>
-                            <InputLabel id='class-select-label'>حدد الفصل</InputLabel>
-                            <Select
-                              fullWidth
-                              value={value}
-                              id='class-select'
-                              label='حدد الفصل'
-                              labelId='class-select-label'
-                              onChange={onChange}
-                              inputProps={{ placeholder: 'حدد الفصل' }}
-                            >
-                              {classes?.map(c => (
-                                <MenuItem
-                                  value={c.id}
-                                  key={c.id}
-                                  onClick={() => {
-                                    updateClasses(c.id)
-                                  }}
-                                >
-                                  {c.name}
-                                </MenuItem>
-                              ))}
-                            </Select>
-                          </Box>
+                />
+                {errors.year && <FormHelperText sx={{ color: 'error.main' }}>{errors.year.message}</FormHelperText>}
+              </FormControl>
+              {selectedYear && (
+                <FormControl fullWidth sx={{ mb: 6 }}>
+                  <Controller
+                    name='gov'
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field: { value, onChange } }) => (
+                      <Box>
+                        <InputLabel id='gov-select-label'>اختر المحافظة</InputLabel>
+                        <Select
+                          fullWidth
+                          value={value}
+                          id='gov-select'
+                          label='اختر المحافظة'
+                          labelId='gov-select-label'
+                          onChange={onChange}
+                          inputProps={{ placeholder: 'اختر المحافظة' }}
+                        >
+                          {govs?.map(g => (
+                            <MenuItem value={g.id} key={g.id}>
+                              {g.name}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </Box>
+                    )}
+                  />
+                  {errors.gov && <FormHelperText sx={{ color: 'error.main' }}>{errors.gov.message}</FormHelperText>}
+                </FormControl>
+              )}
+
+              {selectedGov && (
+                <FormControl fullWidth sx={{ mb: 6 }}>
+                  <Controller
+                    name='administr'
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field: { value, onChange } }) => (
+                      <Box>
+                        <InputLabel id='adminstr-select-label'>اختر الإدارة</InputLabel>
+                        <Select
+                          fullWidth
+                          value={value}
+                          id='adminstr-select'
+                          label='اختر الإدارة'
+                          labelId='adminstr-select-label'
+                          onChange={onChange}
+                          inputProps={{ placeholder: 'اختر الإدارة' }}
+                        >
+                          {administration?.map(ad => (
+                            <MenuItem value={ad.id} key={ad.id}>
+                              {ad.name}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                      </Box>
+                    )}
+                  />
+
+                  {errors.administr && (
+                    <FormHelperText sx={{ color: 'error.main' }}>{errors.administr.message}</FormHelperText>
+                  )}
+                </FormControl>
+              )}
+
+              {selectedAdminstr && (
+                <FormControl fullWidth sx={{ mb: 6 }}>
+                  <Controller
+                    name='type'
+                    control={control}
+                    rules={{ required: true }}
+                    render={({ field: { value, onChange } }) => (
+                      <Box>
+                        <InputLabel id='type-select-label'>إختيار نوع التعلم</InputLabel>
+                        <Select
+                          fullWidth
+                          value={value}
+                          id='type-select'
+                          label='إختيار نوع التعلم'
+                          labelId='school-select-label'
+                          onChange={onChange}
+                          inputProps={{ placeholder: 'إختيار نوع التعلم' }}
+                        >
+                          <MenuItem
+                            value={'school'}
+                            onClick={() => {
+                              updateType('school')
+                            }}
+                          >
+                            مدرسة
+                          </MenuItem>
+                        </Select>
+                      </Box>
+                    )}
+                  />
+                </FormControl>
+              )}
+
+              {selectedType && (
+                <>
+                  {selectedType === 'camp' ? null : (
+                    <>
+                      {/* <FormControl fullWidth sx={{ mb: 6 }}>
+                        <Controller
+                          name='school'
+                          control={control}
+                          rules={{ required: true }}
+                          render={({ field: { value, onChange } }) => (
+                            <Box>
+                              <InputLabel id='school-select-label'>اختر المدرسة</InputLabel>
+                              <Select
+                                fullWidth
+                                value={value}
+                                id='school-select'
+                                label='اختر المدرسة'
+                                labelId='school-select-label'
+                                onChange={onChange}
+                                inputProps={{ placeholder: 'اختر المدرسة' }}
+                              >
+                                {schools?.map(s => (
+                                  <MenuItem value={s.id} key={s.id} onClick={() => updateSchool(s.id)}>
+                                    {s.name}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </Box>
+                          )}
+                        />
+                        {errors.school && (
+                          <FormHelperText sx={{ color: 'error.main' }}>{errors.school.message}</FormHelperText>
                         )}
-                      />
-                      {errors.class && (
-                        <FormHelperText sx={{ color: 'error.main' }}>{errors.class.message}</FormHelperText>
+                      </FormControl> */}
+                      <FormControl fullWidth sx={{ mb: 6 }}>
+                        <Controller
+                          name='school'
+                          control={control}
+                          rules={{ required: true }}
+                          render={({ field: { value, onChange } }) => (
+                            <Autocomplete
+                              options={schools}
+                              getOptionLabel={school => school.name}
+                              value={schools?.find(s => s?.id === value) || null}
+                              onChange={(_, newValue) => {
+                                onChange(newValue ? newValue?.id : null)
+                                updateSchool(newValue ? newValue?.id : null)
+                              }}
+                              renderInput={params => (
+                                <TextField {...params} label='اختر المدرسة' placeholder='اختر المدرسة' />
+                              )}
+                            />
+                          )}
+                        />
+                      </FormControl>
+                      {selectedSchool && (
+                        <FormControl fullWidth sx={{ mb: 6 }}>
+                          <Controller
+                            name='grade'
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field: { value, onChange } }) => (
+                              <Box>
+                                <InputLabel id='grade-select-label'>حدد الصف</InputLabel>
+                                <Select
+                                  fullWidth
+                                  value={value}
+                                  id='grade-select'
+                                  label='حدد الصف'
+                                  labelId='grade-select-label'
+                                  onChange={onChange}
+                                  inputProps={{ placeholder: 'حدد الصف' }}
+                                >
+                                  {grades?.map(g => (
+                                    <MenuItem value={g.id} key={g.id}>
+                                      {g.name}
+                                    </MenuItem>
+                                  ))}
+                                </Select>
+                              </Box>
+                            )}
+                          />
+                          {errors.grade && (
+                            <FormHelperText sx={{ color: 'error.main' }}>{errors.grade.message}</FormHelperText>
+                          )}
+                        </FormControl>
                       )}
-                    </FormControl>
+                      {selectedGrade && (
+                        <FormControl fullWidth sx={{ mb: 6 }}>
+                          <Controller
+                            name='class'
+                            control={control}
+                            rules={{ required: true }}
+                            render={({ field: { value, onChange } }) => (
+                              <Box>
+                                <InputLabel id='class-select-label'>حدد الفصل</InputLabel>
+                                <Select
+                                  fullWidth
+                                  value={value}
+                                  id='class-select'
+                                  label='حدد الفصل'
+                                  labelId='class-select-label'
+                                  onChange={onChange}
+                                  inputProps={{ placeholder: 'حدد الفصل' }}
+                                >
+                                  {classes?.map(c => (
+                                    <MenuItem
+                                      value={c.id}
+                                      key={c.id}
+                                      onClick={() => {
+                                        updateClasses(c.id)
+                                      }}
+                                    >
+                                      {c.name}
+                                    </MenuItem>
+                                  ))}
+                                </Select>
+                              </Box>
+                            )}
+                          />
+                          {errors.class && (
+                            <FormHelperText sx={{ color: 'error.main' }}>{errors.class.message}</FormHelperText>
+                          )}
+                        </FormControl>
+                      )}
+                    </>
                   )}
                 </>
               )}

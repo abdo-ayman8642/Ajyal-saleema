@@ -136,9 +136,6 @@ function PermissionsV2({ user }) {
       edit: selectedUser?.year?.students?.edit || false,
       add: selectedUser?.year?.students?.add || false,
       delete: selectedUser?.year?.students?.delete || false
-    },
-    student: {
-      read: selectedUser?.year?.students?.read || false
     }
   }
 
@@ -166,7 +163,8 @@ function PermissionsV2({ user }) {
       delete: selectedUser?.teachers?.delete || false
     },
     user: {
-      read: selectedUser?.user?.read || false
+      read: selectedUser?.user?.read || false,
+      add: selectedUser?.user?.add || false
     },
     nav: {
       academic: selectedUser?.nav?.academic || false,
@@ -214,8 +212,7 @@ function PermissionsV2({ user }) {
     camps: false,
     grades: false,
     classes: false,
-    students: false,
-    student: false
+    students: false
   })
 
   const handleacPermissionChange = permissionType => {
@@ -275,6 +272,7 @@ function PermissionsV2({ user }) {
     body?.user_id === currUserId && router.push('/') // Navigates to the root path '/' if its same user
   }
 
+  console.log(permissions)
   return (
     <Fragment>
       <h3 style={{ textAlign: 'center', fontSize: '1rem', fontWeight: '400', fontStyle: 'italic', margin: 0 }}>
@@ -421,7 +419,7 @@ function PermissionsV2({ user }) {
                 style={{
                   display: 'flex',
                   justifyContent: 'center',
-                  gap: '0.1rem',
+                  gap: section === 'user' ? '1rem' : '0.1rem',
                   alignItems: 'center',
                   flexDirection: 'row',
                   alignItems: 'center',
@@ -440,9 +438,9 @@ function PermissionsV2({ user }) {
                     />
                   }
                 />
-                {section !== 'sessions' && section !== 'user' && (
+                {section !== 'sessions' && (
                   <FormControlLabel
-                    label='Add'
+                    label={section === 'user' ? 'Take Exams' : 'Add'}
                     sx={{ display: 'flex', flexDirection: 'column' }}
                     control={
                       <Checkbox

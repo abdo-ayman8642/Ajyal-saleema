@@ -129,7 +129,7 @@ function Users() {
 
   return (
     <Grid container direction='column'>
-      {role === '0' ? (
+      {role === '0' || role === '1' ? (
         <>
           <Grid item>
             <TableHeader

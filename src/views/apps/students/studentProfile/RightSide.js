@@ -45,7 +45,7 @@ function RightSide({ id, studentId, taken, total_num }) {
   const dispatch = useDispatch()
   const user = useAuth()
   const { read, add } = user?.user?.permissions?.exams || {}
-  const { read: take_exams } = user?.user?.permissions?.year?.student || {}
+  const { add: take_exams } = user?.user?.permissions?.user || {}
 
   //** Functions */
   const handleNext = () => {

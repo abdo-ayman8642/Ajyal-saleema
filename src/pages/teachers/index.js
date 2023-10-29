@@ -82,6 +82,11 @@ function Teachers() {
           label: 'Female'
         }
       ]
+    },
+    {
+      name: 'phone',
+      label: 'Phone',
+      type: 'number'
     }
   ]
 

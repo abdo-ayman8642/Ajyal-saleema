@@ -119,7 +119,15 @@ const EditForm = ({ formInputs, schema, customizeSubmit, handleClose, selected }
                         fullWidth
                         value={value}
                         label={fi.label}
+                        type={fi.type}
                         onChange={onChange}
+                        InputProps={
+                          fi.type === 'number'
+                            ? {
+                                startAdornment: <div style={{ marginRight: '10px' }}>+20</div> // Add the static prefix
+                              }
+                            : {}
+                        }
                         placeholder={`Enter your ${fi.name}`}
                         error={Boolean(errors[fi.name])}
                       />

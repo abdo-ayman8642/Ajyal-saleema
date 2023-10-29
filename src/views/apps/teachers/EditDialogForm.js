@@ -37,7 +37,8 @@ const DialogEditForm = ({ open, toggle, formInputs, showEdit }) => {
       .string()
       .min(3, obj => showErrors('Session Name', obj.value.length, obj.min))
       .required(),
-    gender: yup.string().required()
+    gender: yup.string().required(),
+    phone: yup.number()
   })
 
   /** Functions */
@@ -53,9 +54,11 @@ const DialogEditForm = ({ open, toggle, formInputs, showEdit }) => {
   }
 
   const customizeSubmit = data => {
+    console.log(data)
     let formData = {
       name: data.name,
-      gender: data.gender
+      gender: data.gender,
+      phone: data.phone
     }
     dispatch(editTeacher({ data: formData, id: selectedTeacher.id }))
     handleClose()

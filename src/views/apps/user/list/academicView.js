@@ -120,24 +120,26 @@ function AcademicView({ toggle, open, data, formType }) {
               <ListItem disablePadding>
                 <ListItemButton>
                   <ListItemText>
-                    <Box sx={{ display: 'flex', gap: '7px', alignItems: 'center', justifyContent: 'center' }}>
+                    <Box sx={{}}>
                       حضور الحصص :
-                      {makeSessionsDots(session_ids)?.map((i, index) => {
-                        const color = i ? 'green' : 'red'
+                      <div style={{ display: 'flex', gap: '0.6rem', justifyContent: 'center', marginTop: '1rem' }}>
+                        {makeSessionsDots(session_ids)?.map((i, index) => {
+                          const color = i ? 'green' : 'red'
 
-                        return (
-                          <Tooltip key={index} title={'Session: ' + (index + 1)}>
-                            <div
-                              style={{
-                                width: '8px',
-                                height: '8px',
-                                backgroundColor: `${color}`,
-                                borderRadius: '50%'
-                              }}
-                            ></div>
-                          </Tooltip>
-                        )
-                      })}
+                          return (
+                            <Tooltip key={index} title={'Session: ' + (index + 1)}>
+                              <div
+                                style={{
+                                  width: '8px',
+                                  height: '8px',
+                                  backgroundColor: `${color}`,
+                                  borderRadius: '50%'
+                                }}
+                              ></div>
+                            </Tooltip>
+                          )
+                        })}
+                      </div>
                     </Box>
                   </ListItemText>
                 </ListItemButton>

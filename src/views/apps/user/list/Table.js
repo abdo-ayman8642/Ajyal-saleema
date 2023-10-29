@@ -238,7 +238,7 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, dataType }) 
   const columns = [
     ...defaultColumns,
     {
-      flex: 1,
+      flex: 0.7,
       minWidth: 100,
       sortable: false,
       field: 'actions',
@@ -247,32 +247,38 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, dataType }) 
         const row_role = row?.role
 
         return (
-          <Box sx={{ display: 'flex', gap: '10px', ml: '-15px' }}>
+          <Box sx={{ display: 'flex', gap: '5px', ml: '-15px', justifyContent: 'center' }}>
             {row_role !== '0' && (
               <>
-                <IconButton sx={{ cursor: 'pointer', color: '#ddbb24' }} onClick={() => onClickEdit(row)}>
-                  <ModeEditOutlineIcon />
-                </IconButton>
+                {row_role === '0' && (
+                  <IconButton sx={{ cursor: 'pointer', color: '#ddbb24' }} onClick={() => onClickEdit(row)}>
+                    <ModeEditOutlineIcon />
+                  </IconButton>
+                )}
 
-                <IconButton
-                  sx={{ cursor: 'pointer', color: 'red' }}
-                  onClick={() => {
-                    onClickDelete(row)
-                  }}
-                >
-                  <DeleteIcon />
-                </IconButton>
-
-                <Tooltip title='Modify Permissions'>
+                {row_role === '0' && (
                   <IconButton
+                    sx={{ cursor: 'pointer', color: 'red' }}
                     onClick={() => {
-                      handleOpen()
-                      setCurrentUser(row)
+                      onClickDelete(row)
                     }}
                   >
-                    <ManageAccountsIcon />
+                    <DeleteIcon />
                   </IconButton>
-                </Tooltip>
+                )}
+
+                {row_role === '0' && (
+                  <Tooltip title='Modify Permissions'>
+                    <IconButton
+                      onClick={() => {
+                        handleOpen()
+                        setCurrentUser(row)
+                      }}
+                    >
+                      <ManageAccountsIcon />
+                    </IconButton>
+                  </Tooltip>
+                )}
               </>
             )}
           </Box>
