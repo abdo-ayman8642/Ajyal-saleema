@@ -469,7 +469,7 @@ const CampDataTable = ({
       <Grid container spacing={6}>
         <Grid item xs={12} sx={{ maxWidth: '500', minHeight: '400', marginBottom: '3rem' }}>
           <TextField
-            label='بحث عن معسكر'
+            label='بحث'
             variant='outlined'
             fullWidth
             value={searchQuery}

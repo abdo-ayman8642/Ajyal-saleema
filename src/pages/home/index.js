@@ -148,6 +148,7 @@ const Home = () => {
             <GenderStats data={genderData} />
           </Grid>
           <Grid item xs={12} lg={6}>
+            <div style={{ textAlign: 'center', fontWeight: '700' }}>حضور الحصص</div>
             <HorizontalBars dataset={dashboardStats?.sessions_attendance} />
           </Grid>
           <Grid item xs={12} lg={6}>

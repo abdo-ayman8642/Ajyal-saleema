@@ -201,6 +201,63 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, dataType }) 
     )
   }
 
+  const renderControls = () => {
+    if (role === '0') {
+      return {
+        flex: 0.7,
+        minWidth: 100,
+        sortable: false,
+        field: 'actions',
+        headerName: 'التحكم',
+        renderCell: ({ row }) => {
+          const row_role = row?.role
+          return (
+            <Box sx={{ display: 'flex', gap: '5px', justifyContent: 'center' }}>
+              {role === '0' && (
+                <>
+                  {row_role !== '0' && (
+                    <IconButton
+                      sx={{ cursor: 'pointer', color: '#ddbb24', padding: 0 }}
+                      onClick={() => onClickEdit(row)}
+                    >
+                      <ModeEditOutlineIcon />
+                    </IconButton>
+                  )}
+
+                  {row_role !== '0' && (
+                    <IconButton
+                      sx={{ cursor: 'pointer', color: 'red', padding: 0 }}
+                      onClick={() => {
+                        onClickDelete(row)
+                      }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  )}
+
+                  {row_role !== '0' && (
+                    <Tooltip title='Modify Permissions'>
+                      <IconButton
+                        sx={{ padding: 0 }}
+                        onClick={() => {
+                          handleOpen()
+                          setCurrentUser(row)
+                        }}
+                      >
+                        <ManageAccountsIcon />
+                      </IconButton>
+                    </Tooltip>
+                  )}
+                </>
+              )}
+            </Box>
+          )
+        }
+      }
+    }
+    return {}
+  }
+
   const defaultColumns = [
     {
       flex: 1,
@@ -231,61 +288,12 @@ const UserList = ({ handlePageChange, toggleDialog, toggleEditForm, dataType }) 
     renderEmail(),
     renderGender(),
     renderRole(),
-    renderPhone()
+    renderPhone(),
+    renderControls()
   ]
 
   // ** add actions to default row
-  const columns = [
-    ...defaultColumns,
-    {
-      flex: 0.7,
-      minWidth: 100,
-      sortable: false,
-      field: 'actions',
-      headerName: 'التحكم',
-      renderCell: ({ row }) => {
-        const row_role = row?.role
-
-        return (
-          <Box sx={{ display: 'flex', gap: '5px', ml: '-15px', justifyContent: 'center' }}>
-            {row_role !== '0' && (
-              <>
-                {row_role === '0' && (
-                  <IconButton sx={{ cursor: 'pointer', color: '#ddbb24' }} onClick={() => onClickEdit(row)}>
-                    <ModeEditOutlineIcon />
-                  </IconButton>
-                )}
-
-                {row_role === '0' && (
-                  <IconButton
-                    sx={{ cursor: 'pointer', color: 'red' }}
-                    onClick={() => {
-                      onClickDelete(row)
-                    }}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                )}
-
-                {row_role === '0' && (
-                  <Tooltip title='Modify Permissions'>
-                    <IconButton
-                      onClick={() => {
-                        handleOpen()
-                        setCurrentUser(row)
-                      }}
-                    >
-                      <ManageAccountsIcon />
-                    </IconButton>
-                  </Tooltip>
-                )}
-              </>
-            )}
-          </Box>
-        )
-      }
-    }
-  ]
+  const columns = [...defaultColumns]
 
   function isObjectEmpty(obj) {
     return Object.keys(obj).length === 0

@@ -30,13 +30,16 @@ const Header = styled(Box)(({ theme }) => ({
 }))
 
 function TeacherClasses({ toggle, open, data }) {
+  console.log(data)
   const {
     classes = null,
     name = null,
     camps = null,
     total_camp_students = null,
     total_class_students = null,
-    total_departs = null
+    total_departs = null,
+    phone = null,
+    gender = null
   } = data || {}
   const total_classes = classes?.length
   const total_camps = camps?.length
@@ -64,11 +67,14 @@ function TeacherClasses({ toggle, open, data }) {
     <Dialog fullWidth open={open} maxWidth='xs' onClose={toggle}>
       <DialogContent>
         <List component='nav' aria-label='main mailbox'>
-          <Header sx={{ marginBottom: '1rem' }}>
+          <Header>
             <Typography variant='h5'>{name}</Typography>
             <Close fontSize='small' onClick={toggle} sx={{ cursor: 'pointer' }} />
           </Header>
-          <div style={{ textAlign: 'center', margin: '0.5rem 0' }}></div>
+          <div style={{ padding: '1rem' }}>
+            <div>الهاتف : {phone || 'لا يوجد'}</div>
+            <div>النوع : {gender === 'male' ? 'ذكر' : 'انثى'}</div>
+          </div>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Card>

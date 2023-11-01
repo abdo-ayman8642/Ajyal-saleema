@@ -19,6 +19,7 @@ import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline'
 // ** Icons Imports
 import AddBoxIcon from '@mui/icons-material/AddBox'
 import ChecklistRtlIcon from '@mui/icons-material/ChecklistRtl'
+import InfoIcon from '@mui/icons-material/Info'
 
 // ** teachers Imports
 import { useDispatch, useSelector } from 'react-redux'
@@ -94,7 +95,7 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
 
   const defaultColumns = [
     {
-      flex: renderFlex(isMobile),
+      flex: 1,
       minWidth: 120,
       field: 'fullName',
       headerName: 'الإسم',
@@ -103,7 +104,6 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
 
         return (
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            {renderClient(row)}
             <Box sx={{ display: 'flex', alignItems: 'flex-start', flexDirection: 'column' }}>
               <Typography
                 noWrap
@@ -160,6 +160,28 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
     return {}
   }
 
+  const renderInformations = () => {
+    return {
+      flex: renderFlex(isMobile),
+      minWidth: 100,
+      sortable: false,
+      field: 'teachers',
+      headerName: 'التفاصيل',
+      renderCell: ({ row }) => (
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Button variant='contained' color='secondary' startIcon={<InfoIcon />} onClick={() => toggleAttendance(row)}>
+            {isMobile ? null : (
+              <div style={{ padding: '0 0.5rem', fontSize: '1rem', fontWeight: 500, cursor: 'default' }}>
+                {(row?.classes?.length || 0) + (row?.camps?.length || 0)}
+              </div>
+            )}
+            {isMobile ? null : 'الفصول'}
+          </Button>
+        </Box>
+      )
+    }
+  }
+
   const renderControls = () => {
     if (add || edit || deletee) {
       return {
@@ -169,15 +191,15 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
         field: 'actions',
         headerName: 'التحكم',
         renderCell: ({ row }) => (
-          <Box sx={{ display: 'flex', ml: '-25px' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', gap: '2px' }}>
             {edit && (
-              <IconButton sx={{ cursor: 'pointer', color: '#ddbb24' }} onClick={() => onClickEdit(row)}>
+              <IconButton sx={{ cursor: 'pointer', color: '#ddbb24', padding: 0 }} onClick={() => onClickEdit(row)}>
                 <ModeEditOutlineIcon />
               </IconButton>
             )}
             {deletee && (
               <IconButton
-                sx={{ cursor: 'pointer', color: 'red' }}
+                sx={{ cursor: 'pointer', color: 'red', padding: 0 }}
                 onClick={() => {
                   onClickDelete(row)
                 }}
@@ -187,7 +209,7 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
             )}
             {add && (
               <IconButton
-                sx={{ cursor: 'pointer', color: 'green' }}
+                sx={{ cursor: 'pointer', color: 'green', padding: 0 }}
                 onClick={() => {
                   onClickAdd(row)
                 }}
@@ -203,36 +225,7 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
     return {}
   }
 
-  const columns = [
-    ...defaultColumns,
-    renderGender(),
-    renderPhone(),
-    {
-      flex: renderFlex(isMobile),
-      minWidth: 100,
-      sortable: false,
-      field: 'teachers',
-      headerName: 'الفصول',
-      renderCell: ({ row }) => (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Button
-            variant='contained'
-            color='secondary'
-            startIcon={<ChecklistRtlIcon />}
-            onClick={() => toggleAttendance(row)}
-          >
-            {isMobile ? null : (
-              <div style={{ padding: '0 0.5rem', fontSize: '1rem', fontWeight: 500, cursor: 'default' }}>
-                {(row?.classes?.length || 0) + (row?.camps?.length || 0)}
-              </div>
-            )}
-            {isMobile ? null : 'الفصول'}
-          </Button>
-        </Box>
-      )
-    },
-    renderControls()
-  ]
+  const columns = [...defaultColumns, renderGender(), renderPhone(), renderInformations(), renderControls()]
 
   // ** Functions
 
@@ -270,14 +263,13 @@ const TeachersList = ({ toggleAddForm, toggleDialog, toggleEditForm, toggleAssig
   }
 
   columns = columns.filter(obj => !isObjectEmpty(obj))
-
   const filteredTeachers = teachers?.filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
 
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
         <TextField
-          label='بحث عن مدرس'
+          label='بحث'
           variant='outlined'
           fullWidth
           value={searchQuery}

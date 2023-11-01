@@ -17,11 +17,17 @@ import MaleIcon from '@mui/icons-material/Male'
 
 const QuizStats = ({ data }) => {
   //** stats & vars */
+  const { data: exams } = data
 
-  const total = data?.data?.[0]?.TotalNumberOfStudents + data?.data?.[1]?.TotalNumberOfStudents
-  const firstQuizAttendant = data?.data?.[0]?.TotalNumberOfStudents
-  const secondQuizAttendant = data?.data?.[1]?.TotalNumberOfStudents
+  const searchString = 'قبل'
 
+  const index = exams?.findIndex(item => item?.name?.includes(searchString))
+
+  const firstQuiz = exams[index]
+  const secondQuiz = exams[(index + 1) % 2]
+  const firstQuizAttendant = firstQuiz?.TotalNumberOfStudents || 0
+  const secondQuizAttendant = secondQuiz?.TotalNumberOfStudents || 0
+  const total = firstQuizAttendant + secondQuizAttendant
   return (
     <Card>
       <CardContent>
@@ -46,7 +52,7 @@ const QuizStats = ({ data }) => {
               </CustomAvatar>
               <Typography variant='body'>الامتحان القبلى</Typography>
             </Box>
-            <Typography variant='h5'>{firstQuizAttendant || 0} طالب</Typography>
+            <Typography variant='h5'>{firstQuizAttendant} طالب</Typography>
             <Typography variant='caption'>{`${Math.round((firstQuizAttendant / total) * 100) || 0} %`}</Typography>
           </Box>
           <Divider flexItem sx={{ m: 0 }} orientation='vertical'>
@@ -67,7 +73,7 @@ const QuizStats = ({ data }) => {
                 <QuizIcon sx={{ fontSize: '0.875rem' }} />
               </CustomAvatar>
             </Box>
-            <Typography variant='h5'>طالب {secondQuizAttendant || 0}</Typography>
+            <Typography variant='h5'>طالب {secondQuizAttendant}</Typography>
             <Typography variant='caption'>{`${Math.round((secondQuizAttendant / total) * 100) || 0} %`}</Typography>
           </Box>
         </Box>

@@ -24,7 +24,7 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt'
 
 // ** Utils Import
 import { useSelector } from 'react-redux'
-import { addQuestion, deleteExam, editExam, fetchQuestions } from 'src/store/apps/exams/actions'
+import { addQuestion, deleteExam, editExam, fetchQuestions, resetExam } from 'src/store/apps/exams/actions'
 import { useDispatch } from 'react-redux'
 import AddExam from '../AddExam'
 import * as yup from 'yup'
@@ -105,6 +105,7 @@ const LeftSide = ({ exam }) => {
   const [showAdd, setShowAdd] = useState(false)
   const [showEdit, setShowEdit] = useState(false)
   const [showDelete, setShowDelete] = useState(false)
+  const [showReset, setShowReset] = useState(false)
   const dispatch = useDispatch()
   const [questionType, setQuestionType] = useState(null)
   const user = useAuth()
@@ -118,6 +119,10 @@ const LeftSide = ({ exam }) => {
     setShowDelete(!showDelete)
   }
 
+  const toggleShowReset = () => {
+    setShowReset(!showReset)
+  }
+
   const toggleAdd = () => {
     setShowAdd(!showAdd)
   }
@@ -125,6 +130,9 @@ const LeftSide = ({ exam }) => {
   // handle delete exam
   const handleDeleteExam = () => {
     dispatch(deleteExam(exam.id))
+  }
+  const handleResetExam = () => {
+    dispatch(resetExam({ examId: exam.id }))
   }
 
   const handleClose = () => {
@@ -273,7 +281,7 @@ const LeftSide = ({ exam }) => {
                 </Button> */}
                 {deletee && (
                   <Tooltip title='مسح بيانات الطلاب و البدئ من جديد'>
-                    <Button variant='outlined' color='error' startIcon={<RestartAltIcon />}>
+                    <Button variant='outlined' color='error' startIcon={<RestartAltIcon />} onClick={toggleShowReset}>
                       إعادة
                     </Button>
                   </Tooltip>
@@ -301,7 +309,6 @@ const LeftSide = ({ exam }) => {
                       color: '	rgb(0, 128, 0)',
                       borderColor: '	rgba(0, 128, 0,0.4)',
                       display: 'flex',
-                      gap: '1rem',
                       transition: 'all 0.5s',
                       '&:hover': {
                         backgroundColor: 'rgba(0,128,0,0.06) !important',
@@ -344,6 +351,14 @@ const LeftSide = ({ exam }) => {
             toggle={toggleShowDelete}
             confirmationType={'مسح الإمتحان'}
             dispatchFunc={handleDeleteExam}
+          />
+        )}
+        {showReset && (
+          <ConfirmDialog
+            open={showReset}
+            toggle={toggleShowReset}
+            confirmationType={'اعاده الإمتحان'}
+            dispatchFunc={handleResetExam}
           />
         )}
       </Grid>

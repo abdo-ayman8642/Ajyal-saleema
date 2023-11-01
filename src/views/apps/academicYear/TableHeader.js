@@ -201,22 +201,6 @@ function TableHeader({
           {title}
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          {/* {formType !== 'govs' && formType !== 'grades' && (
-            <TextField
-              size='small'
-              value={searchVal}
-              sx={{ mr: 6, mb: 2 }}
-              placeholder={`ابحث عن ${placeholder || ''}`}
-              onChange={handleInputChange}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position='start'>
-                    <Magnify />
-                  </InputAdornment>
-                )
-              }}
-            />
-          )} */}
           {filters && <ExportToExcelButton filters={filters} />}
           {add && (
             <Button sx={{ mb: 2, fontSize: '1rem', fontWeight: 'bold' }} onClick={toggle} variant='contained'>

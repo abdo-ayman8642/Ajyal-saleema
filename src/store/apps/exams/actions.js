@@ -89,6 +89,22 @@ export const addExam = createAsyncThunk('appExams/addExam', async ({ data }, { r
   }
 })
 
+export const resetExam = createAsyncThunk('appExams/resetExam', async (data, { rejectWithValue, dispatch }) => {
+  const { examId } = data
+  try {
+    const response = await axios.get(`${baseUrl}exams/reset/${examId}`)
+    dispatch(fetchData())
+
+    return response
+  } catch (err) {
+    if (!err.response) {
+      throw err
+    }
+
+    return rejectWithValue(err.response.data)
+  }
+})
+
 export const deleteQuestion = createAsyncThunk('appExam/deleteQuestion', async (id, { rejectWithValue }) => {
   try {
     const response = await axios.delete(`${baseUrl}questions/${id}`)

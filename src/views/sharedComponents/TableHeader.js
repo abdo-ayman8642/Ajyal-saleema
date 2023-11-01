@@ -91,23 +91,6 @@ function TableHeader({
         )} */}
       </Box>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center' }}>
-        {/* {dataType !== 'sessions' && dataType !== 'user' && (
-          <TextField
-            size='small'
-            value={searchVal}
-            sx={{ mr: 6, mb: 2 }}
-            placeholder={`ابحث ${placeholder || ''}`}
-            onChange={handleInputChange}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position='start'>
-                  <Magnify />
-                </InputAdornment>
-              )
-            }}
-          />
-        )} */}
-
         {!!add && (
           <Button
             sx={{ mb: 2, fontSize: '1rem', fontWeight: 'bold' }}

@@ -49,6 +49,7 @@ import BlankLayout from 'src/@core/layouts/BlankLayout'
 
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
+import { useRouter } from 'next/router'
 
 // ** Styled Components
 const LoginIllustrationWrapper = styled(Box)(({ theme }) => ({
@@ -116,6 +117,7 @@ const LoginPage = () => {
   const bgClasses = useBgColor()
   const { settings } = useSettings()
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
+  const router = useRouter()
 
   // ** Vars
   const { skin } = settings
@@ -141,6 +143,11 @@ const LoginPage = () => {
     })
   }
   const imageSource = skin === 'bordered' ? 'auth-v2-login-illustration-bordered' : 'auth-v2-login-illustration'
+
+  function handleForgetPasswordClick() {
+    // Navigate to the /forgot-password page
+    window.location.href = '/forgot-password'
+  }
 
   return (
     <Box className='content-right'>
@@ -242,6 +249,25 @@ const LoginPage = () => {
                   </FormHelperText>
                 )}
               </FormControl>
+              <Typography
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'end',
+                  mt: '0.5rem'
+                }}
+              >
+                <Link passHref href='/forgot-password'>
+                  <Box>
+                    <Typography
+                      component={MuiLink}
+                      sx={{ color: 'primary.main', cursor: 'pointer', textDecoration: 'none' }}
+                    >
+                      <span>Forget Password</span>
+                    </Typography>
+                  </Box>
+                </Link>
+              </Typography>
 
               <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7, mt: 7 }}>
                 Login

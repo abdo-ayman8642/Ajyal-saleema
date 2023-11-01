@@ -24,6 +24,7 @@ import { useSettings } from 'src/@core/hooks/useSettings'
 
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
+import { useRouter } from 'next/router'
 
 // Styled Components
 const ForgotPasswordIllustrationWrapper = styled(Box)(({ theme }) => ({
@@ -69,12 +70,14 @@ const ForgotPassword = () => {
   // ** Hooks
   const theme = useTheme()
   const { settings } = useSettings()
+  const _ = require('lodash')
 
   // ** Vars
   const hidden = useMediaQuery(theme.breakpoints.down('md'))
 
   const handleSubmit = e => {
     e.preventDefault()
+    // Put Here the Logic of password reseting
   }
 
   const imageSource =
@@ -195,8 +198,12 @@ const ForgotPassword = () => {
             </Box>
             <Box sx={{ mb: 6 }}>
               <TypographyStyled variant='h5'>Forgot Password? 🔒</TypographyStyled>
-              <Typography variant='body2'>
+              <Typography variant='body2' sx={{ mb: 6 }}>
                 Enter your email and we&prime;ll send you instructions to reset your password
+              </Typography>
+              <Typography variant='body2'>
+                Note: Only Super Admin Can reset his/her password, If you are a normal user please contact the Super
+                Admin for password resetting
               </Typography>
             </Box>
             <form noValidate autoComplete='off' onSubmit={handleSubmit}>
@@ -222,7 +229,6 @@ const ForgotPassword = () => {
     </Box>
   )
 }
-ForgotPassword.guestGuard = true
 ForgotPassword.getLayout = page => <BlankLayout>{page}</BlankLayout>
 
 export default ForgotPassword

@@ -6,11 +6,6 @@ const BarChart = dynamic(() => import('@mui/x-charts').then(module => module.Bar
 })
 
 const chartSetting = {
-  xAxis: [
-    {
-      label: 'حضور الحصص'
-    }
-  ],
   height: 400
 }
 
